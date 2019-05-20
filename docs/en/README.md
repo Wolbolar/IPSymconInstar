@@ -86,7 +86,7 @@ Open the instance _'Modules'_ below core instances in the object tree of IP-Symc
 Enter the following URL in the field and confirm with _OK_:
 
 ```
-https://github.com/Wolbolar/IPSymconDoorbird 
+https://github.com/Wolbolar/IPSymconInstar
 ```  
 	         
 Then an entry for the module appears in the list of the instance _Modules_
@@ -139,7 +139,7 @@ The live image can be viewed in IP-Symcon as well as the history of the last vis
 
 ###  a. Functions:
 
-#### Doorbird:
+#### Instar:
 
 `Doorbird_SetupNotification(integer $InstanceID)`
 
@@ -167,119 +167,6 @@ Reads favorites from the Doorbird
 
 
 ###  b. GUIDs and data exchange:
-
-#### Doorbird:
-
-GUID: `{D489FA0B-765D-451E-8B21-C6B61ECAC00E}` 
-
-
-# IPSymconInstar
-
-Modul für IP-Symcon ab Version 4. Ermöglicht die Kommunikation mit einer Doorbird Türsprechanlage.
-
-## Dokumentation
-
-**Inhaltsverzeichnis**
-
-1. [Funktionsumfang](#1-funktionsumfang)  
-2. [Voraussetzungen](#2-voraussetzungen)  
-3. [Installation](#3-installation)  
-4. [Funktionsreferenz](#4-funktionsreferenz)
-5. [Konfiguration](#5-konfiguartion)  
-6. [Anhang](#6-anhang)  
-
-## 1. Funktionsumfang
-
-Mit dem Modul lassen sich Befehle an eine Doorbird Türsprechanlage senden und die Statusrückmeldung in IP-Symcon (ab Version 4) empfangen. 
-
-### Befehle an Doorbird senden:  
-
- - Tür öffnen 
- - IR Licht einschalten
- - Snapshoot anfordern
-
-### Status Rückmeldung:  
-
- - Bild Anzeige
- - Zeitpunkt letztes Klingelsignal
- - Zeitpunkt letzte Bewegung
- - Zeitpunkt letzte Türöffnung
- - Bild bei Bewegung
- - Bild bei Klingelsignal
-	
-  
-
-## 2. Voraussetzungen
-
- - IPS 4.x
- - Doorbird Türsprechanlage, Hardware Version 1.00 und höher. Firmware Version 000098 und höher.
- - der Master Branch ist für die aktuelle IP-Symcon Version ausgelegt.
- - bei IP-Symcon Versionen kleiner 4.1 ist der Branch _Old-Version_ zu wählen
-
-## 3. Installation
-
-### a. Laden des Moduls
-
-
-Die IP-Symcon (min Ver. 4.x) Konsole öffnen. Im Objektbaum unter Kerninstanzen die Instanz __*Modules*__ durch einen doppelten Mausklick öffnen.
-
-![Modules](docs/Modules.png?raw=true "Modules")
-
-In der _Modules_ Instanz rechts oben auf den Button __*Hinzufügen*__ drücken.
-
-![Modules](docs/Hinzufuegen.png?raw=true "Hinzufügen")
- 
-In dem sich öffnenden Fenster folgende URL hinzufügen:
-
-	
-    `https://github.com/Wolbolar/IPSymconInstar`  
-    
-und mit _OK_ bestätigen.    
-    
-
-## 4. Funktionsreferenz
-
-### Instar:
-
-Die IP Adresse des Doorbird sowie von IP-Symcon und der Username sowie Passwort von Doorbird sind anzugeben.
-Es wird bei jedem Event Klingeln, Bewegung, Tür öffnen von Doorbird eine Mitteilung an IP-Symcon gesendet.
-Mit Hilfe eines Ereignisses was bei Variablenaktualisierung greift können dann in IP-Symcon weitere Aktionen
-ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Klingelbesucher.
-	
-
-
-## 5. Konfiguration:
-
-### Instar:
-
-| Eigenschaft | Typ     | Standardwert | Funktion                                  |
-| :---------: | :-----: | :----------: | :---------------------------------------: |
-| IPSIP       | string  |              | IP Adresse IP-Symcon                      |
-| Host        | string  |              | IP Adresse Doorbird                       |
-| User        | string  |              | Doorbird User                             |
-| Password    | string  |              | Doorbird Passwort                         |
-| picturelimit| integer |    20        | Limit an abgelegten Bildern               |
-
-
-
-
-
-
-## 6. Anhang
-
-###  a. Funktionen:
-
-#### Instar:
-
-`Instar_SetupNotification(integer $InstanceID)`
-
-Benachrichtigungen zu IP-Symcon von der Doorbird einrichten
-
-   
-
-
-
-###  b. GUIDs und Datenaustausch:
 
 #### Instar:
 
