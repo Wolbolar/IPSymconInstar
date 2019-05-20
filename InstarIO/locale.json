@@ -1,0 +1,13 @@
+{
+  "translations": {
+    "de": {
+      "username and password for Instar webhook": "Benutzername und Passwort für den Instar Webhook",
+      "Username": "Benutzername",
+      "Password": "Passwort",
+      "Creating instance.": "Die Instanz wird erstellt.",
+      "Instar IO active.": "Instar IO aktiv.",
+      "Interface closed.": "Interface geschlossen.",
+      "field must not be empty.": "Das Feld darf nicht leer sein."
+    }
+  }
+}

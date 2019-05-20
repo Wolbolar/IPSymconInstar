@@ -1,0 +1,11 @@
+{
+    "id": "{3E0686DD-A9FC-308D-35ED-71E251F5F7FB}",
+    "name": "Instar",
+    "type": 3,
+    "vendor": "Instar",
+    "aliases": ["Instar"],
+    "parentRequirements": ["{CA67B665-61D0-BE0B-DF75-18EF67A5E62B}"],
+    "childRequirements": [],
+    "implemented": ["{5EA89740-B0F2-D1A4-544E-9C61E85543EF}"],
+    "prefix": "Instar"
+}
