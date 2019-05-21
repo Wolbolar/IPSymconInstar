@@ -148,7 +148,7 @@ if (@constant('IPS_BASE') == null) //Nur wenn Konstanten noch nicht bekannt sind
 
 // Modul für Doorbird
 
-class Instar extends IPSModule
+class INSTAR extends IPSModule
 {
 	// helper properties
 	private $position = 0;
@@ -170,63 +170,63 @@ class Instar extends IPSModule
 		$this->RegisterPropertyBoolean("activeemail", false);
 		$this->RegisterPropertyString("email", "");
 		$this->RegisterPropertyInteger("smtpmodule", 0);
-		$this->RegisterPropertyString("subject", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail2", false);
 		$this->RegisterPropertyString("email2", "");
 		$this->RegisterPropertyInteger("smtpmodule2", 0);
-		$this->RegisterPropertyString("subject2", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject2", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext2", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail3", false);
 		$this->RegisterPropertyString("email3", "");
 		$this->RegisterPropertyInteger("smtpmodule3", 0);
-		$this->RegisterPropertyString("subject3", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject3", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext3", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail4", false);
 		$this->RegisterPropertyString("email4", "");
 		$this->RegisterPropertyInteger("smtpmodule4", 0);
-		$this->RegisterPropertyString("subject4", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject4", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext4", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail5", false);
 		$this->RegisterPropertyString("email5", "");
 		$this->RegisterPropertyInteger("smtpmodule5", 0);
-		$this->RegisterPropertyString("subject5", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject5", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext5", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail6", false);
 		$this->RegisterPropertyString("email6", "");
 		$this->RegisterPropertyInteger("smtpmodule6", 0);
-		$this->RegisterPropertyString("subject6", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject6", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext6", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail7", false);
 		$this->RegisterPropertyString("email7", "");
 		$this->RegisterPropertyInteger("smtpmodule7", 0);
-		$this->RegisterPropertyString("subject7", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject7", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext7", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail8", false);
 		$this->RegisterPropertyString("email8", "");
 		$this->RegisterPropertyInteger("smtpmodule8", 0);
-		$this->RegisterPropertyString("subject8", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject8", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext8", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail9", false);
 		$this->RegisterPropertyString("email9", "");
 		$this->RegisterPropertyInteger("smtpmodule9", 0);
-		$this->RegisterPropertyString("subject9", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject9", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext9", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail10", false);
 		$this->RegisterPropertyString("email10", "");
 		$this->RegisterPropertyInteger("smtpmodule10", 0);
-		$this->RegisterPropertyString("subject10", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject10", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext10", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail11", false);
 		$this->RegisterPropertyString("email11", "");
 		$this->RegisterPropertyInteger("smtpmodule11", 0);
-		$this->RegisterPropertyString("subject11", $this->Translate("Instar Movement!"));
+		$this->RegisterPropertyString("subject11", $this->Translate("INSTAR Movement!"));
 		$this->RegisterPropertyString("emailtext11", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("altview", false);
 		$this->RegisterPropertyInteger("categorysnapshot", 0);
 		$this->RegisterPropertyInteger("model", 1);
 
-		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // Instar IO
+		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // INSTAR IO
 	}
 
 	public function ApplyChanges()
@@ -234,10 +234,10 @@ class Instar extends IPSModule
 		//Never delete this line!
 		parent::ApplyChanges();
 
-		$this->RegisterProfile('Instar.Movement', 'Motion', '', '', 0, 0, 0, 0, 3);
-		$this->RegisterVariableString("LastMovement", "Zeitpunkt letzte Bewegung", "Instar.Movement", $this->_getPosition());
+		$this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, 3);
+		$this->RegisterVariableString("LastMovement", "Zeitpunkt letzte Bewegung", "INSTAR.Movement", $this->_getPosition());
 		$this->RegisterProfileAssociation(
-			'Instar.Control.Continuous',
+			'INSTAR.Control.Continuous',
 			'Move',
 			'',
 			'',
@@ -254,10 +254,10 @@ class Instar extends IPSModule
 				[4, $this->Translate('Stop'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Continuous", "Control Continuous", "Instar.Control.Continuous", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Continuous", "Control Continuous", "INSTAR.Control.Continuous", $this->_getPosition());
 		$this->EnableAction("Control_Continuous");
 		$this->RegisterProfileAssociation(
-			'Instar.Control.Step',
+			'INSTAR.Control.Step',
 			'Move',
 			'',
 			'',
@@ -273,10 +273,10 @@ class Instar extends IPSModule
 				[3, $this->Translate('Step Right'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Step", "Control Step", "Instar.Control.Step", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Step", "Control Step", "INSTAR.Control.Step", $this->_getPosition());
 		$this->EnableAction("Control_Step");
 		$this->RegisterProfileAssociation(
-			'Instar.Control.Scan',
+			'INSTAR.Control.Scan',
 			'Move',
 			'',
 			'',
@@ -291,10 +291,10 @@ class Instar extends IPSModule
 				[2, $this->Translate('Scan Vertical'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Scan", "Control Scan", "Instar.Control.Scan", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Scan", "Control Scan", "INSTAR.Control.Scan", $this->_getPosition());
 		$this->EnableAction("Control_Scan");
 		$this->RegisterProfileAssociation(
-			'Instar.Snapshot',
+			'INSTAR.Snapshot',
 			'Camera',
 			'',
 			'',
@@ -308,8 +308,8 @@ class Instar extends IPSModule
 			]
 		);
 
-		$this->RegisterProfile('Instar.Hue', 'Light', '', '', 0, 127, 1, 0, 1);
-		$this->RegisterVariableInteger("hue", $this->Translate("hue"), "Instar.Hue", $this->_getPosition()); // Hue (0-127), integer
+		$this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, 1);
+		$this->RegisterVariableInteger("hue", $this->Translate("hue"), "INSTAR.Hue", $this->_getPosition()); // Hue (0-127), integer
 		$this->EnableAction("hue");
 		$this->RegisterVariableInteger("Saturation", $this->Translate("saturation"), "~Intensity.255", $this->_getPosition()); // Saturation (0-255)
 		$this->EnableAction("Saturation");
@@ -318,15 +318,15 @@ class Instar extends IPSModule
 		$this->RegisterVariableInteger("Contrast", $this->Translate("contrast"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
 		$this->EnableAction("Contrast");
 
-		$this->RegisterVariableInteger("InstarButtonSnapshot", $this->Translate("Save Instar picture"), "Instar.Snapshot", $this->_getPosition());
-		$this->EnableAction("InstarButtonSnapshot");
+		$this->RegisterVariableInteger("INSTARButtonSnapshot", $this->Translate("Save INSTAR picture"), "INSTAR.Snapshot", $this->_getPosition());
+		$this->EnableAction("INSTARButtonSnapshot");
 
 		$this->RegisterVariableBoolean("Flip", $this->Translate("Flip"), "~Switch", $this->_getPosition());
 		$this->EnableAction("Flip");
 		$this->RegisterVariableBoolean("Mirror", $this->Translate("Mirror"), "~Switch", $this->_getPosition());
 		$this->EnableAction("Mirror");
 		$this->RegisterProfileAssociation(
-			'Instar.Scene',
+			'INSTAR.Scene',
 			'Image',
 			'',
 			'',
@@ -341,16 +341,16 @@ class Instar extends IPSModule
 				[2, $this->Translate('Outdoor'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Scene", $this->Translate('Scene'), "Instar.Scene", $this->_getPosition());
+		$this->RegisterVariableInteger("Scene", $this->Translate('Scene'), "INSTAR.Scene", $this->_getPosition());
 		$this->EnableAction("Scene");
-		$this->RegisterProfile('Instar.SetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
-		$this->RegisterVariableInteger("SetPosition", $this->Translate("Set Position"), "Instar.SetPosition", $this->_getPosition()); // (0-7), integer
+		$this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterVariableInteger("SetPosition", $this->Translate("Set Position"), "INSTAR.SetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("SetPosition");
-		$this->RegisterProfile('Instar.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
-		$this->RegisterVariableInteger("UnsetPosition", $this->Translate("Unset Position"), "Instar.UnsetPosition", $this->_getPosition()); // (0-7), integer
+		$this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterVariableInteger("UnsetPosition", $this->Translate("Unset Position"), "INSTAR.UnsetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("UnsetPosition");
-		$this->RegisterProfile('Instar.GotoPosition', 'Image', '', '', 0, 7, 1, 0, 1);
-		$this->RegisterVariableInteger("GotoPosition", $this->Translate("GotoPosition"), "Instar.GotoPosition", $this->_getPosition()); // (0-7), integer
+		$this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterVariableInteger("GotoPosition", $this->Translate("GotoPosition"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("GotoPosition");
 
 		$this->RegisterVariableBoolean("dhcpflag", $this->Translate("dhcpflag"), "~Switch", $this->_getPosition());
@@ -394,7 +394,7 @@ class Instar extends IPSModule
 		$password = $this->ReadPropertyString('Password');
 		//$port = $this->ReadPropertyInteger('Port');
 
-		//IP Instar prüfen
+		//IP INSTAR prüfen
 		if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
 			//IP ok
 			$ipcheck = true;
@@ -402,7 +402,7 @@ class Instar extends IPSModule
 			$ipcheck = false;
 		}
 
-		//Domain Instar prüfen
+		//Domain INSTAR prüfen
 		if (!$this->is_valid_localdomain($host) === false) {
 			//Domain ok
 			$domaincheck = true;
@@ -422,13 +422,13 @@ class Instar extends IPSModule
 		if ($user == "" || $password == "") {
 			$this->SetStatus(205); //Felder dürfen nicht leer sein
 		} elseif ($user !== "" && $password !== "" && $hostcheck === true) {
-			$MediaID = @IPS_GetObjectIDByIdent('InstarVideo', $this->InstanceID);
+			$MediaID = @IPS_GetObjectIDByIdent('INSTARVideo', $this->InstanceID);
 			if ($MediaID === false) {
 				$MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
 				IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
-				IPS_SetIdent($MediaID, 'InstarVideo');
+				IPS_SetIdent($MediaID, 'INSTARVideo');
 				IPS_SetPosition($MediaID, -1);
-				IPS_SetName($MediaID, 'Instar Live Picture'); // Medienobjekt benennen
+				IPS_SetName($MediaID, 'INSTAR Live Picture'); // Medienobjekt benennen
 				$url = "http://".$host."/mjpegstream.cgi?-chn=12&usr=".$user."&pwd=".$password;
 				IPS_SetMediaFile($MediaID, $url, False);    // Image im MedienPool mit Image-Datei verbinden
 			}
@@ -436,27 +436,27 @@ class Instar extends IPSModule
 			// Kategorie prüfen
 			$category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
 			if ($category_snapshot > 0) {
-				$this->SendDebug("Instar", "Kategorie mit ObjektID " . $category_snapshot . " gefunden", 0);
+				$this->SendDebug("INSTAR", "Kategorie mit ObjektID " . $category_snapshot . " gefunden", 0);
 			} else {
-				$this->SetStatus(208); //category instar snapshot not set
+				$this->SetStatus(208); //category INSTAR snapshot not set
 			}
 
 			$ipsversion = $this->GetIPSVersion();
 
 			if ($ipsversion == 0) {
 				//Skript bei Bewegung
-				$IDSnapshot = @($this->GetIDForIdent('GetInstarSnapshot'));
+				$IDSnapshot = @($this->GetIDForIdent('GetINSTARSnapshot'));
 				if ($IDSnapshot === false) {
-					$IDSnapshot = $this->RegisterScript("GetInstarSnapshot", "Get Instar Snapshot", $this->CreateSnapshotScript(), $this->_getPosition());
+					$IDSnapshot = $this->RegisterScript("GetINSTARSnapshot", "Get INSTAR Snapshot", $this->CreateSnapshotScript(), $this->_getPosition());
 					IPS_SetHidden($IDSnapshot, true);
 					$this->SetSnapshotEvent($IDSnapshot);
 				} else {
-					$this->SendDebug("Instar", "Instar Snapshot Script mit " . $IDSnapshot . " gefunden", 0);
+					$this->SendDebug("INSTAR", "INSTAR Snapshot Script mit " . $IDSnapshot . " gefunden", 0);
 				}
 			} else {
 				if ($this->GetIDForIdent('LastMovement') > 0) {
 					$this->RegisterMessage($this->GetIDForIdent('LastMovement'), VM_UPDATE);
-					$this->SendDebug("Instar", "Register Message LastMovement", 0);
+					$this->SendDebug("INSTAR", "Register Message LastMovement", 0);
 				}
 			}
 
@@ -672,8 +672,8 @@ class Instar extends IPSModule
 		IPS_LogMessage(get_class() . '::' . __FUNCTION__, 'SenderID: ' . $SenderID . ', Message: ' . $Message . ', Data:' . json_encode($Data));
 		if ($SenderID == $this->GetIDForIdent('LastMovement')) {
 			$this->GetSnapshot();
-			$this->SendDebug("Instar recieved LastMovement at", date("H:i", time()), 0);
-			$this->SendDebug("Instar", "Message from SenderID " . $SenderID . " with Message " . $Message . "\r\n Data: " . print_r($Data, true), 0);
+			$this->SendDebug("INSTAR recieved LastMovement at", date("H:i", time()), 0);
+			$this->SendDebug("INSTAR", "Message from SenderID " . $SenderID . " with Message " . $Message . "\r\n Data: " . print_r($Data, true), 0);
 		}
 
 	}
@@ -718,7 +718,7 @@ class Instar extends IPSModule
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=sysreboot");
-		$this->SendDebug("Instar", "Reboot", 0);
+		$this->SendDebug("INSTAR", "Reboot", 0);
 		return $response;
 	}
 
@@ -732,7 +732,7 @@ class Instar extends IPSModule
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/sysreset.cgi");
-		$this->SendDebug("Instar", "Reset", 0);
+		$this->SendDebug("INSTAR", "Reset", 0);
 		return $response;
 	}
 
@@ -778,7 +778,7 @@ class Instar extends IPSModule
 			}
 			$this->SetValue($var_name, $var_content);
 
-			$this->SendDebug("Instar", "Variable ".$var_name." :".$var_content, 0);
+			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
 		}
 		return $data;
 	}
@@ -817,7 +817,7 @@ class Instar extends IPSModule
 			}
 			$this->SetValue($var_name, $var_content);
 
-			$this->SendDebug("Instar", "Variable ".$var_name." :".$var_content, 0);
+			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
 		}
 		return $data;
 	}
@@ -833,7 +833,7 @@ class Instar extends IPSModule
 		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=getsysinfo");
 		$data = explode('"', $payload);
 		$model = $data[1];
-		$this->SendDebug("Instar", "Model: ".$model, 0);
+		$this->SendDebug("INSTAR", "Model: ".$model, 0);
 		return $model;
 	}
 
@@ -848,7 +848,7 @@ class Instar extends IPSModule
 		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?&cmd=getinfrared");
 		$data = explode('"', $payload);
 		$mode = $data[1];
-		$this->SendDebug("Instar", "IR mode: ".$mode, 0);
+		$this->SendDebug("INSTAR", "IR mode: ".$mode, 0);
 		return $mode;
 	}
 
@@ -861,8 +861,8 @@ class Instar extends IPSModule
 	public function Right()
 	{
 		$command = "-step=0&-act=right";
-		$this->SendDebug("Instar:", "right", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "right", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -873,8 +873,8 @@ class Instar extends IPSModule
 	public function Left()
 	{
 		$command = "-step=0&-act=left";
-		$this->SendDebug("Instar:", "left", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "left", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -885,8 +885,8 @@ class Instar extends IPSModule
 	public function Up()
 	{
 		$command = "-step=0&-act=up";
-		$this->SendDebug("Instar:", "up", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "up", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -897,8 +897,8 @@ class Instar extends IPSModule
 	public function Down()
 	{
 		$command = "-step=0&-act=down";
-		$this->SendDebug("Instar:", "down", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "down", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -909,8 +909,8 @@ class Instar extends IPSModule
 	public function Stop()
 	{
 		$command = "-step=0&-act=stop";
-		$this->SendDebug("Instar:", "stop", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "stop", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -921,8 +921,8 @@ class Instar extends IPSModule
 	public function StepRight()
 	{
 		$command = "-step=1&-act=right";
-		$this->SendDebug("Instar:", "step right", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "step right", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -933,8 +933,8 @@ class Instar extends IPSModule
 	public function StepLeft()
 	{
 		$command = "-step=1&-act=left";
-		$this->SendDebug("Instar:", "step left", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "step left", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -945,8 +945,8 @@ class Instar extends IPSModule
 	public function StepUp()
 	{
 		$command = "-step=1&-act=up";
-		$this->SendDebug("Instar:", "step up", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "step up", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -957,8 +957,8 @@ class Instar extends IPSModule
 	public function StepDown()
 	{
 		$command = "-step=1&-act=down";
-		$this->SendDebug("Instar:", "step down", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "step down", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -969,8 +969,8 @@ class Instar extends IPSModule
 	public function GotoCenterPosition()
 	{
 		$command = "-step=0&-act=home";
-		$this->SendDebug("Instar:", "goto center position", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "goto center position", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -981,9 +981,9 @@ class Instar extends IPSModule
 	public function ScanHorizontal()
 	{
 		$command = "-step=0&-act=hscan";
-		$this->SendDebug("Instar:", "Scan horizontal", 0);
+		$this->SendDebug("INSTAR:", "Scan horizontal", 0);
 		// $command = "-step=0&-act=hscan&-speed=45";
-		$state = $this->SendInstarControlCommand($command);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -994,8 +994,8 @@ class Instar extends IPSModule
 	public function ScanVertical()
 	{
 		$command = "-step=0&-act=vscan";
-		$this->SendDebug("Instar:", "Scan vertical", 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "Scan vertical", 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -1006,8 +1006,8 @@ class Instar extends IPSModule
 	public function SetPosition(int $position)
 	{
 		$command = "-act=set&-status=1&-number=".$position;
-		$this->SendDebug("Instar:", "Set position ".$position, 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "Set position ".$position, 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -1018,8 +1018,8 @@ class Instar extends IPSModule
 	public function UnsetPosition(int $position)
 	{
 		$command = "-act=set&-status=0&-number=".$position;
-		$this->SendDebug("Instar:", "Unset position ".$position, 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "Unset position ".$position, 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -1030,8 +1030,8 @@ class Instar extends IPSModule
 	public function GotoPosition(int $position)
 	{
 		$command = "-act=goto&-status=1&-number=".$position;
-		$this->SendDebug("Instar:", "Goto position ".$position, 0);
-		$state = $this->SendInstarControlCommand($command);
+		$this->SendDebug("INSTAR:", "Goto position ".$position, 0);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -1042,35 +1042,35 @@ class Instar extends IPSModule
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$instar_type = $this->GetInstarType();
-		$this->SendDebug("Instar:", "Type: ".$instar_type, 0);
-		$this->SendDebug("Instar:", "Start Recording", 0);
-		$this->SendDebug("Instar Send:", "http://".$host.":".$port."/cgi-bin/".$instar_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$instar_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password);
+		$INSTAR_type = $this->GetINSTARType();
+		$this->SendDebug("INSTAR:", "Type: ".$INSTAR_type, 0);
+		$this->SendDebug("INSTAR:", "Start Recording", 0);
+		$this->SendDebug("INSTAR Send:", "http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
+		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password);
 
 		return $response;
 	}
 
-	protected function SendInstarControlCommand($command)
+	protected function SendINSTARControlCommand($command)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$instar_type = $this->GetInstarType();
-		$this->SendDebug("Instar:", "Type: ".$instar_type, 0);
-		$this->SendDebug("Instar Send:", "http://".$host.":".$port."/cgi-bin/".$instar_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$instar_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password);
+		$INSTAR_type = $this->GetINSTARType();
+		$this->SendDebug("INSTAR:", "Type: ".$INSTAR_type, 0);
+		$this->SendDebug("INSTAR Send:", "http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
+		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password);
 
 		return $response;
 	}
 
-	protected function GetInstarType()
+	protected function GetINSTARType()
 	{
-		//$instar_type_nr = $this->ReadPropertyInteger("model");
-		//$instar_types = [];
-		$instar_type = "hi3510";
-		return $instar_type;
+		//$INSTAR_type_nr = $this->ReadPropertyInteger("model");
+		//$INSTAR_types = [];
+		$INSTAR_type = "hi3510";
+		return $INSTAR_type;
 	}
 
 	// Video
@@ -1204,14 +1204,14 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 	public function LED_Auto()
 	{
 		$command = "auto";
-		$state = $this->SendInstarControlCommand($command);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
 	public function LED_Inactive()
 	{
 		$command = "close";
-		$state = $this->SendInstarControlCommand($command);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
@@ -1219,16 +1219,16 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 	public function LED_On()
 	{
 		$command = "open";
-		$state = $this->SendInstarControlCommand($command);
+		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
-	protected function SendInstarLEDCommand($command)
+	protected function SendINSTARLEDCommand($command)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
-		$instar_type = "hi3510";
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$instar_type."/param.cgi?cmd=setinfrared&-infraredstat=".$command);
+		$INSTAR_type = "hi3510";
+		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?cmd=setinfrared&-infraredstat=".$command);
 		return $response;
 	}
 
@@ -1250,7 +1250,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
 		$last_write = IPS_GetVariable($this->GetIDForIdent("LastMovement"))["VariableChanged"];
 		$current_time = time();
 		if (($current_time - $last_write) > $relaxationmotionsensor) {
-			$this->SendDebug("Instar:", "motionsensor event", 0);
+			$this->SendDebug("INSTAR:", "motionsensor event", 0);
 			$this->SetValue('LastMovement', date('d.m.y H:i:s'));
 		}
 	}
@@ -1261,7 +1261,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
 	{
 		$Script = '<?
 //Do not delete or modify.
-Instar_GetSnapshot(' . $this->InstanceID . ');		
+INSTAR_GetSnapshot(' . $this->InstanceID . ');		
 ?>';
 		return $Script;
 	}
@@ -1271,7 +1271,7 @@ Instar_GetSnapshot(' . $this->InstanceID . ');
 	{
 		$Script = '<?
 //Do not delete or modify.
-Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");		
+INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");		
 ?>';
 		return $Script;
 	}
@@ -1281,16 +1281,16 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		//prüfen ob Event existent
 		$ParentID = $IDSnapshot;
 
-		$EreignisID = @($this->GetIDForIdent('EventGetInstarSnapshot'));
+		$EreignisID = @($this->GetIDForIdent('EventGetINSTARSnapshot'));
 		if ($EreignisID === false) {
 			$EreignisID = IPS_CreateEvent(0);
-			IPS_SetName($EreignisID, "GetInstarSnapshot");
-			IPS_SetIdent($EreignisID, "EventGetInstarSnapshot");
+			IPS_SetName($EreignisID, "GetINSTARSnapshot");
+			IPS_SetIdent($EreignisID, "EventGetINSTARSnapshot");
 			IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastMovement'));   //bei Variablenaktualisierung
 			IPS_SetParent($EreignisID, $ParentID);
 			IPS_SetEventActive($EreignisID, true);             //Ereignis aktivieren
 		} else {
-			$this->SendDebug("Instar", "Event für Snapshot mit ObjektID" . $EreignisID . " gefunden", 0);
+			$this->SendDebug("INSTAR", "Event für Snapshot mit ObjektID" . $EreignisID . " gefunden", 0);
 		}
 	}
 
@@ -1300,11 +1300,11 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		//prüfen ob Event existent
 		$ParentID = $IDEmail;
 
-		$EreignisID = @IPS_GetObjectIDByIdent("EventInstarEmail", $ParentID);
+		$EreignisID = @IPS_GetObjectIDByIdent("EventINSTAREmail", $ParentID);
 		if ($EreignisID === false) {
 			$EreignisID = IPS_CreateEvent(0);
-			IPS_SetName($EreignisID, "Instar Email Alert");
-			IPS_SetIdent($EreignisID, "EventInstarEmail");
+			IPS_SetName($EreignisID, "INSTAR Email Alert");
+			IPS_SetIdent($EreignisID, "EventINSTAREmail");
 			IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastRingtone'));   //bei Variablenaktualisierung
 			IPS_SetParent($EreignisID, $ParentID);
 			IPS_SetEventActive($EreignisID, $state);             //Ereignis aktivieren	/ deaktivieren
@@ -1404,9 +1404,9 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	{
 		//$hostdoorbird = $this->ReadPropertyString('Host');
 		//$prefixdoorbird = $this->GetURLPrefix($hostdoorbird);
-		$name = "Instar Picture";
-		$ident = "InstarPic";
-		$picturename = "instarpic_";
+		$name = "INSTAR Picture";
+		$ident = "INSTARPic";
+		$picturename = "INSTARpic_";
 		for ($i = 1; $i <= 20; $i++) {
 
 			//$URL = $prefixdoorbird . $hostdoorbird . '/bha-api/history.cgi?index=' . $i;
@@ -1447,16 +1447,16 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
 	public function GetSnapshot()
 	{
-		$name = "Instar Snapshot";
-		$ident = "InstarSnapshotPic";
-		$picturename = "instarsnapshot_";
+		$name = "INSTAR Snapshot";
+		$ident = "INSTARSnapshotPic";
+		$picturename = "INSTARsnapshot_";
 		$picturelimit = $this->ReadPropertyInteger('picturelimitsnapshot');
 		$catid = $this->ReadPropertyInteger('categorysnapshot');
 		if ($catid > 0) {
 			$this->GetImageDoorbell($name, $ident, $picturename, $picturelimit, $catid);
 		} else {
-			$this->SendDebug("Instar", "No category is set, please set category.", 0);
-			IPS_LogMessage("Instar", "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.");
+			$this->SendDebug("INSTAR", "No category is set, please set category.", 0);
+			IPS_LogMessage("INSTAR", "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.");
 			echo "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.";
 		}
 	}
@@ -1487,7 +1487,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				//allmedia schreiben
 				$this->SaveImagestoPicSlot($allmedia, $ident, $name, $catid);
 			} else {
-				$this->SendDebug("Instar", "No media image found", 0);
+				$this->SendDebug("INSTAR", "No media image found", 0);
 			}
 		} else {
 			// neues Mediaobjekt anlegen
@@ -1523,7 +1523,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 						//allmedia schreiben
 						$this->SaveImagestoPicSlot($allmedia, $ident, $name, $catid);
 					} else {
-						$this->SendDebug("Instar", "No media image found", 0);
+						$this->SendDebug("INSTAR", "No media image found", 0);
 					}
 				}
 
@@ -1575,7 +1575,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				IPS_SetInfo($mediaid, $saveinfo);
 				IPS_SendMediaEvent($mediaid); //aktualisieren
 			} else {
-				$this->SendDebug("Instar", "No picture with ident " . $ident . $newpicid . " found", 0);
+				$this->SendDebug("INSTAR", "No picture with ident " . $ident . $newpicid . " found", 0);
 			}
 		}
 	}
@@ -1596,10 +1596,10 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	public function ReceiveData($JSONString)
 	{
 		$payload = json_decode($JSONString);
-		// $this->SendDebug("Instar IO Data", $JSONString, 0);
+		// $this->SendDebug("INSTAR IO Data", $JSONString, 0);
 		$data = $payload->Buffer;
-		$instar_json = json_encode($data);
-		$this->SendDebug("Instar Webhook", $instar_json, 0);
+		$INSTAR_json = json_encode($data);
+		$this->SendDebug("INSTAR Webhook", $INSTAR_json, 0);
 		if (isset($data->objectid) && isset($data->value)) {
 			$objectid = $data->objectid;
 			$value = $data->value;
@@ -1671,7 +1671,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					$this->ScanVertical();
 				}
 				break;
-			case "InstarButtonSnapshot":
+			case "INSTARButtonSnapshot":
 				$this->GetSnapshot();
 				break;
 			case "SetPosition":
@@ -1715,7 +1715,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				$this->GotoPosition($Value);
 				break;
 			default:
-				$this->SendDebug("Instar", "Invalid ident", 0);
+				$this->SendDebug("INSTAR", "Invalid ident", 0);
 		}
 	}
 
@@ -1847,12 +1847,12 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 {
                     "name": "Host",
                     "type": "ValidationTextBox",
-                    "caption": "IP Instar"
+                    "caption": "IP INSTAR"
                 },
-				{ "type": "Label", "label": "Port Instar Camera" },
+				{ "type": "Label", "label": "Port INSTAR Camera" },
 				{ "type": "NumberSpinner", "name": "Port", "caption": "Port" },
-				{ "type": "Label", "label": "Instar login credentials" },
-				{ "type": "Label", "label": "Instar user with authorization as admin" },
+				{ "type": "Label", "label": "INSTAR login credentials" },
+				{ "type": "Label", "label": "INSTAR user with authorization as admin" },
                 {
                     "name": "User",
                     "type": "ValidationTextBox",
@@ -1863,10 +1863,10 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     "type": "PasswordTextBox",
                     "caption": "Password"
                 },
-				{ "type": "Label", "label": "category for Instar snapshots pictures, please create first a category in the objekt tree of IP-Symcon and then select it in the field below" },
-				{ "type": "Label", "label": "Instar snapshot pictures category" },
+				{ "type": "Label", "label": "category for INSTAR snapshots pictures, please create first a category in the objekt tree of IP-Symcon and then select it in the field below" },
+				{ "type": "Label", "label": "INSTAR snapshot pictures category" },
 				{ "type": "SelectCategory", "name": "categorysnapshot", "caption": "snapshot pictures" },
-				{ "type": "Label", "label": "picture limit for Instar snapshots pictures" },
+				{ "type": "Label", "label": "picture limit for INSTAR snapshots pictures" },
 				{ "type": "NumberSpinner", "name": "picturelimitsnapshot", "caption": "limit snapshots", "digits": 0},
 				{ "type": "Label", "label": "optionally notification via email (configurated SMTP module required)" },
 				{ "type": "Label", "label": "active email notification" },';
@@ -2179,18 +2179,18 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	{
 		$form = '"actions":
 			[
-				{ "type": "Label", "label": "Get snapshot from the Instar camera" },
-				{ "type": "Button", "label": "get snapshoot", "onClick": "Instar_GetSnapshot($id);" },
+				{ "type": "Label", "label": "Get snapshot from the INSTAR camera" },
+				{ "type": "Button", "label": "get snapshoot", "onClick": "INSTAR_GetSnapshot($id);" },
 				{ "type": "Label", "label": "Move left" },
-				{ "type": "Button", "label": "Left", "onClick": "Instar_Left($id);" },
+				{ "type": "Button", "label": "Left", "onClick": "INSTAR_Left($id);" },
 				{ "type": "Label", "label": "Move right" },
-				{ "type": "Button", "label": "Right", "onClick": "Instar_Right($id);" },
+				{ "type": "Button", "label": "Right", "onClick": "INSTAR_Right($id);" },
 				{ "type": "Label", "label": "Move up" },
-				{ "type": "Button", "label": "Up", "onClick": "Instar_Up($id);" },
+				{ "type": "Button", "label": "Up", "onClick": "INSTAR_Up($id);" },
 				{ "type": "Label", "label": "Move down" },
-				{ "type": "Button", "label": "Down", "onClick": "Instar_Down($id);" },
-				{ "type": "Label", "label": "Get infos from the Instar camera" },
-				{ "type": "Button", "label": "get info", "onClick": "Instar_GetInfo($id);" }
+				{ "type": "Button", "label": "Down", "onClick": "INSTAR_Down($id);" },
+				{ "type": "Label", "label": "Get infos from the INSTAR camera" },
+				{ "type": "Button", "label": "get info", "onClick": "INSTAR_GetInfo($id);" }
 			],';
 		return $form;
 
@@ -2208,7 +2208,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				{
                     "code": 102,
                     "icon": "active",
-                    "caption": "Instar accessible."
+                    "caption": "INSTAR accessible."
                 },
                 {
                     "code": 104,
@@ -2218,7 +2218,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 {
                     "code": 202,
                     "icon": "error",
-                    "caption": "Instar IP adress must not empty."
+                    "caption": "INSTAR IP adress must not empty."
                 },
 				{
                     "code": 203,
@@ -2228,7 +2228,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 {
                     "code": 204,
                     "icon": "error",
-                    "caption": "connection to Instar lost."
+                    "caption": "connection to INSTAR lost."
                 },
 				{
                     "code": 205,
@@ -2248,7 +2248,7 @@ Instar_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 {
                     "code": 208,
                     "icon": "error",
-                    "caption": "category Instar snapshot not set."
+                    "caption": "category INSTAR snapshot not set."
                 }
             ]';
 		return $form;

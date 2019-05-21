@@ -1,9 +1,9 @@
-# IPSymconInstar
+# IPSymconINSTAR
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-green.svg)](https://www.symcon.de/forum/threads/38222-IP-Symcon-5-0-verf%C3%BCgbar)
 
 
-Module for IP-Symcon from version 5.x. Allows communication with a Instar camera.
+Module for IP-Symcon from version 5.x. Allows communication with a [INSTAR](https://www.instar.de/ "INSTAR") camera.
 
 ## Documentation
 
@@ -18,30 +18,28 @@ Module for IP-Symcon from version 5.x. Allows communication with a Instar camera
 
 ## 1. Features
 
-The module can be used to send commands to a Doorbird door intercom and to receive the status feedback in IP-Symcon (version 5 or higher).
+With the module commands can be sent to an [INSTAR](https://www.instar.de/ "INSTAR") camera from IP-Symcon and the events of an [INSTAR](https://www.instar.de/ "INSTAR") Camera received in IP-Symcon (version 5 or higher).
 
-### Send commands to Doorbird:  
+### Send commands to INSTAR:  
 
- - Open door 
- - Turn on the IR light
- - Request snapshot
+- Control (up, down, left, right, stop)
+- Set position and start
+- Camera settings (contrast, brightness, color)
 
 ### Status feedback:  
 
- - Image display
- - Time last bell
- - Time of last movement
- - Time last door opening
- - Picture on the move
- - Picture at bell signal
+- Picture display
+- Notification of [INSTAR](https://www.instar.de/ "INSTAR") to IP-Symcon at an event
+- Email notification at Event
   
 
 ## 2. Requirements
 
  - IP-Symcon 5.x
- - Doorbird Doorphone, Hardware Version 1.00 and above. Firmware version 000098 and higher.
+ - [INSTAR](https://www.instar.de/ "INSTAR") camera
  - the Master Branch is designed for the current IP-Symcon version.
- - For IP-Symcon versions smaller than 4.1 the branch _Old-Version_ has to be selected
+ - For IP-Symcon versions smaller than 5.1 the branch _Old-Version_ has to be selected
+ 
 
 ## 3. Installation
 
@@ -56,7 +54,7 @@ Then click on the module store icon (IP-Symcon > 5.1) in the upper right corner.
 In the search field type
 
 ```
-Doorbird
+INSTAR
 ```  
 
 
@@ -110,10 +108,10 @@ Before the actual instance is created, two categories must be created at a desir
 
 ## 4. Function reference
 
-### Doorbird:
+### INSTAR:
 
-The IP address of the Doorbird and of IP Symcon and the username and password of Doorbird must be specified.
-It will be sent a message to IP-Symcon at each event ringing, movement, door open by Doorbird.
+The IP address of the INSTAR camera and the username and password of INSTAR must be specified.
+It will be sent a message to IP-Symcon at each event movement by INSTAR.
 With the help of an event that uses variable updating, additional actions can be taken in IP-Symcon.
 The live image can be viewed in IP-Symcon as well as the history of the last visitors.
 
@@ -125,9 +123,9 @@ The live image can be viewed in IP-Symcon as well as the history of the last vis
 | Property    | Type    | Value        | Description                               |
 | :---------: | :-----: | :----------: | :---------------------------------------: |
 | IPSIP       | string  |              | IP Adress IP-Symcon                       |
-| Host        | string  |              | IP Adress Doorbird                        |
-| User        | string  |              | Doorbird User                             |
-| Password    | string  |              | Doorbird Password                         |
+| Host        | string  |              | IP Adress INSTAR                          |
+| User        | string  |              | INSTAR User                               |
+| Password    | string  |              | INSTAR Password                           |
 | picturelimit| integer |    20        | Picture Limit                             |
 
 
@@ -139,35 +137,35 @@ The live image can be viewed in IP-Symcon as well as the history of the last vis
 
 ###  a. Functions:
 
-#### Instar:
+#### INSTAR:
 
-`Doorbird_SetupNotification(integer $InstanceID)`
+`INSTAR_GetInfo(integer $InstanceID)`
 
-Set up IP Symcon notifications from Doorbird
+Read out the information of the INSTAR camera
 
-`Doorbird_GetInfo(integer $InstanceID)`
+`INSTAR_Right(integer $InstanceID)`
 
-Read buildnumber, firmware version and WLAN MAC address of Doorbird
+Right movement of the camera
 
-`Doorbird_GetSnapshot(integer $InstanceID)`
+`INSTAR_Left(integer $InstanceID)`
 
-Request a snapshoot from Doorbird and put it in IP-Symcon
+Left movement of the camera
 
-`Doorbird_Light(integer $InstanceID)`
+`INSTAR_Up(integer $InstanceID)`
 
-Turn on the IR lamps of the Doorbird, corresponds to the lamps button in the app
+Upward movement of the camera
 
-`Doorbird_OpenDoor(integer $InstanceID)`
+`INSTAR_Down(integer $InstanceID)`
 
-Press the door opener of the Doorbird
+Down movement of the camera
 
-`Doorbird_GetFavorites(integer $InstanceID)`
+`INSTAR_Stop(integer $InstanceID)`
 
-Reads favorites from the Doorbird
+Stops the movement of the camera
 
 
 ###  b. GUIDs and data exchange:
 
-#### Instar:
+#### INSTAR:
 
 GUID: `{3E0686DD-A9FC-308D-35ED-71E251F5F7FB}` 

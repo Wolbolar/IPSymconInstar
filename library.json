@@ -1,13 +1,13 @@
 {
 	"id": "{4BB2BD63-5E24-907B-05D7-B705D887E7CB}",
 	"author": "Fonzo",
-	"name": "Instar",
+	"name": "INSTAR",
 	"url": "https://github.com/Wolbolar/IPSymconInstar",
 	"compatibility": {
 		"version": "5.1",
 		"date": 1491343200
 	},
 	"version": "0.1",
-	"build": 1,
+	"build": 2,
 	"date": 0
 }
