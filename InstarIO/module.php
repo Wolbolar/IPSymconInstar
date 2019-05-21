@@ -1,6 +1,6 @@
 <?
 
-class InstarIO extends IPSModule
+class INSTARIO extends IPSModule
 {
 
 	public function Create()
@@ -11,7 +11,7 @@ class InstarIO extends IPSModule
 		$this->RegisterPropertyString("password", "ips");
 
 		// register Webhook
-		$this->RegisterWebhook('/hook/instar');
+		$this->RegisterWebhook('/hook/INSTAR');
 	}
 
 	public function ApplyChanges()

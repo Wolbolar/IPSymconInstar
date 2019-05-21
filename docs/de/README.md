@@ -1,9 +1,9 @@
-# IPSymconInstar
+# IPSymconINSTAR
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-green.svg)](https://www.symcon.de/forum/threads/38222-IP-Symcon-5-0-verf%C3%BCgbar)
 
 
-Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer Instar Kamera.
+Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera.
 
 ## Dokumentation
 
@@ -18,9 +18,9 @@ Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer Ins
 
 ## 1. Funktionsumfang
 
-Mit dem Modul lassen sich Befehle an eine Instar Kamera aus IP-Symcon senden und die Events einer Instar Kamera in IP-Symcon (ab Version 5) empfangen. 
+Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTAR") Kamera aus IP-Symcon senden und die Events einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera in IP-Symcon (ab Version 5) empfangen. 
 
-### Befehle an Instar senden:  
+### Befehle an INSTAR senden:  
 
  - Steuerung ( hoch, runter, links, rechts, stop) 
  - Position setzten und anfahren
@@ -29,14 +29,14 @@ Mit dem Modul lassen sich Befehle an eine Instar Kamera aus IP-Symcon senden und
 ### Status Rückmeldung:  
 
  - Bild Anzeige
- - Benachrichtung von Instar an IP-Symcon bei einem Event
+ - Benachrichtung von [INSTAR](https://www.instar.de/ "INSTAR") an IP-Symcon bei einem Event
  - Email Benachrichtigung bei Event	
   
 
 ## 2. Voraussetzungen
 
  - IP-Symcon 5.x
- - Instar Kamera
+ - [INSTAR](https://www.instar.de/ "INSTAR") Kamera
  - der Master Branch ist für die aktuelle IP-Symcon Version ausgelegt.
  - bei IP-Symcon Versionen kleiner 5.1 ist der Branch _5.0_ zu wählen
 
@@ -54,7 +54,7 @@ Anschließend oben rechts auf das Symbol für den Modulstore (IP-Symcon > 5.1) k
 Im Suchfeld nun
 
 ```
-Instar
+INSTAR
 ```  
 
 eingeben
@@ -114,17 +114,17 @@ jeweils ein Bild zum Zeitpunkt des Events abgelegt.
 Wir legen also eine Kategorie an der gewünschten Position im Objektbaum an (_Rechtsklick -> Objekt hinzufügen -> Kategorie_) und benennen diese z.B. mit
 den Namen _Besucherhistorie_ .
 	
-In IP-Symcon nun _Instanz hinzufügen_ (_Rechtsklick -> Objekt hinzufügen -> Instanz_) auswählen unter der Kategorie, unter der man die Instar Kamera hinzufügen will,
-und _Instar_ auswählen.
+In IP-Symcon nun _Instanz hinzufügen_ (_Rechtsklick -> Objekt hinzufügen -> Instanz_) auswählen unter der Kategorie, unter der man die INSTAR Kamera hinzufügen will,
+und _INSTAR_ auswählen.
  
-Im Konfigurationsformular ist zunächst das passende Kamera Modell von Instar auszuwählen.
+Im Konfigurationsformular ist zunächst das passende Kamera Modell von INSTAR auszuwählen.
 
 
 ## 4. Funktionsreferenz
 
-### Instar:
+### INSTAR:
 
-Die IP Adresse der Instar Kamera sowie Username sowie Passwort von Instar sind anzugeben.
+Die IP Adresse der INSTAR Kamera sowie Username sowie Passwort von INSTAR sind anzugeben.
 Es wird bei jedem Event eine Mitteilung an IP-Symcon gesendet.
 Mit Hilfe eines Ereignisses was bei Variablenaktualisierung greift können dann in IP-Symcon weitere Aktionen
 ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Bilder.
@@ -133,12 +133,12 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 
 ## 5. Konfiguration:
 
-### Instar:
+### INSTAR:
 
 | Eigenschaft | Typ     | Standardwert | Funktion                                  |
 | :---------: | :-----: | :----------: | :---------------------------------------: |
 | IPSIP       | string  |              | IP Adresse IP-Symcon                      |
-| Host        | string  |              | IP Adresse Doorbird                       |
+| Host        | string  |              | IP Adresse INSTAR                         |
 | User        | string  |              | Doorbird User                             |
 | Password    | string  |              | Doorbird Passwort                         |
 | picturelimit| integer |    20        | Limit an abgelegten Bildern               |
@@ -152,29 +152,29 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 
 ###  a. Funktionen:
 
-#### Instar:
+#### INSTAR:
 
-`Instar_GetInfo(integer $InstanceID)`
+`INSTAR_GetInfo(integer $InstanceID)`
 
-Information der Instar Kamera auslesen
+Information der INSTAR Kamera auslesen
 
-`Instar_Right(integer $InstanceID)`
+`INSTAR_Right(integer $InstanceID)`
 
 Rechtsbewegung der Kamera
 
-`Instar_Left(integer $InstanceID)`
+`INSTAR_Left(integer $InstanceID)`
 
 Linkssbewegung der Kamera
 
-`Instar_Up(integer $InstanceID)`
+`INSTAR_Up(integer $InstanceID)`
 
 Hochbewegung der Kamera
 
-`Instar_Down(integer $InstanceID)`
+`INSTAR_Down(integer $InstanceID)`
 
 Runterbewegung der Kamera
 
-`Instar_Stop(integer $InstanceID)`
+`INSTAR_Stop(integer $InstanceID)`
 
 Stoppt die Bewegung der Kamera
 
@@ -184,6 +184,6 @@ Stoppt die Bewegung der Kamera
 
 ###  b. GUIDs und Datenaustausch:
 
-#### Instar:
+#### INSTAR:
 
 GUID: `{3E0686DD-A9FC-308D-35ED-71E251F5F7FB}` 

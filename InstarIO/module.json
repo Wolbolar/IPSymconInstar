@@ -1,14 +1,14 @@
 {
 	"id": "{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}",
-	"name": "InstarIO",
+	"name": "INSTARIO",
 	"type": 1,
-	"vendor": "InstarIO",
+	"vendor": "INSTAR",
 	"aliases": 
 	[
-		"Instar IO"
+		"INSTAR IO"
 	],
 	"parentRequirements": [],
 	"childRequirements": ["{5EA89740-B0F2-D1A4-544E-9C61E85543EF}"],
 	"implemented": ["{CA67B665-61D0-BE0B-DF75-18EF67A5E62B}"],
-	"prefix": "InstarIO"
+	"prefix": "INSTARIO"
 }
