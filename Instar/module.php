@@ -170,57 +170,57 @@ class INSTAR extends IPSModule
 		$this->RegisterPropertyBoolean("activeemail", false);
 		$this->RegisterPropertyString("email", "");
 		$this->RegisterPropertyInteger("smtpmodule", 0);
-		$this->RegisterPropertyString("subject", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail2", false);
 		$this->RegisterPropertyString("email2", "");
 		$this->RegisterPropertyInteger("smtpmodule2", 0);
-		$this->RegisterPropertyString("subject2", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject2", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext2", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail3", false);
 		$this->RegisterPropertyString("email3", "");
 		$this->RegisterPropertyInteger("smtpmodule3", 0);
-		$this->RegisterPropertyString("subject3", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject3", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext3", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail4", false);
 		$this->RegisterPropertyString("email4", "");
 		$this->RegisterPropertyInteger("smtpmodule4", 0);
-		$this->RegisterPropertyString("subject4", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject4", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext4", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail5", false);
 		$this->RegisterPropertyString("email5", "");
 		$this->RegisterPropertyInteger("smtpmodule5", 0);
-		$this->RegisterPropertyString("subject5", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject5", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext5", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail6", false);
 		$this->RegisterPropertyString("email6", "");
 		$this->RegisterPropertyInteger("smtpmodule6", 0);
-		$this->RegisterPropertyString("subject6", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject6", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext6", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail7", false);
 		$this->RegisterPropertyString("email7", "");
 		$this->RegisterPropertyInteger("smtpmodule7", 0);
-		$this->RegisterPropertyString("subject7", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject7", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext7", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail8", false);
 		$this->RegisterPropertyString("email8", "");
 		$this->RegisterPropertyInteger("smtpmodule8", 0);
-		$this->RegisterPropertyString("subject8", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject8", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext8", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail9", false);
 		$this->RegisterPropertyString("email9", "");
 		$this->RegisterPropertyInteger("smtpmodule9", 0);
-		$this->RegisterPropertyString("subject9", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject9", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext9", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail10", false);
 		$this->RegisterPropertyString("email10", "");
 		$this->RegisterPropertyInteger("smtpmodule10", 0);
-		$this->RegisterPropertyString("subject10", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject10", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext10", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("activeemail11", false);
 		$this->RegisterPropertyString("email11", "");
 		$this->RegisterPropertyInteger("smtpmodule11", 0);
-		$this->RegisterPropertyString("subject11", $this->Translate("INSTAR Movement!"));
+		$this->RegisterPropertyString("subject11", $this->Translate("Camera Alarm!"));
 		$this->RegisterPropertyString("emailtext11", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("altview", false);
 		$this->RegisterPropertyInteger("categorysnapshot", 0);
@@ -235,7 +235,7 @@ class INSTAR extends IPSModule
 		parent::ApplyChanges();
 
 		$this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, 3);
-		$this->RegisterVariableString("LastMovement", "Zeitpunkt letzte Bewegung", "INSTAR.Movement", $this->_getPosition());
+		$this->RegisterVariableString("LastMovement", $this->Translate("Time last movement"), "INSTAR.Movement", $this->_getPosition());
 		$this->RegisterProfileAssociation(
 			'INSTAR.Control.Continuous',
 			'Move',
@@ -254,7 +254,7 @@ class INSTAR extends IPSModule
 				[4, $this->Translate('Stop'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Continuous", "Control Continuous", "INSTAR.Control.Continuous", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Continuous", $this->Translate("Control Continuous"), "INSTAR.Control.Continuous", $this->_getPosition());
 		$this->EnableAction("Control_Continuous");
 		$this->RegisterProfileAssociation(
 			'INSTAR.Control.Step',
@@ -273,7 +273,7 @@ class INSTAR extends IPSModule
 				[3, $this->Translate('Step Right'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Step", "Control Step", "INSTAR.Control.Step", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Step", $this->Translate("Control Step"), "INSTAR.Control.Step", $this->_getPosition());
 		$this->EnableAction("Control_Step");
 		$this->RegisterProfileAssociation(
 			'INSTAR.Control.Scan',
@@ -291,7 +291,7 @@ class INSTAR extends IPSModule
 				[2, $this->Translate('Scan Vertical'), '', -1]
 			]
 		);
-		$this->RegisterVariableInteger("Control_Scan", "Control Scan", "INSTAR.Control.Scan", $this->_getPosition());
+		$this->RegisterVariableInteger("Control_Scan", $this->Translate("Control Scan"), "INSTAR.Control.Scan", $this->_getPosition());
 		$this->EnableAction("Control_Scan");
 		$this->RegisterProfileAssociation(
 			'INSTAR.Snapshot',
@@ -309,13 +309,13 @@ class INSTAR extends IPSModule
 		);
 
 		$this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, 1);
-		$this->RegisterVariableInteger("hue", $this->Translate("hue"), "INSTAR.Hue", $this->_getPosition()); // Hue (0-127), integer
+		$this->RegisterVariableInteger("hue", $this->Translate("Hue"), "INSTAR.Hue", $this->_getPosition()); // Hue (0-127), integer
 		$this->EnableAction("hue");
-		$this->RegisterVariableInteger("Saturation", $this->Translate("saturation"), "~Intensity.255", $this->_getPosition()); // Saturation (0-255)
+		$this->RegisterVariableInteger("Saturation", $this->Translate("Saturation"), "~Intensity.255", $this->_getPosition()); // Saturation (0-255)
 		$this->EnableAction("Saturation");
-		$this->RegisterVariableInteger("Brightness", $this->Translate("brightness"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
+		$this->RegisterVariableInteger("Brightness", $this->Translate("Brightness"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
 		$this->EnableAction("Brightness");
-		$this->RegisterVariableInteger("Contrast", $this->Translate("contrast"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
+		$this->RegisterVariableInteger("Contrast", $this->Translate("Contrast"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
 		$this->EnableAction("Contrast");
 
 		$this->RegisterVariableInteger("INSTARButtonSnapshot", $this->Translate("Save INSTAR picture"), "INSTAR.Snapshot", $this->_getPosition());
@@ -350,7 +350,7 @@ class INSTAR extends IPSModule
 		$this->RegisterVariableInteger("UnsetPosition", $this->Translate("Unset Position"), "INSTAR.UnsetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("UnsetPosition");
 		$this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, 1);
-		$this->RegisterVariableInteger("GotoPosition", $this->Translate("GotoPosition"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
+		$this->RegisterVariableInteger("GotoPosition", $this->Translate("Go to Position"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("GotoPosition");
 
 		$this->RegisterVariableBoolean("dhcpflag", $this->Translate("dhcpflag"), "~Switch", $this->_getPosition());
@@ -1812,65 +1812,173 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	}
 
 
-	//Configuration Form
+	/***********************************************************
+	 * Configuration Form
+	 ***********************************************************/
+
+	/**
+	 * build configuration form
+	 * @return string
+	 */
 	public function GetConfigurationForm()
 	{
-		$formhead = $this->FormHead();
-		$formactions = $this->FormActions();
-		$formelementsend = '{ "type": "Label", "label": "__________________________________________________________________________________________________" }';
-		$formstatus = $this->FormStatus();
-		return '{ ' . $formhead . $formelementsend . '],' . $formactions . $formstatus . ' }';
+		// return current form
+		return json_encode([
+			'elements' => $this->FormHead(),
+			'actions' => $this->FormActions(),
+			'status' => $this->FormStatus()
+		]);
 	}
 
+	/**
+	 * return form configurations on configuration step
+	 * @return array
+	 */
 	protected function FormHead()
 	{
-		$form = '"elements":
-            [
-               {
-                    "type": "Image",
-                    "image": "data:image/png;base64, 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"
-               },
-               { "type": "Select", "name": "model", "caption": "model",
-					"options": [
-						{ "label": "IN-5907 HD", "value": 1 },
-						{ "label": "IN-9008 Full HD", "value": 2 },
-						{ "label": "IN-9010 Full HD", "value": 3 },
-						{ "label": "IN-9010 Full HD", "value": 4 },
-						{ "label": "IN-9020 Full HD", "value": 5 },
-						{ "label": "IN-6001 HD", "value": 6 },
-						{ "label": "IN-6014 HD", "value": 7 },
-						{ "label": "IN-8003 Full HD", "value": 8 },
-						{ "label": "IN-8015 Full HD", "value": 9 }
+		$form = [
+			[
+				'type' => 'Image',
+				'image' => 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAANkAAABOCAYAAACt3bONAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADA9JREFUeNrsXU1wHMUV7tWPzckSMVdsTjkh60RywBGnhCoc6wSpwrG4JFA4WCdbhcxPEQqHmLJ9iQSmyjkhY6rgZmGqILngiCMHSa7kisQdVkcsrTbzjadFa92vu2d2Zrp79n1Vzcrs7mjUPd97X7/3urs1evChXwghhpU2pLRW9iqyn1uCwWB0lVfZdpXWUV47I8l/RpM2kjUT2VSCMdkYTLD72M1+Vom1o7wOgVgHFKKNZgRTCddSiMYEYzDJ9nsx1YOp5NrO+LMtSXbAQDbVk7FHYwwysQQhEztZ2+4lGDgCEj2StImMWKMa2TjMBGMw9hGt29M6SttRyPZD0tZAqImrVy5fnzx2bGB779zcnFhdXePHiFE2vk3an1JpCIJNTU0NbE+Mj43z48CoAphqHRjK5CGDwWCSMRjRAXGLUSYZg1EtyUZAsmHuCwajMrk4yiRjMKr1ZMOybIrBYFSDYbVcisFglO/JWkwyBqPiedkIk6w8TExMiLGxsX3/b2VlhTtmwL0ZGb7/aGlJLC3d0L73r6++dLr66tqaOH9+jnz/s88+FeM9D2VZQKnUmqZU6sqVy6KMEjKQ6cSJE+LEM8+k5Dpy5Ijx8yDb+vq6WL97V9y+fVtsbW2Rnz116pT1enVhc3NT3Lx5M9d3cO/4Gyjgerhu1cAYYWx0BnDi8ccfMIi4p83vv09/xljh33jtUy7SObKNjU3x9Z07ff2RW+228RrvXLworl6+XEkHg2C634176gd4gOZffdX4EOlw/PjxtKV4//2UaNc+/FDr6U49//zPn/UM3F9ekqFv0Efkw3/okLjw2muV3fPf3303vYexEgw4jCH64PYXX1iNI0U0r3OyhYVFcadPItcFDBgGb211NTfBdIAXPPPyy43URzAStr+9btner2L5IDGMGPv5+fnc1/Yevoesi4Fgny8vizNnzpR6XVjHJs5LbVIX70sZFxPwHMBD/ydxDHmUhveSKiwxeefi38Sbb7webMeiU13mSDrpZxoMyI9B82Lq5y70N9/pWwb2zrcwxi7jjM/A6P7llVecpHQQdYsLiwvihZnT4ujRo8E9NOhMquMxUOjkm598Ypwgw2qDbHiwpAU36Xtcb+WbbwrdLzUXuvTee4UDH3llsK6feiUWPlflvIzqg2vXrlnnVRgrBLRwjybSQUKmwSyLsQiCZO32lvjziy85Ry3rAvQ3JWvgtWDJXB5CORAYYBk4MZEob6DBiWSXLnmTiiATHkidZFyv0ZthzFwCF/gcGu4b82/Mxal52Mc3bohjk5Nhz8kkEAlE2iAkmUgFJkCC3588WSgMje+4yowmSEX5wOoQQ+AH4/SbqSnSGNjSFd5INj6utwrn5+ZEO3+ItJoHhggBgyR1y5xYoJOK8Nhp/kljkKqOMpYF3DuMKuUFTekKbySbmZnREg2y0ZS8rvWBSTQ5peu3AjEEIYGSitKL6byZDI/HAIw5ZVxt0VI/nmxsXMyendW+B8kYQu6Migo2UeZVJRVlIjcN9BDpCsqYhSodqSmCKYrsbU42O3uWlI3nPMtGU7CDkUMqKv1F9V0snkyCSrscefTRsEi2uraa1ixS3gy5M1SD+Ax6MEqQikoEVZeXik0yAqg9zWOYvZFsq71l9Waoa0SBcUgIpWg3NFBRwl6rj/xf7JKxSETZawjf5M0AX0EQqiNdKwJYKt6Xh739SEmt2CQjFRgJkmTSm1GVHsidLSwuBkMywBauHUSC6eS1LtBBLR2JSTJSspCSkUGQDN7MVLf4j2RutrGxEcwEF/mzUJahBEEyQupR/Re7ZMQ6tLyGOYiKjxdmZsRTxDbhIJiPSn1ThTxKaZhotNSTCx7zkC8GT2byuKZi72DKqkze7NatZXFrebnW+zHlROTSF9Q2slQcc/ZWsUtGLHXSSmPLYs5gSIYDL+DRKJw7X3/uDDWGJmB+hoV8g+rV8kpFGwldl8n4AMaYmo9jhbsJQe25iP03qJA+ZCPC+nUCETJUzpsg1xZhzVkZK6abLBVdJGOIOUoEOzBF0BIseT5sRQpBkex+EOQN8v0lDyVXqFdzKaXCQGA5x8Z336VLI5oe6i8iFVXJGEMFSLoSOpkSwIDq/lYYFJd1esHtHjx79qyYnNTvJoUCYh9BEMhG18r7dIlMot0hI+Hhmioli0pFGxlDiDLCYMr9XCiJCIKZKvNVBHmiyz+vXxdP/OrX2vfSkqvFxZSMdULKAnS+K3Hwuc+Thu/B4jWp9rGoVNxHxp6FnKqHrGKlA8bOdl2XTXhw7zC8rvcY5D742BcRSWoKmJv5yJ1J6+W6Inof2RKvBl3fhLrIfqSiBB7QusP5chsIUzOND8b8j6dPpy2PEQj2sAnMzahKEF+yce9hSuZoWHIOsuXxTnh4IEFi3KlJBRUFzLsxUCzLX0AoGFeMeZHNj4IlGYIgV6/QG5/6yJ3pyIbOx/J0lw1a5Jwt5kgklc/KIxVtpAwtyii3gitqHIM+Nmk6eYCnp0+S7/vInVEyEoGRo4895iwlEYmM0aNRUi6PVPQlGWVUU9dsG/pAShY1jsGfTYZtvE25M5/rzmxS0ka2GOdo/UYVfUpGjAmUh65BjYw//HA63zKlbGAc8xIteJJhXmbKnfkKgriQDQNneviQSyt7V2IfUhHAXLP944+52weaCKNPySgjh6bwPO45T2omilM2TbmzVDYGutU3BslmGUMuJapDwoX0+1RAQpqIhnRAo0gGIHdmCoKEfHAFLCO5N0RE+8LXHfXzvS+jTNnogDFzlY3RkMyWO+v1ZqFt+W2qGIl9mUdVcDm8og6iUUrE1QiMiIiAuRm8lm4OhkoQbCcnK/lDI5k8TE9n/Uw7HYUuFdPoXMF9+1VQ5Uv4vbYi7aqBah3duEkjYAtwRUUymTt79rk/aN9HudX09HRlp3f2rfOTh1FLsgiKiSmpiNB9GXtRYsWxjsiYs/omGUgEua+7PxcjMCQigyl3Bm+2FNB++rrBihFFVwTnARXKD0Eymu7v+JNPNmdOpsKUO0NIv83baNciFQse75qbrCHMWanyOZdQfpQkM+XOUNeIBLUp5O/TI+gQ+t765L6KJZ4Uaqr+CCHNARWiGyf18PdGkQww5c5wqGCIoKSFaTsx3zClGMo+KTR0yUh5s8aSDKByZ/BmiELGIrtCXmdmuueyPXDokpEyhrZ5WdQkM+XOPgosAILyKZ01Vk8+CRHkspYKDpUPXTIWnZdFTTLAtO6sr4eLOASwCCAnqDxQyEcx1SkVY5CMFMls27dHTzLburOi2NvjYX6+L7KBrFgVrbsGLHfRA9N9SsUia8dcAaNDydAQ1uAV8WYgWTd2otnWnRV5uEAKuVgPO1Ch8jpPZbgkF75HfSf0UzspiVZk7VgZc7MQJCO17sw0LxsRDQFyZygSbrf7f2h11Q0gjbSk8gzk3nKisUOH9vaRcLHYvisZQpOKqmSkKmNwT7YFlpV6smTMdcuTDGPebQzJZO7sXAnHLdlIIjV40e3eQDDb7sSDKBVVEsPD6xQAvNkFjySzraboMQDdxshFCdu6MxdUuVBQHu4dOsF8SkXbwxxCKJ+6N8LododEw2Bad+ZKBKxoBhHKkiW4plwpHbJEDEEqqpIx773VRjLi3ojKmFQu7jaJZDJ31s/eH5IUaHKOhXmay8aX6jUQicKAlFnjZ50zlJBzw9+pu46ci9blLUwVFiYDSL1XZp3lCuHpe5a+QCXutkYPPvT6v7/68uIUcT7YIOC3v3s6PdXT1cpLa9pLOHn4OHUIOWPg8N+kzTfOk1WNvchig7bcZlQGeLIO5mQd7gsGozKS7TDJGIwaSLbDfcFgVAJMxbZBsm3uCwajMk92j0nGYFTryX5CdPGHt/769reHDx9udbtpcvrnV9FtZfUgLeWLrab1xN2AVyYzgvVQ6s+9bTd7/R88GfJkv0x+OJi0A1kbFfcLh2UbylpLaQzGoJNMkgmtk7Vtpd3LWurJ7imubUch13D22lJIJphoDPZgD3gtSbQdpe0RTpJMfmhYIdhQ9tpLMsEkYzDRHiBaR2kq2XZUku1kpBpWJKJOJjLBGEw0vWzc1RCuI0nW0Xgu0zyMicYY9ICHSjKhIdpe+78AAwC4O3f+49E2TgAAAABJRU5ErkJggg=='
+			],
+			[
+				'type' => 'Select',
+				'name' => 'model',
+				'caption' => 'Model',
+				'options' => [
+					[
+						'label' => 'Please select a camera model',
+						'value' => 0
+					],
+					[
+						'label' => 'IN-5907 HD',
+						'value' => 1
+					],
+					[
+						'label' => 'IN-9008 Full HD',
+						'value' => 2
+					],
+					[
+						'label' => 'IN-9010 Full HD',
+						'value' => 3
+					],
+					[
+						'label' => 'IN-9010 Full HD',
+						'value' => 4
+					],
+					[
+						'label' => 'IN-9020 Full HD',
+						'value' => 5
+					],
+					[
+						'label' => 'IN-6001 HD',
+						'value' => 6
+					],
+					[
+						'label' => 'IN-6014 HD',
+						'value' => 7
+					],
+					[
+						'label' => 'IN-8003 Full HD',
+						'value' => 8
+					],
+					[
+						'label' => 'IN-8015 Full HD',
+						'value' => 9
 					]
-				},
-                { "type": "Label", "label": "IP adress or hostname" },
-                {
-                    "name": "Host",
-                    "type": "ValidationTextBox",
-                    "caption": "IP INSTAR"
-                },
-				{ "type": "Label", "label": "Port INSTAR Camera" },
-				{ "type": "NumberSpinner", "name": "Port", "caption": "Port" },
-				{ "type": "Label", "label": "INSTAR login credentials" },
-				{ "type": "Label", "label": "INSTAR user with authorization as admin" },
-                {
-                    "name": "User",
-                    "type": "ValidationTextBox",
-                    "caption": "User"
-                },
-				{
-                    "name": "Password",
-                    "type": "PasswordTextBox",
-                    "caption": "Password"
-                },
-				{ "type": "Label", "label": "category for INSTAR snapshots pictures, please create first a category in the objekt tree of IP-Symcon and then select it in the field below" },
-				{ "type": "Label", "label": "INSTAR snapshot pictures category" },
-				{ "type": "SelectCategory", "name": "categorysnapshot", "caption": "snapshot pictures" },
-				{ "type": "Label", "label": "picture limit for INSTAR snapshots pictures" },
-				{ "type": "NumberSpinner", "name": "picturelimitsnapshot", "caption": "limit snapshots", "digits": 0},
-				{ "type": "Label", "label": "optionally notification via email (configurated SMTP module required)" },
-				{ "type": "Label", "label": "active email notification" },';
-		$form .= $this->FormShowEmail();
+				]
+
+			]
+		];
+
+
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Settings',
+					'items' => [
+						[
+							'type' => 'Label',
+							'label' => 'IP Address or Hostname'
+						],
+						[
+							'name' => 'Host',
+							'type' => 'ValidationTextBox',
+							'caption' => 'Camera Address'
+						],
+						[
+							'type' => 'Label',
+							'label' => 'Port INSTAR Camera'
+						],
+						[
+							'name' => 'PortDoorbell',
+							'type' => 'NumberSpinner',
+							'caption' => 'Camera Port'
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR login credentials',
+					'items' => [
+						[
+							'type' => 'Label',
+							'label' => 'INSTAR user with authorization as admin'
+						],
+						[
+							'name' => 'User',
+							'type' => 'ValidationTextBox',
+							'caption' => 'User'
+						],
+						[
+							'name' => 'Password',
+							'type' => 'PasswordTextBox',
+							'caption' => 'Password'
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Picture Settings',
+					'items' => [
+						[
+							'type' => 'Label',
+							'label' => 'Please first choose a Snapshot Category in the IP-Symcon Object Tree and select it in the Field below'
+						],
+						[
+							'type' => 'Label',
+							'label' => 'INSTAR snapshot pictures category'
+						],
+						[
+							'name' => 'categoryhistory',
+							'type' => 'SelectCategory',
+							'caption' => 'Alarm Snapshots'
+						],
+						[
+							'type' => 'Label',
+							'label' => 'picture limit for INSTAR snapshots pictures'
+						],
+						[
+							'name' => 'picturelimitring',
+							'type' => 'NumberSpinner',
+							'caption' => 'Number of Alarm Snapshots'
+						]
+					]
+				]
+			]
+		);
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'email notification settings',
+					'items' => $this->FormShowEmail()
+				]
+			]
+		);
 		return $form;
 	}
 
@@ -1886,371 +1994,629 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		$activeemail9 = $this->ReadPropertyBoolean("activeemail9");
 		$activeemail10 = $this->ReadPropertyBoolean("activeemail10");
 		$activeemail11 = $this->ReadPropertyBoolean("activeemail11");
-
-		$form = '{
-                    "name": "activeemail",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },
-				{ "type": "SelectInstance", "name": "smtpmodule", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail2",
-                    "type": "CheckBox",
-                    "caption": "active email 2"
-                },';
+		$form = [
+			[
+				'type' => 'Label',
+				'label' => 'Optional Email Notification (configurated SMTP module required)'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Email Notification active'
+			],
+			[
+				'name' => 'activeemail',
+				'type' => 'CheckBox',
+				'caption' => 'active email'
+			],
+			[
+				'name' => 'smtpmodule',
+				'type' => 'SelectInstance',
+				'caption' => 'SMTP module'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Email Recipient'
+			],
+			[
+				'name' => 'email',
+				'type' => 'ValidationTextBox',
+				'caption' => 'email'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'email subject'
+			],
+			[
+				'name' => 'subject',
+				'type' => 'ValidationTextBox',
+				'caption' => 'subject'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'email text'
+			],
+			[
+				'name' => 'emailtext',
+				'type' => 'ValidationTextBox',
+				'caption' => 'email text'
+			],
+			[
+				'name' => 'activeemail2',
+				'type' => 'CheckBox',
+				'caption' => 'active email 2'
+			]
+		];
 		if ($activeemail2) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule2", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email2",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject2",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext2",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail3",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule2',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email2',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject2',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext2',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail3',
+						'type' => 'CheckBox',
+						'caption' => 'active email 3'
+					]
+				]
+			);
 		}
 		if ($activeemail3) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule3", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email3",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject3",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext3",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail4",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule3',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email3',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject3',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext3',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail4',
+						'type' => 'CheckBox',
+						'caption' => 'active email 4'
+					]
+				]
+			);
 		}
 		if ($activeemail4) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule4", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email4",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject4",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext4",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail5",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule4',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email4',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject4',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext4',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail5',
+						'type' => 'CheckBox',
+						'caption' => 'active email 5'
+					]
+				]
+			);
 		}
 		if ($activeemail5) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule5", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email5",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject5",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext5",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail6",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule5',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email5',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject5',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext5',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail6',
+						'type' => 'CheckBox',
+						'caption' => 'active email 6'
+					]
+				]
+			);
 		}
 		if ($activeemail6) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule6", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email6",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject6",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext6",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail7",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule6',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email6',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject6',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext6',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail7',
+						'type' => 'CheckBox',
+						'caption' => 'active email 7'
+					]
+				]
+			);
 		}
 		if ($activeemail7) {
-			$form .= '
-				{ "type": "SelectInstance", "name": "smtpmodule7", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email7",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject7",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext7",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail8",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule7',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email7',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject7',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext7',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail8',
+						'type' => 'CheckBox',
+						'caption' => 'active email 8'
+					]
+				]
+			);
 		}
 		if ($activeemail8) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule8", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email8",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject8",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext8",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail9",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule8',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email8',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject8',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext8',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail9',
+						'type' => 'CheckBox',
+						'caption' => 'active email 9'
+					]
+				]
+			);
 		}
 		if ($activeemail9) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule9", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email9",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject9",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext9",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail10",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule9',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email9',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject9',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext9',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail10',
+						'type' => 'CheckBox',
+						'caption' => 'active email 10'
+					]
+				]
+			);
 		}
 		if ($activeemail10) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule10", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email10",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject10",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext10",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },
-                {
-                    "name": "activeemail11",
-                    "type": "CheckBox",
-                    "caption": "active email"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule10',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email10',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject10',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext10',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					],
+					[
+						'name' => 'activeemail11',
+						'type' => 'CheckBox',
+						'caption' => 'active email 11'
+					]
+				]
+			);
 		}
 		if ($activeemail11) {
-			$form .= '{ "type": "SelectInstance", "name": "smtpmodule11", "caption": "SMTP module" },
-				{ "type": "Label", "label": "notification email adress" },
-                {
-                    "name": "email11",
-                    "type": "ValidationTextBox",
-                    "caption": "email"
-                },
-				{ "type": "Label", "label": "email subject" },
-                {
-                    "name": "subject11",
-                    "type": "ValidationTextBox",
-                    "caption": "subject"
-                },
-				{ "type": "Label", "label": "email text" },
-                {
-                    "name": "emailtext11",
-                    "type": "ValidationTextBox",
-                    "caption": "email text"
-                },';
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'name' => 'smtpmodule11',
+						'type' => 'SelectInstance',
+						'caption' => 'SMTP module'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'notification email adress'
+					],
+					[
+						'name' => 'email11',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email subject'
+					],
+					[
+						'name' => 'subject11',
+						'type' => 'ValidationTextBox',
+						'caption' => 'subject'
+					],
+					[
+						'type' => 'Label',
+						'label' => 'email text'
+					],
+					[
+						'name' => 'emailtext11',
+						'type' => 'ValidationTextBox',
+						'caption' => 'email text'
+					]
+				]
+			);
 		}
 		return $form;
 	}
 
+	/**
+	 * return form actions by token
+	 * @return array
+	 */
 	protected function FormActions()
 	{
-		$form = '"actions":
+		$form = [
 			[
-				{ "type": "Label", "label": "Get snapshot from the INSTAR camera" },
-				{ "type": "Button", "label": "get snapshoot", "onClick": "INSTAR_GetSnapshot($id);" },
-				{ "type": "Label", "label": "Move left" },
-				{ "type": "Button", "label": "Left", "onClick": "INSTAR_Left($id);" },
-				{ "type": "Label", "label": "Move right" },
-				{ "type": "Button", "label": "Right", "onClick": "INSTAR_Right($id);" },
-				{ "type": "Label", "label": "Move up" },
-				{ "type": "Button", "label": "Up", "onClick": "INSTAR_Up($id);" },
-				{ "type": "Label", "label": "Move down" },
-				{ "type": "Button", "label": "Down", "onClick": "INSTAR_Down($id);" },
-				{ "type": "Label", "label": "Get infos from the INSTAR camera" },
-				{ "type": "Button", "label": "get info", "onClick": "INSTAR_GetInfo($id);" }
-			],';
-		return $form;
+				'type' => 'Label',
+				'label' => 'Get snapshot from Camera'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Get snapshot',
+				'onClick' => 'INSTAR_GetSnapshot($id);'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Move left'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Left',
+				'onClick' => 'INSTAR_Left($id);'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Move left'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Right',
+				'onClick' => 'INSTAR_Right($id);'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Move left'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Up',
+				'onClick' => 'INSTAR_Up($id);'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Move down'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Left',
+				'onClick' => 'INSTAR_Down($id);'
+			],
+			[
+				'type' => 'Label',
+				'label' => 'Get infos from the camera'
+			],
+			[
+				'type' => 'Button',
+				'label' => 'Get infos',
+				'onClick' => 'INSTAR_GetInfo($id);'
+			],
+			[
+				'type' => 'TestCenter'
+			]
+		];
 
+		return $form;
 	}
 
+	/**
+	 * return from status
+	 * @return array
+	 */
 	protected function FormStatus()
 	{
-		$form = '"status":
-            [
-                {
-                    "code": 101,
-                    "icon": "inactive",
-                    "caption": "Creating instance."
-                },
-				{
-                    "code": 102,
-                    "icon": "active",
-                    "caption": "INSTAR accessible."
-                },
-                {
-                    "code": 104,
-                    "icon": "inactive",
-                    "caption": "interface closed."
-                },
-                {
-                    "code": 202,
-                    "icon": "error",
-                    "caption": "INSTAR IP adress must not empty."
-                },
-				{
-                    "code": 203,
-                    "icon": "error",
-                    "caption": "No valid IP adress or host."
-                },
-                {
-                    "code": 204,
-                    "icon": "error",
-                    "caption": "connection to INSTAR lost."
-                },
-				{
-                    "code": 205,
-                    "icon": "error",
-                    "caption": "field must not be empty."
-                },
-				{
-                    "code": 206,
-                    "icon": "error",
-                    "caption": "category must not be empty."
-                },
-				{
-                    "code": 207,
-                    "icon": "error",
-                    "caption": "email not valid."
-                },
-                {
-                    "code": 208,
-                    "icon": "error",
-                    "caption": "category INSTAR snapshot not set."
-                }
-            ]';
+		$form = [
+			[
+				'code' => 101,
+				'icon' => 'inactive',
+				'caption' => 'Creating instance.'
+			],
+			[
+				'code' => 102,
+				'icon' => 'active',
+				'caption' => 'INSTAR accessible.'
+			],
+			[
+				'code' => 104,
+				'icon' => 'inactive',
+				'caption' => 'interface closed.'
+			],
+			[
+				'code' => 201,
+				'icon' => 'inactive',
+				'caption' => 'Please follow the instructions.'
+			],
+			[
+				'code' => 202,
+				'icon' => 'error',
+				'caption' => 'INSTAR IP adress must not empty.'
+			],
+			[
+				'code' => 203,
+				'icon' => 'error',
+				'caption' => 'No valid IP adress or host.'
+			],
+			[
+				'code' => 204,
+				'icon' => 'error',
+				'caption' => 'connection to INSTAR lost.'
+			],
+			[
+				'code' => 205,
+				'icon' => 'error',
+				'caption' => 'Field can not be left empty'
+			],
+			[
+				'code' => 206,
+				'icon' => 'error',
+				'caption' => 'category must not be empty.'
+			],
+			[
+				'code' => 207,
+				'icon' => 'error',
+				'caption' => 'email not valid.'
+			],
+			[
+				'code' => 208,
+				'icon' => 'error',
+				'caption' => 'category INSTAR snapshot not set.'
+			]
+		];
+
 		return $form;
 	}
 
