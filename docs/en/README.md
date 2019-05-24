@@ -118,7 +118,7 @@ The live image can be viewed in IP-Symcon as well as the history of the last vis
 
 ## 5. Configuration:
 
-### Doorbird:
+### INSTAR:
 
 | Property    | Type    | Value        | Description                               |
 | :---------: | :-----: | :----------: | :---------------------------------------: |

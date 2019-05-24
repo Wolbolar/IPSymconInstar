@@ -146,7 +146,7 @@ if (@constant('IPS_BASE') == null) //Nur wenn Konstanten noch nicht bekannt sind
 	define('vtObject', 9);
 }
 
-// Modul für Doorbird
+// Modul für INSTAR
 
 class INSTAR extends IPSModule
 {
@@ -1402,14 +1402,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
 	public function GetHistory()
 	{
-		//$hostdoorbird = $this->ReadPropertyString('Host');
-		//$prefixdoorbird = $this->GetURLPrefix($hostdoorbird);
 		$name = "INSTAR Picture";
 		$ident = "INSTARPic";
 		$picturename = "INSTARpic_";
 		for ($i = 1; $i <= 20; $i++) {
 
-			//$URL = $prefixdoorbird . $hostdoorbird . '/bha-api/history.cgi?index=' . $i;
 			$Content = "";
 
 
@@ -1419,7 +1416,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			$MediaID = @IPS_GetObjectIDByIdent($ident . $i, $catid);
 			if ($MediaID === false) {
 				$MediaID = IPS_CreateMedia(1);                  // Image im MedienPool anlegen
-				IPS_SetParent($MediaID, $catid); // Medienobjekt einsortieren unter der Doorbird Kategorie Historie
+				IPS_SetParent($MediaID, $catid); // Medienobjekt einsortieren unter der INSTAR Kategorie Historie
 				IPS_SetIdent($MediaID, $ident . $i);
 				IPS_SetPosition($MediaID, $i);
 				IPS_SetMediaCached($MediaID, true);
@@ -1453,7 +1450,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		$picturelimit = $this->ReadPropertyInteger('picturelimitsnapshot');
 		$catid = $this->ReadPropertyInteger('categorysnapshot');
 		if ($catid > 0) {
-			$this->GetImageDoorbell($name, $ident, $picturename, $picturelimit, $catid);
+			$this->GetImageCamera($name, $ident, $picturename, $picturelimit, $catid);
 		} else {
 			$this->SendDebug("INSTAR", "No category is set, please set category.", 0);
 			IPS_LogMessage("INSTAR", "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.");
@@ -1462,13 +1459,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	}
 
 
-	private function GetImageDoorbell($name, $ident, $picturename, $picturelimit, $catid)
+	private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
 	{
-		//$hostdoorbird = $this->ReadPropertyString('Host');
-		//$prefixdoorbird = $this->GetURLPrefix($hostdoorbird);
-		//$URL = $prefixdoorbird . $hostdoorbird . '/bha-api/image.cgi';
-
-		//$Content = $this->SendDoorbird($URL);
 		$Content = "";
 		//lastsnapshot bestimmen
 		$mediaids = IPS_GetChildrenIDs($catid);
@@ -1496,7 +1488,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			$MediaID = @IPS_GetObjectIDByIdent($ident . $currentsnapshotid, $catid);
 			if ($MediaID === false) {
 				$MediaID = IPS_CreateMedia(1);                  // Image im MedienPool anlegen
-				IPS_SetParent($MediaID, $catid); // Medienobjekt einsortieren unter der Doorbird Kategorie
+				IPS_SetParent($MediaID, $catid); // Medienobjekt einsortieren unter der INSTAR Kategorie
 				IPS_SetIdent($MediaID, $ident . $currentsnapshotid);
 				IPS_SetPosition($MediaID, $currentsnapshotid);
 				IPS_SetMediaCached($MediaID, true);
@@ -1913,7 +1905,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'label' => 'Port INSTAR Camera'
 						],
 						[
-							'name' => 'PortDoorbell',
+							'name' => 'Port',
 							'type' => 'NumberSpinner',
 							'caption' => 'Camera Port'
 						]
