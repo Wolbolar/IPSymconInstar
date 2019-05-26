@@ -231,18 +231,21 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeString("softVersion", "");
 		$this->RegisterAttributeString("webVersion", "");
 		$this->RegisterAttributeString("name", "");
-		$this->RegisterAttributeInteger("sdfreespace", "");
-		$this->RegisterAttributeInteger("sdtotalspace", "");
+		$this->RegisterAttributeInteger("sdfreespace", 0);
+		$this->RegisterAttributeInteger("sdtotalspace", 0);
+		$this->RegisterAttributeInteger("platformstatus", 0);
 
 		$this->RegisterAttributeBoolean("dhcpflag", "");
 		$this->RegisterAttributeString("ip", "");
 		$this->RegisterAttributeString("netmask", "");
 		$this->RegisterAttributeString("gateway", "");
-		$this->RegisterAttributeInteger("dnsstat", "");
+		$this->RegisterAttributeInteger("dnsstat", 0);
 		$this->RegisterAttributeString("fdnsip", "");
 		$this->RegisterAttributeString("sdnsip", "");
 		$this->RegisterAttributeString("macaddress", "");
 		$this->RegisterAttributeString("networktype", "");
+		$this->RegisterAttributeBoolean("upnpstatus", false);
+		$this->RegisterAttributeBoolean("th3ddnsstatus", false);
 
 		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // INSTAR IO
 	}
@@ -374,10 +377,7 @@ class INSTAR extends IPSModule
 		/*
 
 		$this->RegisterVariableString("startdate", $this->Translate("start date"), "", $this->_getPosition());
-		$this->RegisterVariableBoolean("upnpstatus", $this->Translate("upnp status"), "~Switch", $this->_getPosition());
 		$this->RegisterVariableString("facddnsstatus", $this->Translate("facddnsstatus"), "", $this->_getPosition());
-		$this->RegisterVariableBoolean("th3ddnsstatus", $this->Translate("th3ddnsstatus"), "~Switch", $this->_getPosition());
-		$this->RegisterVariableInteger("platformstatus", $this->Translate("platformstatus"), "", $this->_getPosition());
 		$this->RegisterVariableString("sdstatus", $this->Translate("sdstatus"), "", $this->_getPosition());
 		*/
 		$this->RegisterVariableString("notification_alarm", $this->Translate("Alarm Notification"), "", $this->_getPosition());
@@ -771,8 +771,9 @@ class INSTAR extends IPSModule
 			if($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace")
 			{
 				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
 			}
-			if($var_name == "upnpstatus" || $var_name == "th3ddnsstatus")
+			elseif($var_name == "upnpstatus" || $var_name == "th3ddnsstatus")
 			{
 				if($var_content == "off")
 				{
@@ -782,9 +783,11 @@ class INSTAR extends IPSModule
 				{
 					$var_content = true;
 				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
 			}
-			$this->SetValue($var_name, $var_content);
-
+			else{
+				$this->SetValue($var_name, $var_content);
+			}
 			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
 		}
 		return $data;
@@ -810,8 +813,9 @@ class INSTAR extends IPSModule
 			if($var_name == "dnsstat")
 			{
 				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
 			}
-			if($var_name == "dhcpflag")
+			elseif($var_name == "dhcpflag")
 			{
 				if($var_content == "off")
 				{
@@ -821,9 +825,12 @@ class INSTAR extends IPSModule
 				{
 					$var_content = true;
 				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
 			}
-			$this->SetValue($var_name, $var_content);
-
+			else
+			{
+				$this->SetValue($var_name, $var_content);
+			}
 			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
 		}
 		return $data;
