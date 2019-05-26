@@ -246,6 +246,9 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeString("networktype", "");
 		$this->RegisterAttributeBoolean("upnpstatus", false);
 		$this->RegisterAttributeBoolean("th3ddnsstatus", false);
+		$this->RegisterAttributeString("startdate", "");
+		$this->RegisterAttributeString("facddnsstatus", "");
+		$this->RegisterAttributeString("sdstatus", "");
 
 		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // INSTAR IO
 	}
@@ -374,12 +377,6 @@ class INSTAR extends IPSModule
 		$this->RegisterVariableInteger("GotoPosition", $this->Translate("Go to Position"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("GotoPosition");
 
-		/*
-
-		$this->RegisterVariableString("startdate", $this->Translate("start date"), "", $this->_getPosition());
-		$this->RegisterVariableString("facddnsstatus", $this->Translate("facddnsstatus"), "", $this->_getPosition());
-		$this->RegisterVariableString("sdstatus", $this->Translate("sdstatus"), "", $this->_getPosition());
-		*/
 		$this->RegisterVariableString("notification_alarm", $this->Translate("Alarm Notification"), "", $this->_getPosition());
 		$this->ValidateConfiguration();
 
@@ -767,8 +764,12 @@ class INSTAR extends IPSModule
 					$var_content = true;
 				}
 				$this->WriteAttributeBoolean($var_name, $var_content);
-			} else {
-				$this->SetValue($var_name, $var_content);
+			}
+			elseif ($var_name == "model") {
+				$this->WriteAttributeString("model_name", $var_content);
+			}
+			else {
+				$this->WriteAttributeString($var_name, $var_content);
 			}
 			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
 		}
@@ -799,7 +800,7 @@ class INSTAR extends IPSModule
 				}
 				$this->WriteAttributeBoolean($var_name, $var_content);
 			} else {
-				$this->SetValue($var_name, $var_content);
+				$this->WriteAttributeString($var_name, $var_content);
 			}
 			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
 		}
