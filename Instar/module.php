@@ -1944,7 +1944,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 								],
 								[
 									'name' => 'sdfreespace',
-									'caption' => 'SD free space',
+									'caption' => 'SD Free Space',
 									'width' => '150px',
 								],
 								[
