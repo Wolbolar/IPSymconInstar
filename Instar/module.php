@@ -1972,13 +1972,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => [
 						[
 							'type' => 'List',
-							'name' => 'BroadlinkInformation',
-							'caption' => 'Broadlink information',
+							'name' => 'NetworkInformation',
+							'caption' => 'Network information',
 							'rowCount' => 2,
 							'add' => false,
 							'delete' => false,
 							'sort' => [
-								'column' => 'host',
+								'column' => 'ip',
 								'direction' => 'ascending'
 							],
 							'columns' => [
