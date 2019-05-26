@@ -13,7 +13,7 @@ Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer [IN
 2. [Voraussetzungen](#2-voraussetzungen)  
 3. [Installation](#3-installation)  
 4. [Funktionsreferenz](#4-funktionsreferenz)
-5. [Konfiguration](#5-konfiguartion)  
+5. [Konfiguration](#5-konfiguration)  
 6. [Anhang](#6-anhang)  
 
 ## 1. Funktionsumfang
@@ -97,12 +97,12 @@ Nur der Zweig _master_ wird aktuell gehalten.
 
 ![Master](img/master.png?raw=true "master") 
 
-Sollte eine ältere Version von IP-Symcon die kleiner ist als Version 4.1 eingesetzt werden, ist auf das Zahnrad rechts in der Liste zu klicken.
+Sollte eine ältere Version von IP-Symcon die kleiner ist als Version 5.1 eingesetzt werden, ist auf das Zahnrad rechts in der Liste zu klicken.
 Es öffnet sich ein weiteres Fenster,
 
 ![SelectBranch](img/select_branch.png?raw=true "select branch") 
 
-hier kann man auf einen anderen Zweig wechseln, für ältere Versionen kleiner als 4.1 ist hier
+hier kann man auf einen anderen Zweig wechseln, für ältere Versionen kleiner als 5.1 ist hier
 _Old-Version_ auszuwählen. 
 
 ### b. Einrichtung in IPS
@@ -128,7 +128,27 @@ Die IP Adresse der INSTAR Kamera sowie Username sowie Passwort von INSTAR sind a
 Es wird bei jedem Event eine Mitteilung an IP-Symcon gesendet.
 Mit Hilfe eines Ereignisses was bei Variablenaktualisierung greift können dann in IP-Symcon weitere Aktionen
 ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Bilder.
+
+#### Anwendungsbeispiele
+
+##### Auslösen eines Alarms durch eine Ereigniss (nur Full HD Modelle)
+
+##### Aktivieren der Nachtsicht abhänig von einem externen Sensor
+
+##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
+
+##### Zeitgesteuertes aktivieren der Bewegungserkennungsbereiche
+
+##### Anpassen der Empfindlichkeit der Bwegungserkennung abhängig von Tag oder Nacht 
 	
+##### Zeitgesteuertes Einstellen der Alarmbereiche
+
+##### Definierte Position bei einem Ereignis anfahren
+
+##### Länge eines Aufnahmevideos bestimmen
+
+##### Suchen einer Lärmquelle bei Audioerkennung
+
 
 
 ## 5. Konfiguration:

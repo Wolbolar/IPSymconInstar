@@ -226,6 +226,24 @@ class INSTAR extends IPSModule
 		$this->RegisterPropertyInteger("categorysnapshot", 0);
 		$this->RegisterPropertyInteger("model", 1);
 
+		$this->RegisterAttributeString("model_name", "");
+		$this->RegisterAttributeString("hardVersion", "");
+		$this->RegisterAttributeString("softVersion", "");
+		$this->RegisterAttributeString("webVersion", "");
+		$this->RegisterAttributeString("name", "");
+		$this->RegisterAttributeInteger("sdfreespace", "");
+		$this->RegisterAttributeInteger("sdtotalspace", "");
+
+		$this->RegisterAttributeBoolean("dhcpflag", "");
+		$this->RegisterAttributeString("ip", "");
+		$this->RegisterAttributeString("netmask", "");
+		$this->RegisterAttributeString("gateway", "");
+		$this->RegisterAttributeInteger("dnsstat", "");
+		$this->RegisterAttributeString("fdnsip", "");
+		$this->RegisterAttributeString("sdnsip", "");
+		$this->RegisterAttributeString("macaddress", "");
+		$this->RegisterAttributeString("networktype", "");
+
 		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // INSTAR IO
 	}
 
@@ -353,29 +371,16 @@ class INSTAR extends IPSModule
 		$this->RegisterVariableInteger("GotoPosition", $this->Translate("Go to Position"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("GotoPosition");
 
-		$this->RegisterVariableBoolean("dhcpflag", $this->Translate("dhcpflag"), "~Switch", $this->_getPosition());
-		$this->RegisterVariableString("ip", $this->Translate("ip"), "", $this->_getPosition());
-		$this->RegisterVariableString("netmask", $this->Translate("netmask"), "", $this->_getPosition());
-		$this->RegisterVariableString("gateway", $this->Translate("gateway"), "", $this->_getPosition());
-		$this->RegisterVariableInteger("dnsstat", $this->Translate("dnsstat"), "", $this->_getPosition());
-		$this->RegisterVariableString("fdnsip", $this->Translate("fdnsip"), "", $this->_getPosition());
-		$this->RegisterVariableString("sdnsip", $this->Translate("sdnsip"), "", $this->_getPosition());
-		$this->RegisterVariableString("macaddress", $this->Translate("macaddress"), "", $this->_getPosition());
-		$this->RegisterVariableString("networktype", $this->Translate("networktype"), "", $this->_getPosition());
-		$this->RegisterVariableString("model", $this->Translate("model"), "", $this->_getPosition());
-		$this->RegisterVariableString("hardVersion", $this->Translate("hardware version"), "", $this->_getPosition());
-		$this->RegisterVariableString("softVersion", $this->Translate("software version"), "", $this->_getPosition());
-		$this->RegisterVariableString("webVersion", $this->Translate("web version"), "", $this->_getPosition());
-		$this->RegisterVariableString("name", $this->Translate("name"), "", $this->_getPosition());
+		/*
+
 		$this->RegisterVariableString("startdate", $this->Translate("start date"), "", $this->_getPosition());
 		$this->RegisterVariableBoolean("upnpstatus", $this->Translate("upnp status"), "~Switch", $this->_getPosition());
 		$this->RegisterVariableString("facddnsstatus", $this->Translate("facddnsstatus"), "", $this->_getPosition());
 		$this->RegisterVariableBoolean("th3ddnsstatus", $this->Translate("th3ddnsstatus"), "~Switch", $this->_getPosition());
 		$this->RegisterVariableInteger("platformstatus", $this->Translate("platformstatus"), "", $this->_getPosition());
 		$this->RegisterVariableString("sdstatus", $this->Translate("sdstatus"), "", $this->_getPosition());
-		$this->RegisterVariableInteger("sdfreespace", $this->Translate("sdfreespace"), "", $this->_getPosition());
-		$this->RegisterVariableInteger("sdtotalspace", $this->Translate("sdtotalspace"), "", $this->_getPosition());
-		$this->RegisterVariableBoolean("notification_alarm", $this->Translate("Alarm Notification"), "~Switch", $this->_getPosition());
+		*/
+		$this->RegisterVariableString("notification_alarm", $this->Translate("Alarm Notification"), "", $this->_getPosition());
 		$this->ValidateConfiguration();
 
 	}
@@ -390,6 +395,7 @@ class INSTAR extends IPSModule
 	private function ValidateConfiguration()
 	{
 		$host = $this->ReadPropertyString('Host');
+		$port = $this->ReadPropertyInteger('Port');
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		//$port = $this->ReadPropertyInteger('Port');
@@ -429,9 +435,9 @@ class INSTAR extends IPSModule
 				IPS_SetIdent($MediaID, 'INSTARVideo');
 				IPS_SetPosition($MediaID, -1);
 				IPS_SetName($MediaID, 'INSTAR Live Picture'); // Medienobjekt benennen
-				$url = "http://".$host."/mjpegstream.cgi?-chn=12&usr=".$user."&pwd=".$password;
-				IPS_SetMediaFile($MediaID, $url, False);    // Image im MedienPool mit Image-Datei verbinden
 			}
+			$url = "http://".$host.":" . $port . "/mjpegstream.cgi?-chn=12&usr=".$user."&pwd=".$password;
+			IPS_SetMediaFile($MediaID, $url, False);    // Image im MedienPool mit Image-Datei verbinden
 
 			// Kategorie prüfen
 			$category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
@@ -686,19 +692,20 @@ class INSTAR extends IPSModule
 	public function SetLanguage(string $language)
 	{
 		$host = $this->ReadPropertyString("Host");
+		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		if($language == "german")
 		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1");
+			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1");
 		}
 		elseif($language == "english")
 		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2");
+			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2");
 		}
 		elseif($language == "french")
 		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3");
+			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3");
 		}
 		elseif($language == "chinese")
 		{
@@ -1883,10 +1890,135 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			]
 		];
 
-
 		$form = array_merge_recursive(
 			$form,
 			[
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Camera Info',
+					'items' => [
+						[
+							'type' => 'List',
+							'name' => 'CameraInformation',
+							'caption' => 'Camera information',
+							'rowCount' => 2,
+							'add' => false,
+							'delete' => false,
+							'sort' => [
+								'column' => 'name',
+								'direction' => 'ascending'
+							],
+							'columns' => [
+								[
+									'name' => 'name',
+									'caption' => 'Name',
+									'width' => 'auto',
+									'visible' => true
+								],
+								[
+									'name' => 'model',
+									'caption' => 'Model',
+									'width' => '150px',
+								],
+								[
+									'name' => 'hardwareversion',
+									'caption' => 'Hardware Version',
+									'width' => '150px',
+								],
+								[
+									'name' => 'softwareversion',
+									'caption' => 'Software Version',
+									'width' => '150px',
+								],
+								[
+									'name' => 'webversion',
+									'caption' => 'Web Version',
+									'width' => '150px',
+								],
+								[
+									'name' => 'sdfreespace',
+									'caption' => 'SD free space',
+									'width' => '150px',
+								],
+								[
+									'name' => 'sdtotalspace',
+									'caption' => 'SD Capacity',
+									'width' => '150px',
+								]
+							],
+							'values' => [
+								[
+									'name' => $this->ReadAttributeString("name"),
+									'model' => $this->ReadAttributeString("model_name"),
+									'hardwareversion' => $this->ReadAttributeString("hardVersion"),
+									'softwareversion' => $this->ReadAttributeString("softVersion"),
+									'webversion' => $this->ReadAttributeString("webVersion"),
+									'sdfreespace' => $this->ReadAttributeInteger("sdfreespace"),
+									'sdtotalspace' => $this->ReadAttributeInteger("sdtotalspace")
+								]]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Network Info',
+					'items' => [
+						[
+							'type' => 'List',
+							'name' => 'BroadlinkInformation',
+							'caption' => 'Broadlink information',
+							'rowCount' => 2,
+							'add' => false,
+							'delete' => false,
+							'sort' => [
+								'column' => 'host',
+								'direction' => 'ascending'
+							],
+							'columns' => [
+								[
+									'name' => 'ip',
+									'caption' => 'IP',
+									'width' => 'auto',
+									'visible' => true
+								],
+								[
+									'name' => 'dhcp',
+									'caption' => 'DHCP',
+									'width' => '150px',
+								],
+								[
+									'name' => 'netmask',
+									'caption' => 'Netmask',
+									'width' => '150px',
+								],
+								[
+									'name' => 'gateway',
+									'caption' => 'Gateway',
+									'width' => '150px',
+								],
+								[
+									'name' => 'macaddress',
+									'caption' => 'MAC  Address',
+									'width' => '150px',
+								],
+								[
+									'name' => 'networktype',
+									'caption' => 'Network Type',
+									'width' => '150px',
+								]
+							],
+							'values' => [
+								[
+									'ip' => $this->ReadAttributeString("ip"),
+									'dhcp' => $this->ReadAttributeBoolean("dhcpflag"),
+									'netmask' => $this->ReadAttributeString("netmask"),
+									'gateway' => $this->ReadAttributeString("gateway"),
+									'macaddress' => $this->ReadAttributeString("macaddress"),
+									'networktype' => $this->ReadAttributeString("networktype")
+								]]
+						]
+					]
+				],
 				[
 					'type' => 'ExpansionPanel',
 					'caption' => 'INSTAR Settings',
