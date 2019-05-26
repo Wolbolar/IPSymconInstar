@@ -436,7 +436,7 @@ class INSTAR extends IPSModule
 				IPS_SetPosition($MediaID, -1);
 				IPS_SetName($MediaID, 'INSTAR Live Picture'); // Medienobjekt benennen
 			}
-			$url = "http://".$host.":" . $port . "/mjpegstream.cgi?-chn=12&usr=".$user."&pwd=".$password;
+			$url = "http://" . $host . ":" . $port . "/mjpegstream.cgi?-chn=12&usr=" . $user . "&pwd=" . $password;
 			IPS_SetMediaFile($MediaID, $url, False);    // Image im MedienPool mit Image-Datei verbinden
 
 			// Kategorie prüfen
@@ -526,7 +526,6 @@ class INSTAR extends IPSModule
 			$this->SetStatus(102);
 		}
 	}
-
 
 
 	protected function GetHostIP()
@@ -684,6 +683,16 @@ class INSTAR extends IPSModule
 
 	}
 
+	private function GetHostURL()
+	{
+		$host = $this->ReadPropertyString("Host");
+		$port = $this->ReadPropertyInteger("Port");
+		$user = $this->ReadPropertyString('User');
+		$password = $this->ReadPropertyString('Password');
+		$root = $user . ":" . $password . "@" . $host . ":" . $port;
+		return $root;
+	}
+
 	/** Set Language
 	 * 1 = german, 2 = english, 3 = french, 4 = chinese
 	 * @param string $language
@@ -691,25 +700,15 @@ class INSTAR extends IPSModule
 	 */
 	public function SetLanguage(string $language)
 	{
-		$host = $this->ReadPropertyString("Host");
-		$port = $this->ReadPropertyInteger("Port");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		if($language == "german")
-		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1");
-		}
-		elseif($language == "english")
-		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2");
-		}
-		elseif($language == "french")
-		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host.":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3");
-		}
-		elseif($language == "chinese")
-		{
-			$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=4");
+
+		if ($language == "german") {
+			$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1");
+		} elseif ($language == "english") {
+			$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2");
+		} elseif ($language == "french") {
+			$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3");
+		} elseif ($language == "chinese") {
+			$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=4");
 		}
 		return $response;
 	}
@@ -721,10 +720,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Reboot()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=sysreboot");
+		$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=sysreboot");
 		$this->SendDebug("INSTAR", "Reboot", 0);
 		return $response;
 	}
@@ -735,10 +731,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Reset()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/sysreset.cgi");
+		$response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/sysreset.cgi");
 		$this->SendDebug("INSTAR", "Reset", 0);
 		return $response;
 	}
@@ -757,38 +750,27 @@ class INSTAR extends IPSModule
 	 */
 	public function GetServerInfo()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=getserverinfo");
+		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getserverinfo");
 		$data = explode(";", $payload);
 		array_pop($data);
-		foreach($data as $info_device)
-		{
+		foreach ($data as $info_device) {
 			$info = explode("=", $info_device);
 			$var_name = substr(trim($info[0]), 4);
 			$var_content = trim($info[1], '"');
-			if($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace")
-			{
+			if ($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace") {
 				$var_content = intval($var_content);
 				$this->WriteAttributeInteger($var_name, $var_content);
-			}
-			elseif($var_name == "upnpstatus" || $var_name == "th3ddnsstatus")
-			{
-				if($var_content == "off")
-				{
+			} elseif ($var_name == "upnpstatus" || $var_name == "th3ddnsstatus") {
+				if ($var_content == "off") {
 					$var_content = false;
-				}
-				else
-				{
+				} else {
 					$var_content = true;
 				}
 				$this->WriteAttributeBoolean($var_name, $var_content);
-			}
-			else{
+			} else {
 				$this->SetValue($var_name, $var_content);
 			}
-			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
 		}
 		return $data;
 	}
@@ -799,39 +781,27 @@ class INSTAR extends IPSModule
 	 */
 	public function GetNetInfo()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=getnetinfo");
+		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getnetinfo");
 		$data = explode(";", $payload);
 		array_pop($data);
-		foreach($data as $info_device)
-		{
+		foreach ($data as $info_device) {
 			$info = explode("=", $info_device);
 			$var_name = substr(trim($info[0]), 4);
 			$var_content = trim($info[1], '"');
-			if($var_name == "dnsstat")
-			{
+			if ($var_name == "dnsstat") {
 				$var_content = intval($var_content);
 				$this->WriteAttributeInteger($var_name, $var_content);
-			}
-			elseif($var_name == "dhcpflag")
-			{
-				if($var_content == "off")
-				{
+			} elseif ($var_name == "dhcpflag") {
+				if ($var_content == "off") {
 					$var_content = false;
-				}
-				else
-				{
+				} else {
 					$var_content = true;
 				}
 				$this->WriteAttributeBoolean($var_name, $var_content);
-			}
-			else
-			{
+			} else {
 				$this->SetValue($var_name, $var_content);
 			}
-			$this->SendDebug("INSTAR", "Variable ".$var_name." :".$var_content, 0);
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
 		}
 		return $data;
 	}
@@ -841,13 +811,10 @@ class INSTAR extends IPSModule
 	 */
 	public function GetCameraModel()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?cmd=getsysinfo");
+		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getsysinfo");
 		$data = explode('"', $payload);
 		$model = $data[1];
-		$this->SendDebug("INSTAR", "Model: ".$model, 0);
+		$this->SendDebug("INSTAR", "Model: " . $model, 0);
 		return $model;
 	}
 
@@ -856,13 +823,10 @@ class INSTAR extends IPSModule
 	 */
 	public function GetIRMode()
 	{
-		$host = $this->ReadPropertyString("Host");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$payload = file_get_contents("http://".$user.":".$password."@".$host."/cgi-bin/hi3510/param.cgi?&cmd=getinfrared");
+		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?&cmd=getinfrared");
 		$data = explode('"', $payload);
 		$mode = $data[1];
-		$this->SendDebug("INSTAR", "IR mode: ".$mode, 0);
+		$this->SendDebug("INSTAR", "IR mode: " . $mode, 0);
 		return $mode;
 	}
 
@@ -1019,8 +983,8 @@ class INSTAR extends IPSModule
 	 */
 	public function SetPosition(int $position)
 	{
-		$command = "-act=set&-status=1&-number=".$position;
-		$this->SendDebug("INSTAR:", "Set position ".$position, 0);
+		$command = "-act=set&-status=1&-number=" . $position;
+		$this->SendDebug("INSTAR:", "Set position " . $position, 0);
 		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
@@ -1031,8 +995,8 @@ class INSTAR extends IPSModule
 	 */
 	public function UnsetPosition(int $position)
 	{
-		$command = "-act=set&-status=0&-number=".$position;
-		$this->SendDebug("INSTAR:", "Unset position ".$position, 0);
+		$command = "-act=set&-status=0&-number=" . $position;
+		$this->SendDebug("INSTAR:", "Unset position " . $position, 0);
 		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
@@ -1043,24 +1007,24 @@ class INSTAR extends IPSModule
 	 */
 	public function GotoPosition(int $position)
 	{
-		$command = "-act=goto&-status=1&-number=".$position;
-		$this->SendDebug("INSTAR:", "Goto position ".$position, 0);
+		$command = "-act=goto&-status=1&-number=" . $position;
+		$this->SendDebug("INSTAR:", "Goto position " . $position, 0);
 		$state = $this->SendINSTARControlCommand($command);
 		return $state;
 	}
 
 	public function StartRecording(int $time)
 	{
-		$command = "cmd=manualrec&-act=on&-time=".$time;
+		$command = "cmd=manualrec&-act=on&-time=" . $time;
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		$INSTAR_type = $this->GetINSTARType();
-		$this->SendDebug("INSTAR:", "Type: ".$INSTAR_type, 0);
+		$this->SendDebug("INSTAR:", "Type: " . $INSTAR_type, 0);
 		$this->SendDebug("INSTAR:", "Start Recording", 0);
-		$this->SendDebug("INSTAR Send:", "http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?".$command."&usr=".$user."&pwd=".$password);
+		$this->SendDebug("INSTAR Send:", "http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password, 0);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password);
 
 		return $response;
 	}
@@ -1072,9 +1036,9 @@ class INSTAR extends IPSModule
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
 		$INSTAR_type = $this->GetINSTARType();
-		$this->SendDebug("INSTAR:", "Type: ".$INSTAR_type, 0);
-		$this->SendDebug("INSTAR Send:", "http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password, 0);
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/ptzctrl.cgi?".$command."&usr=".$user."&pwd=".$password);
+		$this->SendDebug("INSTAR:", "Type: " . $INSTAR_type, 0);
+		$this->SendDebug("INSTAR Send:", "http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/ptzctrl.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password, 0);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/ptzctrl.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password);
 
 		return $response;
 	}
@@ -1163,7 +1127,7 @@ class INSTAR extends IPSModule
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-flip=".$flip."&usr=".$user."&pwd=".$password);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-flip=" . $flip . "&usr=" . $user . "&pwd=" . $password);
 		return $response;
 	}
 
@@ -1177,7 +1141,7 @@ class INSTAR extends IPSModule
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-mirror=".$mirror."&usr=".$user."&pwd=".$password);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-mirror=" . $mirror . "&usr=" . $user . "&pwd=" . $password);
 		return $response;
 	}
 
@@ -1191,7 +1155,7 @@ class INSTAR extends IPSModule
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-scene=".$scene."&usr=".$user."&pwd=".$password);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-scene=" . $scene . "&usr=" . $user . "&pwd=" . $password);
 		return $response;
 	}
 
@@ -1201,7 +1165,7 @@ class INSTAR extends IPSModule
 		$port = $this->ReadPropertyInteger("Port");
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-brightness=".$brightness."&-saturation=".$saturation."&-contrast=".$contrast."&-hue=".$hue."&usr=".$user."&pwd=".$password);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-brightness=" . $brightness . "&-saturation=" . $saturation . "&-contrast=" . $contrast . "&-hue=" . $hue . "&usr=" . $user . "&pwd=" . $password);
 		return $response;
 	}
 
@@ -1242,7 +1206,7 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
 		$INSTAR_type = "hi3510";
-		$response = file_get_contents("http://".$host.":".$port."/cgi-bin/".$INSTAR_type."/param.cgi?cmd=setinfrared&-infraredstat=".$command);
+		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?cmd=setinfrared&-infraredstat=" . $command);
 		return $response;
 	}
 
@@ -1268,7 +1232,6 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
 			$this->SetValue('LastMovement', date('d.m.y H:i:s'));
 		}
 	}
-
 
 
 	private function CreateSnapshotScript()
@@ -1609,8 +1572,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		if (isset($data->objectid) && isset($data->value)) {
 			$objectid = $data->objectid;
 			$value = $data->value;
-			if($objectid == $this->InstanceID)
-			{
+			if ($objectid == $this->InstanceID) {
 				if ($value == 1 || $value == "1" || $value == "true") {
 					$this->SetValue("notification_alarm", true);
 				} else {
@@ -1624,56 +1586,35 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	{
 		switch ($Ident) {
 			case "Control_Continuous":
-				if($Value == 0)
-				{
+				if ($Value == 0) {
 					$this->Left();
-				}
-				elseif($Value == 1)
-				{
+				} elseif ($Value == 1) {
 					$this->Up();
-				}
-				elseif($Value == 2)
-				{
+				} elseif ($Value == 2) {
 					$this->Down();
-				}
-				elseif($Value == 3)
-				{
+				} elseif ($Value == 3) {
 					$this->Right();
-				}
-				elseif($Value == 4)
-				{
+				} elseif ($Value == 4) {
 					$this->Stop();
 				}
 				break;
 			case "Control_Step":
-				if($Value == 0)
-				{
+				if ($Value == 0) {
 					$this->StepLeft();
-				}
-				elseif($Value == 1)
-				{
+				} elseif ($Value == 1) {
 					$this->StepUp();
-				}
-				elseif($Value == 2)
-				{
+				} elseif ($Value == 2) {
 					$this->StepDown();
-				}
-				elseif($Value == 3)
-				{
+				} elseif ($Value == 3) {
 					$this->StepRight();
 				}
 				break;
 			case "Control_Scan":
-				if($Value == 0)
-				{
+				if ($Value == 0) {
 					$this->GotoCenterPosition();
-				}
-				elseif($Value == 1)
-				{
+				} elseif ($Value == 1) {
 					$this->ScanHorizontal();
-				}
-				elseif($Value == 2)
-				{
+				} elseif ($Value == 2) {
 					$this->ScanVertical();
 				}
 				break;
@@ -1684,33 +1625,26 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				$this->SetPosition($Value);
 				break;
 			case "Flip":
-				if($Value)
-				{
+				if ($Value) {
 					$this->FlipPicture("on");
-				}
-				else{
+				} else {
 					$this->FlipPicture("off");
 				}
 				break;
 			case "Mirror":
-				if($Value)
-				{
+				if ($Value) {
 					$this->MirrorPicture("on");
-				}
-				else{
+				} else {
 					$this->MirrorPicture("off");
 				}
 
 				break;
 			case "Scene":
-				if($Value == 0)
-				{
+				if ($Value == 0) {
 					$this->Scene("auto");
-				}
-				elseif($Value == 1){
+				} elseif ($Value == 1) {
 					$this->Scene("indoor");
-				}
-				elseif($Value == 2){
+				} elseif ($Value == 2) {
 					$this->Scene("outdoor");
 				}
 				break;
