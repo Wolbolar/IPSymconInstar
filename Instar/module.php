@@ -235,7 +235,7 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeInteger("sdtotalspace", 0);
 		$this->RegisterAttributeInteger("platformstatus", 0);
 
-		$this->RegisterAttributeBoolean("dhcpflag", "");
+		$this->RegisterAttributeBoolean("dhcpflag", false);
 		$this->RegisterAttributeString("ip", "");
 		$this->RegisterAttributeString("netmask", "");
 		$this->RegisterAttributeString("gateway", "");
