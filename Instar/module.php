@@ -153,6 +153,19 @@ class INSTAR extends IPSModule
 	// helper properties
 	private $position = 0;
 
+	private const IN_5905_HD = 1; // IN-5905 HD
+	private const IN_5907_HD = 2; // IN-5907 HD
+	private const IN_7011_HD = 3; // IN-7011 HD
+	private const IN_9008_Full_HD = 4; // IN-9008 Full HD
+	private const IN_9010_Full_HD = 5; // IN-9010 Full HD
+	private const IN_9020_Full_HD = 6; // IN-9020 Full HD
+	private const IN_3011 = 7; // IN-3011
+	private const IN_6001_HD = 8; // IN-6001 HD
+	private const IN_6012_HD = 9; // IN-6012 HD
+	private const IN_6014_HD = 10; // IN-6014 HD
+	private const IN_8003_Full_HD = 11; // IN-8003 Full HD
+	private const IN_8015_Full_HD = 12; // IN-8015 Full HD
+
 	public function Create()
 	{
 		//Never delete this line!
@@ -249,6 +262,12 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeString("startdate", "");
 		$this->RegisterAttributeString("facddnsstatus", "");
 		$this->RegisterAttributeString("sdstatus", "");
+
+		$this->RegisterAttributeBoolean("1080p_API", false);
+		$this->RegisterAttributeBoolean("720p_API", false);
+		$this->RegisterAttributeBoolean("VGA_API", true);
+		$this->RegisterAttributeBoolean("MQTT_Support", false);
+		$this->RegisterAttributeBoolean("MQTT", false);
 
 		$this->ConnectParent("{894703FE-9AB7-C5E1-B85E-D01F0C66FDB2}"); // INSTAR IO
 	}
@@ -395,7 +414,16 @@ class INSTAR extends IPSModule
 		$port = $this->ReadPropertyInteger('Port');
 		$user = $this->ReadPropertyString('User');
 		$password = $this->ReadPropertyString('Password');
-		//$port = $this->ReadPropertyInteger('Port');
+		$model = $this->ReadPropertyInteger("model");
+
+		if($model == 0)
+		{
+			$this->SetStatus(209); // Please select a camera model
+		}
+		else
+		{
+			$this->SetAPI($model);
+		}
 
 		//IP INSTAR prüfen
 		if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
@@ -710,6 +738,31 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
+	private function SetAPI($model)
+	{
+		//
+		if($model == self::IN_9008_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9020_Full_HD || $model == self::IN_8003_Full_HD || $model == self::IN_8015_Full_HD)
+		{
+			$this->WriteAttributeBoolean("1080p_API", true);
+			$this->WriteAttributeBoolean("720p_API", false);
+			$this->WriteAttributeBoolean("VGA_API", false);
+		}
+		// IN-5905 HD
+		if($model == self::IN_5905_HD || $model == self::IN_5907_HD || $model == self::IN_7011_HD || $model == self::IN_6001_HD || $model == self::IN_6012_HD || $model == self::IN_6014_HD)
+		{
+			$this->WriteAttributeBoolean("1080p_API", false);
+			$this->WriteAttributeBoolean("720p_API", true);
+			$this->WriteAttributeBoolean("VGA_API", false);
+		}
+		//
+		if($model == 0 || $model == self::IN_3011)
+		{
+			$this->WriteAttributeBoolean("1080p_API", false);
+			$this->WriteAttributeBoolean("720p_API", false);
+			$this->WriteAttributeBoolean("VGA_API", true);
+		}
+	}
+
 
 	/** Reboot your camera system
 	 *
@@ -740,6 +793,149 @@ class INSTAR extends IPSModule
 		$this->GetNetInfo();
 	}
 
+	// Network
+
+	/** Camera´s Network Configuration
+	 * @return array
+	 */
+	public function GetCameraNetworkConfiguration()
+	{
+		$payload = $this->SendParameter("getnetattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "dnsstat") {
+				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
+			} elseif ($var_name == "dhcpflag") {
+				if ($var_content == "off") {
+					$var_content = false;
+				} else {
+					$var_content = true;
+				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
+			} else {
+				$this->WriteAttributeString($var_name, $var_content);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	/** Set Camera´s Network Configuration
+	 * @return array
+	 */
+	public function SetCameraNetworkConfiguration()
+	{
+		$parameter = "&-dhcpflag=off&-ip=192.168.1.115&-netmask=255.255.255.0&-gateway=192.168.1.1&-fdnsip=8.8.8.8&-sdnsip=";
+		$data = $this->SendParameter("setnetattr" . $parameter);
+		return $data;
+	}
+
+	/** Get your Camera´s HTTP Port
+	 * @return false|string
+	 */
+	public function GetCameraHTTP_Port()
+	{
+		$port = $this->SendParameter("gethttpport");
+		return $port;
+	}
+
+	/** Set your Camera´s HTTP Port
+	 * @return false|string
+	 */
+	public function SetCameraHTTP_Port()
+	{
+		$parameter = "&-httpport=80";
+		$port = $this->SendParameter("sethttpport" . $parameter);
+		return $port;
+	}
+
+	/** Get your Camera´s HTTPS Port
+	 * @return false|string
+	 */
+	public function GetCameraHTTPS_Port()
+	{
+		$port = $this->SendParameter("gethttpsport");
+		return $port;
+	}
+
+	/** Set your Camera´s HTTPS Port
+	 * @return false|string
+	 */
+	public function SetCameraHTTPS_Port(int $https_port)
+	{
+		$parameter = "&-httpsport=" . $https_port;
+		$port = $this->SendParameter("sethttpsport" . $parameter);
+		return $port;
+	}
+
+	/** Get your Camera´s RTSP Port
+	 * @return false|string
+	 */
+	public function GetCameraRTPS_Port()
+	{
+		$port = $this->SendParameter("getrtspport");
+		return $port;
+	}
+
+	/** Set your Camera´s RTPS Port
+	 * @return false|string
+	 */
+	public function SetCameraRTPS_Port(int $rtps_port)
+	{
+		$parameter = "&rtspport=" . $rtps_port;
+		$port = $this->SendParameter("setrtspport" . $parameter);
+		return $port;
+	}
+
+	/** Get RTSP Authentication State
+	 * @return false|string
+	 */
+	public function GetRTSPAuthenticationState()
+	{
+		$port = $this->SendParameter("getrtmpattr");
+		return $port;
+	}
+
+	/** Set RTSP Authentication State
+	 * @return false|string
+	 */
+	public function SetRTSPAuthenticationState(bool $state)
+	{
+		if($state)
+		{
+			$enable = 1;
+		}
+		else{
+			$enable = 0;
+		}
+		$parameter = "&-rtsp_aenable=" . $enable;
+		$state = $this->SendParameter("setrtspauth" . $parameter);
+		return $state;
+	}
+
+	/** Get your Camera's RTMP Port
+	 * @return false|string
+	 */
+	public function GetCameraRTMP_Port()
+	{
+		$port = $this->SendParameter("getrtmpattr");
+		return $port;
+	}
+
+	/** Set your Camera's RTMP Port
+	 * @return false|string
+	 */
+	public function SetCameraRTMP_Port(int $rtmp_port)
+	{
+		$parameter = "&-rtmpport=" . $rtmp_port;
+		$port = $this->SendParameter("setrtmpattr" . $parameter);
+		return $port;
+	}
 
 	/** Get Server Info
 	 *
@@ -828,6 +1024,25 @@ class INSTAR extends IPSModule
 		$this->SendDebug("INSTAR", "IR mode: " . $mode, 0);
 		return $mode;
 	}
+
+
+	// Multimedia
+
+	// Audio Settings
+
+	// Video Settings
+
+	// Image Settings
+
+	// Image Oberlays
+
+	// Privacy Mask
+
+
+
+
+
+
 
 	// Pan & Tilt
 
@@ -982,9 +1197,11 @@ class INSTAR extends IPSModule
 	 */
 	public function SetPosition(int $position)
 	{
-		$command = "-act=set&-status=1&-number=" . $position;
+		$this->SetValue("SetPosition", $position);
 		$this->SendDebug("INSTAR:", "Set position " . $position, 0);
-		$state = $this->SendINSTARControlCommand($command);
+		$position = $position + 1;
+		$parameter = "&-act=set&-status=1&-number=" . $position;
+		$state = $this->SendParameter("preset" . $parameter);
 		return $state;
 	}
 
@@ -994,9 +1211,11 @@ class INSTAR extends IPSModule
 	 */
 	public function UnsetPosition(int $position)
 	{
-		$command = "-act=set&-status=0&-number=" . $position;
+		$this->SetValue("UnsetPosition", $position);
 		$this->SendDebug("INSTAR:", "Unset position " . $position, 0);
-		$state = $this->SendINSTARControlCommand($command);
+		$position = $position + 1;
+		$parameter = "&-act=set&-status=0&-number=" . $position;
+		$state = $this->SendParameter("preset" . $parameter);
 		return $state;
 	}
 
@@ -1006,48 +1225,65 @@ class INSTAR extends IPSModule
 	 */
 	public function GotoPosition(int $position)
 	{
-		$command = "-act=goto&-status=1&-number=" . $position;
+		$this->SetValue("GotoPosition", $position);
 		$this->SendDebug("INSTAR:", "Goto position " . $position, 0);
-		$state = $this->SendINSTARControlCommand($command);
+		$position = $position + 1;
+		$parameter = "&-act=goto&-status=1&-number=" . $position;
+		$state = $this->SendParameter("preset" . $parameter);
 		return $state;
 	}
 
 	public function StartRecording(int $time)
 	{
-		$command = "cmd=manualrec&-act=on&-time=" . $time;
-		$host = $this->ReadPropertyString("Host");
-		$port = $this->ReadPropertyInteger("Port");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$INSTAR_type = $this->GetINSTARType();
-		$this->SendDebug("INSTAR:", "Type: " . $INSTAR_type, 0);
+		$parameter = "&-act=on&-time=" .$time;
+		$response = $this->SendParameter("manualrec" . $parameter);
 		$this->SendDebug("INSTAR:", "Start Recording", 0);
-		$this->SendDebug("INSTAR Send:", "http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password, 0);
-		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password);
-
 		return $response;
 	}
 
 	protected function SendINSTARControlCommand($command)
 	{
-		$host = $this->ReadPropertyString("Host");
-		$port = $this->ReadPropertyInteger("Port");
-		$user = $this->ReadPropertyString('User');
-		$password = $this->ReadPropertyString('Password');
-		$INSTAR_type = $this->GetINSTARType();
-		$this->SendDebug("INSTAR:", "Type: " . $INSTAR_type, 0);
-		$this->SendDebug("INSTAR Send:", "http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/ptzctrl.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password, 0);
-		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/ptzctrl.cgi?" . $command . "&usr=" . $user . "&pwd=" . $password);
-
+		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "ptzctrl.cgi?cmd=" . $command, 0);
+		$response = file_get_contents("http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command);
 		return $response;
 	}
 
+	protected function SendParameter($command)
+	{
+		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command, 0);
+		$response = file_get_contents("http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command);
+		return $response;
+	}
+
+	/**
+	 * @return mixed|string
+	 */
 	protected function GetINSTARType()
 	{
-		//$INSTAR_type_nr = $this->ReadPropertyInteger("model");
-		//$INSTAR_types = [];
-		$INSTAR_type = "hi3510";
-		return $INSTAR_type;
+		$INSTAR_type_nr = $this->ReadPropertyInteger("model");
+		$type = "hi3510";
+		$INSTAR_types = [
+			self::IN_5905_HD => "IN-5905 HD",
+			self::IN_5907_HD => "IN-5907 HD",
+			self::IN_7011_HD => "IN-7011 HD",
+			self::IN_9008_Full_HD => "IN-9008 Full HD",
+			self::IN_9010_Full_HD => "IN-9010 Full HD",
+			self::IN_9020_Full_HD => "IN-9020 Full HD",
+			self::IN_3011 => "IN-3011",
+			self::IN_6001_HD => "IN-6001 HD",
+			self::IN_6012_HD => "IN-6012 HD",
+			self::IN_6014_HD => "IN-6014 HD",
+			self::IN_8003_Full_HD => "IN-8003 Full HD",
+			self::IN_8015_Full_HD => "IN-8015 Full HD",
+		];
+		foreach ($INSTAR_types as $key => $INSTAR_type)
+		{
+			if($key == $INSTAR_type_nr)
+			{
+				$type = $INSTAR_type;
+			}
+		}
+		return $type;
 	}
 
 	// Video
@@ -1066,6 +1302,12 @@ class INSTAR extends IPSModule
 	 */
 
 	// Image
+
+	public function GetImageParameter()
+	{
+		$parameter = "";
+		return $parameter;
+	}
 
 	/** brightness :: [0 - 255] the bigger the value the brighter the image
 	 * @param int $brightness
@@ -2017,57 +2259,58 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'label' => 'IN-5905 HD',
-						'value' => 1
+						'value' => self::IN_5905_HD
 					],
 					[
 						'label' => 'IN-5907 HD',
-						'value' => 2
+						'value' => self::IN_5907_HD
 					],
 					[
 						'label' => 'IN-7011 HD',
-						'value' => 3
+						'value' => self::IN_7011_HD
 					],
 					[
 						'label' => 'IN-9008 Full HD',
-						'value' => 4
+						'value' => self::IN_9008_Full_HD
 					],
 					[
 						'label' => 'IN-9010 Full HD',
-						'value' => 5
+						'value' => self::IN_9010_Full_HD
 					],
 					[
 						'label' => 'IN-9020 Full HD',
-						'value' => 6
+						'value' => self::IN_9020_Full_HD
 					],
 					[
 						'label' => 'IN-3011',
-						'value' => 7
+						'value' => self::IN_3011
 					],
 					[
 						'label' => 'IN-6001 HD',
-						'value' => 8
+						'value' => self::IN_6001_HD
 					],
 					[
 						'label' => 'IN-6012 HD',
-						'value' => 9
+						'value' => self::IN_6012_HD
 					],
 					[
 						'label' => 'IN-6014 HD',
-						'value' => 10
+						'value' => self::IN_6014_HD
 					],
 
 					[
 						'label' => 'IN-8003 Full HD',
-						'value' => 11
+						'value' => self::IN_8003_Full_HD
 					],
 					[
 						'label' => 'IN-8015 Full HD',
-						'value' => 12
+						'value' => self::IN_8015_Full_HD
 					]
 				]
 
 			]
 		];
+
 
 		if ($model == 0) {
 			$selection = array_merge_recursive(
@@ -2081,7 +2324,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-5905 HD
-		if ($model == 1) {
+		if ($model == self::IN_5905_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2093,7 +2336,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-5907 HD
-		if ($model == 2) {
+		if ($model == self::IN_5907_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2105,7 +2348,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-7011 HD
-		if ($model == 3) {
+		if ($model == self::IN_7011_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2117,7 +2360,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-9008 Full HD
-		if ($model == 4) {
+		if ($model == self::IN_9008_Full_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2129,7 +2372,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-9010 Full HD
-		if ($model == 5) {
+		if ($model == self::IN_9010_Full_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2141,7 +2384,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-9020 Full HD
-		if ($model == 6) {
+		if ($model == self::IN_9020_Full_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2153,7 +2396,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-3011
-		if ($model == 7) {
+		if ($model == self::IN_3011) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2165,7 +2408,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-6001 HD
-		if ($model == 8) {
+		if ($model == self::IN_6001_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2177,7 +2420,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-6012 HD
-		if ($model == 9) {
+		if ($model == self::IN_6012_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2189,7 +2432,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-6014 HD
-		if ($model == 10) {
+		if ($model == self::IN_6014_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2201,7 +2444,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-8003 Full HD
-		if ($model == 11) {
+		if ($model == self::IN_8003_Full_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2213,7 +2456,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			);
 		}
 		// IN-8015 Full HD
-		if ($model == 12) {
+		if ($model == self::IN_8015_Full_HD) {
 			$selection = array_merge_recursive(
 				$selection,
 				[
@@ -2861,6 +3104,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				'code' => 208,
 				'icon' => 'error',
 				'caption' => 'category INSTAR snapshot not set.'
+			],
+			[
+				'code' => 209,
+				'icon' => 'error',
+				'caption' => 'Please select a camera model'
 			]
 		];
 
