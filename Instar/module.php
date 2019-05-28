@@ -1,4 +1,4 @@
-<?
+<?php
 
 if (@constant('IPS_BASE') == null) //Nur wenn Konstanten noch nicht bekannt sind.
 {
@@ -1052,6 +1052,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Right()
 	{
+		$this->SetValue("Control_Continuous", 3);
 		$command = "-step=0&-act=right";
 		$this->SendDebug("INSTAR:", "right", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1064,6 +1065,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Left()
 	{
+		$this->SetValue("Control_Continuous", 0);
 		$command = "-step=0&-act=left";
 		$this->SendDebug("INSTAR:", "left", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1076,6 +1078,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Up()
 	{
+		$this->SetValue("Control_Continuous", 1);
 		$command = "-step=0&-act=up";
 		$this->SendDebug("INSTAR:", "up", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1088,6 +1091,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Down()
 	{
+		$this->SetValue("Control_Continuous", 2);
 		$command = "-step=0&-act=down";
 		$this->SendDebug("INSTAR:", "down", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1100,6 +1104,7 @@ class INSTAR extends IPSModule
 	 */
 	public function Stop()
 	{
+		$this->SetValue("Control_Continuous", 4);
 		$command = "-step=0&-act=stop";
 		$this->SendDebug("INSTAR:", "stop", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1112,6 +1117,7 @@ class INSTAR extends IPSModule
 	 */
 	public function StepRight()
 	{
+		$this->SetValue("Control_Step", 3);
 		$command = "-step=1&-act=right";
 		$this->SendDebug("INSTAR:", "step right", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1124,6 +1130,7 @@ class INSTAR extends IPSModule
 	 */
 	public function StepLeft()
 	{
+		$this->SetValue("Control_Step", 0);
 		$command = "-step=1&-act=left";
 		$this->SendDebug("INSTAR:", "step left", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1136,6 +1143,7 @@ class INSTAR extends IPSModule
 	 */
 	public function StepUp()
 	{
+		$this->SetValue("Control_Step", 1);
 		$command = "-step=1&-act=up";
 		$this->SendDebug("INSTAR:", "step up", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1148,6 +1156,7 @@ class INSTAR extends IPSModule
 	 */
 	public function StepDown()
 	{
+		$this->SetValue("Control_Step", 2);
 		$command = "-step=1&-act=down";
 		$this->SendDebug("INSTAR:", "step down", 0);
 		$state = $this->SendINSTARControlCommand($command);
@@ -1243,8 +1252,8 @@ class INSTAR extends IPSModule
 
 	protected function SendINSTARControlCommand($command)
 	{
-		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/ptzctrl.cgi?cmd=" . $command, 0);
-		$response = file_get_contents("http://" . $this->GetHostURL() . "/ptzctrl.cgi?cmd=" . $command);
+		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/ptzctrl.cgi?" . $command, 0);
+		$response = file_get_contents("http://" . $this->GetHostURL() . "/ptzctrl.cgi?" . $command);
 		return $response;
 	}
 
