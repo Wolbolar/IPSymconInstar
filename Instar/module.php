@@ -1243,15 +1243,15 @@ class INSTAR extends IPSModule
 
 	protected function SendINSTARControlCommand($command)
 	{
-		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "ptzctrl.cgi?cmd=" . $command, 0);
-		$response = file_get_contents("http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command);
+		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/ptzctrl.cgi?cmd=" . $command, 0);
+		$response = file_get_contents("http://" . $this->GetHostURL() . "/ptzctrl.cgi?cmd=" . $command);
 		return $response;
 	}
 
 	protected function SendParameter($command)
 	{
-		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command, 0);
-		$response = file_get_contents("http://" . $this->GetHostURL() . "param.cgi?cmd=" . $command);
+		$this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/param.cgi?cmd=" . $command, 0);
+		$response = file_get_contents("http://" . $this->GetHostURL() . "/param.cgi?cmd=" . $command);
 		return $response;
 	}
 
