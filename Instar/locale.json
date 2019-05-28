@@ -158,7 +158,10 @@
       "Field can not be left empty": "Felder dürfen nicht leer sein",
       "Select Category for Import.": "Kategorie zum Import auswählen",
       "Select a Category first": "Es muss eine Kategorie ausgewählt werden",
-      "Email not vaild": "Email Adresse nicht gültig"
+      "Email not vaild": "Email Adresse nicht gültig",
+      "Creating instance.": "Instanz wird erzeugt.",
+      "INSTAR accessible.": "INSTAR erreichbar.",
+      "interface closed.": "Schnittstelle geschlossen"
     },
     "de_AT": {
       "Model": "Modell",
