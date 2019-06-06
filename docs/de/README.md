@@ -116,6 +116,8 @@ den Namen _Besucherhistorie_ .
 	
 In IP-Symcon nun _Instanz hinzufügen_ (_Rechtsklick -> Objekt hinzufügen -> Instanz_) auswählen unter der Kategorie, unter der man die INSTAR Kamera hinzufügen will,
 und _INSTAR_ auswählen.
+
+![SelectInstance](img/instanz.png?raw=true "select instance") 
  
 Im Konfigurationsformular ist zunächst das passende Kamera Modell von INSTAR auszuwählen.
 
@@ -131,15 +133,15 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 
 #### Anwendungsbeispiele
 
-##### Auslösen eines Alarms durch eine Ereigniss (nur Full HD Modelle)
+##### Auslösen eines Alarms durch ein Ereigniss (nur Full HD Modelle)
 
-##### Aktivieren der Nachtsicht abhänig von einem externen Sensor
+##### Aktivieren der Nachtsicht abhängig von einem externen Sensor
 
 ##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
 
 ##### Zeitgesteuertes aktivieren der Bewegungserkennungsbereiche
 
-##### Anpassen der Empfindlichkeit der Bwegungserkennung abhängig von Tag oder Nacht 
+##### Anpassen der Empfindlichkeit der Bewegungserkennung abhängig von Tag oder Nacht 
 	
 ##### Zeitgesteuertes Einstellen der Alarmbereiche
 
@@ -159,8 +161,8 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 | :---------: | :-----: | :----------: | :---------------------------------------: |
 | IPSIP       | string  |              | IP Adresse IP-Symcon                      |
 | Host        | string  |              | IP Adresse INSTAR                         |
-| User        | string  |              | Doorbird User                             |
-| Password    | string  |              | Doorbird Passwort                         |
+| User        | string  |              | INSTAR User                               |
+| Password    | string  |              | INSTAR Passwort                           |
 | picturelimit| integer |    20        | Limit an abgelegten Bildern               |
 
 

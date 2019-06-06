@@ -1,6 +1,11 @@
 {
   "translations": {
     "de": {
+      "Webhook configuration": "Webhook Konfiguration",
+      "webhook field must not be empty": "Webhook Benutzername und Passwort darf nicht leer sein",
+      "username and password for INSTAR webhook": "Webhook Benutzername und Passwort für INSTAR Webhook",
+      "Webhook Username": "Webhook Benutzername",
+      "Webhook Password": "Webhook Passwort",
       "Model": "Modell",
       "User": "Benutzername",
       "Password": "Kennwort",

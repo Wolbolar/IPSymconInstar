@@ -105,6 +105,8 @@ here you can switch to another branch, for older versions smaller than 4.1 selec
 
 Before the actual instance is created, two categories must be created at a desired position in the object tree.
 
+![SelectInstance](img/instance.png?raw=true "select instance") 
+
 
 ## 4. Function reference
 
