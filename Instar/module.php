@@ -392,6 +392,24 @@ class INSTAR extends IPSModule
 		);
 		$this->RegisterVariableInteger("Scene", $this->Translate('Scene'), "INSTAR.Scene", $this->_getPosition());
 		$this->EnableAction("Scene");
+		$this->RegisterProfileAssociation(
+			'INSTAR.IRLED',
+			'Bulb',
+			'',
+			'',
+			0,
+			2,
+			0,
+			0,
+			1,
+			[
+				[0, $this->Translate('Auto'), '', -1],
+				[1, $this->Translate('On'), '', -1],
+				[2, $this->Translate('Off'), '', -1]
+			]
+		);
+		$this->RegisterVariableInteger("IR_LED", $this->Translate("IR LED"), "INSTAR.IRLED", $this->_getPosition());
+		$this->EnableAction("IR_LED");
 		$this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
 		$this->RegisterVariableInteger("SetPosition", $this->Translate("Set Position"), "INSTAR.SetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("SetPosition");
@@ -1043,7 +1061,7 @@ class INSTAR extends IPSModule
 	 */
 	public function GetServerInfo()
 	{
-		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getserverinfo");
+		$payload = $this->SendParameter("getserverinfo");
 		$data = explode(";", $payload);
 		array_pop($data);
 		foreach ($data as $info_device) {
@@ -1070,13 +1088,15 @@ class INSTAR extends IPSModule
 		return $data;
 	}
 
+
+
 	/** Get Network Configuration
 	 *
 	 * @return array
 	 */
 	public function GetNetInfo()
 	{
-		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getnetinfo");
+		$payload = $this->SendParameter("getnetinfo");
 		$data = explode(";", $payload);
 		array_pop($data);
 		foreach ($data as $info_device) {
@@ -1106,7 +1126,7 @@ class INSTAR extends IPSModule
 	 */
 	public function GetCameraModel()
 	{
-		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=getsysinfo");
+		$payload = $this->SendParameter("getsysinfo");
 		$data = explode('"', $payload);
 		$model = $data[1];
 		$this->SendDebug("INSTAR", "Model: " . $model, 0);
@@ -1118,7 +1138,7 @@ class INSTAR extends IPSModule
 	 */
 	public function GetIRMode()
 	{
-		$payload = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?&cmd=getinfrared");
+		$payload = $this->SendParameter("getinfrared");
 		$data = explode('"', $payload);
 		$mode = $data[1];
 		$this->SendDebug("INSTAR", "IR mode: " . $mode, 0);
@@ -1563,36 +1583,40 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 
 	// IR-LED
 
+	/** IR LED Auto
+	 * @return false|string
+	 */
 	public function LED_Auto()
 	{
-		$command = "auto";
-		$state = $this->SendINSTARControlCommand($command);
+		$this->SetValue("IR_LED", 0);
+		$parameter = "&-infraredstat=auto";
+		$state = $this->SendParameter("setinfrared" .$parameter);
 		return $state;
 	}
 
+	/** IR LED Off
+	 * @return false|string
+	 */
 	public function LED_Inactive()
 	{
-		$command = "close";
-		$state = $this->SendINSTARControlCommand($command);
+		$this->SetValue("IR_LED", 2);
+		$parameter = "&-infraredstat=close";
+		$state = $this->SendParameter("setinfrared"  .$parameter);
 		return $state;
 	}
 
-	// only IN-6011
+
+	/** IR LED ON
+	 * @return false|string
+	 */
 	public function LED_On()
 	{
-		$command = "open";
-		$state = $this->SendINSTARControlCommand($command);
+		$this->SetValue("IR_LED", 1);
+		$parameter = "&-infraredstat=open";
+		$state = $this->SendParameter("setinfrared"  .$parameter);
 		return $state;
 	}
 
-	protected function SendINSTARLEDCommand($command)
-	{
-		$host = $this->ReadPropertyString("Host");
-		$port = $this->ReadPropertyInteger("Port");
-		$INSTAR_type = "hi3510";
-		$response = file_get_contents("http://" . $host . ":" . $port . "/cgi-bin/" . $INSTAR_type . "/param.cgi?cmd=setinfrared&-infraredstat=" . $command);
-		return $response;
-	}
 
 	// ALARM
 
@@ -1754,7 +1778,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		// $countmedia = count($mediaids);
 		foreach ($mediaids as $key => $mediaid) {
 			$mediainfo = IPS_GetMedia($mediaid);
-			if ($mediainfo["MediaFile"] == "media/instargpic_1.jpg") {
+			if ($mediainfo["MediaFile"] == "media/instar_snapshot_1.jpg") {
 				$mailer = $this->ReadPropertyInteger('smtpmodule');
 				SMTP_SendMailMediaEx($mailer, $email, $subject, $emailtext, $mediaid);
 			}
@@ -1763,16 +1787,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
 	public function GetHistory()
 	{
-		$name = "INSTAR Picture";
+		$name = "INSTAR Snapshot";
 		$ident = "INSTARPic";
-		$picturename = "INSTARpic_";
+		$picturename = "instar_snapshot_";
 		for ($i = 1; $i <= 20; $i++) {
 
 			$Content = "";
 
 
 			//testen ob im Medienpool existent
-			$catid = $this->ReadPropertyInteger('categoryhistory');
+			$catid = $this->ReadPropertyInteger('categorysnapshot');
 
 			$MediaID = @IPS_GetObjectIDByIdent($ident . $i, $catid);
 			if ($MediaID === false) {
@@ -1806,8 +1830,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	public function GetSnapshot()
 	{
 		$name = "INSTAR Snapshot";
-		$ident = "INSTARSnapshotPic";
-		$picturename = "INSTARsnapshot_";
+		$ident = "INSTARPic";
+		$picturename = "instar_snapshot_";
 		$picturelimit = $this->ReadPropertyInteger('picturelimitsnapshot');
 		$catid = $this->ReadPropertyInteger('categorysnapshot');
 		if ($catid > 0) {
@@ -2030,6 +2054,15 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					$this->Scene("indoor");
 				} elseif ($Value == 2) {
 					$this->Scene("outdoor");
+				}
+				break;
+			case "IR_LED":
+				if ($Value == 0) {
+					$this->LED_Auto();
+				} elseif ($Value == 1) {
+					$this->LED_On();
+				} elseif ($Value == 2) {
+					$this->LED_Inactive();
 				}
 				break;
 			case "UnsetPosition":
