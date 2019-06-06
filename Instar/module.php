@@ -180,7 +180,6 @@ class INSTAR extends IPSModule
 		$this->RegisterPropertyInteger("Port", 80);
 		$this->RegisterPropertyString("User", "");
 		$this->RegisterPropertyString("Password", "");
-		$this->RegisterPropertyInteger("picturelimitsnapshot", 20);
 		$this->RegisterPropertyBoolean("activeemail", false);
 		$this->RegisterPropertyString("email", "");
 		$this->RegisterPropertyInteger("smtpmodule", 0);
@@ -238,6 +237,7 @@ class INSTAR extends IPSModule
 		$this->RegisterPropertyString("emailtext11", $this->Translate("Movement detected"));
 		$this->RegisterPropertyBoolean("altview", false);
 		$this->RegisterPropertyInteger("categorysnapshot", 0);
+		$this->RegisterPropertyInteger("picturelimitsnapshot", 20);
 		$this->RegisterPropertyInteger("model", 0);
 
 		$this->RegisterAttributeString("model_name", "");
@@ -2201,132 +2201,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			[
 				[
 					'type' => 'ExpansionPanel',
-					'caption' => 'INSTAR Camera Info',
-					'items' => [
-						[
-							'type' => 'List',
-							'name' => 'CameraInformation',
-							'caption' => 'Camera information',
-							'rowCount' => 2,
-							'add' => false,
-							'delete' => false,
-							'sort' => [
-								'column' => 'name',
-								'direction' => 'ascending'
-							],
-							'columns' => [
-								[
-									'name' => 'name',
-									'caption' => 'Name',
-									'width' => 'auto',
-									'visible' => true
-								],
-								[
-									'name' => 'model',
-									'caption' => 'Model',
-									'width' => '150px',
-								],
-								[
-									'name' => 'hardwareversion',
-									'caption' => 'Hardware Version',
-									'width' => '150px',
-								],
-								[
-									'name' => 'softwareversion',
-									'caption' => 'Software Version',
-									'width' => '150px',
-								],
-								[
-									'name' => 'webversion',
-									'caption' => 'Web Version',
-									'width' => '150px',
-								],
-								[
-									'name' => 'sdfreespace',
-									'caption' => 'SD Free Space',
-									'width' => '150px',
-								],
-								[
-									'name' => 'sdtotalspace',
-									'caption' => 'SD Capacity',
-									'width' => '150px',
-								]
-							],
-							'values' => [
-								[
-									'name' => $this->ReadAttributeString("name"),
-									'model' => $this->ReadAttributeString("model_name"),
-									'hardwareversion' => $this->ReadAttributeString("hardVersion"),
-									'softwareversion' => $this->ReadAttributeString("softVersion"),
-									'webversion' => $this->ReadAttributeString("webVersion"),
-									'sdfreespace' => $this->ReadAttributeInteger("sdfreespace"),
-									'sdtotalspace' => $this->ReadAttributeInteger("sdtotalspace")
-								]]
-						]
-					]
-				],
-				[
-					'type' => 'ExpansionPanel',
-					'caption' => 'INSTAR Network Info',
-					'items' => [
-						[
-							'type' => 'List',
-							'name' => 'NetworkInformation',
-							'caption' => 'Network information',
-							'rowCount' => 2,
-							'add' => false,
-							'delete' => false,
-							'sort' => [
-								'column' => 'ip',
-								'direction' => 'ascending'
-							],
-							'columns' => [
-								[
-									'name' => 'ip',
-									'caption' => 'IP',
-									'width' => 'auto',
-									'visible' => true
-								],
-								[
-									'name' => 'dhcp',
-									'caption' => 'DHCP',
-									'width' => '150px',
-								],
-								[
-									'name' => 'netmask',
-									'caption' => 'Netmask',
-									'width' => '150px',
-								],
-								[
-									'name' => 'gateway',
-									'caption' => 'Gateway',
-									'width' => '150px',
-								],
-								[
-									'name' => 'macaddress',
-									'caption' => 'MAC  Address',
-									'width' => '150px',
-								],
-								[
-									'name' => 'networktype',
-									'caption' => 'Network Type',
-									'width' => '150px',
-								]
-							],
-							'values' => [
-								[
-									'ip' => $this->ReadAttributeString("ip"),
-									'dhcp' => $this->ReadAttributeBoolean("dhcpflag"),
-									'netmask' => $this->ReadAttributeString("netmask"),
-									'gateway' => $this->ReadAttributeString("gateway"),
-									'macaddress' => $this->ReadAttributeString("macaddress"),
-									'networktype' => $this->ReadAttributeString("networktype")
-								]]
-						]
-					]
-				],
-				[
-					'type' => 'ExpansionPanel',
 					'caption' => 'INSTAR Settings',
 					'items' => [
 						[
@@ -2371,6 +2245,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				],
 				[
 					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Camera Info',
+					'items' => $this->FormCameraInfo()
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'INSTAR Network Info',
+					'items' => $this->FormNetworkInfo()
+				],
+				[
+					'type' => 'ExpansionPanel',
 					'caption' => 'INSTAR Picture Settings',
 					'items' => [
 						[
@@ -2382,7 +2266,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'label' => 'INSTAR snapshot pictures category'
 						],
 						[
-							'name' => 'categoryhistory',
+							'name' => 'categorysnapshot',
 							'type' => 'SelectCategory',
 							'caption' => 'Alarm Snapshots'
 						],
@@ -2391,7 +2275,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'label' => 'picture limit for INSTAR snapshots pictures'
 						],
 						[
-							'name' => 'picturelimitring',
+							'name' => 'picturelimitsnapshot',
 							'type' => 'NumberSpinner',
 							'caption' => 'Number of Alarm Snapshots'
 						]
@@ -2406,6 +2290,181 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'type' => 'ExpansionPanel',
 					'caption' => 'email notification settings',
 					'items' => $this->FormShowEmail()
+				]
+			]
+		);
+		return $form;
+	}
+
+	private function FormCameraInfo()
+	{
+		$form = [];
+		$name = $this->ReadAttributeString("name");
+		if($name != "")
+		{
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'CameraInformation',
+						'caption' => 'Camera information',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'name',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'name',
+								'caption' => 'Name',
+								'width' => 'auto',
+								'visible' => true
+							],
+							[
+								'name' => 'model',
+								'caption' => 'Model',
+								'width' => '150px',
+							],
+							[
+								'name' => 'hardwareversion',
+								'caption' => 'Hardware Version',
+								'width' => '150px',
+							],
+							[
+								'name' => 'softwareversion',
+								'caption' => 'Software Version',
+								'width' => '150px',
+							],
+							[
+								'name' => 'webversion',
+								'caption' => 'Web Version',
+								'width' => '150px',
+							],
+							[
+								'name' => 'sdfreespace',
+								'caption' => 'SD Free Space',
+								'width' => '150px',
+							],
+							[
+								'name' => 'sdtotalspace',
+								'caption' => 'SD Capacity',
+								'width' => '150px',
+							]
+						],
+						'values' => [
+							[
+								'name' => $this->ReadAttributeString("name"),
+								'model' => $this->ReadAttributeString("model_name"),
+								'hardwareversion' => $this->ReadAttributeString("hardVersion"),
+								'softwareversion' => $this->ReadAttributeString("softVersion"),
+								'webversion' => $this->ReadAttributeString("webVersion"),
+								'sdfreespace' => $this->ReadAttributeInteger("sdfreespace"),
+								'sdtotalspace' => $this->ReadAttributeInteger("sdtotalspace")
+							]
+						]
+					]
+				]
+			);
+		}
+
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'Label',
+					'label' => 'Get camera infos from the camera'
+				],
+				[
+					'type' => 'Button',
+					'label' => 'Get camera infos',
+					'onClick' => 'INSTAR_GetServerInfo($id);'
+				]
+			]
+		);
+		return $form;
+	}
+
+	private function FormNetworkInfo()
+	{
+		$form = [];
+		$ip = $this->ReadAttributeString("ip");
+		if($ip != "")
+		{
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'NetworkInformation',
+						'caption' => 'Network information',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'ip',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'ip',
+								'caption' => 'IP',
+								'width' => 'auto',
+								'visible' => true
+							],
+							[
+								'name' => 'dhcp',
+								'caption' => 'DHCP',
+								'width' => '150px',
+							],
+							[
+								'name' => 'netmask',
+								'caption' => 'Netmask',
+								'width' => '150px',
+							],
+							[
+								'name' => 'gateway',
+								'caption' => 'Gateway',
+								'width' => '150px',
+							],
+							[
+								'name' => 'macaddress',
+								'caption' => 'MAC  Address',
+								'width' => '150px',
+							],
+							[
+								'name' => 'networktype',
+								'caption' => 'Network Type',
+								'width' => '150px',
+							]
+						],
+						'values' => [
+							[
+								'ip' => $this->ReadAttributeString("ip"),
+								'dhcp' => $this->ReadAttributeBoolean("dhcpflag"),
+								'netmask' => $this->ReadAttributeString("netmask"),
+								'gateway' => $this->ReadAttributeString("gateway"),
+								'macaddress' => $this->ReadAttributeString("macaddress"),
+								'networktype' => $this->ReadAttributeString("networktype")
+							]
+						]
+					]
+				]
+			);
+		}
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'Label',
+					'label' => 'Get network infos from the camera'
+				],
+				[
+					'type' => 'Button',
+					'label' => 'Get network infos',
+					'onClick' => 'INSTAR_GetNetInfo($id);'
 				]
 			]
 		);
@@ -3193,15 +3252,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				'type' => 'Button',
 				'label' => 'Left',
 				'onClick' => 'INSTAR_Down($id);'
-			],
-			[
-				'type' => 'Label',
-				'label' => 'Get infos from the camera'
-			],
-			[
-				'type' => 'Button',
-				'label' => 'Get infos',
-				'onClick' => 'INSTAR_GetInfo($id);'
 			],
 			[
 				'type' => 'TestCenter'
