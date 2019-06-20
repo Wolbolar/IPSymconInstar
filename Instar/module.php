@@ -178,8 +178,8 @@ class INSTAR extends IPSModule
 		$this->RegisterPropertyString("webhook_password", "symcon");
 		$this->RegisterPropertyString("Host", "");
 		$this->RegisterPropertyInteger("Port", 80);
-		$this->RegisterPropertyString("User", "");
-		$this->RegisterPropertyString("Password", "");
+		$this->RegisterPropertyString("User", "admin");
+		$this->RegisterPropertyString("Password", "instar");
 		$this->RegisterPropertyBoolean("activeemail", false);
 		$this->RegisterPropertyString("email", "");
 		$this->RegisterPropertyInteger("smtpmodule", 0);
@@ -249,6 +249,7 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeInteger("sdtotalspace", 0);
 		$this->RegisterAttributeInteger("platformstatus", 0);
 
+		$this->RegisterPropertyString("NetworkInformation", "[]");
 		$this->RegisterAttributeBoolean("dhcpflag", false);
 		$this->RegisterAttributeString("ip", "");
 		$this->RegisterAttributeString("netmask", "");
@@ -449,12 +450,9 @@ class INSTAR extends IPSModule
 		if ($webhook_username == "" || $webhook_password == "") {
 			$this->SetStatus(210);
 		}
-		if($model == 0)
-		{
+		if ($model == 0) {
 			$this->SetStatus(209); // Please select a camera model
-		}
-		else
-		{
+		} else {
 			$this->SetAPI($model);
 		}
 
@@ -492,7 +490,7 @@ class INSTAR extends IPSModule
 				IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
 				IPS_SetIdent($MediaID, 'INSTARVideo');
 				IPS_SetPosition($MediaID, -1);
-				IPS_SetName($MediaID, 'INSTAR Live Picture'); // Medienobjekt benennen
+				IPS_SetName($MediaID, $this->Translate('INSTAR Live Picture')); // Medienobjekt benennen
 			}
 			$url = "http://" . $host . ":" . $port . "/mjpegstream.cgi?-chn=12&usr=" . $user . "&pwd=" . $password;
 			IPS_SetMediaFile($MediaID, $url, False);    // Image im MedienPool mit Image-Datei verbinden
@@ -789,22 +787,19 @@ class INSTAR extends IPSModule
 	private function SetAPI($model)
 	{
 		//
-		if($model == self::IN_9008_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9020_Full_HD || $model == self::IN_8003_Full_HD || $model == self::IN_8015_Full_HD)
-		{
+		if ($model == self::IN_9008_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9020_Full_HD || $model == self::IN_8003_Full_HD || $model == self::IN_8015_Full_HD) {
 			$this->WriteAttributeBoolean("1080p_API", true);
 			$this->WriteAttributeBoolean("720p_API", false);
 			$this->WriteAttributeBoolean("VGA_API", false);
 		}
 		// IN-5905 HD
-		if($model == self::IN_5905_HD || $model == self::IN_5907_HD || $model == self::IN_7011_HD || $model == self::IN_6001_HD || $model == self::IN_6012_HD || $model == self::IN_6014_HD)
-		{
+		if ($model == self::IN_5905_HD || $model == self::IN_5907_HD || $model == self::IN_7011_HD || $model == self::IN_6001_HD || $model == self::IN_6012_HD || $model == self::IN_6014_HD) {
 			$this->WriteAttributeBoolean("1080p_API", false);
 			$this->WriteAttributeBoolean("720p_API", true);
 			$this->WriteAttributeBoolean("VGA_API", false);
 		}
 		//
-		if($model == 0 || $model == self::IN_3011)
-		{
+		if ($model == 0 || $model == self::IN_3011) {
 			$this->WriteAttributeBoolean("1080p_API", false);
 			$this->WriteAttributeBoolean("720p_API", false);
 			$this->WriteAttributeBoolean("VGA_API", true);
@@ -816,8 +811,8 @@ class INSTAR extends IPSModule
 	 */
 	protected function ProcessHookData()
 	{
-		$username = $this->ReadPropertyString('username');
-		$password = $this->ReadPropertyString('password');
+		$username = $this->ReadPropertyString('webhook_username');
+		$password = $this->ReadPropertyString('webhook_password');
 		if (!isset($_SERVER['PHP_AUTH_USER']))
 			$_SERVER['PHP_AUTH_USER'] = "";
 		if (!isset($_SERVER['PHP_AUTH_PW']))
@@ -829,7 +824,7 @@ class INSTAR extends IPSModule
 			echo "Authorization required";
 			return;
 		}
-		echo "Webhook Instar IP-Symcon";
+		echo "Webhook INSTAR IP-Symcon";
 
 		//workaround for bug
 		if (!isset($_IPS))
@@ -838,15 +833,8 @@ class INSTAR extends IPSModule
 			echo "This script cannot be used this way.";
 			return;
 		}
-		$this->SendDebug("Instar I/O", "GET: ".json_encode($_GET), 0);
-		if (isset($_GET["objectid"])) {
-			$objectid = $_GET["objectid"];
-			$value = $_GET["value"];
-			$instar_payload = ["objectid" => $objectid, "value" => $value];
-			$instarjson = json_encode($instar_payload);
-			$this->SendDebug("Instar I/O", $instarjson, 0);
-			// $this->SendJSON($instar_payload);
-		}
+		$this->SendDebug("Instar I/O", "GET: " . json_encode($_GET), 0);
+		$this->SetValue("notification_alarm", true);
 	}
 
 	/**
@@ -912,6 +900,8 @@ class INSTAR extends IPSModule
 	}
 
 	// Network Menu
+
+	// IP Configuration
 
 	/** Camera´s Network Configuration
 	 * @return array
@@ -1024,11 +1014,9 @@ class INSTAR extends IPSModule
 	 */
 	public function SetRTSPAuthenticationState(bool $state)
 	{
-		if($state)
-		{
+		if ($state) {
 			$enable = 1;
-		}
-		else{
+		} else {
 			$enable = 0;
 		}
 		$parameter = "&-rtsp_aenable=" . $enable;
@@ -1087,7 +1075,6 @@ class INSTAR extends IPSModule
 		}
 		return $data;
 	}
-
 
 
 	/** Get Network Configuration
@@ -1157,11 +1144,6 @@ class INSTAR extends IPSModule
 	// Image Oberlays
 
 	// Privacy Mask
-
-
-
-
-
 
 
 	// Pan & Tilt
@@ -1364,7 +1346,7 @@ class INSTAR extends IPSModule
 
 	public function StartRecording(int $time)
 	{
-		$parameter = "&-act=on&-time=" .$time;
+		$parameter = "&-act=on&-time=" . $time;
 		$response = $this->SendParameter("manualrec" . $parameter);
 		$this->SendDebug("INSTAR:", "Start Recording", 0);
 		return $response;
@@ -1405,10 +1387,8 @@ class INSTAR extends IPSModule
 			self::IN_8003_Full_HD => "IN-8003 Full HD",
 			self::IN_8015_Full_HD => "IN-8015 Full HD",
 		];
-		foreach ($INSTAR_types as $key => $INSTAR_type)
-		{
-			if($key == $INSTAR_type_nr)
-			{
+		foreach ($INSTAR_types as $key => $INSTAR_type) {
+			if ($key == $INSTAR_type_nr) {
 				$type = $INSTAR_type;
 			}
 		}
@@ -1443,10 +1423,6 @@ class INSTAR extends IPSModule
 	// Reboot
 
 	// Reset
-
-
-
-
 
 
 	// Video
@@ -1590,7 +1566,7 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 	{
 		$this->SetValue("IR_LED", 0);
 		$parameter = "&-infraredstat=auto";
-		$state = $this->SendParameter("setinfrared" .$parameter);
+		$state = $this->SendParameter("setinfrared" . $parameter);
 		return $state;
 	}
 
@@ -1601,7 +1577,7 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 	{
 		$this->SetValue("IR_LED", 2);
 		$parameter = "&-infraredstat=close";
-		$state = $this->SendParameter("setinfrared"  .$parameter);
+		$state = $this->SendParameter("setinfrared" . $parameter);
 		return $state;
 	}
 
@@ -1613,7 +1589,7 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
 	{
 		$this->SetValue("IR_LED", 1);
 		$parameter = "&-infraredstat=open";
-		$state = $this->SendParameter("setinfrared"  .$parameter);
+		$state = $this->SendParameter("setinfrared" . $parameter);
 		return $state;
 	}
 
@@ -1982,12 +1958,19 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			$value = $data->value;
 			if ($objectid == $this->InstanceID) {
 				if ($value == 1 || $value == "1" || $value == "true") {
-					$this->SetValue("notification_alarm", true);
+					$this->SetValue("notification_alarm", $this->GetTimeStamp());
 				} else {
-					$this->SetValue("notification_alarm", false);
+					$this->SetValue("notification_alarm", $this->GetTimeStamp());
 				}
 			}
 		}
+	}
+
+	private function GetTimeStamp()
+	{
+		$time = time();
+		$string_time = date('d.m.Y H:i:s', $time);
+		return $string_time;
 	}
 
 	public function RequestAction($Ident, $Value)
@@ -2282,9 +2265,394 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => $this->FormCameraInfo()
 				],
 				[
+					'type' => 'Label',
+					'label' => 'INSTAR Camera Menu'
+				],
+				[
 					'type' => 'ExpansionPanel',
-					'caption' => 'INSTAR Network Info',
-					'items' => $this->FormNetworkInfo()
+					'caption' => 'Network Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'IP configuration',
+							'items' => [
+								[
+									'type' => 'ExpansionPanel',
+									'caption' => 'INSTAR Network Info',
+									'items' => $this->FormNetworkInfo()
+								],
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'WIFI',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Remote access',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Upnp',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Onvif',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'Multimeadia Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Audio',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Video',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Image settings',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Video overlays',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Privacy settings',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'Features Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Email settings',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								],
+								[
+									'type' => 'ExpansionPanel',
+									'caption' => 'email notification settings (Symcon)',
+									'items' => $this->FormShowEmail()
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'FTP',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'IR night vision',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Pan & tilt',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'PTZ tour',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Manual record',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'SD card',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Status LED',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Wizard',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'Alarm Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Actions',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Areas',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Schedule',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Push',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Alarmserver',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'Tasks Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Photo series',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Recordings',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
+				],
+				[
+					'type' => 'ExpansionPanel',
+					'caption' => 'System Menu',
+					'items' => [
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Overview',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Users',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Date & Time',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Language Selection',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'System Logbook',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Firmware-Update',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Reboot',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						],
+						[
+							'type' => 'ExpansionPanel',
+							'caption' => 'Werksreset',
+							'items' => [
+								[
+									'type' => 'Label',
+									'label' => 'INSTAR Camera Menu'
+								]
+							]
+						]
+					]
 				],
 				[
 					'type' => 'ExpansionPanel',
@@ -2316,16 +2684,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				]
 			]
 		);
-		$form = array_merge_recursive(
-			$form,
-			[
-				[
-					'type' => 'ExpansionPanel',
-					'caption' => 'email notification settings',
-					'items' => $this->FormShowEmail()
-				]
-			]
-		);
 		return $form;
 	}
 
@@ -2333,8 +2691,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	{
 		$form = [];
 		$name = $this->ReadAttributeString("name");
-		if($name != "")
-		{
+		if ($name != "") {
 			$form = array_merge_recursive(
 				$form,
 				[
@@ -2424,8 +2781,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 	{
 		$form = [];
 		$ip = $this->ReadAttributeString("ip");
-		if($ip != "")
-		{
+		if ($ip != "") {
 			$form = array_merge_recursive(
 				$form,
 				[
@@ -2445,27 +2801,39 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 								'name' => 'ip',
 								'caption' => 'IP',
 								'width' => 'auto',
-								'visible' => true
+								'visible' => true,
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
 							],
 							[
 								'name' => 'dhcp',
 								'caption' => 'DHCP',
 								'width' => '150px',
+								'edit' => [
+									'type' => 'CheckBox'
+								]
 							],
 							[
 								'name' => 'netmask',
 								'caption' => 'Netmask',
 								'width' => '150px',
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
 							],
 							[
 								'name' => 'gateway',
 								'caption' => 'Gateway',
 								'width' => '150px',
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
 							],
 							[
 								'name' => 'macaddress',
 								'caption' => 'MAC  Address',
-								'width' => '150px',
+								'width' => '150px'
 							],
 							[
 								'name' => 'networktype',
@@ -3412,5 +3780,3 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		}
 	}
 }
-
-?>
