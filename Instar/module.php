@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 if (@constant('IPS_BASE') == null) //Nur wenn Konstanten noch nicht bekannt sind.
 {
     // --- BASE MESSAGE
@@ -174,150 +176,150 @@ class INSTAR extends IPSModule
         //These lines are parsed on Symcon Startup or Instance creation
         //You cannot use variables here. Just static values.
 
-        $this->RegisterPropertyString("webhook_username", "instar");
-        $this->RegisterPropertyString("webhook_password", "symcon");
-        $this->RegisterPropertyString("Host", "");
-        $this->RegisterPropertyInteger("Port", 80);
-        $this->RegisterPropertyString("User", "admin");
-        $this->RegisterPropertyString("Password", "instar");
-        $this->RegisterPropertyBoolean("activeemail", false);
-        $this->RegisterPropertyString("email", "");
-        $this->RegisterPropertyInteger("smtpmodule", 0);
-        $this->RegisterPropertyString("subject", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail2", false);
-        $this->RegisterPropertyString("email2", "");
-        $this->RegisterPropertyInteger("smtpmodule2", 0);
-        $this->RegisterPropertyString("subject2", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext2", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail3", false);
-        $this->RegisterPropertyString("email3", "");
-        $this->RegisterPropertyInteger("smtpmodule3", 0);
-        $this->RegisterPropertyString("subject3", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext3", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail4", false);
-        $this->RegisterPropertyString("email4", "");
-        $this->RegisterPropertyInteger("smtpmodule4", 0);
-        $this->RegisterPropertyString("subject4", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext4", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail5", false);
-        $this->RegisterPropertyString("email5", "");
-        $this->RegisterPropertyInteger("smtpmodule5", 0);
-        $this->RegisterPropertyString("subject5", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext5", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail6", false);
-        $this->RegisterPropertyString("email6", "");
-        $this->RegisterPropertyInteger("smtpmodule6", 0);
-        $this->RegisterPropertyString("subject6", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext6", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail7", false);
-        $this->RegisterPropertyString("email7", "");
-        $this->RegisterPropertyInteger("smtpmodule7", 0);
-        $this->RegisterPropertyString("subject7", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext7", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail8", false);
-        $this->RegisterPropertyString("email8", "");
-        $this->RegisterPropertyInteger("smtpmodule8", 0);
-        $this->RegisterPropertyString("subject8", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext8", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail9", false);
-        $this->RegisterPropertyString("email9", "");
-        $this->RegisterPropertyInteger("smtpmodule9", 0);
-        $this->RegisterPropertyString("subject9", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext9", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail10", false);
-        $this->RegisterPropertyString("email10", "");
-        $this->RegisterPropertyInteger("smtpmodule10", 0);
-        $this->RegisterPropertyString("subject10", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext10", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("activeemail11", false);
-        $this->RegisterPropertyString("email11", "");
-        $this->RegisterPropertyInteger("smtpmodule11", 0);
-        $this->RegisterPropertyString("subject11", $this->Translate("Camera Alarm!"));
-        $this->RegisterPropertyString("emailtext11", $this->Translate("Movement detected"));
-        $this->RegisterPropertyBoolean("altview", false);
-        $this->RegisterPropertyInteger("categorysnapshot", 0);
-        $this->RegisterPropertyInteger("picturelimitsnapshot", 20);
-        $this->RegisterPropertyInteger("model", 0);
+        $this->RegisterPropertyString('webhook_username', 'instar');
+        $this->RegisterPropertyString('webhook_password', 'symcon');
+        $this->RegisterPropertyString('Host', '');
+        $this->RegisterPropertyInteger('Port', 80);
+        $this->RegisterPropertyString('User', 'admin');
+        $this->RegisterPropertyString('Password', 'instar');
+        $this->RegisterPropertyBoolean('activeemail', false);
+        $this->RegisterPropertyString('email', '');
+        $this->RegisterPropertyInteger('smtpmodule', 0);
+        $this->RegisterPropertyString('subject', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail2', false);
+        $this->RegisterPropertyString('email2', '');
+        $this->RegisterPropertyInteger('smtpmodule2', 0);
+        $this->RegisterPropertyString('subject2', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext2', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail3', false);
+        $this->RegisterPropertyString('email3', '');
+        $this->RegisterPropertyInteger('smtpmodule3', 0);
+        $this->RegisterPropertyString('subject3', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext3', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail4', false);
+        $this->RegisterPropertyString('email4', '');
+        $this->RegisterPropertyInteger('smtpmodule4', 0);
+        $this->RegisterPropertyString('subject4', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext4', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail5', false);
+        $this->RegisterPropertyString('email5', '');
+        $this->RegisterPropertyInteger('smtpmodule5', 0);
+        $this->RegisterPropertyString('subject5', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext5', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail6', false);
+        $this->RegisterPropertyString('email6', '');
+        $this->RegisterPropertyInteger('smtpmodule6', 0);
+        $this->RegisterPropertyString('subject6', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext6', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail7', false);
+        $this->RegisterPropertyString('email7', '');
+        $this->RegisterPropertyInteger('smtpmodule7', 0);
+        $this->RegisterPropertyString('subject7', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext7', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail8', false);
+        $this->RegisterPropertyString('email8', '');
+        $this->RegisterPropertyInteger('smtpmodule8', 0);
+        $this->RegisterPropertyString('subject8', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext8', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail9', false);
+        $this->RegisterPropertyString('email9', '');
+        $this->RegisterPropertyInteger('smtpmodule9', 0);
+        $this->RegisterPropertyString('subject9', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext9', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail10', false);
+        $this->RegisterPropertyString('email10', '');
+        $this->RegisterPropertyInteger('smtpmodule10', 0);
+        $this->RegisterPropertyString('subject10', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext10', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('activeemail11', false);
+        $this->RegisterPropertyString('email11', '');
+        $this->RegisterPropertyInteger('smtpmodule11', 0);
+        $this->RegisterPropertyString('subject11', $this->Translate('Camera Alarm!'));
+        $this->RegisterPropertyString('emailtext11', $this->Translate('Movement detected'));
+        $this->RegisterPropertyBoolean('altview', false);
+        $this->RegisterPropertyInteger('categorysnapshot', 0);
+        $this->RegisterPropertyInteger('picturelimitsnapshot', 20);
+        $this->RegisterPropertyInteger('model', 0);
 
-        $this->RegisterAttributeString("model_name", "");
-        $this->RegisterAttributeString("hardVersion", "");
-        $this->RegisterAttributeString("softVersion", "");
-        $this->RegisterAttributeString("webVersion", "");
-        $this->RegisterAttributeString("name", "");
-        $this->RegisterAttributeInteger("sdfreespace", 0);
-        $this->RegisterAttributeInteger("sdtotalspace", 0);
-        $this->RegisterAttributeInteger("platformstatus", 0);
+        $this->RegisterAttributeString('model_name', '');
+        $this->RegisterAttributeString('hardVersion', '');
+        $this->RegisterAttributeString('softVersion', '');
+        $this->RegisterAttributeString('webVersion', '');
+        $this->RegisterAttributeString('name', '');
+        $this->RegisterAttributeInteger('sdfreespace', 0);
+        $this->RegisterAttributeInteger('sdtotalspace', 0);
+        $this->RegisterAttributeInteger('platformstatus', 0);
 
-        $this->RegisterPropertyString("NetworkInformation", "[]");
-        $this->RegisterAttributeBoolean("dhcpflag", false);
-        $this->RegisterAttributeString("ip", "");
-        $this->RegisterAttributeString("netmask", "");
-        $this->RegisterAttributeString("gateway", "");
-        $this->RegisterAttributeInteger("dnsstat", 0);
-        $this->RegisterAttributeString("fdnsip", "");
-        $this->RegisterAttributeString("sdnsip", "");
-        $this->RegisterAttributeString("macaddress", "");
-        $this->RegisterAttributeString("networktype", "");
-        $this->RegisterAttributeBoolean("upnpstatus", false);
-        $this->RegisterAttributeBoolean("th3ddnsstatus", false);
-        $this->RegisterAttributeString("startdate", "");
-        $this->RegisterAttributeString("facddnsstatus", "");
-        $this->RegisterAttributeString("sdstatus", "");
+        $this->RegisterPropertyString('NetworkInformation', '[]');
+        $this->RegisterAttributeBoolean('dhcpflag', false);
+        $this->RegisterAttributeString('ip', '');
+        $this->RegisterAttributeString('netmask', '');
+        $this->RegisterAttributeString('gateway', '');
+        $this->RegisterAttributeInteger('dnsstat', 0);
+        $this->RegisterAttributeString('fdnsip', '');
+        $this->RegisterAttributeString('sdnsip', '');
+        $this->RegisterAttributeString('macaddress', '');
+        $this->RegisterAttributeString('networktype', '');
+        $this->RegisterAttributeBoolean('upnpstatus', false);
+        $this->RegisterAttributeBoolean('th3ddnsstatus', false);
+        $this->RegisterAttributeString('startdate', '');
+        $this->RegisterAttributeString('facddnsstatus', '');
+        $this->RegisterAttributeString('sdstatus', '');
 
-        $this->RegisterPropertyString("PortInformation", "[]");
-        $this->RegisterAttributeInteger("http_port", 0);
-        $this->RegisterAttributeInteger("https_port", 0);
-        $this->RegisterAttributeInteger("rtsp_port", 0);
-        $this->RegisterAttributeBoolean("rtsp_authentication", false);
-        $this->RegisterAttributeInteger("rtmp_port", 0);
+        $this->RegisterPropertyString('PortInformation', '[]');
+        $this->RegisterAttributeInteger('http_port', 0);
+        $this->RegisterAttributeInteger('https_port', 0);
+        $this->RegisterAttributeInteger('rtsp_port', 0);
+        $this->RegisterAttributeBoolean('rtsp_authentication', false);
+        $this->RegisterAttributeInteger('rtmp_port', 0);
 
-        $this->RegisterPropertyString("WIFI_Information", "[]");
-        $this->RegisterAttributeBoolean("wf_enable", false); // true (WiFi enabled), false (WiFi disabled)
-        $this->RegisterAttributeString("wf_ssid", ""); // SSID (max. 32 Characters)
-        $this->RegisterAttributeInteger("wf_auth", 0); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
-        $this->RegisterAttributeString("wf_key", ""); // Key max. 63 Characters (Allowed special characters: &="`)
-        $this->RegisterAttributeInteger("wf_enc", 0); // Key type 0 (TKIP), 1 (AES)
-        $this->RegisterAttributeInteger("wf_mode", 0); // 0 (infra), 1 (ad-hoc)
+        $this->RegisterPropertyString('WIFI_Information', '[]');
+        $this->RegisterAttributeBoolean('wf_enable', false); // true (WiFi enabled), false (WiFi disabled)
+        $this->RegisterAttributeString('wf_ssid', ''); // SSID (max. 32 Characters)
+        $this->RegisterAttributeInteger('wf_auth', 0); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
+        $this->RegisterAttributeString('wf_key', ''); // Key max. 63 Characters (Allowed special characters: &='`)
+        $this->RegisterAttributeInteger('wf_enc', 0); // Key type 0 (TKIP), 1 (AES)
+        $this->RegisterAttributeInteger('wf_mode', 0); // 0 (infra), 1 (ad-hoc)
 
-        $this->RegisterPropertyString("DDNS_Configuration", "[]");
-        $this->RegisterAttributeBoolean("our_enable", false); // true INSTAR DDNS enabled, false INSTAR DDNS disabled
-        $this->RegisterAttributeString("our_server", ""); // INSTAR DDNS Server Domain
-        $this->RegisterAttributeInteger("our_port", 0); // INSTAR DDNS Server Port
-        $this->RegisterAttributeString("our_uname", ""); // Your INSTAR DDNS ID
-        $this->RegisterAttributeString("our_passwd", ""); // Your INSTAR DDNS Password
-        $this->RegisterAttributeString("our_domain", ""); // Your INSTAR DDNS Address
-        $this->RegisterAttributeInteger("our_interval", 0); // Update Intervall
+        $this->RegisterPropertyString('DDNS_Configuration', '[]');
+        $this->RegisterAttributeBoolean('our_enable', false); // true INSTAR DDNS enabled, false INSTAR DDNS disabled
+        $this->RegisterAttributeString('our_server', ''); // INSTAR DDNS Server Domain
+        $this->RegisterAttributeInteger('our_port', 0); // INSTAR DDNS Server Port
+        $this->RegisterAttributeString('our_uname', ''); // Your INSTAR DDNS ID
+        $this->RegisterAttributeString('our_passwd', ''); // Your INSTAR DDNS Password
+        $this->RegisterAttributeString('our_domain', ''); // Your INSTAR DDNS Address
+        $this->RegisterAttributeInteger('our_interval', 0); // Update Intervall
 
-        $this->RegisterPropertyString("3rd_Party_DDNS_Configuration", "[]");
+        $this->RegisterPropertyString('3rd_Party_DDNS_Configuration', '[]');
         $this->RegisterAttributeBoolean(
-            "d3th_enable", false
+            'd3th_enable', false
         ); // true 3rd Party DDNS activated / INSTAR DDNS disabled, false 3rd Party DDNS deactivated / INSTAR DDNS enabled
-        $this->RegisterAttributeInteger("d3th_service", 0); // 0: DynDNS, 1: NoIP
-        $this->RegisterAttributeString("d3th_uname", ""); // Your Username
-        $this->RegisterAttributeString("d3th_passwd", ""); // Your Password
-        $this->RegisterAttributeString("d3th_domain", ""); // Your 3rd Party DDNS Address
+        $this->RegisterAttributeInteger('d3th_service', 0); // 0: DynDNS, 1: NoIP
+        $this->RegisterAttributeString('d3th_uname', ''); // Your Username
+        $this->RegisterAttributeString('d3th_passwd', ''); // Your Password
+        $this->RegisterAttributeString('d3th_domain', ''); // Your 3rd Party DDNS Address
 
-        $this->RegisterPropertyString("UPNP_Configuration", "[]");
-        $this->RegisterPropertyBoolean("upnp_enable", false); // true UPnP activated, false UPnP deactivated
+        $this->RegisterPropertyString('UPNP_Configuration', '[]');
+        $this->RegisterPropertyBoolean('upnp_enable', false); // true UPnP activated, false UPnP deactivated
 
-        $this->RegisterPropertyString("ONVIF_Configuration", "[]");
-        $this->RegisterPropertyBoolean("ONVIF_enable", false);
-        $this->RegisterAttributeBoolean("ov_enable", false); // true ONVIF activated, false ONVIF deactivated
-        $this->RegisterAttributeInteger("ov_port", 0); // ONVIF Port
-        $this->RegisterAttributeBoolean("ov_authflag", false); // ONVIF Login Required, false: ONVIF Authentication deactivated
+        $this->RegisterPropertyString('ONVIF_Configuration', '[]');
+        $this->RegisterPropertyBoolean('ONVIF_enable', false);
+        $this->RegisterAttributeBoolean('ov_enable', false); // true ONVIF activated, false ONVIF deactivated
+        $this->RegisterAttributeInteger('ov_port', 0); // ONVIF Port
+        $this->RegisterAttributeBoolean('ov_authflag', false); // ONVIF Login Required, false: ONVIF Authentication deactivated
         $this->RegisterAttributeInteger(
-            "ov_forbitset", 0
+            'ov_forbitset', 0
         ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
-        $this->RegisterAttributeInteger("ov_subchn", 0); // Use video channel 11, 12 or 13
-        $this->RegisterAttributeInteger("ov_snapchn", 0); // Use video channel 11, 12 or 13 for snapshots
+        $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
+        $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
 
 
-        $this->RegisterAttributeBoolean("1080p_API", false);
-        $this->RegisterAttributeBoolean("720p_API", false);
-        $this->RegisterAttributeBoolean("VGA_API", true);
-        $this->RegisterAttributeBoolean("MQTT_Support", false);
-        $this->RegisterAttributeBoolean("MQTT", false);
+        $this->RegisterAttributeBoolean('1080p_API', false);
+        $this->RegisterAttributeBoolean('720p_API', false);
+        $this->RegisterAttributeBoolean('VGA_API', true);
+        $this->RegisterAttributeBoolean('MQTT_Support', false);
+        $this->RegisterAttributeBoolean('MQTT', false);
 
         //we will wait until the kernel is ready
         $this->RegisterMessage(0, IPS_KERNELMESSAGE);
@@ -333,7 +335,7 @@ class INSTAR extends IPSModule
         }
 
         $this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->RegisterVariableString("LastMovement", $this->Translate("Time last movement"), "INSTAR.Movement", $this->_getPosition());
+        $this->RegisterVariableString('LastMovement', $this->Translate('Time last movement'), 'INSTAR.Movement', $this->_getPosition());
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Continuous', 'Move', '', '', 0, 4, 0, 0, 1, [
                                            [0, $this->Translate('Left'), '', -1],
@@ -343,9 +345,9 @@ class INSTAR extends IPSModule
                                            [4, $this->Translate('Stop'), '', -1]]
         );
         $this->RegisterVariableInteger(
-            "Control_Continuous", $this->Translate("Control Continuous"), "INSTAR.Control.Continuous", $this->_getPosition()
+            'Control_Continuous', $this->Translate('Control Continuous'), 'INSTAR.Control.Continuous', $this->_getPosition()
         );
-        $this->EnableAction("Control_Continuous");
+        $this->EnableAction('Control_Continuous');
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Step', 'Move', '', '', 0, 3, 0, 0, 1, [
                                      [0, $this->Translate('Step Left'), '', -1],
@@ -353,71 +355,71 @@ class INSTAR extends IPSModule
                                      [2, $this->Translate('Step Down'), '', -1],
                                      [3, $this->Translate('Step Right'), '', -1]]
         );
-        $this->RegisterVariableInteger("Control_Step", $this->Translate("Control Step"), "INSTAR.Control.Step", $this->_getPosition());
-        $this->EnableAction("Control_Step");
+        $this->RegisterVariableInteger('Control_Step', $this->Translate('Control Step'), 'INSTAR.Control.Step', $this->_getPosition());
+        $this->EnableAction('Control_Step');
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, 1, [
                                      [0, $this->Translate('Center'), '', -1],
                                      [1, $this->Translate('Scan Horizontal'), '', -1],
                                      [2, $this->Translate('Scan Vertical'), '', -1]]
         );
-        $this->RegisterVariableInteger("Control_Scan", $this->Translate("Control Scan"), "INSTAR.Control.Scan", $this->_getPosition());
-        $this->EnableAction("Control_Scan");
+        $this->RegisterVariableInteger('Control_Scan', $this->Translate('Control Scan'), 'INSTAR.Control.Scan', $this->_getPosition());
+        $this->EnableAction('Control_Scan');
         $this->RegisterProfileAssociation(
             'INSTAR.Snapshot', 'Camera', '', '', 0, 0, 0, 0, 1, [
                                  [0, $this->Translate('Save Picture'), '', -1]]
         );
 
         $this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, VARIABLETYPE_INTEGER);
-        $this->RegisterVariableInteger("hue", $this->Translate("Hue"), "INSTAR.Hue", $this->_getPosition()); // Hue (0-127), integer
-        $this->EnableAction("hue");
-        $this->RegisterVariableInteger("Saturation", $this->Translate("Saturation"), "~Intensity.255", $this->_getPosition()); // Saturation (0-255)
-        $this->EnableAction("Saturation");
-        $this->RegisterVariableInteger("Brightness", $this->Translate("Brightness"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
-        $this->EnableAction("Brightness");
-        $this->RegisterVariableInteger("Contrast", $this->Translate("Contrast"), "~Intensity.255", $this->_getPosition()); // Brightness (0-255)
-        $this->EnableAction("Contrast");
+        $this->RegisterVariableInteger('hue', $this->Translate('Hue'), 'INSTAR.Hue', $this->_getPosition()); // Hue (0-127), integer
+        $this->EnableAction('hue');
+        $this->RegisterVariableInteger('Saturation', $this->Translate('Saturation'), '~Intensity.255', $this->_getPosition()); // Saturation (0-255)
+        $this->EnableAction('Saturation');
+        $this->RegisterVariableInteger('Brightness', $this->Translate('Brightness'), '~Intensity.255', $this->_getPosition()); // Brightness (0-255)
+        $this->EnableAction('Brightness');
+        $this->RegisterVariableInteger('Contrast', $this->Translate('Contrast'), '~Intensity.255', $this->_getPosition()); // Brightness (0-255)
+        $this->EnableAction('Contrast');
 
-        $this->RegisterVariableInteger("INSTARButtonSnapshot", $this->Translate("Save INSTAR picture"), "INSTAR.Snapshot", $this->_getPosition());
-        $this->EnableAction("INSTARButtonSnapshot");
+        $this->RegisterVariableInteger('INSTARButtonSnapshot', $this->Translate('Save INSTAR picture'), 'INSTAR.Snapshot', $this->_getPosition());
+        $this->EnableAction('INSTARButtonSnapshot');
 
-        $this->RegisterVariableBoolean("Flip", $this->Translate("Flip"), "~Switch", $this->_getPosition());
-        $this->EnableAction("Flip");
-        $this->RegisterVariableBoolean("Mirror", $this->Translate("Mirror"), "~Switch", $this->_getPosition());
-        $this->EnableAction("Mirror");
+        $this->RegisterVariableBoolean('Flip', $this->Translate('Flip'), '~Switch', $this->_getPosition());
+        $this->EnableAction('Flip');
+        $this->RegisterVariableBoolean('Mirror', $this->Translate('Mirror'), '~Switch', $this->_getPosition());
+        $this->EnableAction('Mirror');
         $this->RegisterProfileAssociation(
             'INSTAR.Scene', 'Image', '', '', 0, 2, 0, 0, 1, [
                               [0, $this->Translate('Auto'), '', -1],
                               [1, $this->Translate('Indoor'), '', -1],
                               [2, $this->Translate('Outdoor'), '', -1]]
         );
-        $this->RegisterVariableInteger("Scene", $this->Translate('Scene'), "INSTAR.Scene", $this->_getPosition());
-        $this->EnableAction("Scene");
+        $this->RegisterVariableInteger('Scene', $this->Translate('Scene'), 'INSTAR.Scene', $this->_getPosition());
+        $this->EnableAction('Scene');
         $this->RegisterProfileAssociation(
             'INSTAR.IRLED', 'Bulb', '', '', 0, 2, 0, 0, 1, [
                               [0, $this->Translate('Auto'), '', -1],
                               [1, $this->Translate('On'), '', -1],
                               [2, $this->Translate('Off'), '', -1]]
         );
-        $this->RegisterVariableInteger("IR_LED", $this->Translate("IR LED"), "INSTAR.IRLED", $this->_getPosition());
-        $this->EnableAction("IR_LED");
+        $this->RegisterVariableInteger('IR_LED', $this->Translate('IR LED'), 'INSTAR.IRLED', $this->_getPosition());
+        $this->EnableAction('IR_LED');
         $this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            "SetPosition", $this->Translate("Set Position"), "INSTAR.SetPosition", $this->_getPosition()
+            'SetPosition', $this->Translate('Set Position'), 'INSTAR.SetPosition', $this->_getPosition()
         ); // (0-7), integer
-        $this->EnableAction("SetPosition");
+        $this->EnableAction('SetPosition');
         $this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            "UnsetPosition", $this->Translate("Unset Position"), "INSTAR.UnsetPosition", $this->_getPosition()
+            'UnsetPosition', $this->Translate('Unset Position'), 'INSTAR.UnsetPosition', $this->_getPosition()
         ); // (0-7), integer
-        $this->EnableAction("UnsetPosition");
+        $this->EnableAction('UnsetPosition');
         $this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            "GotoPosition", $this->Translate("Go to Position"), "INSTAR.GotoPosition", $this->_getPosition()
+            'GotoPosition', $this->Translate('Go to Position'), 'INSTAR.GotoPosition', $this->_getPosition()
         ); // (0-7), integer
-        $this->EnableAction("GotoPosition");
+        $this->EnableAction('GotoPosition');
 
-        $this->RegisterVariableString("notification_alarm", $this->Translate("Alarm Notification"), "", $this->_getPosition());
+        $this->RegisterVariableString('notification_alarm', $this->Translate('Alarm Notification'), '', $this->_getPosition());
 
         // register Webhook
         $this->RegisterWebhook('/hook/INSTAR' . $this->InstanceID);
@@ -439,11 +441,11 @@ class INSTAR extends IPSModule
         $port             = $this->ReadPropertyInteger('Port');
         $user             = $this->ReadPropertyString('User');
         $password         = $this->ReadPropertyString('Password');
-        $model            = $this->ReadPropertyInteger("model");
+        $model            = $this->ReadPropertyInteger('model');
         $webhook_username = $this->ReadPropertyString('webhook_username');
         $webhook_password = $this->ReadPropertyString('webhook_password');
 
-        if ($webhook_username == "" || $webhook_password == "") {
+        if ($webhook_username == '' || $webhook_password == '') {
             $this->SetStatus(210);
         }
         if ($model == 0) {
@@ -477,9 +479,9 @@ class INSTAR extends IPSModule
         }
 
         //User und Passwort prüfen
-        if ($user == "" || $password == "") {
+        if ($user == '' || $password == '') {
             $this->SetStatus(205); //Felder dürfen nicht leer sein
-        } elseif ($user !== "" && $password !== "" && $hostcheck === true) {
+        } elseif ($user !== '' && $password !== '' && $hostcheck === true) {
             $MediaID = @IPS_GetObjectIDByIdent('INSTARVideo', $this->InstanceID);
             if ($MediaID === false) {
                 $MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
@@ -488,13 +490,13 @@ class INSTAR extends IPSModule
                 IPS_SetPosition($MediaID, -1);
                 IPS_SetName($MediaID, $this->Translate('INSTAR Live Picture')); // Medienobjekt benennen
             }
-            $url = "http://" . $host . ":" . $port . "/mjpegstream.cgi?-chn=12&usr=" . $user . "&pwd=" . $password;
+            $url = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=12&usr=' . $user . '&pwd=' . $password;
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
 
             // Kategorie prüfen
             $category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
             if ($category_snapshot > 0) {
-                $this->SendDebug("INSTAR", "Kategorie mit ObjektID " . $category_snapshot . " gefunden", 0);
+                $this->SendDebug('INSTAR', 'Kategorie mit ObjektID ' . $category_snapshot . ' gefunden', 0);
             } else {
                 $this->SetStatus(208); //category INSTAR snapshot not set
             }
@@ -506,16 +508,16 @@ class INSTAR extends IPSModule
                 $IDSnapshot = @($this->GetIDForIdent('GetINSTARSnapshot'));
                 if ($IDSnapshot === false) {
                     $IDSnapshot =
-                        $this->RegisterScript("GetINSTARSnapshot", "Get INSTAR Snapshot", $this->CreateSnapshotScript(), $this->_getPosition());
+                        $this->RegisterScript('GetINSTARSnapshot', 'Get INSTAR Snapshot', $this->CreateSnapshotScript(), $this->_getPosition());
                     IPS_SetHidden($IDSnapshot, true);
                     $this->SetSnapshotEvent($IDSnapshot);
                 } else {
-                    $this->SendDebug("INSTAR", "INSTAR Snapshot Script mit " . $IDSnapshot . " gefunden", 0);
+                    $this->SendDebug('INSTAR', 'INSTAR Snapshot Script mit ' . $IDSnapshot . ' gefunden', 0);
                 }
             } else {
                 if ($this->GetIDForIdent('LastMovement') > 0) {
                     $this->RegisterMessage($this->GetIDForIdent('LastMovement'), VM_UPDATE);
-                    $this->SendDebug("INSTAR", "Register Message LastMovement", 0);
+                    $this->SendDebug('INSTAR', 'Register Message LastMovement', 0);
                 }
             }
 
@@ -584,7 +586,7 @@ class INSTAR extends IPSModule
     protected function GetHostIP()
     {
         $ip = exec("sudo ifconfig eth0 | grep 'inet Adresse:' | cut -d: -f2 | awk '{ print $1}'");
-        if ($ip == "") {
+        if ($ip == '') {
             $ipinfo = Sys_GetNetworkInfo();
             $ip     = $ipinfo[0]['IP'];
         }
@@ -594,7 +596,7 @@ class INSTAR extends IPSModule
     protected function CheckEmail($email)
     {
         $ipsversion = $this->GetIPSVersion();
-        if ($email == "") {
+        if ($email == '') {
             $this->SetStatus(205); //Felder dürfen nicht leer sein
         }
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
@@ -603,7 +605,7 @@ class INSTAR extends IPSModule
                 //Skript beim EmailAlert
                 $IDEmail = @($this->GetIDForIdent('SendEmailAlert'));
                 if ($IDEmail === false) {
-                    $IDEmail = $this->RegisterScript("SendEmailAlert", "Email Alert", $this->CreateEmailAlertScript($email), 19);
+                    $IDEmail = $this->RegisterScript('SendEmailAlert', 'Email Alert', $this->CreateEmailAlertScript($email), 19);
                     IPS_SetHidden($IDEmail, true);
                 }
                 $this->SetEmailEvent($IDEmail, true);
@@ -633,7 +635,7 @@ class INSTAR extends IPSModule
             /*Validation*/
             if (checkdnsrr($urlparts['host'], 'A') && in_array($urlparts['scheme'], ['http', 'https']) && ip2long($urlparts['host']) === false) {
                 $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
-                $url              = $urlparts['scheme'] . '://' . $urlparts['host'] . "/";
+                $url              = $urlparts['scheme'] . '://' . $urlparts['host'] . '/';
 
                 if (filter_var($url, FILTER_VALIDATE_URL) !== false && @get_headers($url)) {
                     $validation = true;
@@ -642,11 +644,11 @@ class INSTAR extends IPSModule
         }
 
         if (!$validation) {
-            //echo $url." Its Invalid Domain Name.";
+            //echo $url.' Its Invalid Domain Name.';
             $domaincheck = false;
             return $domaincheck;
         } else {
-            //echo $url." is a Valid Domain Name.";
+            //echo $url.' is a Valid Domain Name.';
             $domaincheck = true;
             return $domaincheck;
         }
@@ -672,7 +674,7 @@ class INSTAR extends IPSModule
             /*Validation*/
             if (checkdnsrr($urlparts['host'], 'A') && in_array($urlparts['scheme'], ['http', 'https']) && ip2long($urlparts['host']) === false) {
                 $urlparts['host'] = preg_replace('/^www\./', '', $urlparts['host']);
-                $url              = $urlparts['scheme'] . '://' . $urlparts['host'] . "/";
+                $url              = $urlparts['scheme'] . '://' . $urlparts['host'] . '/';
 
                 if (filter_var($url, FILTER_VALIDATE_URL) !== false && @get_headers($url)) {
                     $validation = true;
@@ -681,11 +683,11 @@ class INSTAR extends IPSModule
         }
 
         if (!$validation) {
-            //echo $url." Its Invalid Domain Name.";
+            //echo $url.' Its Invalid Domain Name.';
             $domaincheck = false;
             return $domaincheck;
         } else {
-            //echo $url." is a Valid Domain Name.";
+            //echo $url.' is a Valid Domain Name.';
             $domaincheck = true;
             return $domaincheck;
         }
@@ -694,35 +696,28 @@ class INSTAR extends IPSModule
 
     protected function GetURLPrefix($url)
     {
-        $prehttp  = strpos($url, "http://");
-        $prehttps = strpos($url, "https://");
+        $prehttp  = strpos($url, 'http://');
+        $prehttps = strpos($url, 'https://');
         if ($prehttp === 0) {
-            $prefix = ""; //Prefix ist http
+            $prefix = ''; //Prefix ist http
         } elseif ($prehttps === 0) {
-            $prefix = ""; //Prefix ist https
+            $prefix = ''; //Prefix ist https
         } else {
-            $prefix = "http://"; //Prefix ergänzen
+            $prefix = 'http://'; //Prefix ergänzen
         }
         return $prefix;
     }
 
+
     protected function GetConnectURL()
     {
-        $InstanzenListe = IPS_GetInstanceListByModuleID("{9486D575-BE8C-4ED8-B5B5-20930E26DE6F}");
-        $InstanzCount   = 0;
-        $ConnectControl = false;
-        foreach ($InstanzenListe as $InstanzID) {
-            $ConnectControl = $InstanzID;
-            $InstanzCount++;
-            $Childs[] = IPS_GetChildrenIDs($InstanzID);
-        }
-
-        if ($ConnectControl > 0) {
-            $connectinfo = CC_GetUrl($ConnectControl);
-            return $connectinfo;
+        $instID = IPS_GetInstanceListByModuleID('{9486D575-BE8C-4ED8-B5B5-20930E26DE6F}')[0];
+        if (IPS_GetKernelVersion() >= 5.2) {
+            $url = CC_GetConnectURL($instID);
         } else {
-            return false;
+            $url = CC_GetUrl($instID);
         }
+        return $url;
     }
 
     public function MessageSink($TimeStamp, $SenderID, $Message, $Data)
@@ -745,19 +740,19 @@ class INSTAR extends IPSModule
 
         if ($SenderID == $this->GetIDForIdent('LastMovement')) {
             $this->GetSnapshot();
-            $this->SendDebug("INSTAR recieved LastMovement at", date("H:i", time()), 0);
-            $this->SendDebug("INSTAR", "Message from SenderID " . $SenderID . " with Message " . $Message . "\r\n Data: " . print_r($Data, true), 0);
+            $this->SendDebug('INSTAR recieved LastMovement at', date('H:i', time()), 0);
+            $this->SendDebug('INSTAR', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . '\r\n Data: ' . print_r($Data, true), 0);
         }
 
     }
 
     private function GetHostURL()
     {
-        $host     = $this->ReadPropertyString("Host");
-        $port     = $this->ReadPropertyInteger("Port");
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
         $user     = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
-        $root     = $user . ":" . $password . "@" . $host . ":" . $port;
+        $root     = $user . ':' . $password . '@' . $host . ':' . $port;
         return $root;
     }
 
@@ -771,14 +766,14 @@ class INSTAR extends IPSModule
     public function SetLanguage(string $language)
     {
 
-        if ($language == "german") {
-            $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1");
-        } elseif ($language == "english") {
-            $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2");
-        } elseif ($language == "french") {
-            $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3");
-        } elseif ($language == "chinese") {
-            $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=4");
+        if ($language == 'german') {
+            $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1');
+        } elseif ($language == 'english') {
+            $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=2');
+        } elseif ($language == 'french') {
+            $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=3');
+        } elseif ($language == 'chinese') {
+            $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=4');
         }
         return $response;
     }
@@ -788,23 +783,23 @@ class INSTAR extends IPSModule
         //
         if ($model == self::IN_9008_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9020_Full_HD || $model == self::IN_8003_Full_HD
             || $model == self::IN_8015_Full_HD) {
-            $this->WriteAttributeBoolean("1080p_API", true);
-            $this->WriteAttributeBoolean("720p_API", false);
-            $this->WriteAttributeBoolean("VGA_API", false);
+            $this->WriteAttributeBoolean('1080p_API', true);
+            $this->WriteAttributeBoolean('720p_API', false);
+            $this->WriteAttributeBoolean('VGA_API', false);
         }
         // IN-5905 HD
         if ($model == self::IN_5905_HD || $model == self::IN_5907_HD || $model == self::IN_7011_HD || $model == self::IN_6001_HD
             || $model == self::IN_6012_HD
             || $model == self::IN_6014_HD) {
-            $this->WriteAttributeBoolean("1080p_API", false);
-            $this->WriteAttributeBoolean("720p_API", true);
-            $this->WriteAttributeBoolean("VGA_API", false);
+            $this->WriteAttributeBoolean('1080p_API', false);
+            $this->WriteAttributeBoolean('720p_API', true);
+            $this->WriteAttributeBoolean('VGA_API', false);
         }
         //
         if ($model == 0 || $model == self::IN_3011) {
-            $this->WriteAttributeBoolean("1080p_API", false);
-            $this->WriteAttributeBoolean("720p_API", false);
-            $this->WriteAttributeBoolean("VGA_API", true);
+            $this->WriteAttributeBoolean('1080p_API', false);
+            $this->WriteAttributeBoolean('720p_API', false);
+            $this->WriteAttributeBoolean('VGA_API', true);
         }
     }
 
@@ -816,30 +811,30 @@ class INSTAR extends IPSModule
         $username = $this->ReadPropertyString('webhook_username');
         $password = $this->ReadPropertyString('webhook_password');
         if (!isset($_SERVER['PHP_AUTH_USER'])) {
-            $_SERVER['PHP_AUTH_USER'] = "";
+            $_SERVER['PHP_AUTH_USER'] = '';
         }
         if (!isset($_SERVER['PHP_AUTH_PW'])) {
-            $_SERVER['PHP_AUTH_PW'] = "";
+            $_SERVER['PHP_AUTH_PW'] = '';
         }
 
         if (($_SERVER['PHP_AUTH_USER'] != $username) || ($_SERVER['PHP_AUTH_PW'] != $password)) {
             header('WWW-Authenticate: Basic Realm="Plex WebHook"');
             header('HTTP/1.0 401 Unauthorized');
-            echo "Authorization required";
+            echo 'Authorization required';
             return;
         }
-        echo "Webhook INSTAR IP-Symcon";
+        echo 'Webhook INSTAR IP-Symcon';
 
         //workaround for bug
         if (!isset($_IPS)) {
             global $_IPS;
         }
-        if ($_IPS['SENDER'] == "Execute") {
-            echo "This script cannot be used this way.";
+        if ($_IPS['SENDER'] == 'Execute') {
+            echo 'This script cannot be used this way.';
             return;
         }
-        $this->SendDebug("Instar I/O", "GET: " . json_encode($_GET), 0);
-        $this->SetValue("notification_alarm", true);
+        $this->SendDebug('Instar I/O', 'GET: ' . json_encode($_GET), 0);
+        $this->SetValue('notification_alarm', true);
     }
 
     /**
@@ -850,10 +845,10 @@ class INSTAR extends IPSModule
      */
     protected function RegisterWebhook($webhook, $delete = false)
     {
-        $ids = IPS_GetInstanceListByModuleID("{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}");
+        $ids = IPS_GetInstanceListByModuleID('{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}');
 
         if (sizeof($ids) > 0) {
-            $hooks = json_decode(IPS_GetProperty($ids[0], "Hooks"), true);
+            $hooks = json_decode(IPS_GetProperty($ids[0], 'Hooks'), true);
             $found = false;
             foreach ($hooks AS $index => $hook) {
                 if ($hook['Hook'] == $webhook) {
@@ -868,10 +863,10 @@ class INSTAR extends IPSModule
                 }
             }
             if (!$found) {
-                $hooks[] = ["Hook" => $webhook, "TargetID" => $this->InstanceID];
+                $hooks[] = ['Hook' => $webhook, 'TargetID' => $this->InstanceID];
             }
 
-            IPS_SetProperty($ids[0], "Hooks", json_encode($hooks));
+            IPS_SetProperty($ids[0], 'Hooks', json_encode($hooks));
             IPS_ApplyChanges($ids[0]);
         }
     }
@@ -882,8 +877,8 @@ class INSTAR extends IPSModule
      */
     public function Reboot()
     {
-        $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/param.cgi?cmd=sysreboot");
-        $this->SendDebug("INSTAR", "Reboot", 0);
+        $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=sysreboot');
+        $this->SendDebug('INSTAR', 'Reboot', 0);
         return $response;
     }
 
@@ -893,8 +888,8 @@ class INSTAR extends IPSModule
      */
     public function Reset()
     {
-        $response = file_get_contents("http://" . $this->GetHostURL() . "/cgi-bin/hi3510/sysreset.cgi");
-        $this->SendDebug("INSTAR", "Reset", 0);
+        $response = file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/sysreset.cgi');
+        $this->SendDebug('INSTAR', 'Reset', 0);
         return $response;
     }
 
@@ -915,18 +910,18 @@ class INSTAR extends IPSModule
      */
     public function GetCameraNetworkConfiguration()
     {
-        $payload = $this->SendParameter("getnetattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getnetattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "dnsstat") {
+            if ($var_name == 'dnsstat') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "dhcpflag") {
-                if ($var_content == "off") {
+            } elseif ($var_name == 'dhcpflag') {
+                if ($var_content == 'off') {
                     $var_content = false;
                 } else {
                     $var_content = true;
@@ -935,7 +930,7 @@ class INSTAR extends IPSModule
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -946,22 +941,22 @@ class INSTAR extends IPSModule
      */
     public function SetCameraNetworkConfiguration()
     {
-        $network_info = $this->ReadPropertyString("NetworkInformation");
-        $data         = "could not set networkinfo";
-        if ($network_info != "[]") {
+        $network_info = $this->ReadPropertyString('NetworkInformation');
+        $data         = 'could not set networkinfo';
+        if ($network_info != '[]') {
             $network_info = json_decode($network_info);
             $ip           = $network_info[0]->ip;
             $dhcp         = $network_info[0]->dhcp;
             if ($dhcp) {
-                $dhcp = "on";
+                $dhcp = 'on';
             } else {
-                $dhcp = "off";
+                $dhcp = 'off';
             }
             $netmask = $network_info[0]->netmask;
             $gateway = $network_info[0]->gateway;
             // $fdnsip = $network_info[0]->fdnsip;
-            $parameter = "&-dhcpflag=" . $dhcp . "&-ip=" . $ip . "&-netmask=" . $netmask . "&-gateway=" . $gateway . "&-fdnsip=8.8.8.8&-sdnsip=";
-            $data      = $this->SendParameter("setnetattr" . $parameter);
+            $parameter = '&-dhcpflag=' . $dhcp . '&-ip=' . $ip . '&-netmask=' . $netmask . '&-gateway=' . $gateway . '&-fdnsip=8.8.8.8&-sdnsip=';
+            $data      = $this->SendParameter('setnetattr' . $parameter);
         }
         return $data;
     }
@@ -986,7 +981,7 @@ class INSTAR extends IPSModule
 
     private function ExplodePort($string_port)
     {
-        $data = explode("=", $string_port);
+        $data = explode('=', $string_port);
         $port = intval(trim($data[1], '"'));
         return $port;
     }
@@ -997,9 +992,9 @@ class INSTAR extends IPSModule
      */
     public function GetCameraHTTP_Port()
     {
-        $port = $this->SendParameter("gethttpport");
+        $port = $this->SendParameter('gethttpport');
         $port = $this->ExplodePort($port);
-        $this->WriteAttributeInteger("http_port", $port);
+        $this->WriteAttributeInteger('http_port', $port);
         return $port;
     }
 
@@ -1011,17 +1006,17 @@ class INSTAR extends IPSModule
      */
     public function SetCameraHTTP_Port(int $http_port)
     {
-        $port = "could not set port";
+        $port = 'could not set port';
         if ($http_port != 0) {
-            $parameter = "&-httpport=" . $http_port;
-            $port      = $this->SendParameter("sethttpport" . $parameter);
+            $parameter = '&-httpport=' . $http_port;
+            $port      = $this->SendParameter('sethttpport' . $parameter);
         }
         return $port;
     }
 
     private function SetCameraHTTP_PortList()
     {
-        $http_port = $this->ReadAttributeInteger("http_port");
+        $http_port = $this->ReadAttributeInteger('http_port');
         $this->SetCameraHTTP_Port($http_port);
     }
 
@@ -1031,9 +1026,9 @@ class INSTAR extends IPSModule
      */
     public function GetCameraHTTPS_Port()
     {
-        $port = $this->SendParameter("gethttpsport");
+        $port = $this->SendParameter('gethttpsport');
         $port = $this->ExplodePort($port);
-        $this->WriteAttributeInteger("https_port", $port);
+        $this->WriteAttributeInteger('https_port', $port);
         return $port;
     }
 
@@ -1045,17 +1040,17 @@ class INSTAR extends IPSModule
      */
     public function SetCameraHTTPS_Port(int $https_port)
     {
-        $port = "could not set port";
+        $port = 'could not set port';
         if ($https_port != 0) {
-            $parameter = "&-httpsport=" . $https_port;
-            $port      = $this->SendParameter("sethttpsport" . $parameter);
+            $parameter = '&-httpsport=' . $https_port;
+            $port      = $this->SendParameter('sethttpsport' . $parameter);
         }
         return $port;
     }
 
     private function SetCameraHTTPS_PortList()
     {
-        $http_port = $this->ReadAttributeInteger("https_port");
+        $http_port = $this->ReadAttributeInteger('https_port');
         $this->SetCameraHTTPS_Port($http_port);
     }
 
@@ -1065,26 +1060,27 @@ class INSTAR extends IPSModule
      */
     public function GetCameraRTSP_Port()
     {
-        $port = $this->SendParameter("getrtspport");
+        $port = $this->SendParameter('getrtspport');
         $port = $this->ExplodePort($port);
-        $this->WriteAttributeInteger("rtsp_port", $port);
+        $this->WriteAttributeInteger('rtsp_port', $port);
         return $port;
     }
 
     /** Set your Camera´s RTSP Port
+     * @param int $rtsp_port
      *
      * @return false|string
      */
     public function SetCameraRTSP_Port(int $rtsp_port)
     {
-        $parameter = "&rtspport=" . $rtsp_port;
-        $port      = $this->SendParameter("setrtspport" . $parameter);
+        $parameter = '&rtspport=' . $rtsp_port;
+        $port      = $this->SendParameter('setrtspport' . $parameter);
         return $port;
     }
 
     private function SetCameraRTPS_PortList()
     {
-        $rtsp_port = $this->ReadAttributeInteger("rtsp_port");
+        $rtsp_port = $this->ReadAttributeInteger('rtsp_port');
         $this->SetCameraRTSP_Port($rtsp_port);
     }
 
@@ -1094,14 +1090,14 @@ class INSTAR extends IPSModule
      */
     public function GetRTSPAuthenticationState()
     {
-        $auth = $this->SendParameter("getrtspauth");
+        $auth = $this->SendParameter('getrtspauth');
         $auth = $this->ExplodePort($auth);
         if ($auth == 1) {
             $authentication = true;
-            $this->WriteAttributeBoolean("rtsp_authentication", $authentication);
+            $this->WriteAttributeBoolean('rtsp_authentication', $authentication);
         } else {
             $authentication = false;
-            $this->WriteAttributeBoolean("rtsp_authentication", $authentication);
+            $this->WriteAttributeBoolean('rtsp_authentication', $authentication);
         }
         return $authentication;
     }
@@ -1117,14 +1113,14 @@ class INSTAR extends IPSModule
         } else {
             $enable = 0;
         }
-        $parameter = "&-rtsp_aenable=" . $enable;
-        $state     = $this->SendParameter("setrtspauth" . $parameter);
+        $parameter = '&-rtsp_aenable=' . $enable;
+        $state     = $this->SendParameter('setrtspauth' . $parameter);
         return $state;
     }
 
     private function SetRTSPAuthenticationStateList()
     {
-        $auth = $this->ReadAttributeBoolean("rtsp_authentication");
+        $auth = $this->ReadAttributeBoolean('rtsp_authentication');
         $this->SetRTSPAuthenticationState($auth);
     }
 
@@ -1134,26 +1130,27 @@ class INSTAR extends IPSModule
      */
     public function GetCameraRTMP_Port()
     {
-        $port = $this->SendParameter("getrtmpattr");
+        $port = $this->SendParameter('getrtmpattr');
         $port = $this->ExplodePort($port);
-        $this->WriteAttributeInteger("rtmp_port", $port);
+        $this->WriteAttributeInteger('rtmp_port', $port);
         return $port;
     }
 
     /** Set your Camera's RTMP Port
+     * @param int $rtmp_port
      *
      * @return false|string
      */
     public function SetCameraRTMP_Port(int $rtmp_port)
     {
-        $parameter = "&-rtmpport=" . $rtmp_port;
-        $port      = $this->SendParameter("setrtmpattr" . $parameter);
+        $parameter = '&-rtmpport=' . $rtmp_port;
+        $port      = $this->SendParameter('setrtmpattr' . $parameter);
         return $port;
     }
 
     private function SetCameraRTMP_PortList()
     {
-        $rtmp_port = $this->ReadAttributeInteger("rtmp_port");
+        $rtmp_port = $this->ReadAttributeInteger('rtmp_port');
         $this->SetCameraRTMP_Port($rtmp_port);
     }
 
@@ -1164,18 +1161,18 @@ class INSTAR extends IPSModule
      */
     public function GetNetInfo()
     {
-        $payload = $this->SendParameter("getnetinfo");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getnetinfo');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "dnsstat") {
+            if ($var_name == 'dnsstat') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "dhcpflag") {
-                if ($var_content == "off") {
+            } elseif ($var_name == 'dhcpflag') {
+                if ($var_content == 'off') {
                     $var_content = false;
                 } else {
                     $var_content = true;
@@ -1184,7 +1181,7 @@ class INSTAR extends IPSModule
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -1195,10 +1192,10 @@ class INSTAR extends IPSModule
      */
     public function GetCameraModel()
     {
-        $payload = $this->SendParameter("getsysinfo");
+        $payload = $this->SendParameter('getsysinfo');
         $data    = explode('"', $payload);
         $model   = $data[1];
-        $this->SendDebug("INSTAR", "Model: " . $model, 0);
+        $this->SendDebug('INSTAR', 'Model: ' . $model, 0);
         return $model;
     }
 
@@ -1208,10 +1205,10 @@ class INSTAR extends IPSModule
      */
     public function GetIRMode()
     {
-        $payload = $this->SendParameter("getinfrared");
+        $payload = $this->SendParameter('getinfrared');
         $data    = explode('"', $payload);
         $mode    = $data[1];
-        $this->SendDebug("INSTAR", "IR mode: " . $mode, 0);
+        $this->SendDebug('INSTAR', 'IR mode: ' . $mode, 0);
         return $mode;
     }
 
@@ -1224,18 +1221,18 @@ class INSTAR extends IPSModule
      */
     public function GetCameraWIFIConfiguration()
     {
-        $payload = $this->SendParameter("getwirelessattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getwirelessattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "wf_auth" || $var_name == "wf_enc" || $var_name == "wf_mode") {
+            if ($var_name == 'wf_auth' || $var_name == 'wf_enc' || $var_name == 'wf_mode') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "wf_enable") {
-                if ($var_content == "0") {
+            } elseif ($var_name == 'wf_enable') {
+                if ($var_content == '0') {
                     $var_content = false;
                 } else {
                     $var_content = true;
@@ -1244,7 +1241,7 @@ class INSTAR extends IPSModule
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -1255,25 +1252,25 @@ class INSTAR extends IPSModule
      */
     public function SetCameraWIFIConfiguration()
     {
-        $wifi_info = $this->ReadPropertyString("WIFI_Information");
-        $data      = "could not set WIFI info";
-        if ($wifi_info != "[]") {
+        $wifi_info = $this->ReadPropertyString('WIFI_Information');
+        $data      = 'could not set WIFI info';
+        if ($wifi_info != '[]') {
             $wifi_info = json_decode($wifi_info);
             $wf_enable = $wifi_info[0]->wf_enable;
             $wf_ssid   = $wifi_info[0]->wf_ssid;
             if ($wf_enable) {
-                $wf_enable = "1";
+                $wf_enable = '1';
             } else {
-                $wf_enable = "0";
+                $wf_enable = '0';
             }
             $wf_auth   = $wifi_info[0]->wf_auth;
             $wf_key    = $wifi_info[0]->wf_key;
             $wf_enc    = $wifi_info[0]->wf_enc;
             $wf_mode   = $wifi_info[0]->wf_mode;
             $parameter =
-                "&-wf_ssid=" . $wf_ssid . "&-wf_enable=" . $wf_enable . "&-wf_auth=" . $wf_auth . "&-wf_key=" . $wf_key . "&-wf_enc=" . $wf_enc
-                . "&-wf_mode=" . $wf_mode;
-            $data      = $this->SendParameter("setwirelessattr" . $parameter);
+                '&-wf_ssid=' . $wf_ssid . '&-wf_enable=' . $wf_enable . '&-wf_auth=' . $wf_auth . '&-wf_key=' . $wf_key . '&-wf_enc=' . $wf_enc
+                . '&-wf_mode=' . $wf_mode;
+            $data      = $this->SendParameter('setwirelessattr' . $parameter);
         }
         return $data;
     }
@@ -1284,15 +1281,15 @@ class INSTAR extends IPSModule
      */
     public function SearchWiFiAccessPoints()
     {
-        $payload = $this->SendParameter("searchwireless");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('searchwireless');
+        $data    = explode(';', $payload);
         array_pop($data);
         $search = [];
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
             $search[$var_name] = $var_content;
         }
         return $search;
@@ -1304,15 +1301,15 @@ class INSTAR extends IPSModule
      */
     public function GetCameraWiFiAccessPoint()
     {
-        $payload = $this->SendParameter("getchkwireless");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getchkwireless');
+        $data    = explode(';', $payload);
         array_pop($data);
         $search = [];
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
             $search[$var_name] = $var_content;
         }
         return $search;
@@ -1330,8 +1327,8 @@ class INSTAR extends IPSModule
      */
     public function SetCameraWiFiAccessPoint(string $wf_ssid, int $wauth, string $wf_key, int $wf_enc, int $wf_mode)
     {
-        $parameter = "&-wf_ssid=" . $wf_ssid . "&-wf_auth=" . $wauth . "&-wf_key=" . $wf_key . "&-wf_enc=" . $wf_enc . "&-wf_mode=" . $wf_mode;
-        $data      = $this->SendParameter("setwirelessattr" . $parameter);
+        $parameter = '&-wf_ssid=' . $wf_ssid . '&-wf_auth=' . $wauth . '&-wf_key=' . $wf_key . '&-wf_enc=' . $wf_enc . '&-wf_mode=' . $wf_mode;
+        $data      = $this->SendParameter('setwirelessattr' . $parameter);
         return $data;
     }
 
@@ -1344,29 +1341,29 @@ class INSTAR extends IPSModule
      */
     public function GetDDNSConfiguration()
     {
-        $payload = $this->SendParameter("getourddnsattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getourddnsattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "our_port" || $var_name == "our_interval") {
+            if ($var_name == 'our_port' || $var_name == 'our_interval') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "our_enable") {
-                if ($var_content == "0") {
+            } elseif ($var_name == 'our_enable') {
+                if ($var_content == '0') {
                     $var_content = false;
                 } else {
                     $var_content = true;
                 }
                 $this->WriteAttributeBoolean($var_name, $var_content);
-            } elseif ($var_name == "model") {
-                $this->WriteAttributeString("model_name", $var_content);
+            } elseif ($var_name == 'model') {
+                $this->WriteAttributeString('model_name', $var_content);
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -1377,53 +1374,53 @@ class INSTAR extends IPSModule
      */
     public function Get3rdPartyDDNSConfiguration()
     {
-        $payload = $this->SendParameter("get3thddnsattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('get3thddnsattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "d3th_service") {
+            if ($var_name == 'd3th_service') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "d3th_enable") {
-                if ($var_content == "0") {
+            } elseif ($var_name == 'd3th_enable') {
+                if ($var_content == '0') {
                     $var_content = false;
                 } else {
                     $var_content = true;
                 }
                 $this->WriteAttributeBoolean($var_name, $var_content);
-            } elseif ($var_name == "model") {
-                $this->WriteAttributeString("model_name", $var_content);
+            } elseif ($var_name == 'model') {
+                $this->WriteAttributeString('model_name', $var_content);
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
 
     public function Set3rdPartyDDNSConfiguration()
     {
-        $ddns_info = $this->ReadPropertyString("3rd_Party_DDNS_Configuration");
-        $data      = "could not set WIFI info";
-        if ($ddns_info != "[]") {
+        $ddns_info = $this->ReadPropertyString('3rd_Party_DDNS_Configuration');
+        $data      = 'could not set WIFI info';
+        if ($ddns_info != '[]') {
             $ddns_info    = json_decode($ddns_info);
             $d3th_enable  = $ddns_info[0]->d3th_enable;
             $d3th_service = $ddns_info[0]->d3th_service;
             if ($d3th_enable) {
-                $d3th_enable = "1";
+                $d3th_enable = '1';
             } else {
-                $d3th_enable = "0";
+                $d3th_enable = '0';
             }
             $d3th_uname  = $ddns_info[0]->d3th_uname;
             $d3th_passwd = $ddns_info[0]->d3th_passwd;
             $d3th_domain = $ddns_info[0]->d3th_domain;
             $parameter   =
-                "&-d3th_enable=" . $d3th_enable . "&-d3th_service=" . $d3th_service . "&-d3th_uname=" . $d3th_uname . "&-d3th_passwd=" . $d3th_passwd
-                . "&-d3th_domain=" . $d3th_domain;
-            $data        = $this->SendParameter("set3thddnsattr" . $parameter);
+                '&-d3th_enable=' . $d3th_enable . '&-d3th_service=' . $d3th_service . '&-d3th_uname=' . $d3th_uname . '&-d3th_passwd=' . $d3th_passwd
+                . '&-d3th_domain=' . $d3th_domain;
+            $data        = $this->SendParameter('set3thddnsattr' . $parameter);
         }
         return $data;
     }
@@ -1434,29 +1431,29 @@ class INSTAR extends IPSModule
      */
     public function GetServerInfo()
     {
-        $payload = $this->SendParameter("getserverinfo");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getserverinfo');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace") {
+            if ($var_name == 'platformstatus' || $var_name == 'sdfreespace' || $var_name == 'sdtotalspace') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
-            } elseif ($var_name == "upnpstatus" || $var_name == "th3ddnsstatus") {
-                if ($var_content == "off") {
+            } elseif ($var_name == 'upnpstatus' || $var_name == 'th3ddnsstatus') {
+                if ($var_content == 'off') {
                     $var_content = false;
                 } else {
                     $var_content = true;
                 }
                 $this->WriteAttributeBoolean($var_name, $var_content);
-            } elseif ($var_name == "model") {
-                $this->WriteAttributeString("model_name", $var_content);
+            } elseif ($var_name == 'model') {
+                $this->WriteAttributeString('model_name', $var_content);
             } else {
                 $this->WriteAttributeString($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -1465,32 +1462,32 @@ class INSTAR extends IPSModule
 
     public function GetUPNPConfiguration()
     {
-        $payload = $this->SendParameter("getupnpattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getupnpattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "upm_enable") {
+            if ($var_name == 'upm_enable') {
                 $var_content = boolval($var_content);
-                IPS_SetProperty($this->InstanceID, "upnp_enable", $var_content);
+                IPS_SetProperty($this->InstanceID, 'upnp_enable', $var_content);
                 IPS_ApplyChanges($this->InstanceID);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
 
     public function SetUPNPConfiguration()
     {
-        $upnp = $this->ReadPropertyBoolean("upnp_enable");
+        $upnp = $this->ReadPropertyBoolean('upnp_enable');
         if ($upnp) {
-            $parameter = "&-upm_enable=1";
-            $data      = $this->SendParameter("setupnpattr" . $parameter);
+            $parameter = '&-upm_enable=1';
+            $data      = $this->SendParameter('setupnpattr' . $parameter);
         } else {
-            $parameter = "&-upm_enable=0";
-            $data      = $this->SendParameter("setupnpattr" . $parameter);
+            $parameter = '&-upm_enable=0';
+            $data      = $this->SendParameter('setupnpattr' . $parameter);
         }
         return $data;
     }
@@ -1502,28 +1499,28 @@ class INSTAR extends IPSModule
      */
     public function GetONVIFConfiguration()
     {
-        $payload = $this->SendParameter("getonvifattr");
-        $data    = explode(";", $payload);
+        $payload = $this->SendParameter('getonvifattr');
+        $data    = explode(';', $payload);
         array_pop($data);
         foreach ($data as $info_device) {
-            $info        = explode("=", $info_device);
+            $info        = explode('=', $info_device);
             $var_name    = substr(trim($info[0]), 4);
             $var_content = trim($info[1], '"');
-            if ($var_name == "ov_enable") {
+            if ($var_name == 'ov_enable') {
                 $var_content = boolval($var_content);
                 $this->WriteAttributeBoolean('ov_enable', $var_content);
-                IPS_SetProperty($this->InstanceID, "ONVIF_enable", $var_content);
+                IPS_SetProperty($this->InstanceID, 'ONVIF_enable', $var_content);
                 IPS_ApplyChanges($this->InstanceID);
             }
-            if ($var_name == "ov_authflag") {
+            if ($var_name == 'ov_authflag') {
                 $var_content = boolval($var_content);
                 $this->WriteAttributeBoolean('ov_authflag', $var_content);
             }
-            if ($var_name == "ov_forbitset" || $var_name == "ov_subchn" || $var_name == "ov_snapchn" || $var_name == "ov_port") {
+            if ($var_name == 'ov_forbitset' || $var_name == 'ov_subchn' || $var_name == 'ov_snapchn' || $var_name == 'ov_port') {
                 $var_content = intval($var_content);
                 $this->WriteAttributeInteger($var_name, $var_content);
             }
-            $this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+            $this->SendDebug('INSTAR', 'Variable ' . $var_name . ' :' . $var_content, 0);
         }
         return $data;
     }
@@ -1533,30 +1530,30 @@ class INSTAR extends IPSModule
      */
     public function SetONVIFConfiguration()
     {
-        $onvif_info = $this->ReadPropertyString("ONVIF_Configuration");
-        $data       = "could not set ONVIF info";
-        if ($onvif_info != "[]") {
+        $onvif_info = $this->ReadPropertyString('ONVIF_Configuration');
+        $data       = 'could not set ONVIF info';
+        if ($onvif_info != '[]') {
             $onvif_info = json_decode($onvif_info);
             $ov_enable  = $onvif_info[0]->ov_enable;
             $ov_port    = $onvif_info[0]->ov_port;
             if ($ov_enable) {
-                $ov_enable = "1";
+                $ov_enable = '1';
             } else {
-                $ov_enable = "0";
+                $ov_enable = '0';
             }
             $ov_authflag = $onvif_info[0]->ov_authflag;
             if ($ov_authflag) {
-                $ov_authflag = "1";
+                $ov_authflag = '1';
             } else {
-                $ov_authflag = "0";
+                $ov_authflag = '0';
             }
             $ov_forbitset = $onvif_info[0]->ov_forbitset;
             $ov_subchn    = $onvif_info[0]->ov_subchn;
             $ov_snapchn   = $onvif_info[0]->ov_snapchn;
             $parameter    =
-                "&-ov_enable=" . $ov_enable . "&-ov_port=" . $ov_port . "&-ov_authflag=" . $ov_authflag . "&-ov_forbitset=" . $ov_forbitset
-                . "&-ov_subchn=" . $ov_subchn . "&-ov_snapchn=" . $ov_snapchn;
-            $data         = $this->SendParameter("setonvifattr" . $parameter);
+                '&-ov_enable=' . $ov_enable . '&-ov_port=' . $ov_port . '&-ov_authflag=' . $ov_authflag . '&-ov_forbitset=' . $ov_forbitset
+                . '&-ov_subchn=' . $ov_subchn . '&-ov_snapchn=' . $ov_snapchn;
+            $data         = $this->SendParameter('setonvifattr' . $parameter);
         }
         return $data;
     }
@@ -1583,9 +1580,9 @@ class INSTAR extends IPSModule
      */
     public function Right()
     {
-        $this->SetValue("Control_Continuous", 3);
-        $command = "-step=0&-act=right";
-        $this->SendDebug("INSTAR:", "right", 0);
+        $this->SetValue('Control_Continuous', 3);
+        $command = '-step=0&-act=right';
+        $this->SendDebug('INSTAR:', 'right', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1597,9 +1594,9 @@ class INSTAR extends IPSModule
      */
     public function Left()
     {
-        $this->SetValue("Control_Continuous", 0);
-        $command = "-step=0&-act=left";
-        $this->SendDebug("INSTAR:", "left", 0);
+        $this->SetValue('Control_Continuous', 0);
+        $command = '-step=0&-act=left';
+        $this->SendDebug('INSTAR:', 'left', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1611,9 +1608,9 @@ class INSTAR extends IPSModule
      */
     public function Up()
     {
-        $this->SetValue("Control_Continuous", 1);
-        $command = "-step=0&-act=up";
-        $this->SendDebug("INSTAR:", "up", 0);
+        $this->SetValue('Control_Continuous', 1);
+        $command = '-step=0&-act=up';
+        $this->SendDebug('INSTAR:', 'up', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1625,9 +1622,9 @@ class INSTAR extends IPSModule
      */
     public function Down()
     {
-        $this->SetValue("Control_Continuous", 2);
-        $command = "-step=0&-act=down";
-        $this->SendDebug("INSTAR:", "down", 0);
+        $this->SetValue('Control_Continuous', 2);
+        $command = '-step=0&-act=down';
+        $this->SendDebug('INSTAR:', 'down', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1639,9 +1636,9 @@ class INSTAR extends IPSModule
      */
     public function Stop()
     {
-        $this->SetValue("Control_Continuous", 4);
-        $command = "-step=0&-act=stop";
-        $this->SendDebug("INSTAR:", "stop", 0);
+        $this->SetValue('Control_Continuous', 4);
+        $command = '-step=0&-act=stop';
+        $this->SendDebug('INSTAR:', 'stop', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1653,9 +1650,9 @@ class INSTAR extends IPSModule
      */
     public function StepRight()
     {
-        $this->SetValue("Control_Step", 3);
-        $command = "-step=1&-act=right";
-        $this->SendDebug("INSTAR:", "step right", 0);
+        $this->SetValue('Control_Step', 3);
+        $command = '-step=1&-act=right';
+        $this->SendDebug('INSTAR:', 'step right', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1667,9 +1664,9 @@ class INSTAR extends IPSModule
      */
     public function StepLeft()
     {
-        $this->SetValue("Control_Step", 0);
-        $command = "-step=1&-act=left";
-        $this->SendDebug("INSTAR:", "step left", 0);
+        $this->SetValue('Control_Step', 0);
+        $command = '-step=1&-act=left';
+        $this->SendDebug('INSTAR:', 'step left', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1681,9 +1678,9 @@ class INSTAR extends IPSModule
      */
     public function StepUp()
     {
-        $this->SetValue("Control_Step", 1);
-        $command = "-step=1&-act=up";
-        $this->SendDebug("INSTAR:", "step up", 0);
+        $this->SetValue('Control_Step', 1);
+        $command = '-step=1&-act=up';
+        $this->SendDebug('INSTAR:', 'step up', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1695,9 +1692,9 @@ class INSTAR extends IPSModule
      */
     public function StepDown()
     {
-        $this->SetValue("Control_Step", 2);
-        $command = "-step=1&-act=down";
-        $this->SendDebug("INSTAR:", "step down", 0);
+        $this->SetValue('Control_Step', 2);
+        $command = '-step=1&-act=down';
+        $this->SendDebug('INSTAR:', 'step down', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1709,8 +1706,8 @@ class INSTAR extends IPSModule
      */
     public function GotoCenterPosition()
     {
-        $command = "-step=0&-act=home";
-        $this->SendDebug("INSTAR:", "goto center position", 0);
+        $command = '-step=0&-act=home';
+        $this->SendDebug('INSTAR:', 'goto center position', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1722,9 +1719,9 @@ class INSTAR extends IPSModule
      */
     public function ScanHorizontal()
     {
-        $command = "-step=0&-act=hscan";
-        $this->SendDebug("INSTAR:", "Scan horizontal", 0);
-        // $command = "-step=0&-act=hscan&-speed=45";
+        $command = '-step=0&-act=hscan';
+        $this->SendDebug('INSTAR:', 'Scan horizontal', 0);
+        // $command = '-step=0&-act=hscan&-speed=45';
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1736,8 +1733,8 @@ class INSTAR extends IPSModule
      */
     public function ScanVertical()
     {
-        $command = "-step=0&-act=vscan";
-        $this->SendDebug("INSTAR:", "Scan vertical", 0);
+        $command = '-step=0&-act=vscan';
+        $this->SendDebug('INSTAR:', 'Scan vertical', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1749,11 +1746,11 @@ class INSTAR extends IPSModule
      */
     public function SetPosition(int $position)
     {
-        $this->SetValue("SetPosition", $position);
-        $this->SendDebug("INSTAR:", "Set position " . $position, 0);
+        $this->SetValue('SetPosition', $position);
+        $this->SendDebug('INSTAR:', 'Set position ' . $position, 0);
         $position  = $position + 1;
-        $parameter = "&-act=set&-status=1&-number=" . $position;
-        $state     = $this->SendParameter("preset" . $parameter);
+        $parameter = '&-act=set&-status=1&-number=' . $position;
+        $state     = $this->SendParameter('preset' . $parameter);
         return $state;
     }
 
@@ -1765,48 +1762,48 @@ class INSTAR extends IPSModule
      */
     public function UnsetPosition(int $position)
     {
-        $this->SetValue("UnsetPosition", $position);
-        $this->SendDebug("INSTAR:", "Unset position " . $position, 0);
+        $this->SetValue('UnsetPosition', $position);
+        $this->SendDebug('INSTAR:', 'Unset position ' . $position, 0);
         $position  = $position + 1;
-        $parameter = "&-act=set&-status=0&-number=" . $position;
-        $state     = $this->SendParameter("preset" . $parameter);
+        $parameter = '&-act=set&-status=0&-number=' . $position;
+        $state     = $this->SendParameter('preset' . $parameter);
         return $state;
     }
 
-    /**
-     * goto to a set position
+    /** goto to a set position
+     * @param int $position
      *
-     * @return bool|string
+     * @return false|string
      */
     public function GotoPosition(int $position)
     {
-        $this->SetValue("GotoPosition", $position);
-        $this->SendDebug("INSTAR:", "Goto position " . $position, 0);
+        $this->SetValue('GotoPosition', $position);
+        $this->SendDebug('INSTAR:', 'Goto position ' . $position, 0);
         $position  = $position + 1;
-        $parameter = "&-act=goto&-status=1&-number=" . $position;
-        $state     = $this->SendParameter("preset" . $parameter);
+        $parameter = '&-act=goto&-status=1&-number=' . $position;
+        $state     = $this->SendParameter('preset' . $parameter);
         return $state;
     }
 
     public function StartRecording(int $time)
     {
-        $parameter = "&-act=on&-time=" . $time;
-        $response  = $this->SendParameter("manualrec" . $parameter);
-        $this->SendDebug("INSTAR:", "Start Recording", 0);
+        $parameter = '&-act=on&-time=' . $time;
+        $response  = $this->SendParameter('manualrec' . $parameter);
+        $this->SendDebug('INSTAR:', 'Start Recording', 0);
         return $response;
     }
 
     protected function SendINSTARControlCommand($command)
     {
-        $this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/ptzctrl.cgi?" . $command, 0);
-        $response = file_get_contents("http://" . $this->GetHostURL() . "/ptzctrl.cgi?" . $command);
+        $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command, 0);
+        $response = file_get_contents('http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command);
         return $response;
     }
 
     protected function SendParameter($command)
     {
-        $this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/param.cgi?cmd=" . $command, 0);
-        $response = file_get_contents("http://" . $this->GetHostURL() . "/param.cgi?cmd=" . $command);
+        $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/param.cgi?cmd=' . $command, 0);
+        $response = file_get_contents('http://' . $this->GetHostURL() . '/param.cgi?cmd=' . $command);
         return $response;
     }
 
@@ -1815,21 +1812,21 @@ class INSTAR extends IPSModule
      */
     protected function GetINSTARType()
     {
-        $INSTAR_type_nr = $this->ReadPropertyInteger("model");
-        $type           = "hi3510";
+        $INSTAR_type_nr = $this->ReadPropertyInteger('model');
+        $type           = 'hi3510';
         $INSTAR_types   = [
-            self::IN_5905_HD      => "IN-5905 HD",
-            self::IN_5907_HD      => "IN-5907 HD",
-            self::IN_7011_HD      => "IN-7011 HD",
-            self::IN_9008_Full_HD => "IN-9008 Full HD",
-            self::IN_9010_Full_HD => "IN-9010 Full HD",
-            self::IN_9020_Full_HD => "IN-9020 Full HD",
-            self::IN_3011         => "IN-3011",
-            self::IN_6001_HD      => "IN-6001 HD",
-            self::IN_6012_HD      => "IN-6012 HD",
-            self::IN_6014_HD      => "IN-6014 HD",
-            self::IN_8003_Full_HD => "IN-8003 Full HD",
-            self::IN_8015_Full_HD => "IN-8015 Full HD",];
+            self::IN_5905_HD      => 'IN-5905 HD',
+            self::IN_5907_HD      => 'IN-5907 HD',
+            self::IN_7011_HD      => 'IN-7011 HD',
+            self::IN_9008_Full_HD => 'IN-9008 Full HD',
+            self::IN_9010_Full_HD => 'IN-9010 Full HD',
+            self::IN_9020_Full_HD => 'IN-9020 Full HD',
+            self::IN_3011         => 'IN-3011',
+            self::IN_6001_HD      => 'IN-6001 HD',
+            self::IN_6012_HD      => 'IN-6012 HD',
+            self::IN_6014_HD      => 'IN-6014 HD',
+            self::IN_8003_Full_HD => 'IN-8003 Full HD',
+            self::IN_8015_Full_HD => 'IN-8015 Full HD',];
         foreach ($INSTAR_types as $key => $INSTAR_type) {
             if ($key == $INSTAR_type_nr) {
                 $type = $INSTAR_type;
@@ -1857,8 +1854,8 @@ class INSTAR extends IPSModule
      */
     public function GetCameraSystemLog()
     {
-        $this->SendDebug("INSTAR Send:", "http://" . $this->GetHostURL() . "/tmpfs/syslog.txt", 0);
-        $log = file_get_contents("http://" . $this->GetHostURL() . "/tmpfs/syslog.txt");
+        $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/tmpfs/syslog.txt', 0);
+        $log = file_get_contents('http://' . $this->GetHostURL() . '/tmpfs/syslog.txt');
         return $log;
     }
 
@@ -1888,7 +1885,7 @@ class INSTAR extends IPSModule
 
     public function GetImageParameter()
     {
-        $parameter = "";
+        $parameter = '';
         return $parameter;
     }
 
@@ -1899,9 +1896,9 @@ class INSTAR extends IPSModule
      */
     public function Brightness(int $brightness)
     {
-        $hue        = GetValue($this->GetIDForIdent("Hue"));
-        $saturation = GetValue($this->GetIDForIdent("Saturation"));
-        $contrast   = GetValue($this->GetIDForIdent("Contrast"));
+        $hue        = GetValue($this->GetIDForIdent('Hue'));
+        $saturation = GetValue($this->GetIDForIdent('Saturation'));
+        $contrast   = GetValue($this->GetIDForIdent('Contrast'));
         $response   = $this->SetImage($brightness, $saturation, $contrast, $hue);
         return $response;
     }
@@ -1913,9 +1910,9 @@ class INSTAR extends IPSModule
      */
     public function Saturation(int $saturation)
     {
-        $hue        = GetValue($this->GetIDForIdent("Hue"));
-        $brightness = GetValue($this->GetIDForIdent("Brightness"));
-        $contrast   = GetValue($this->GetIDForIdent("Contrast"));
+        $hue        = GetValue($this->GetIDForIdent('Hue'));
+        $brightness = GetValue($this->GetIDForIdent('Brightness'));
+        $contrast   = GetValue($this->GetIDForIdent('Contrast'));
         $response   = $this->SetImage($brightness, $saturation, $contrast, $hue);
         return $response;
     }
@@ -1927,9 +1924,9 @@ class INSTAR extends IPSModule
      */
     public function Contrast(int $contrast)
     {
-        $hue        = GetValue($this->GetIDForIdent("Hue"));
-        $brightness = GetValue($this->GetIDForIdent("Brightness"));
-        $saturation = GetValue($this->GetIDForIdent("Saturation"));
+        $hue        = GetValue($this->GetIDForIdent('Hue'));
+        $brightness = GetValue($this->GetIDForIdent('Brightness'));
+        $saturation = GetValue($this->GetIDForIdent('Saturation'));
         $response   = $this->SetImage($brightness, $saturation, $contrast, $hue);
         return $response;
     }
@@ -1941,9 +1938,9 @@ class INSTAR extends IPSModule
      */
     public function Hue(int $hue)
     {
-        $brightness = GetValue($this->GetIDForIdent("Brightness"));
-        $saturation = GetValue($this->GetIDForIdent("Saturation"));
-        $contrast   = GetValue($this->GetIDForIdent("Contrast"));
+        $brightness = GetValue($this->GetIDForIdent('Brightness'));
+        $saturation = GetValue($this->GetIDForIdent('Saturation'));
+        $contrast   = GetValue($this->GetIDForIdent('Contrast'));
         $response   = $this->SetImage($brightness, $saturation, $contrast, $hue);
         return $response;
     }
@@ -1955,12 +1952,12 @@ class INSTAR extends IPSModule
      */
     public function FlipPicture(string $flip)
     {
-        $host     = $this->ReadPropertyString("Host");
-        $port     = $this->ReadPropertyInteger("Port");
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
         $user     = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
         $response = file_get_contents(
-            "http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-flip=" . $flip . "&usr=" . $user . "&pwd=" . $password
+            'http://' . $host . ':' . $port . '/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-flip=' . $flip . '&usr=' . $user . '&pwd=' . $password
         );
         return $response;
     }
@@ -1972,12 +1969,12 @@ class INSTAR extends IPSModule
      */
     public function MirrorPicture(string $mirror)
     {
-        $host     = $this->ReadPropertyString("Host");
-        $port     = $this->ReadPropertyInteger("Port");
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
         $user     = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
         $response = file_get_contents(
-            "http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-mirror=" . $mirror . "&usr=" . $user . "&pwd=" . $password
+            'http://' . $host . ':' . $port . '/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-mirror=' . $mirror . '&usr=' . $user . '&pwd=' . $password
         );
         return $response;
     }
@@ -1989,12 +1986,12 @@ class INSTAR extends IPSModule
      */
     public function Scene(string $scene)
     {
-        $host     = $this->ReadPropertyString("Host");
-        $port     = $this->ReadPropertyInteger("Port");
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
         $user     = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
         $response = file_get_contents(
-            "http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-scene=" . $scene . "&usr=" . $user . "&pwd=" . $password
+            'http://' . $host . ':' . $port . '/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-scene=' . $scene . '&usr=' . $user . '&pwd=' . $password
         );
         return $response;
     }
@@ -2009,13 +2006,13 @@ class INSTAR extends IPSModule
      */
     protected function SetImage($brightness, $saturation, $contrast, $hue)
     {
-        $host     = $this->ReadPropertyString("Host");
-        $port     = $this->ReadPropertyInteger("Port");
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
         $user     = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
         $response = file_get_contents(
-            "http://" . $host . ":" . $port . "/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-brightness=" . $brightness . "&-saturation=" . $saturation
-            . "&-contrast=" . $contrast . "&-hue=" . $hue . "&usr=" . $user . "&pwd=" . $password
+            'http://' . $host . ':' . $port . '/cgi-bin/hi3510/param.cgi?cmd=setimageattr&-brightness=' . $brightness . '&-saturation=' . $saturation
+            . '&-contrast=' . $contrast . '&-hue=' . $hue . '&usr=' . $user . '&pwd=' . $password
         );
         return $response;
     }
@@ -2036,9 +2033,9 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
      */
     public function LED_Auto()
     {
-        $this->SetValue("IR_LED", 0);
-        $parameter = "&-infraredstat=auto";
-        $state     = $this->SendParameter("setinfrared" . $parameter);
+        $this->SetValue('IR_LED', 0);
+        $parameter = '&-infraredstat=auto';
+        $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
     }
 
@@ -2048,9 +2045,9 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
      */
     public function LED_Inactive()
     {
-        $this->SetValue("IR_LED", 2);
-        $parameter = "&-infraredstat=close";
-        $state     = $this->SendParameter("setinfrared" . $parameter);
+        $this->SetValue('IR_LED', 2);
+        $parameter = '&-infraredstat=close';
+        $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
     }
 
@@ -2061,9 +2058,9 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
      */
     public function LED_On()
     {
-        $this->SetValue("IR_LED", 1);
-        $parameter = "&-infraredstat=open";
-        $state     = $this->SendParameter("setinfrared" . $parameter);
+        $this->SetValue('IR_LED', 1);
+        $parameter = '&-infraredstat=open';
+        $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
     }
 
@@ -2083,10 +2080,10 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
     protected function SetLastMovement()
     {
         $relaxationmotionsensor = $this->ReadPropertyInteger('relaxationmotionsensor');
-        $last_write             = IPS_GetVariable($this->GetIDForIdent("LastMovement"))["VariableChanged"];
+        $last_write             = IPS_GetVariable($this->GetIDForIdent('LastMovement'))['VariableChanged'];
         $current_time           = time();
         if (($current_time - $last_write) > $relaxationmotionsensor) {
-            $this->SendDebug("INSTAR:", "motionsensor event", 0);
+            $this->SendDebug('INSTAR:', 'motionsensor event', 0);
             $this->SetValue('LastMovement', date('d.m.y H:i:s'));
         }
     }
@@ -2119,13 +2116,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $EreignisID = @($this->GetIDForIdent('EventGetINSTARSnapshot'));
         if ($EreignisID === false) {
             $EreignisID = IPS_CreateEvent(0);
-            IPS_SetName($EreignisID, "GetINSTARSnapshot");
-            IPS_SetIdent($EreignisID, "EventGetINSTARSnapshot");
+            IPS_SetName($EreignisID, 'GetINSTARSnapshot');
+            IPS_SetIdent($EreignisID, 'EventGetINSTARSnapshot');
             IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastMovement'));   //bei Variablenaktualisierung
             IPS_SetParent($EreignisID, $ParentID);
             IPS_SetEventActive($EreignisID, true);             //Ereignis aktivieren
         } else {
-            $this->SendDebug("INSTAR", "Event für Snapshot mit ObjektID" . $EreignisID . " gefunden", 0);
+            $this->SendDebug('INSTAR', 'Event für Snapshot mit ObjektID' . $EreignisID . ' gefunden', 0);
         }
     }
 
@@ -2135,16 +2132,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         //prüfen ob Event existent
         $ParentID = $IDEmail;
 
-        $EreignisID = @IPS_GetObjectIDByIdent("EventINSTAREmail", $ParentID);
+        $EreignisID = @IPS_GetObjectIDByIdent('EventINSTAREmail', $ParentID);
         if ($EreignisID === false) {
             $EreignisID = IPS_CreateEvent(0);
-            IPS_SetName($EreignisID, "INSTAR Email Alert");
-            IPS_SetIdent($EreignisID, "EventINSTAREmail");
+            IPS_SetName($EreignisID, 'INSTAR Email Alert');
+            IPS_SetIdent($EreignisID, 'EventINSTAREmail');
             IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastRingtone'));   //bei Variablenaktualisierung
             IPS_SetParent($EreignisID, $ParentID);
             IPS_SetEventActive($EreignisID, $state);             //Ereignis aktivieren	/ deaktivieren
         } else {
-            //echo "Die Ereignis-ID lautet: ". $EreignisID;
+            //echo 'Die Ereignis-ID lautet: '. $EreignisID;
             IPS_SetEventActive($EreignisID, $state);             //Ereignis aktivieren	/ deaktivieren
         }
 
@@ -2228,7 +2225,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         // $countmedia = count($mediaids);
         foreach ($mediaids as $key => $mediaid) {
             $mediainfo = IPS_GetMedia($mediaid);
-            if ($mediainfo["MediaFile"] == "media/instar_snapshot_1.jpg") {
+            if ($mediainfo['MediaFile'] == 'media/instar_snapshot_1.jpg') {
                 $mailer = $this->ReadPropertyInteger('smtpmodule');
                 SMTP_SendMailMediaEx($mailer, $email, $subject, $emailtext, $mediaid);
             }
@@ -2237,12 +2234,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     public function GetHistory()
     {
-        $name        = "INSTAR Snapshot";
-        $ident       = "INSTARPic";
-        $picturename = "instar_snapshot_";
+        $name        = 'INSTAR Snapshot';
+        $ident       = 'INSTARPic';
+        $picturename = 'instar_snapshot_';
         for ($i = 1; $i <= 20; $i++) {
 
-            $Content = "";
+            $Content = '';
 
 
             //testen ob im Medienpool existent
@@ -2258,18 +2255,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 // Das Cachen für das Mediaobjekt wird aktiviert.
                 // Beim ersten Zugriff wird dieses von der Festplatte ausgelesen
                 // und zukünftig nur noch im Arbeitsspeicher verarbeitet.
-                $ImageFile = IPS_GetKernelDir() . "media" . DIRECTORY_SEPARATOR . $picturename . $i . ".jpg";  // Image-Datei
+                $ImageFile = IPS_GetKernelDir() . 'media' . DIRECTORY_SEPARATOR . $picturename . $i . '.jpg';  // Image-Datei
                 IPS_SetMediaFile($MediaID, $ImageFile, false);    // Image im MedienPool mit Image-Datei verbinden
-                //$savetime = date('d.m.Y H:i:s');
-                //IPS_SetName($MediaID, $name." ".$i." ".$savetime); // Medienobjekt benennen
-                IPS_SetName($MediaID, $name . " " . $i); // Medienobjekt benennen
+                IPS_SetName($MediaID, $name . ' ' . $i); // Medienobjekt benennen
                 //IPS_SetInfo ($MediaID, $savetime);
                 IPS_SetMediaContent($MediaID, base64_encode($Content));  //Bild Base64 codieren und ablegen
                 IPS_SendMediaEvent($MediaID); //aktualisieren
             } else {
-                //$savetime = date('d.m.Y H:i:s');
-                //IPS_SetName($MediaID, $name." ".$currentsnapshotid." ".$savetime); // Medienobjekt benennen
-                //IPS_SetInfo ($MediaID, $savetime);
                 IPS_SetMediaContent($MediaID, base64_encode($Content));  //Bild Base64 codieren und ablegen
                 IPS_SendMediaEvent($MediaID); //aktualisieren
             }
@@ -2279,24 +2271,24 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     public function GetSnapshot()
     {
-        $name         = "INSTAR Snapshot";
-        $ident        = "INSTARPic";
-        $picturename  = "instar_snapshot_";
+        $name         = 'INSTAR Snapshot';
+        $ident        = 'INSTARPic';
+        $picturename  = 'instar_snapshot_';
         $picturelimit = $this->ReadPropertyInteger('picturelimitsnapshot');
         $catid        = $this->ReadPropertyInteger('categorysnapshot');
         if ($catid > 0) {
             $this->GetImageCamera($name, $ident, $picturename, $picturelimit, $catid);
         } else {
-            $this->SendDebug("INSTAR", "No category is set, please set category.", 0);
-            IPS_LogMessage("INSTAR", "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.");
-            echo "Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.";
+            $this->SendDebug('INSTAR', 'No category is set, please set category.', 0);
+            IPS_LogMessage('INSTAR', 'Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.');
+            echo 'Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.';
         }
     }
 
 
     private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
     {
-        $Content = "";
+        $Content = '';
         //lastsnapshot bestimmen
         $mediaids     = IPS_GetChildrenIDs($catid);
         $countmedia   = count($mediaids);
@@ -2314,7 +2306,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 //allmedia schreiben
                 $this->SaveImagestoPicSlot($allmedia, $ident, $name, $catid);
             } else {
-                $this->SendDebug("INSTAR", "No media image found", 0);
+                $this->SendDebug('INSTAR', 'No media image found', 0);
             }
         } else {
             // neues Mediaobjekt anlegen
@@ -2330,13 +2322,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 // Das Cachen für das Mediaobjekt wird aktiviert.
                 // Beim ersten Zugriff wird dieses von der Festplatte ausgelesen
                 // und zukünftig nur noch im Arbeitsspeicher verarbeitet.
-                $ImageFile = IPS_GetKernelDir() . "media" . DIRECTORY_SEPARATOR . $picturename . $currentsnapshotid . ".jpg";  // Image-Datei
+                $ImageFile = IPS_GetKernelDir() . 'media' . DIRECTORY_SEPARATOR . $picturename . $currentsnapshotid . '.jpg';  // Image-Datei
                 IPS_SetMediaFile($MediaID, $ImageFile, false);    // Image im MedienPool mit Image-Datei verbinden
 
                 if ($currentsnapshotid == 1) {
                     //Auf Position 1 anlegen und beschreiben
                     $savetime = date('d.m.Y H:i:s');
-                    IPS_SetName($MediaID, $name . " " . $currentsnapshotid . " " . $savetime); // Medienobjekt benennen
+                    IPS_SetName($MediaID, $name . ' ' . $currentsnapshotid . ' ' . $savetime); // Medienobjekt benennen
                     IPS_SetInfo($MediaID, $savetime);
                     IPS_SetMediaContent($MediaID, base64_encode($Content));  //Bild Base64 codieren und ablegen
                     IPS_SendMediaEvent($MediaID); //aktualisieren
@@ -2350,7 +2342,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         //allmedia schreiben
                         $this->SaveImagestoPicSlot($allmedia, $ident, $name, $catid);
                     } else {
-                        $this->SendDebug("INSTAR", "No media image found", 0);
+                        $this->SendDebug('INSTAR', 'No media image found', 0);
                     }
                 }
 
@@ -2365,13 +2357,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $allmedia = [];
             for ($i = 0; $i <= ($countmedia - 1); $i++) {
                 $mediakey = IPS_GetObject($mediaids[$i])['ObjectIdent'];
-                $mediakey = explode("Pic", $mediakey);
+                $mediakey = explode('Pic', $mediakey);
                 $mediakey = intval($mediakey[1]);
                 //$name = IPS_GetName($mediaids[$i]);
-                //$name = explode(" ", $name);
+                //$name = explode(' ', $name);
                 //$savedate = $name[3];
                 //$savetime = $name[4];
-                //$saveinfo =  $savedate." ".$savetime;
+                //$saveinfo =  $savedate.' '.$savetime;
                 $saveinfo                    = IPS_GetObject($mediaids[$i])['ObjectInfo'];
                 $allmedia[$i]['objid']       = $mediaids[$i];
                 $allmedia[$i]['picid']       = $mediakey;
@@ -2398,11 +2390,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 $saveinfo    = $media['saveinfo'];
                 $imagebase64 = $media['imagebase64'];
                 IPS_SetMediaContent($mediaid, $imagebase64);  //Bild Base64 codiert ablegen
-                IPS_SetName($mediaid, $name . " " . $newpicid . " " . $saveinfo); // Medienobjekt benennen
+                IPS_SetName($mediaid, $name . ' ' . $newpicid . ' ' . $saveinfo); // Medienobjekt benennen
                 IPS_SetInfo($mediaid, $saveinfo);
                 IPS_SendMediaEvent($mediaid); //aktualisieren
             } else {
-                $this->SendDebug("INSTAR", "No picture with ident " . $ident . $newpicid . " found", 0);
+                $this->SendDebug('INSTAR', 'No picture with ident ' . $ident . $newpicid . ' found', 0);
             }
         }
     }
@@ -2423,18 +2415,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     public function ReceiveData($JSONString)
     {
         $payload = json_decode($JSONString);
-        // $this->SendDebug("INSTAR IO Data", $JSONString, 0);
+        // $this->SendDebug('INSTAR IO Data', $JSONString, 0);
         $data        = $payload->Buffer;
         $INSTAR_json = json_encode($data);
-        $this->SendDebug("INSTAR Webhook", $INSTAR_json, 0);
+        $this->SendDebug('INSTAR Webhook', $INSTAR_json, 0);
         if (isset($data->objectid) && isset($data->value)) {
             $objectid = $data->objectid;
             $value    = $data->value;
             if ($objectid == $this->InstanceID) {
-                if ($value == 1 || $value == "1" || $value == "true") {
-                    $this->SetValue("notification_alarm", $this->GetTimeStamp());
+                if ($value == 1 || $value == '1' || $value == 'true') {
+                    $this->SetValue('notification_alarm', $this->GetTimeStamp());
                 } else {
-                    $this->SetValue("notification_alarm", $this->GetTimeStamp());
+                    $this->SetValue('notification_alarm', $this->GetTimeStamp());
                 }
             }
         }
@@ -2450,7 +2442,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     public function RequestAction($Ident, $Value)
     {
         switch ($Ident) {
-            case "Control_Continuous":
+            case 'Control_Continuous':
                 if ($Value == 0) {
                     $this->Left();
                 } elseif ($Value == 1) {
@@ -2463,7 +2455,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     $this->Stop();
                 }
                 break;
-            case "Control_Step":
+            case 'Control_Step':
                 if ($Value == 0) {
                     $this->StepLeft();
                 } elseif ($Value == 1) {
@@ -2474,7 +2466,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     $this->StepRight();
                 }
                 break;
-            case "Control_Scan":
+            case 'Control_Scan':
                 if ($Value == 0) {
                     $this->GotoCenterPosition();
                 } elseif ($Value == 1) {
@@ -2483,37 +2475,37 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     $this->ScanVertical();
                 }
                 break;
-            case "INSTARButtonSnapshot":
+            case 'INSTARButtonSnapshot':
                 $this->GetSnapshot();
                 break;
-            case "SetPosition":
+            case 'SetPosition':
                 $this->SetPosition($Value);
                 break;
-            case "Flip":
+            case 'Flip':
                 if ($Value) {
-                    $this->FlipPicture("on");
+                    $this->FlipPicture('on');
                 } else {
-                    $this->FlipPicture("off");
+                    $this->FlipPicture('off');
                 }
                 break;
-            case "Mirror":
+            case 'Mirror':
                 if ($Value) {
-                    $this->MirrorPicture("on");
+                    $this->MirrorPicture('on');
                 } else {
-                    $this->MirrorPicture("off");
+                    $this->MirrorPicture('off');
                 }
 
                 break;
-            case "Scene":
+            case 'Scene':
                 if ($Value == 0) {
-                    $this->Scene("auto");
+                    $this->Scene('auto');
                 } elseif ($Value == 1) {
-                    $this->Scene("indoor");
+                    $this->Scene('indoor');
                 } elseif ($Value == 2) {
-                    $this->Scene("outdoor");
+                    $this->Scene('outdoor');
                 }
                 break;
-            case "IR_LED":
+            case 'IR_LED':
                 if ($Value == 0) {
                     $this->LED_Auto();
                 } elseif ($Value == 1) {
@@ -2522,14 +2514,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     $this->LED_Inactive();
                 }
                 break;
-            case "UnsetPosition":
+            case 'UnsetPosition':
                 $this->UnsetPosition($Value);
                 break;
-            case "GotoPosition":
+            case 'GotoPosition':
                 $this->GotoPosition($Value);
                 break;
             default:
-                $this->SendDebug("INSTAR", "Invalid ident", 0);
+                $this->SendDebug('INSTAR', 'Invalid ident', 0);
         }
     }
 
@@ -2664,8 +2656,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'type'  => 'Image',
                 'image' => 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAANkAAABOCAYAAACt3bONAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAADA9JREFUeNrsXU1wHMUV7tWPzckSMVdsTjkh60RywBGnhCoc6wSpwrG4JFA4WCdbhcxPEQqHmLJ9iQSmyjkhY6rgZmGqILngiCMHSa7kisQdVkcsrTbzjadFa92vu2d2Zrp79n1Vzcrs7mjUPd97X7/3urs1evChXwghhpU2pLRW9iqyn1uCwWB0lVfZdpXWUV47I8l/RpM2kjUT2VSCMdkYTLD72M1+Vom1o7wOgVgHFKKNZgRTCddSiMYEYzDJ9nsx1YOp5NrO+LMtSXbAQDbVk7FHYwwysQQhEztZ2+4lGDgCEj2StImMWKMa2TjMBGMw9hGt29M6SttRyPZD0tZAqImrVy5fnzx2bGB779zcnFhdXePHiFE2vk3an1JpCIJNTU0NbE+Mj43z48CoAphqHRjK5CGDwWCSMRjRAXGLUSYZg1EtyUZAsmHuCwajMrk4yiRjMKr1ZMOybIrBYFSDYbVcisFglO/JWkwyBqPiedkIk6w8TExMiLGxsX3/b2VlhTtmwL0ZGb7/aGlJLC3d0L73r6++dLr66tqaOH9+jnz/s88+FeM9D2VZQKnUmqZU6sqVy6KMEjKQ6cSJE+LEM8+k5Dpy5Ijx8yDb+vq6WL97V9y+fVtsbW2Rnz116pT1enVhc3NT3Lx5M9d3cO/4Gyjgerhu1cAYYWx0BnDi8ccfMIi4p83vv09/xljh33jtUy7SObKNjU3x9Z07ff2RW+228RrvXLworl6+XEkHg2C634176gd4gOZffdX4EOlw/PjxtKV4//2UaNc+/FDr6U49//zPn/UM3F9ekqFv0Efkw3/okLjw2muV3fPf3303vYexEgw4jCH64PYXX1iNI0U0r3OyhYVFcadPItcFDBgGb211NTfBdIAXPPPyy43URzAStr+9btner2L5IDGMGPv5+fnc1/Yevoesi4Fgny8vizNnzpR6XVjHJs5LbVIX70sZFxPwHMBD/ydxDHmUhveSKiwxeefi38Sbb7webMeiU13mSDrpZxoMyI9B82Lq5y70N9/pWwb2zrcwxi7jjM/A6P7llVecpHQQdYsLiwvihZnT4ujRo8E9NOhMquMxUOjkm598Ypwgw2qDbHiwpAU36Xtcb+WbbwrdLzUXuvTee4UDH3llsK6feiUWPlflvIzqg2vXrlnnVRgrBLRwjybSQUKmwSyLsQiCZO32lvjziy85Ry3rAvQ3JWvgtWDJXB5CORAYYBk4MZEob6DBiWSXLnmTiiATHkidZFyv0ZthzFwCF/gcGu4b82/Mxal52Mc3bohjk5Nhz8kkEAlE2iAkmUgFJkCC3588WSgMje+4yowmSEX5wOoQQ+AH4/SbqSnSGNjSFd5INj6utwrn5+ZEO3+ItJoHhggBgyR1y5xYoJOK8Nhp/kljkKqOMpYF3DuMKuUFTekKbySbmZnREg2y0ZS8rvWBSTQ5peu3AjEEIYGSitKL6byZDI/HAIw5ZVxt0VI/nmxsXMyendW+B8kYQu6Migo2UeZVJRVlIjcN9BDpCsqYhSodqSmCKYrsbU42O3uWlI3nPMtGU7CDkUMqKv1F9V0snkyCSrscefTRsEi2uraa1ixS3gy5M1SD+Ax6MEqQikoEVZeXik0yAqg9zWOYvZFsq71l9Waoa0SBcUgIpWg3NFBRwl6rj/xf7JKxSETZawjf5M0AX0EQqiNdKwJYKt6Xh739SEmt2CQjFRgJkmTSm1GVHsidLSwuBkMywBauHUSC6eS1LtBBLR2JSTJSspCSkUGQDN7MVLf4j2RutrGxEcwEF/mzUJahBEEyQupR/Re7ZMQ6tLyGOYiKjxdmZsRTxDbhIJiPSn1ThTxKaZhotNSTCx7zkC8GT2byuKZi72DKqkze7NatZXFrebnW+zHlROTSF9Q2slQcc/ZWsUtGLHXSSmPLYs5gSIYDL+DRKJw7X3/uDDWGJmB+hoV8g+rV8kpFGwldl8n4AMaYmo9jhbsJQe25iP03qJA+ZCPC+nUCETJUzpsg1xZhzVkZK6abLBVdJGOIOUoEOzBF0BIseT5sRQpBkex+EOQN8v0lDyVXqFdzKaXCQGA5x8Z336VLI5oe6i8iFVXJGEMFSLoSOpkSwIDq/lYYFJd1esHtHjx79qyYnNTvJoUCYh9BEMhG18r7dIlMot0hI+Hhmioli0pFGxlDiDLCYMr9XCiJCIKZKvNVBHmiyz+vXxdP/OrX2vfSkqvFxZSMdULKAnS+K3Hwuc+Thu/B4jWp9rGoVNxHxp6FnKqHrGKlA8bOdl2XTXhw7zC8rvcY5D742BcRSWoKmJv5yJ1J6+W6Inof2RKvBl3fhLrIfqSiBB7QusP5chsIUzOND8b8j6dPpy2PEQj2sAnMzahKEF+yce9hSuZoWHIOsuXxTnh4IEFi3KlJBRUFzLsxUCzLX0AoGFeMeZHNj4IlGYIgV6/QG5/6yJ3pyIbOx/J0lw1a5Jwt5kgklc/KIxVtpAwtyii3gitqHIM+Nmk6eYCnp0+S7/vInVEyEoGRo4895iwlEYmM0aNRUi6PVPQlGWVUU9dsG/pAShY1jsGfTYZtvE25M5/rzmxS0ka2GOdo/UYVfUpGjAmUh65BjYw//HA63zKlbGAc8xIteJJhXmbKnfkKgriQDQNneviQSyt7V2IfUhHAXLP944+52weaCKNPySgjh6bwPO45T2omilM2TbmzVDYGutU3BslmGUMuJapDwoX0+1RAQpqIhnRAo0gGIHdmCoKEfHAFLCO5N0RE+8LXHfXzvS+jTNnogDFzlY3RkMyWO+v1ZqFt+W2qGIl9mUdVcDm8og6iUUrE1QiMiIiAuRm8lm4OhkoQbCcnK/lDI5k8TE9n/Uw7HYUuFdPoXMF9+1VQ5Uv4vbYi7aqBah3duEkjYAtwRUUymTt79rk/aN9HudX09HRlp3f2rfOTh1FLsgiKiSmpiNB9GXtRYsWxjsiYs/omGUgEua+7PxcjMCQigyl3Bm+2FNB++rrBihFFVwTnARXKD0Eymu7v+JNPNmdOpsKUO0NIv83baNciFQse75qbrCHMWanyOZdQfpQkM+XOUNeIBLUp5O/TI+gQ+t765L6KJZ4Uaqr+CCHNARWiGyf18PdGkQww5c5wqGCIoKSFaTsx3zClGMo+KTR0yUh5s8aSDKByZ/BmiELGIrtCXmdmuueyPXDokpEyhrZ5WdQkM+XOPgosAILyKZ01Vk8+CRHkspYKDpUPXTIWnZdFTTLAtO6sr4eLOASwCCAnqDxQyEcx1SkVY5CMFMls27dHTzLburOi2NvjYX6+L7KBrFgVrbsGLHfRA9N9SsUia8dcAaNDydAQ1uAV8WYgWTd2otnWnRV5uEAKuVgPO1Ch8jpPZbgkF75HfSf0UzspiVZk7VgZc7MQJCO17sw0LxsRDQFyZygSbrf7f2h11Q0gjbSk8gzk3nKisUOH9vaRcLHYvisZQpOKqmSkKmNwT7YFlpV6smTMdcuTDGPebQzJZO7sXAnHLdlIIjV40e3eQDDb7sSDKBVVEsPD6xQAvNkFjySzraboMQDdxshFCdu6MxdUuVBQHu4dOsF8SkXbwxxCKJ+6N8LododEw2Bad+ZKBKxoBhHKkiW4plwpHbJEDEEqqpIx773VRjLi3ojKmFQu7jaJZDJ31s/eH5IUaHKOhXmay8aX6jUQicKAlFnjZ50zlJBzw9+pu46ci9blLUwVFiYDSL1XZp3lCuHpe5a+QCXutkYPPvT6v7/68uIUcT7YIOC3v3s6PdXT1cpLa9pLOHn4OHUIOWPg8N+kzTfOk1WNvchig7bcZlQGeLIO5mQd7gsGozKS7TDJGIwaSLbDfcFgVAJMxbZBsm3uCwajMk92j0nGYFTryX5CdPGHt/769reHDx9udbtpcvrnV9FtZfUgLeWLrab1xN2AVyYzgvVQ6s+9bTd7/R88GfJkv0x+OJi0A1kbFfcLh2UbylpLaQzGoJNMkgmtk7Vtpd3LWurJ7imubUch13D22lJIJphoDPZgD3gtSbQdpe0RTpJMfmhYIdhQ9tpLMsEkYzDRHiBaR2kq2XZUku1kpBpWJKJOJjLBGEw0vWzc1RCuI0nW0Xgu0zyMicYY9ICHSjKhIdpe+78AAwC4O3f+49E2TgAAAABJRU5ErkJggg=='],
             [
-                "type"  => "RowLayout",
-                "items" => $this->FormCameraSelection()]];
+                'type'  => 'RowLayout',
+                'items' => $this->FormCameraSelection()]];
         $form = array_merge_recursive(
             $form, [
                      [
@@ -3014,8 +3006,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormCameraInfo()
     {
         $form = [];
-        $name = $this->ReadAttributeString("name");
-        if ($name != "") {
+        $name = $this->ReadAttributeString('name');
+        if ($name != '') {
             $form = array_merge_recursive(
                 $form, [
                          [
@@ -3060,13 +3052,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'width'   => '150px',]],
                              'values'   => [
                                  [
-                                     'name'            => $this->ReadAttributeString("name"),
-                                     'model'           => $this->ReadAttributeString("model_name"),
-                                     'hardwareversion' => $this->ReadAttributeString("hardVersion"),
-                                     'softwareversion' => $this->ReadAttributeString("softVersion"),
-                                     'webversion'      => $this->ReadAttributeString("webVersion"),
-                                     'sdfreespace'     => $this->ReadAttributeInteger("sdfreespace"),
-                                     'sdtotalspace'    => $this->ReadAttributeInteger("sdtotalspace")]]]]
+                                     'name'            => $this->ReadAttributeString('name'),
+                                     'model'           => $this->ReadAttributeString('model_name'),
+                                     'hardwareversion' => $this->ReadAttributeString('hardVersion'),
+                                     'softwareversion' => $this->ReadAttributeString('softVersion'),
+                                     'webversion'      => $this->ReadAttributeString('webVersion'),
+                                     'sdfreespace'     => $this->ReadAttributeInteger('sdfreespace'),
+                                     'sdtotalspace'    => $this->ReadAttributeInteger('sdtotalspace')]]]]
             );
         }
 
@@ -3086,8 +3078,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormNetworkInfo()
     {
         $form = [];
-        $ip   = $this->ReadAttributeString("ip");
-        if ($ip != "") {
+        $ip   = $this->ReadAttributeString('ip');
+        if ($ip != '') {
             $form = array_merge_recursive(
                 $form, [
                          [
@@ -3136,12 +3128,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'width'   => '150px',]],
                              'values'   => [
                                  [
-                                     'ip'          => $this->ReadAttributeString("ip"),
-                                     'dhcp'        => $this->ReadAttributeBoolean("dhcpflag"),
-                                     'netmask'     => $this->ReadAttributeString("netmask"),
-                                     'gateway'     => $this->ReadAttributeString("gateway"),
-                                     'macaddress'  => $this->ReadAttributeString("macaddress"),
-                                     'networktype' => $this->ReadAttributeString("networktype")]]]]
+                                     'ip'          => $this->ReadAttributeString('ip'),
+                                     'dhcp'        => $this->ReadAttributeBoolean('dhcpflag'),
+                                     'netmask'     => $this->ReadAttributeString('netmask'),
+                                     'gateway'     => $this->ReadAttributeString('gateway'),
+                                     'macaddress'  => $this->ReadAttributeString('macaddress'),
+                                     'networktype' => $this->ReadAttributeString('networktype')]]]]
             );
         }
         $form = array_merge_recursive(
@@ -3160,7 +3152,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormPortInfo()
     {
         $form      = [];
-        $http_port = $this->ReadAttributeInteger("http_port");
+        $http_port = $this->ReadAttributeInteger('http_port');
         if ($http_port != 0) {
             $form = array_merge_recursive(
                 $form, [
@@ -3208,11 +3200,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'type' => 'NumberSpinner']]],
                              'values'   => [
                                  [
-                                     'http'                => $this->ReadAttributeInteger("http_port"),
-                                     'https'               => $this->ReadAttributeInteger("https_port"),
-                                     'rtsp'                => $this->ReadAttributeInteger("rtsp_port"),
-                                     'rtsp_authentication' => $this->ReadAttributeBoolean("rtsp_authentication"),
-                                     'rtmp'                => $this->ReadAttributeInteger("rtmp_port")]]],
+                                     'http'                => $this->ReadAttributeInteger('http_port'),
+                                     'https'               => $this->ReadAttributeInteger('https_port'),
+                                     'rtsp'                => $this->ReadAttributeInteger('rtsp_port'),
+                                     'rtsp_authentication' => $this->ReadAttributeBoolean('rtsp_authentication'),
+                                     'rtmp'                => $this->ReadAttributeInteger('rtmp_port')]]],
                          [
                              'type'    => 'Label',
                              'caption' => 'Set port infos for the camera'],
@@ -3239,8 +3231,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormWIFIInfo()
     {
         $form    = [];
-        $wf_ssid = $this->ReadAttributeString("wf_ssid");
-        if ($wf_ssid != "") {
+        $wf_ssid = $this->ReadAttributeString('wf_ssid');
+        if ($wf_ssid != '') {
             $form = array_merge_recursive(
                 $form, [
                          [
@@ -3326,12 +3318,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                                  'value'   => 1]]]]],
                              'values'   => [
                                  [
-                                     'wf_ssid'   => $this->ReadAttributeString("wf_ssid"),
-                                     'wf_auth'   => $this->ReadAttributeInteger("wf_auth"),
-                                     'wf_key'    => $this->ReadAttributeString("wf_key"),
-                                     'wf_enable' => $this->ReadAttributeBoolean("wf_enable"),
-                                     'wf_enc'    => $this->ReadAttributeInteger("wf_enc"),
-                                     'wf_mode'   => $this->ReadAttributeInteger("wf_mode")]]],
+                                     'wf_ssid'   => $this->ReadAttributeString('wf_ssid'),
+                                     'wf_auth'   => $this->ReadAttributeInteger('wf_auth'),
+                                     'wf_key'    => $this->ReadAttributeString('wf_key'),
+                                     'wf_enable' => $this->ReadAttributeBoolean('wf_enable'),
+                                     'wf_enc'    => $this->ReadAttributeInteger('wf_enc'),
+                                     'wf_mode'   => $this->ReadAttributeInteger('wf_mode')]]],
                          [
                              'type'    => 'Label',
                              'caption' => 'Set WIFI infos for the camera'],
@@ -3357,8 +3349,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormRemoteInfo()
     {
         $form       = [];
-        $our_server = $this->ReadAttributeString("our_server");
-        if ($our_server != "") {
+        $our_server = $this->ReadAttributeString('our_server');
+        if ($our_server != '') {
             $form = array_merge_recursive(
                 $form, [
                          [
@@ -3405,13 +3397,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'type' => 'CheckBox']]],
                              'values'   => [
                                  [
-                                     'our_server'   => $this->ReadAttributeString("our_server"),
-                                     'our_port'     => $this->ReadAttributeInteger("our_port"),
-                                     'our_uname'    => $this->ReadAttributeString("our_uname"),
-                                     'our_passwd'   => $this->ReadAttributeString("our_passwd"),
-                                     'our_domain'   => $this->ReadAttributeString("our_domain"),
-                                     'our_interval' => $this->ReadAttributeInteger("our_interval"),
-                                     'our_enable'   => $this->ReadAttributeBoolean("our_enable")]]],
+                                     'our_server'   => $this->ReadAttributeString('our_server'),
+                                     'our_port'     => $this->ReadAttributeInteger('our_port'),
+                                     'our_uname'    => $this->ReadAttributeString('our_uname'),
+                                     'our_passwd'   => $this->ReadAttributeString('our_passwd'),
+                                     'our_domain'   => $this->ReadAttributeString('our_domain'),
+                                     'our_interval' => $this->ReadAttributeInteger('our_interval'),
+                                     'our_enable'   => $this->ReadAttributeBoolean('our_enable')]]],
                          [
                              'type'    => 'Label',
                              'caption' => 'Set INSTAR DDNS'],
@@ -3421,8 +3413,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'onClick' => 'INSTAR_SetINSTAR_DDNS($id);']]
             );
         }
-        $d3th_domain = $this->ReadAttributeString("d3th_domain");
-        if ($d3th_domain != "") {
+        $d3th_domain = $this->ReadAttributeString('d3th_domain');
+        if ($d3th_domain != '') {
             $form = array_merge_recursive(
                 $form, [
                          [
@@ -3478,11 +3470,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'type' => 'CheckBox']]],
                              'values'   => [
                                  [
-                                     'd3th_domain'  => $this->ReadAttributeString("d3th_domain"),
-                                     'd3th_service' => $this->ReadAttributeInteger("d3th_service"),
-                                     'd3th_uname'   => $this->ReadAttributeString("d3th_uname"),
-                                     'd3th_passwd'  => $this->ReadAttributeString("d3th_passwd"),
-                                     'd3th_enable'  => $this->ReadAttributeBoolean("d3th_enable")]]],
+                                     'd3th_domain'  => $this->ReadAttributeString('d3th_domain'),
+                                     'd3th_service' => $this->ReadAttributeInteger('d3th_service'),
+                                     'd3th_uname'   => $this->ReadAttributeString('d3th_uname'),
+                                     'd3th_passwd'  => $this->ReadAttributeString('d3th_passwd'),
+                                     'd3th_enable'  => $this->ReadAttributeBoolean('d3th_enable')]]],
                          [
                              'type'    => 'Label',
                              'caption' => 'Set 3rd Party DDNS Configuration'],
@@ -3539,7 +3531,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function FormONVIFInfo()
     {
         $form      = [];
-        $ov_subchn = $this->ReadAttributeInteger("ov_subchn");
+        $ov_subchn = $this->ReadAttributeInteger('ov_subchn');
         if ($ov_subchn != 0) {
             $form = array_merge_recursive(
                 $form, [
@@ -3632,12 +3624,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                                  'value'   => 13]]]]],
                              'values'   => [
                                  [
-                                     'ov_enable'    => $this->ReadAttributeBoolean("ov_enable"),
-                                     'ov_port'      => $this->ReadAttributeInteger("ov_port"),
-                                     'ov_authflag'  => $this->ReadAttributeBoolean("ov_authflag"),
-                                     'ov_forbitset' => $this->ReadAttributeInteger("ov_forbitset"),
-                                     'ov_subchn'    => $this->ReadAttributeInteger("ov_subchn"),
-                                     'ov_snapchn'   => $this->ReadAttributeInteger("ov_snapchn")]]],
+                                     'ov_enable'    => $this->ReadAttributeBoolean('ov_enable'),
+                                     'ov_port'      => $this->ReadAttributeInteger('ov_port'),
+                                     'ov_authflag'  => $this->ReadAttributeBoolean('ov_authflag'),
+                                     'ov_forbitset' => $this->ReadAttributeInteger('ov_forbitset'),
+                                     'ov_subchn'    => $this->ReadAttributeInteger('ov_subchn'),
+                                     'ov_snapchn'   => $this->ReadAttributeInteger('ov_snapchn')]]],
                          [
                              'type'    => 'Label',
                              'caption' => 'Set ONVIF infos for the camera'],
@@ -3664,7 +3656,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     private function FormCameraSelection()
     {
-        $model     = $this->ReadPropertyInteger("model");
+        $model     = $this->ReadPropertyInteger('model');
         $selection = [
             [
                 'type'    => 'Select',
@@ -3838,16 +3830,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     protected function FormShowEmail()
     {
-        $activeemail2  = $this->ReadPropertyBoolean("activeemail2");
-        $activeemail3  = $this->ReadPropertyBoolean("activeemail3");
-        $activeemail4  = $this->ReadPropertyBoolean("activeemail4");
-        $activeemail5  = $this->ReadPropertyBoolean("activeemail5");
-        $activeemail6  = $this->ReadPropertyBoolean("activeemail6");
-        $activeemail7  = $this->ReadPropertyBoolean("activeemail7");
-        $activeemail8  = $this->ReadPropertyBoolean("activeemail8");
-        $activeemail9  = $this->ReadPropertyBoolean("activeemail9");
-        $activeemail10 = $this->ReadPropertyBoolean("activeemail10");
-        $activeemail11 = $this->ReadPropertyBoolean("activeemail11");
+        $activeemail2  = $this->ReadPropertyBoolean('activeemail2');
+        $activeemail3  = $this->ReadPropertyBoolean('activeemail3');
+        $activeemail4  = $this->ReadPropertyBoolean('activeemail4');
+        $activeemail5  = $this->ReadPropertyBoolean('activeemail5');
+        $activeemail6  = $this->ReadPropertyBoolean('activeemail6');
+        $activeemail7  = $this->ReadPropertyBoolean('activeemail7');
+        $activeemail8  = $this->ReadPropertyBoolean('activeemail8');
+        $activeemail9  = $this->ReadPropertyBoolean('activeemail9');
+        $activeemail10 = $this->ReadPropertyBoolean('activeemail10');
+        $activeemail11 = $this->ReadPropertyBoolean('activeemail11');
         $form          = [
             [
                 'type'    => 'Label',
