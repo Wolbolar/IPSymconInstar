@@ -1,6 +1,8 @@
 # IPSymconINSTAR
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-green.svg)](https://www.symcon.de/forum/threads/38222-IP-Symcon-5-0-verf%C3%BCgbar)
+![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
+[![StyleCI](https://github.styleci.io/repos/187536063/shield?branch=master)](https://github.styleci.io/repos/187536063)
 
 
 Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera.
@@ -44,7 +46,7 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
 
 ### a. Laden des Moduls
 
-Die Webconsole von IP-Symcon mit _http://<IP-Symcon IP>:3777/console/_ öffnen. 
+Die Webconsole von IP-Symcon mit _http://{IP-Symcon IP}:3777/console/_ öffnen. 
 
 
 Anschließend oben rechts auf das Symbol für den Modulstore (IP-Symcon > 5.1) klicken
@@ -70,7 +72,7 @@ drücken.
 
 #### Alternatives Installieren über Modules Instanz (IP-Symcon < 5.1)
 
-Die Webconsole von IP-Symcon mit _http://<IP-Symcon IP>:3777/console/_ öffnen. 
+Die Webconsole von IP-Symcon mit _http://{IP-Symcon IP}:3777/console/_ öffnen. 
 
 Anschließend den Objektbaum _Öffnen_.
 
@@ -116,6 +118,8 @@ den Namen _Besucherhistorie_ .
 	
 In IP-Symcon nun _Instanz hinzufügen_ (_Rechtsklick -> Objekt hinzufügen -> Instanz_) auswählen unter der Kategorie, unter der man die INSTAR Kamera hinzufügen will,
 und _INSTAR_ auswählen.
+
+![SelectInstance](img/instanz.png?raw=true "select instance") 
  
 Im Konfigurationsformular ist zunächst das passende Kamera Modell von INSTAR auszuwählen.
 
@@ -131,15 +135,15 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 
 #### Anwendungsbeispiele
 
-##### Auslösen eines Alarms durch eine Ereigniss (nur Full HD Modelle)
+##### Auslösen eines Alarms durch ein Ereigniss (nur Full HD Modelle)
 
-##### Aktivieren der Nachtsicht abhänig von einem externen Sensor
+##### Aktivieren der Nachtsicht abhängig von einem externen Sensor
 
 ##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
 
 ##### Zeitgesteuertes aktivieren der Bewegungserkennungsbereiche
 
-##### Anpassen der Empfindlichkeit der Bwegungserkennung abhängig von Tag oder Nacht 
+##### Anpassen der Empfindlichkeit der Bewegungserkennung abhängig von Tag oder Nacht 
 	
 ##### Zeitgesteuertes Einstellen der Alarmbereiche
 
@@ -159,8 +163,8 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 | :---------: | :-----: | :----------: | :---------------------------------------: |
 | IPSIP       | string  |              | IP Adresse IP-Symcon                      |
 | Host        | string  |              | IP Adresse INSTAR                         |
-| User        | string  |              | Doorbird User                             |
-| Password    | string  |              | Doorbird Passwort                         |
+| User        | string  |              | INSTAR User                               |
+| Password    | string  |              | INSTAR Passwort                           |
 | picturelimit| integer |    20        | Limit an abgelegten Bildern               |
 
 
