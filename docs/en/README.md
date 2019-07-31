@@ -1,6 +1,8 @@
 # IPSymconINSTAR
 [![Version](https://img.shields.io/badge/Symcon-PHPModul-red.svg)](https://www.symcon.de/service/dokumentation/entwicklerbereich/sdk-tools/sdk-php/)
 [![Version](https://img.shields.io/badge/Symcon%20Version-5.0%20%3E-green.svg)](https://www.symcon.de/forum/threads/38222-IP-Symcon-5-0-verf%C3%BCgbar)
+![Code](https://img.shields.io/badge/Code-PHP-blue.svg)
+[![StyleCI](https://github.styleci.io/repos/187536063/shield?branch=master)](https://github.styleci.io/repos/187536063)
 
 
 Module for IP-Symcon from version 5.x. Allows communication with a [INSTAR](https://www.instar.de/ "INSTAR") camera.
@@ -45,7 +47,7 @@ With the module commands can be sent to an [INSTAR](https://www.instar.de/ "INST
 
 ### a. Loading the module
 
-Open the IP Console's web console with _http://<IP-Symcon IP>:3777/console/_.
+Open the IP Console's web console with _http://{IP-Symcon IP}:3777/console/_.
 
 Then click on the module store icon (IP-Symcon > 5.1) in the upper right corner.
 
@@ -67,7 +69,7 @@ Then select the module and click _Install_
 
 #### Install alternative via Modules instance (IP-Symcon < 5.1)
 
-Open the IP Console's web console with _http://<IP-Symcon IP>:3777/console/_.
+Open the IP Console's web console with _http://{IP-Symcon IP}:3777/console/_.
 
 _Open_ the object tree .
 

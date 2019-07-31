@@ -265,6 +265,50 @@ class INSTAR extends IPSModule
 		$this->RegisterAttributeString("facddnsstatus", "");
 		$this->RegisterAttributeString("sdstatus", "");
 
+		$this->RegisterPropertyString("PortInformation", "[]");
+		$this->RegisterAttributeInteger("http_port", 0);
+		$this->RegisterAttributeInteger("https_port", 0);
+		$this->RegisterAttributeInteger("rtsp_port", 0);
+		$this->RegisterAttributeBoolean("rtsp_authentication", false);
+		$this->RegisterAttributeInteger("rtmp_port", 0);
+
+		$this->RegisterPropertyString("WIFI_Information", "[]");
+		$this->RegisterAttributeBoolean("wf_enable", false); // true (WiFi enabled), false (WiFi disabled)
+		$this->RegisterAttributeString("wf_ssid", ""); // SSID (max. 32 Characters)
+		$this->RegisterAttributeInteger("wf_auth", 0); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
+		$this->RegisterAttributeString("wf_key", ""); // Key max. 63 Characters (Allowed special characters: &="`)
+		$this->RegisterAttributeInteger("wf_enc", 0); // Key type 0 (TKIP), 1 (AES)
+		$this->RegisterAttributeInteger("wf_mode", 0); // 0 (infra), 1 (ad-hoc)
+
+		$this->RegisterPropertyString("DDNS_Configuration", "[]");
+		$this->RegisterAttributeBoolean("our_enable", false); // true INSTAR DDNS enabled, false INSTAR DDNS disabled
+		$this->RegisterAttributeString("our_server", ""); // INSTAR DDNS Server Domain
+		$this->RegisterAttributeInteger("our_port", 0); // INSTAR DDNS Server Port
+		$this->RegisterAttributeString("our_uname", ""); // Your INSTAR DDNS ID
+		$this->RegisterAttributeString("our_passwd", ""); // Your INSTAR DDNS Password
+		$this->RegisterAttributeString("our_domain", ""); // Your INSTAR DDNS Address
+		$this->RegisterAttributeInteger("our_interval", 0); // Update Intervall
+
+		$this->RegisterPropertyString("3rd_Party_DDNS_Configuration", "[]");
+		$this->RegisterAttributeBoolean("d3th_enable", false); // true 3rd Party DDNS activated / INSTAR DDNS disabled, false 3rd Party DDNS deactivated / INSTAR DDNS enabled
+		$this->RegisterAttributeInteger("d3th_service", 0); // 0: DynDNS, 1: NoIP
+		$this->RegisterAttributeString("d3th_uname", ""); // Your Username
+		$this->RegisterAttributeString("d3th_passwd", ""); // Your Password
+		$this->RegisterAttributeString("d3th_domain", ""); // Your 3rd Party DDNS Address
+
+		$this->RegisterPropertyString("UPNP_Configuration", "[]");
+		$this->RegisterPropertyBoolean("upnp_enable", false); // true UPnP activated, false UPnP deactivated
+
+		$this->RegisterPropertyString("ONVIF_Configuration", "[]");
+        $this->RegisterPropertyBoolean("ONVIF_enable", false);
+		$this->RegisterAttributeBoolean("ov_enable", false); // true ONVIF activated, false ONVIF deactivated
+        $this->RegisterAttributeInteger("ov_port", 0); // ONVIF Port
+        $this->RegisterAttributeBoolean("ov_authflag", false); // ONVIF Login Required, false: ONVIF Authentication deactivated
+        $this->RegisterAttributeInteger("ov_forbitset", 0); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        $this->RegisterAttributeInteger("ov_subchn", 0); // Use video channel 11, 12 or 13
+        $this->RegisterAttributeInteger("ov_snapchn", 0); // Use video channel 11, 12 or 13 for snapshots
+
+
 		$this->RegisterAttributeBoolean("1080p_API", false);
 		$this->RegisterAttributeBoolean("720p_API", false);
 		$this->RegisterAttributeBoolean("VGA_API", true);
@@ -284,7 +328,7 @@ class INSTAR extends IPSModule
 			return;
 		}
 
-		$this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, 3);
+		$this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
 		$this->RegisterVariableString("LastMovement", $this->Translate("Time last movement"), "INSTAR.Movement", $this->_getPosition());
 		$this->RegisterProfileAssociation(
 			'INSTAR.Control.Continuous',
@@ -358,7 +402,7 @@ class INSTAR extends IPSModule
 			]
 		);
 
-		$this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, 1);
+		$this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, VARIABLETYPE_INTEGER);
 		$this->RegisterVariableInteger("hue", $this->Translate("Hue"), "INSTAR.Hue", $this->_getPosition()); // Hue (0-127), integer
 		$this->EnableAction("hue");
 		$this->RegisterVariableInteger("Saturation", $this->Translate("Saturation"), "~Intensity.255", $this->_getPosition()); // Saturation (0-255)
@@ -411,13 +455,13 @@ class INSTAR extends IPSModule
 		);
 		$this->RegisterVariableInteger("IR_LED", $this->Translate("IR LED"), "INSTAR.IRLED", $this->_getPosition());
 		$this->EnableAction("IR_LED");
-		$this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
 		$this->RegisterVariableInteger("SetPosition", $this->Translate("Set Position"), "INSTAR.SetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("SetPosition");
-		$this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
 		$this->RegisterVariableInteger("UnsetPosition", $this->Translate("Unset Position"), "INSTAR.UnsetPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("UnsetPosition");
-		$this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, 1);
+		$this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
 		$this->RegisterVariableInteger("GotoPosition", $this->Translate("Go to Position"), "INSTAR.GotoPosition", $this->_getPosition()); // (0-7), integer
 		$this->EnableAction("GotoPosition");
 
@@ -938,9 +982,53 @@ class INSTAR extends IPSModule
 	 */
 	public function SetCameraNetworkConfiguration()
 	{
-		$parameter = "&-dhcpflag=off&-ip=192.168.1.115&-netmask=255.255.255.0&-gateway=192.168.1.1&-fdnsip=8.8.8.8&-sdnsip=";
-		$data = $this->SendParameter("setnetattr" . $parameter);
+		$network_info = $this->ReadPropertyString("NetworkInformation");
+		$data = "could not set networkinfo";
+		if($network_info != "[]")
+		{
+			$network_info = json_decode($network_info);
+			$ip = $network_info[0]->ip;
+			$dhcp = $network_info[0]->dhcp;
+			if($dhcp)
+			{
+				$dhcp = "on";
+			}
+			else
+			{
+				$dhcp = "off";
+			}
+			$netmask = $network_info[0]->netmask;
+			$gateway = $network_info[0]->gateway;
+			// $fdnsip = $network_info[0]->fdnsip;
+			$parameter = "&-dhcpflag=" . $dhcp . "&-ip=" . $ip . "&-netmask=" . $netmask . "&-gateway=" . $gateway . "&-fdnsip=8.8.8.8&-sdnsip=";
+			$data = $this->SendParameter("setnetattr" . $parameter);
+		}
 		return $data;
+	}
+
+	public function GetCameraPorts()
+	{
+		$this->GetCameraHTTP_Port();
+		$this->GetCameraHTTPS_Port();
+		$this->GetCameraRTSP_Port();
+		$this->GetRTSPAuthenticationState();
+		$this->GetCameraRTMP_Port();
+	}
+
+	public function SetCameraPorts()
+	{
+		$this->SetCameraHTTP_PortList();
+		$this->SetCameraHTTPS_PortList();
+		$this->SetCameraRTPS_PortList();
+		$this->SetRTSPAuthenticationStateList();
+		$this->SetCameraRTMP_PortList();
+	}
+
+	private function ExplodePort($string_port)
+	{
+		$data = explode("=", $string_port);
+		$port = intval(trim($data[1], '"'));
+		return $port;
 	}
 
 	/** Get your Camera´s HTTP Port
@@ -949,17 +1037,31 @@ class INSTAR extends IPSModule
 	public function GetCameraHTTP_Port()
 	{
 		$port = $this->SendParameter("gethttpport");
+		$port = $this->ExplodePort($port);
+		$this->WriteAttributeInteger("http_port", $port);
 		return $port;
 	}
 
-	/** Set your Camera´s HTTP Port
-	 * @return false|string
-	 */
-	public function SetCameraHTTP_Port()
+    /** Set your Camera´s HTTP Port
+     * @param int $http_port
+     *
+     * @return false|string
+     */
+    public function SetCameraHTTP_Port(int $http_port)
 	{
-		$parameter = "&-httpport=80";
-		$port = $this->SendParameter("sethttpport" . $parameter);
+		$port = "could not set port";
+		if($http_port != 0)
+		{
+			$parameter = "&-httpport=" . $http_port;
+			$port = $this->SendParameter("sethttpport" . $parameter);
+		}
 		return $port;
+	}
+
+	private function SetCameraHTTP_PortList()
+	{
+		$http_port = $this->ReadAttributeInteger("http_port");
+		$this->SetCameraHTTP_Port($http_port);
 	}
 
 	/** Get your Camera´s HTTPS Port
@@ -968,36 +1070,58 @@ class INSTAR extends IPSModule
 	public function GetCameraHTTPS_Port()
 	{
 		$port = $this->SendParameter("gethttpsport");
+		$port = $this->ExplodePort($port);
+		$this->WriteAttributeInteger("https_port", $port);
 		return $port;
 	}
 
-	/** Set your Camera´s HTTPS Port
-	 * @return false|string
-	 */
-	public function SetCameraHTTPS_Port(int $https_port)
+    /** Set your Camera´s HTTPS Port
+     * @param int $https_port
+     *
+     * @return false|string
+     */
+    public function SetCameraHTTPS_Port(int $https_port)
 	{
-		$parameter = "&-httpsport=" . $https_port;
-		$port = $this->SendParameter("sethttpsport" . $parameter);
+		$port = "could not set port";
+		if($https_port != 0)
+		{
+			$parameter = "&-httpsport=" . $https_port;
+			$port = $this->SendParameter("sethttpsport" . $parameter);
+		}
 		return $port;
+	}
+
+	private function SetCameraHTTPS_PortList()
+	{
+		$http_port = $this->ReadAttributeInteger("https_port");
+		$this->SetCameraHTTPS_Port($http_port);
 	}
 
 	/** Get your Camera´s RTSP Port
 	 * @return false|string
 	 */
-	public function GetCameraRTPS_Port()
+	public function GetCameraRTSP_Port()
 	{
 		$port = $this->SendParameter("getrtspport");
+		$port = $this->ExplodePort($port);
+		$this->WriteAttributeInteger("rtsp_port", $port);
 		return $port;
 	}
 
-	/** Set your Camera´s RTPS Port
+	/** Set your Camera´s RTSP Port
 	 * @return false|string
 	 */
-	public function SetCameraRTPS_Port(int $rtps_port)
+	public function SetCameraRTSP_Port(int $rtsp_port)
 	{
-		$parameter = "&rtspport=" . $rtps_port;
+		$parameter = "&rtspport=" . $rtsp_port;
 		$port = $this->SendParameter("setrtspport" . $parameter);
 		return $port;
+	}
+
+	private function SetCameraRTPS_PortList()
+	{
+		$rtsp_port = $this->ReadAttributeInteger("rtsp_port");
+		$this->SetCameraRTSP_Port($rtsp_port);
 	}
 
 	/** Get RTSP Authentication State
@@ -1005,8 +1129,19 @@ class INSTAR extends IPSModule
 	 */
 	public function GetRTSPAuthenticationState()
 	{
-		$port = $this->SendParameter("getrtmpattr");
-		return $port;
+		$auth = $this->SendParameter("getrtspauth");
+		$auth = $this->ExplodePort($auth);
+		if($auth == 1)
+		{
+			$authentication = true;
+			$this->WriteAttributeBoolean("rtsp_authentication", $authentication);
+		}
+		else
+		{
+			$authentication = false;
+			$this->WriteAttributeBoolean("rtsp_authentication", $authentication);
+		}
+		return $authentication;
 	}
 
 	/** Set RTSP Authentication State
@@ -1024,12 +1159,20 @@ class INSTAR extends IPSModule
 		return $state;
 	}
 
+	private function SetRTSPAuthenticationStateList()
+	{
+		$auth = $this->ReadAttributeBoolean("rtsp_authentication");
+		$this->SetRTSPAuthenticationState($auth);
+	}
+
 	/** Get your Camera's RTMP Port
 	 * @return false|string
 	 */
 	public function GetCameraRTMP_Port()
 	{
 		$port = $this->SendParameter("getrtmpattr");
+		$port = $this->ExplodePort($port);
+		$this->WriteAttributeInteger("rtmp_port", $port);
 		return $port;
 	}
 
@@ -1043,38 +1186,13 @@ class INSTAR extends IPSModule
 		return $port;
 	}
 
-	/** Get Server Info
-	 *
-	 * @return array
-	 */
-	public function GetServerInfo()
+	private function SetCameraRTMP_PortList()
 	{
-		$payload = $this->SendParameter("getserverinfo");
-		$data = explode(";", $payload);
-		array_pop($data);
-		foreach ($data as $info_device) {
-			$info = explode("=", $info_device);
-			$var_name = substr(trim($info[0]), 4);
-			$var_content = trim($info[1], '"');
-			if ($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace") {
-				$var_content = intval($var_content);
-				$this->WriteAttributeInteger($var_name, $var_content);
-			} elseif ($var_name == "upnpstatus" || $var_name == "th3ddnsstatus") {
-				if ($var_content == "off") {
-					$var_content = false;
-				} else {
-					$var_content = true;
-				}
-				$this->WriteAttributeBoolean($var_name, $var_content);
-			} elseif ($var_name == "model") {
-				$this->WriteAttributeString("model_name", $var_content);
-			} else {
-				$this->WriteAttributeString($var_name, $var_content);
-			}
-			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
-		}
-		return $data;
+		$rtmp_port = $this->ReadAttributeInteger("rtmp_port");
+		$this->SetCameraRTMP_Port($rtmp_port);
 	}
+
+
 
 
 	/** Get Network Configuration
@@ -1132,6 +1250,356 @@ class INSTAR extends IPSModule
 		return $mode;
 	}
 
+
+	// Wifi Settings
+
+	/** Get your Camera´s WLAN Configuration
+	 * @return array
+	 */
+	public function GetCameraWIFIConfiguration()
+	{
+		$payload = $this->SendParameter("getwirelessattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "wf_auth" || $var_name == "wf_enc" || $var_name == "wf_mode") {
+				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
+			} elseif ($var_name == "wf_enable") {
+				if ($var_content == "0") {
+					$var_content = false;
+				} else {
+					$var_content = true;
+				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
+			} else {
+				$this->WriteAttributeString($var_name, $var_content);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	/** Set Camera´s WIFI Configuration
+	 * @return array
+	 */
+	public function SetCameraWIFIConfiguration()
+	{
+		$wifi_info = $this->ReadPropertyString("WIFI_Information");
+		$data = "could not set WIFI info";
+		if($wifi_info != "[]")
+		{
+			$wifi_info = json_decode($wifi_info);
+			$wf_enable = $wifi_info[0]->wf_enable;
+			$wf_ssid = $wifi_info[0]->wf_ssid;
+			if($wf_enable)
+			{
+				$wf_enable = "1";
+			}
+			else
+			{
+				$wf_enable = "0";
+			}
+			$wf_auth = $wifi_info[0]->wf_auth;
+			$wf_key = $wifi_info[0]->wf_key;
+			$wf_enc = $wifi_info[0]->wf_enc;
+			$wf_mode = $wifi_info[0]->wf_mode;
+			$parameter = "&-wf_ssid=" . $wf_ssid . "&-wf_enable=" . $wf_enable . "&-wf_auth=" . $wf_auth. "&-wf_key=" . $wf_key . "&-wf_enc=" . $wf_enc . "&-wf_mode=" . $wf_mode;
+			$data = $this->SendParameter("setwirelessattr" . $parameter);
+		}
+		return $data;
+	}
+
+	/** Get your Camera´s Search for WiFi Access Points
+	 * @return array
+	 */
+	public function SearchWiFiAccessPoints()
+	{
+		$payload = $this->SendParameter("searchwireless");
+		$data = explode(";", $payload);
+		array_pop($data);
+		$search = [];
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+			$search[$var_name] = $var_content;
+		}
+		return $search;
+	}
+
+	/** Get your Camera´s Search for WiFi Access Points
+	 * @return array
+	 */
+	public function GetCameraWiFiAccessPoint()
+	{
+		$payload = $this->SendParameter("getchkwireless");
+		$data = explode(";", $payload);
+		array_pop($data);
+		$search = [];
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+			$search[$var_name] = $var_content;
+		}
+		return $search;
+	}
+
+    /** Set your Camera´s WiFi Access Points
+     * @param string $wf_ssid SSID (max. 32 Characters)
+     * @param int    $wauth Encryption mode - 0: (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
+     * @param string $wf_key WiFi Key
+     * @param int    $wf_enc Encryption 0 (TKIP), 1 (AES)
+     * @param int    $wf_mode Connection Mode 0 (Infra), 1 (Ad-hoc)
+     *
+     * @return false|string
+     */
+    public function SetCameraWiFiAccessPoint(string $wf_ssid, int $wauth, string $wf_key, int $wf_enc, int $wf_mode)
+	{
+			$parameter = "&-wf_ssid=" . $wf_ssid . "&-wf_auth=" . $wauth . "&-wf_key=" . $wf_key . "&-wf_enc=" . $wf_enc . "&-wf_mode=" . $wf_mode;
+			$data = $this->SendParameter("setwirelessattr" . $parameter);
+		return $data;
+	}
+
+	// Remote Access
+
+
+	/** Get your Camera´s INSTAR DDNS Configuration
+	 * @return array
+	 */
+	public function GetDDNSConfiguration()
+	{
+		$payload = $this->SendParameter("getourddnsattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "our_port" || $var_name == "our_interval") {
+				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
+			} elseif ($var_name == "our_enable") {
+				if ($var_content == "0") {
+					$var_content = false;
+				} else {
+					$var_content = true;
+				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
+			} elseif ($var_name == "model") {
+				$this->WriteAttributeString("model_name", $var_content);
+			} else {
+				$this->WriteAttributeString($var_name, $var_content);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	/** Get your Camera´s 3rd Party DDNS Configuration
+	 * @return array
+	 */
+	public function Get3rdPartyDDNSConfiguration()
+	{
+		$payload = $this->SendParameter("get3thddnsattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "d3th_service") {
+				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
+			} elseif ($var_name == "d3th_enable") {
+				if ($var_content == "0") {
+					$var_content = false;
+				} else {
+					$var_content = true;
+				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
+			} elseif ($var_name == "model") {
+				$this->WriteAttributeString("model_name", $var_content);
+			} else {
+				$this->WriteAttributeString($var_name, $var_content);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	public function Set3rdPartyDDNSConfiguration()
+	{
+		$ddns_info = $this->ReadPropertyString("3rd_Party_DDNS_Configuration");
+		$data = "could not set WIFI info";
+		if($ddns_info != "[]")
+		{
+			$ddns_info = json_decode($ddns_info);
+			$d3th_enable = $ddns_info[0]->d3th_enable;
+			$d3th_service = $ddns_info[0]->d3th_service;
+			if($d3th_enable)
+			{
+				$d3th_enable = "1";
+			}
+			else
+			{
+				$d3th_enable = "0";
+			}
+			$d3th_uname = $ddns_info[0]->d3th_uname;
+			$d3th_passwd = $ddns_info[0]->d3th_passwd;
+			$d3th_domain = $ddns_info[0]->d3th_domain;
+			$parameter = "&-d3th_enable=" . $d3th_enable . "&-d3th_service=" . $d3th_service . "&-d3th_uname=" . $d3th_uname . "&-d3th_passwd=" . $d3th_passwd . "&-d3th_domain=" . $d3th_domain;
+			$data = $this->SendParameter("set3thddnsattr" . $parameter);
+		}
+		return $data;
+	}
+
+	/** Get Server Info
+	 *
+	 * @return array
+	 */
+	public function GetServerInfo()
+	{
+		$payload = $this->SendParameter("getserverinfo");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "platformstatus" || $var_name == "sdfreespace" || $var_name == "sdtotalspace") {
+				$var_content = intval($var_content);
+				$this->WriteAttributeInteger($var_name, $var_content);
+			} elseif ($var_name == "upnpstatus" || $var_name == "th3ddnsstatus") {
+				if ($var_content == "off") {
+					$var_content = false;
+				} else {
+					$var_content = true;
+				}
+				$this->WriteAttributeBoolean($var_name, $var_content);
+			} elseif ($var_name == "model") {
+				$this->WriteAttributeString("model_name", $var_content);
+			} else {
+				$this->WriteAttributeString($var_name, $var_content);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	// UPnP Settings
+
+	public function GetUPNPConfiguration()
+	{
+		$payload = $this->SendParameter("getupnpattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "upm_enable") {
+				$var_content = boolval($var_content);
+				IPS_SetProperty($this->InstanceID, "upnp_enable", $var_content);
+				IPS_ApplyChanges($this->InstanceID);
+			}
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+	public function SetUPNPConfiguration()
+	{
+		$upnp = $this->ReadPropertyBoolean("upnp_enable");
+		if($upnp)
+		{
+			$parameter = "&-upm_enable=1";
+			$data = $this->SendParameter("setupnpattr" . $parameter);
+		}
+		else
+		{
+			$parameter = "&-upm_enable=0";
+			$data = $this->SendParameter("setupnpattr" . $parameter);
+		}
+		return $data;
+	}
+
+    // ONVIF Settings
+
+    /**
+     * @return array
+     */
+    public function GetONVIFConfiguration()
+	{
+		$payload = $this->SendParameter("getonvifattr");
+		$data = explode(";", $payload);
+		array_pop($data);
+		foreach ($data as $info_device) {
+			$info = explode("=", $info_device);
+			$var_name = substr(trim($info[0]), 4);
+			$var_content = trim($info[1], '"');
+			if ($var_name == "ov_enable") {
+				$var_content = boolval($var_content);
+				$this->WriteAttributeBoolean('ov_enable', $var_content);
+				IPS_SetProperty($this->InstanceID, "ONVIF_enable", $var_content);
+				IPS_ApplyChanges($this->InstanceID);
+			}
+            if ($var_name == "ov_authflag") {
+                $var_content = boolval($var_content);
+                $this->WriteAttributeBoolean('ov_authflag', $var_content);
+            }
+            if ($var_name == "ov_forbitset" || $var_name == "ov_subchn" || $var_name == "ov_snapchn" || $var_name == "ov_port") {
+                $var_content = intval($var_content);
+                $this->WriteAttributeInteger($var_name, $var_content);
+            }
+			$this->SendDebug("INSTAR", "Variable " . $var_name . " :" . $var_content, 0);
+		}
+		return $data;
+	}
+
+    /**
+     * @return false|string
+     */
+    public function SetONVIFConfiguration()
+	{
+        $onvif_info = $this->ReadPropertyString("ONVIF_Configuration");
+        $data = "could not set ONVIF info";
+        if($onvif_info != "[]")
+        {
+            $onvif_info = json_decode($onvif_info);
+            $ov_enable = $onvif_info[0]->ov_enable;
+            $ov_port = $onvif_info[0]->ov_port;
+            if($ov_enable)
+            {
+                $ov_enable = "1";
+            }
+            else
+            {
+                $ov_enable = "0";
+            }
+            $ov_authflag = $onvif_info[0]->ov_authflag;
+            if($ov_authflag)
+            {
+                $ov_authflag = "1";
+            }
+            else
+            {
+                $ov_authflag = "0";
+            }
+            $ov_forbitset = $onvif_info[0]->ov_forbitset;
+            $ov_subchn = $onvif_info[0]->ov_subchn;
+            $ov_snapchn = $onvif_info[0]->ov_snapchn;
+            $parameter = "&-ov_enable=" . $ov_enable . "&-ov_port=" . $ov_port . "&-ov_authflag=" . $ov_authflag . "&-ov_forbitset=" . $ov_forbitset . "&-ov_subchn=" . $ov_subchn . "&-ov_snapchn=". $ov_snapchn;
+            $data = $this->SendParameter("setonvifattr" . $parameter);
+        }
+        return $data;
+	}
 
 	// Multimedia Menu
 
@@ -1316,11 +1784,12 @@ class INSTAR extends IPSModule
 		return $state;
 	}
 
-	/**
-	 * unset a position
-	 * @return bool|string
-	 */
-	public function UnsetPosition(int $position)
+    /** unset a position
+     * @param int $position
+     *
+     * @return false|string
+     */
+    public function UnsetPosition(int $position)
 	{
 		$this->SetValue("UnsetPosition", $position);
 		$this->SendDebug("INSTAR:", "Unset position " . $position, 0);
@@ -1448,10 +1917,12 @@ class INSTAR extends IPSModule
 		return $parameter;
 	}
 
-	/** brightness :: [0 - 255] the bigger the value the brighter the image
-	 * @param int $brightness
-	 */
-	public function Brightness(int $brightness)
+    /**
+     * @param int $brightness [0 - 255] the bigger the value the brighter the image
+     *
+     * @return false|string
+     */
+    public function Brightness(int $brightness)
 	{
 		$hue = GetValue($this->GetIDForIdent("Hue"));
 		$saturation = GetValue($this->GetIDForIdent("Saturation"));
@@ -1460,10 +1931,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/** saturation :: [0 - 255] the bigger the value the more saturation the image has
-	 * @param int $saturation
-	 */
-	public function Saturation(int $saturation)
+    /**
+     * @param int $saturation [0 - 255] the bigger the value the more saturation the image has
+     *
+     * @return false|string
+     */
+    public function Saturation(int $saturation)
 	{
 		$hue = GetValue($this->GetIDForIdent("Hue"));
 		$brightness = GetValue($this->GetIDForIdent("Brightness"));
@@ -1472,10 +1945,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/** contrast :: [0 - 255] the bigger the value the more contrast the image has
-	 * @param int $contrast
-	 */
-	public function Contrast(int $contrast)
+    /**
+     * @param int $contrast [0 - 255] the bigger the value the more contrast the image has
+     *
+     * @return false|string
+     */
+    public function Contrast(int $contrast)
 	{
 		$hue = GetValue($this->GetIDForIdent("Hue"));
 		$brightness = GetValue($this->GetIDForIdent("Brightness"));
@@ -1484,11 +1959,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/**
-	 * hue :: [0 - 127] the bigger the value the more hue the image has
-	 * @param int $hue
-	 */
-	public function Hue(int $hue)
+    /**
+     * @param int $hue [0 - 127] the bigger the value the more hue the image has
+     *
+     * @return false|string
+     */
+    public function Hue(int $hue)
 	{
 		$brightness = GetValue($this->GetIDForIdent("Brightness"));
 		$saturation = GetValue($this->GetIDForIdent("Saturation"));
@@ -1497,11 +1973,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/**
-	 * flip :: (on , off) flips the image
-	 * @param string $flip
-	 */
-	public function FlipPicture(string $flip)
+    /**
+     * @param string $flip (on , off) flips the image
+     *
+     * @return false|string
+     */
+    public function FlipPicture(string $flip)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
@@ -1511,11 +1988,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/**
-	 * mirror :: (on , off) flips the image
-	 * @param string $mirror
-	 */
-	public function MirrorPicture(string $mirror)
+    /**
+     * @param string $mirror (on , off) flips the image
+     *
+     * @return false|string
+     */
+    public function MirrorPicture(string $mirror)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
@@ -1525,11 +2003,12 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	/**
-	 * scene :: (auto , indoor , outdoor) sets the white balance mode
-	 * @param string $scene
-	 */
-	public function Scene(string $scene)
+    /**
+     * @param string $scene (auto , indoor , outdoor) sets the white balance mode
+     *
+     * @return false|string
+     */
+    public function Scene(string $scene)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
@@ -1539,7 +2018,15 @@ class INSTAR extends IPSModule
 		return $response;
 	}
 
-	protected function SetImage($brightness, $saturation, $contrast, $hue)
+    /**
+     * @param $brightness
+     * @param $saturation
+     * @param $contrast
+     * @param $hue
+     *
+     * @return false|string
+     */
+    protected function SetImage($brightness, $saturation, $contrast, $hue)
 	{
 		$host = $this->ReadPropertyString("Host");
 		$port = $this->ReadPropertyInteger("Port");
@@ -2087,8 +2574,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
 		IPS_SetVariableProfileIcon($Name, $Icon);
 		IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-		IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
-		IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize); // string $ProfilName, float $Minimalwert, float $Maximalwert, float $Schrittweite
+		if($Vartype != VARIABLETYPE_STRING)
+        {
+            IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
+            IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize); // string $ProfilName, float $Minimalwert, float $Maximalwert, float $Schrittweite
+        }
 	}
 
 	/**
@@ -2195,7 +2685,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => [
 						[
 							'type' => 'Label',
-							'label' => 'username and password for INSTAR webhook'
+							'caption' => 'username and password for INSTAR webhook'
 						],
 						[
 							'name' => 'webhook_username',
@@ -2221,7 +2711,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => [
 						[
 							'type' => 'Label',
-							'label' => 'IP Address or Hostname'
+							'caption' => 'IP Address or Hostname'
 						],
 						[
 							'name' => 'Host',
@@ -2230,7 +2720,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 						],
 						[
 							'type' => 'Label',
-							'label' => 'Port INSTAR Camera'
+							'caption' => 'Port INSTAR Camera'
 						],
 						[
 							'name' => 'Port',
@@ -2245,7 +2735,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => [
 						[
 							'type' => 'Label',
-							'label' => 'INSTAR user with authorization as admin'
+							'caption' => 'INSTAR user with authorization as admin'
 						],
 						[
 							'name' => 'User',
@@ -2266,7 +2756,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				],
 				[
 					'type' => 'Label',
-					'label' => 'INSTAR Camera Menu'
+					'caption' => 'INSTAR Camera Menu'
 				],
 				[
 					'type' => 'ExpansionPanel',
@@ -2282,50 +2772,31 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 									'items' => $this->FormNetworkInfo()
 								],
 								[
-									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'type' => 'ExpansionPanel',
+									'caption' => 'INSTAR Port Info',
+									'items' => $this->FormPortInfo()
 								]
 							]
 						],
 						[
 							'type' => 'ExpansionPanel',
 							'caption' => 'WIFI',
-							'items' => [
-								[
-									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
-								]
-							]
+							'items' => $this->FormWIFIInfo()
 						],
 						[
 							'type' => 'ExpansionPanel',
 							'caption' => 'Remote access',
-							'items' => [
-								[
-									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
-								]
-							]
+							'items' => $this->FormRemoteInfo()
 						],
 						[
 							'type' => 'ExpansionPanel',
 							'caption' => 'Upnp',
-							'items' => [
-								[
-									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
-								]
-							]
+							'items' => $this->FormUPNPInfo()
 						],
 						[
 							'type' => 'ExpansionPanel',
 							'caption' => 'Onvif',
-							'items' => [
-								[
-									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
-								]
-							]
+							'items' => $this->FormONVIFInfo()
 						]
 					]
 				],
@@ -2339,7 +2810,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2349,7 +2820,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2359,7 +2830,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2369,7 +2840,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2379,7 +2850,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						]
@@ -2395,7 +2866,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								],
 								[
 									'type' => 'ExpansionPanel',
@@ -2410,7 +2881,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2420,7 +2891,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2430,7 +2901,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2440,7 +2911,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2450,7 +2921,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2460,7 +2931,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2470,7 +2941,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2480,7 +2951,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						]
@@ -2496,7 +2967,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2506,7 +2977,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2516,7 +2987,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2526,7 +2997,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2536,7 +3007,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						]
@@ -2552,7 +3023,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2562,7 +3033,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						]
@@ -2578,7 +3049,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2588,7 +3059,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2598,7 +3069,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2608,7 +3079,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2618,7 +3089,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2628,7 +3099,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2638,7 +3109,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						],
@@ -2648,7 +3119,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 							'items' => [
 								[
 									'type' => 'Label',
-									'label' => 'INSTAR Camera Menu'
+									'caption' => 'INSTAR Camera Menu'
 								]
 							]
 						]
@@ -2660,11 +3131,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					'items' => [
 						[
 							'type' => 'Label',
-							'label' => 'Please first choose a Snapshot Category in the IP-Symcon Object Tree and select it in the Field below'
+							'caption' => 'Please first choose a Snapshot Category in the IP-Symcon Object Tree and select it in the Field below'
 						],
 						[
 							'type' => 'Label',
-							'label' => 'INSTAR snapshot pictures category'
+							'caption' => 'INSTAR snapshot pictures category'
 						],
 						[
 							'name' => 'categorysnapshot',
@@ -2673,7 +3144,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 						],
 						[
 							'type' => 'Label',
-							'label' => 'picture limit for INSTAR snapshots pictures'
+							'caption' => 'picture limit for INSTAR snapshots pictures'
 						],
 						[
 							'name' => 'picturelimitsnapshot',
@@ -2765,11 +3236,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			[
 				[
 					'type' => 'Label',
-					'label' => 'Get camera infos from the camera'
+					'caption' => 'Get camera infos from the camera'
 				],
 				[
 					'type' => 'Button',
-					'label' => 'Get camera infos',
+					'caption' => 'Get camera infos',
 					'onClick' => 'INSTAR_GetServerInfo($id);'
 				]
 			]
@@ -2860,13 +3331,665 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			[
 				[
 					'type' => 'Label',
-					'label' => 'Get network infos from the camera'
+					'caption' => 'Get network infos from the camera'
 				],
 				[
 					'type' => 'Button',
-					'label' => 'Get network infos',
+					'caption' => 'Get network infos',
 					'onClick' => 'INSTAR_GetNetInfo($id);'
 				]
+			]
+		);
+		return $form;
+	}
+
+	private function FormPortInfo()
+	{
+		$form = [];
+		$http_port = $this->ReadAttributeInteger("http_port");
+		if ($http_port != 0) {
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'PortInformation',
+						'caption' => 'Port information',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'http',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'http',
+								'caption' => 'HTTP',
+								'width' => 'auto',
+								'visible' => true,
+								'edit' => [
+									'type' => 'NumberSpinner'
+								]
+							],
+							[
+								'name' => 'https',
+								'caption' => 'HTTPS',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'NumberSpinner'
+								]
+							],
+							[
+								'name' => 'rtsp',
+								'caption' => 'RTSP',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'NumberSpinner'
+								]
+							],
+							[
+								'name' => 'rtsp_authentication',
+								'caption' => 'RTSP Authentication',
+								'width' => '250px',
+								'edit' => [
+									'type' => 'CheckBox'
+								]
+							],
+							[
+								'name' => 'rtmp_port',
+								'caption' => 'RTMP',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'NumberSpinner'
+								]
+							]
+						],
+						'values' => [
+							[
+								'http' => $this->ReadAttributeInteger("http_port"),
+								'https' => $this->ReadAttributeInteger("https_port"),
+								'rtsp' => $this->ReadAttributeInteger("rtsp_port"),
+								'rtsp_authentication' => $this->ReadAttributeBoolean("rtsp_authentication"),
+								'rtmp' => $this->ReadAttributeInteger("rtmp_port")
+							]
+						]
+					],
+					[
+						'type' => 'Label',
+						'caption' => 'Set port infos for the camera'
+					],
+					[
+						'type' => 'Button',
+						'caption' => 'Set port infos',
+						'onClick' => 'INSTAR_SetCameraPorts($id);'
+					]
+				]
+			);
+		}
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'Label',
+					'caption' => 'Get port infos from the camera'
+				],
+				[
+					'type' => 'Button',
+					'caption' => 'Get port infos',
+					'onClick' => 'INSTAR_GetCameraPorts($id);'
+				]
+			]
+		);
+		return $form;
+	}
+
+
+	private function FormWIFIInfo()
+	{
+		$form = [];
+		$wf_ssid = $this->ReadAttributeString("wf_ssid");
+		if ($wf_ssid != "") {
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'WIFI_Information',
+						'caption' => 'WIFI information',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'wf_ssid',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'wf_ssid',
+								'caption' => 'SSID',
+								'width' => 'auto',
+								'visible' => true,
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
+							],
+							[
+								'name' => 'wf_auth',
+								'caption' => 'auth',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'Authentifikation',
+									'caption' => 'Authentifikation',
+									'options' => [
+										[
+											'caption' => 'no encryption',
+											'value' => 0
+										],
+										[
+											'caption' => 'WEP',
+											'value' => 1
+										],
+										[
+											'caption' => 'WPA-PSK',
+											'value' => 2
+										],
+										[
+											'caption' => 'WPA2-PSK',
+											'value' => 3
+										]
+									]
+								]
+							],
+							[
+								'name' => 'wf_key',
+								'caption' => 'Key',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
+							],
+							[
+								'name' => 'wf_enable',
+								'caption' => 'Enable',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'CheckBox'
+								]
+							],
+							[
+								'name' => 'wf_enc',
+								'caption' => 'Encoding',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'Authentifikation',
+									'caption' => 'Authentifikation',
+									'options' => [
+										[
+											'caption' => 'TKIP',
+											'value' => 0
+										],
+										[
+											'caption' => 'AES',
+											'value' => 1
+										]
+									]
+								]
+							],
+							[
+								'name' => 'wf_mode',
+								'caption' => 'Mode',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'Authentifikation',
+									'caption' => 'Authentifikation',
+									'options' => [
+										[
+											'caption' => 'infra',
+											'value' => 0
+										],
+										[
+											'caption' => 'ad-hoc',
+											'value' => 1
+										]
+									]
+								]
+							]
+						],
+						'values' => [
+							[
+								'wf_ssid' => $this->ReadAttributeString("wf_ssid"),
+								'wf_auth' => $this->ReadAttributeInteger("wf_auth"),
+								'wf_key' => $this->ReadAttributeString("wf_key"),
+								'wf_enable' => $this->ReadAttributeBoolean("wf_enable"),
+								'wf_enc' => $this->ReadAttributeInteger("wf_enc"),
+								'wf_mode' => $this->ReadAttributeInteger("wf_mode")
+							]
+						]
+					],
+					[
+						'type' => 'Label',
+						'caption' => 'Set WIFI infos for the camera'
+					],
+					[
+						'type' => 'Button',
+						'caption' => 'Set WIFI infos',
+						'onClick' => 'INSTAR_SetCameraWIFIConfiguration($id);'
+					]
+				]
+			);
+		}
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'Label',
+					'caption' => 'Get WIFI infos from the camera'
+				],
+				[
+					'type' => 'Button',
+					'caption' => 'Get WIFI infos',
+					'onClick' => 'INSTAR_GetCameraWIFIConfiguration($id);'
+				]
+			]
+		);
+		return $form;
+	}
+
+	private function FormRemoteInfo()
+	{
+		$form = [];
+		$our_server = $this->ReadAttributeString("our_server");
+		if ($our_server != "") {
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'DDNS_Configuration',
+						'caption' => 'DDNS Configuration',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'our_server',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'our_server',
+								'caption' => 'INSTAR DDNS Server Domain',
+								'width' => 'auto',
+								'visible' => true
+							],
+							[
+								'name' => 'our_port',
+								'caption' => 'INSTAR DDNS Server Port',
+								'width' => '200px'
+							],
+							[
+								'name' => 'our_uname',
+								'caption' => 'Your INSTAR DDNS ID',
+								'width' => '200px'
+							],
+							[
+								'name' => 'our_passwd',
+								'caption' => 'Your INSTAR DDNS Password',
+								'width' => '250px'
+							],
+							[
+								'name' => 'our_domain',
+								'caption' => 'Your INSTAR DDNS Address',
+								'width' => '250px'
+							],
+							[
+								'name' => 'our_interval',
+								'caption' => 'Update Intervall',
+								'width' => '150px'
+							],
+							[
+								'name' => 'our_enable',
+								'caption' => 'INSTAR DDNS',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'CheckBox'
+								]
+							]
+						],
+						'values' => [
+							[
+								'our_server' => $this->ReadAttributeString("our_server"),
+								'our_port' => $this->ReadAttributeInteger("our_port"),
+								'our_uname' => $this->ReadAttributeString("our_uname"),
+								'our_passwd' => $this->ReadAttributeString("our_passwd"),
+								'our_domain' => $this->ReadAttributeString("our_domain"),
+								'our_interval' => $this->ReadAttributeInteger("our_interval"),
+								'our_enable' => $this->ReadAttributeBoolean("our_enable")
+							]
+						]
+					],
+					[
+						'type' => 'Label',
+						'caption' => 'Set INSTAR DDNS'
+					],
+					[
+						'type' => 'Button',
+						'caption' => 'Set INSTAR DDNS',
+						'onClick' => 'INSTAR_SetINSTAR_DDNS($id);'
+					]
+				]
+			);
+		}
+		$d3th_domain = $this->ReadAttributeString("d3th_domain");
+		if ($d3th_domain != "") {
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => '3rd_Party_DDNS_Configuration',
+						'caption' => '3rd Party DDNS Configuration',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'd3th_domain',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+							[
+								'name' => 'd3th_domain',
+								'caption' => 'Your 3rd Party DDNS Address',
+								'width' => 'auto',
+								'visible' => true,
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
+							],
+							[
+								'name' => 'd3th_service',
+								'caption' => 'Service',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'd3th_service',
+									'caption' => 'Service',
+									'options' => [
+										[
+											'caption' => 'DynDNS',
+											'value' => 0
+										],
+										[
+											'caption' => 'NoIP',
+											'value' => 1
+										]
+									]
+								]
+							],
+							[
+								'name' => 'd3th_uname',
+								'caption' => 'Username',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
+							],
+							[
+								'name' => 'd3th_passwd',
+								'caption' => 'Password',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'ValidationTextBox'
+								]
+							],
+							[
+								'name' => 'd3th_enable',
+								'caption' => '3rd Party DDNS',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'CheckBox'
+								]
+							]
+						],
+						'values' => [
+							[
+								'd3th_domain' => $this->ReadAttributeString("d3th_domain"),
+								'd3th_service' => $this->ReadAttributeInteger("d3th_service"),
+								'd3th_uname' => $this->ReadAttributeString("d3th_uname"),
+								'd3th_passwd' => $this->ReadAttributeString("d3th_passwd"),
+								'd3th_enable' => $this->ReadAttributeBoolean("d3th_enable")
+							]
+						]
+					],
+					[
+						'type' => 'Label',
+						'caption' => 'Set 3rd Party DDNS Configuration'
+					],
+					[
+						'type' => 'Button',
+						'caption' => 'Set DDNS',
+						'onClick' => 'INSTAR_Set3rdPartyDDNSConfiguration($id);'
+					]
+				]
+			);
+		}
+		$form = array_merge_recursive(
+			$form,
+			[
+				[
+					'type' => 'Label',
+					'caption' => 'Get INSTAR DDNS'
+				],
+				[
+					'type' => 'Button',
+					'caption' => 'Get DDNS Configuration',
+					'onClick' => 'INSTAR_GetDDNSConfiguration($id);'
+				],
+				[
+					'type' => 'Label',
+					'caption' => 'Get DDNS'
+				],
+				[
+					'type' => 'Button',
+					'caption' => 'Get DDNS Configuration',
+					'onClick' => 'INSTAR_Get3rdPartyDDNSConfiguration($id);'
+				]
+			]
+		);
+		return $form;
+	}
+
+	private function FormUPNPInfo()
+	{
+		$form = [
+			[
+				'name' => 'upnp_enable',
+				'type' => 'CheckBox',
+				'caption' => 'UPNP'
+			],
+			[
+				'type' => 'Label',
+				'caption' => 'Set INSTAR UPNP'
+			],
+			[
+				'type' => 'Button',
+				'caption' => 'Set INSTAR UPNP',
+				'onClick' => 'INSTAR_SetUPNPConfiguration($id);'
+			],
+			[
+				'type' => 'Label',
+				'caption' => 'Get INSTAR UPNP'
+			],
+			[
+				'type' => 'Button',
+				'caption' => 'Get UPNP Configuration',
+				'onClick' => 'INSTAR_GetUPNPConfiguration($id);'
+			]
+		];
+		return $form;
+	}
+
+	private function FormONVIFInfo()
+	{
+	    $form = [];
+		$ov_subchn = $this->ReadAttributeInteger("ov_subchn");
+		if ($ov_subchn != 0) {
+			$form = array_merge_recursive(
+				$form,
+				[
+					[
+						'type' => 'List',
+						'name' => 'ONVIF_Information',
+						'caption' => 'ONVIF information',
+						'rowCount' => 2,
+						'add' => false,
+						'delete' => false,
+						'sort' => [
+							'column' => 'ov_enable',
+							'direction' => 'ascending'
+						],
+						'columns' => [
+                            [
+                                'name' => 'ov_enable',
+                                'caption' => 'Enable ONVIF',
+                                'width' => '150px',
+                                'edit' => [
+                                    'type' => 'CheckBox'
+                                ]
+                            ],
+						    [
+								'name' => 'ov_port',
+								'caption' => 'ONVIF Port',
+								'width' => 'auto',
+								'visible' => true,
+								'edit' => [
+									'type' => 'NumberSpinner'
+								]
+							],
+                            [
+                                'name' => 'ov_authflag',
+                                'caption' => 'Authflag',
+                                'width' => '150px',
+                                'edit' => [
+                                    'type' => 'CheckBox'
+                                ]
+                            ],
+							[
+								'name' => 'ov_forbitset',
+								'caption' => 'forbiset',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'forbiset',
+									'caption' => 'forbiset',
+									'options' => [
+										[
+											'caption' => 'When the time zone setting allows image parameter settings allow',
+											'value' => 0
+										],
+										[
+											'caption' => 'When the time zone setting disabled, the image parameter settings allow',
+											'value' => 1
+										],
+										[
+											'caption' => 'When the time zone setting allows image parameter settings prohibit',
+											'value' => 2
+										],
+										[
+											'caption' => 'When the time zone setting is prohibited, prohibited image parameter settings',
+											'value' => 3
+										]
+									]
+								]
+							],
+							[
+								'name' => 'ov_subchn',
+								'caption' => 'Video Subchannel',
+								'width' => '150px',
+								'edit' => [
+									'type' => 'Select',
+									'name' => 'ov_subchn',
+									'caption' => 'Use video channel',
+									'options' => [
+										[
+											'caption' => 'Channel 11',
+											'value' => 11
+										],
+                                        [
+                                            'caption' => 'Channel 12',
+                                            'value' => 12
+                                        ],
+										[
+											'caption' => 'Channel 13',
+											'value' => 13
+										]
+									]
+								]
+							],
+                            [
+                                'name' => 'ov_snapchn',
+                                'caption' => 'Video Subchannel Snapshot',
+                                'width' => '150px',
+                                'edit' => [
+                                    'type' => 'Select',
+                                    'name' => 'ov_snapchn',
+                                    'caption' => 'Use video channel',
+                                    'options' => [
+                                        [
+                                            'caption' => 'Channel 11',
+                                            'value' => 11
+                                        ],
+                                        [
+                                            'caption' => 'Channel 12',
+                                            'value' => 12
+                                        ],
+                                        [
+                                            'caption' => 'Channel 13',
+                                            'value' => 13
+                                        ]
+                                    ]
+                                ]
+                            ]
+						],
+						'values' => [
+							[
+								'ov_enable' => $this->ReadAttributeBoolean("ov_enable"),
+								'ov_port' => $this->ReadAttributeInteger("ov_port"),
+                                'ov_authflag' => $this->ReadAttributeBoolean("ov_authflag"),
+								'ov_forbitset' => $this->ReadAttributeInteger("ov_forbitset"),
+								'ov_subchn' => $this->ReadAttributeInteger("ov_subchn"),
+                                'ov_snapchn' => $this->ReadAttributeInteger("ov_snapchn")
+							]
+						]
+					],
+					[
+						'type' => 'Label',
+						'caption' => 'Set ONVIF infos for the camera'
+					],
+					[
+						'type' => 'Button',
+						'caption' => 'Set ONVIF infos',
+						'onClick' => 'INSTAR_SetONVIFConfiguration($id);'
+					],
+
+				]
+			);
+		}
+		$form = array_merge_recursive(
+			$form,
+			[
+                [
+                    'type' => 'Label',
+                    'caption' => 'Get INSTAR ONVIF'
+                ],
+                [
+                    'type' => 'Button',
+                    'caption' => 'Get ONVIF Configuration',
+                    'onClick' => 'INSTAR_GetONVIFConfiguration($id);'
+                ]
 			]
 		);
 		return $form;
@@ -2882,56 +4005,56 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				'caption' => 'Model',
 				'options' => [
 					[
-						'label' => 'Please select a camera model',
+						'caption' => 'Please select a camera model',
 						'value' => 0
 					],
 					[
-						'label' => 'IN-5905 HD',
+						'caption' => 'IN-5905 HD',
 						'value' => self::IN_5905_HD
 					],
 					[
-						'label' => 'IN-5907 HD',
+						'caption' => 'IN-5907 HD',
 						'value' => self::IN_5907_HD
 					],
 					[
-						'label' => 'IN-7011 HD',
+						'caption' => 'IN-7011 HD',
 						'value' => self::IN_7011_HD
 					],
 					[
-						'label' => 'IN-9008 Full HD',
+						'caption' => 'IN-9008 Full HD',
 						'value' => self::IN_9008_Full_HD
 					],
 					[
-						'label' => 'IN-9010 Full HD',
+						'caption' => 'IN-9010 Full HD',
 						'value' => self::IN_9010_Full_HD
 					],
 					[
-						'label' => 'IN-9020 Full HD',
+						'caption' => 'IN-9020 Full HD',
 						'value' => self::IN_9020_Full_HD
 					],
 					[
-						'label' => 'IN-3011',
+						'caption' => 'IN-3011',
 						'value' => self::IN_3011
 					],
 					[
-						'label' => 'IN-6001 HD',
+						'caption' => 'IN-6001 HD',
 						'value' => self::IN_6001_HD
 					],
 					[
-						'label' => 'IN-6012 HD',
+						'caption' => 'IN-6012 HD',
 						'value' => self::IN_6012_HD
 					],
 					[
-						'label' => 'IN-6014 HD',
+						'caption' => 'IN-6014 HD',
 						'value' => self::IN_6014_HD
 					],
 
 					[
-						'label' => 'IN-8003 Full HD',
+						'caption' => 'IN-8003 Full HD',
 						'value' => self::IN_8003_Full_HD
 					],
 					[
-						'label' => 'IN-8015 Full HD',
+						'caption' => 'IN-8015 Full HD',
 						'value' => self::IN_8015_Full_HD
 					]
 				]
@@ -2946,7 +4069,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 				[
 					[
 						'type' => 'Label',
-						'label' => 'Please select a camera model'
+						'caption' => 'Please select a camera model'
 					]
 				]
 			);
@@ -3115,11 +4238,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		$form = [
 			[
 				'type' => 'Label',
-				'label' => 'Optional Email Notification (configurated SMTP module required)'
+				'caption' => 'Optional Email Notification (configurated SMTP module required)'
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Email Notification active'
+				'caption' => 'Email Notification active'
 			],
 			[
 				'name' => 'activeemail',
@@ -3133,7 +4256,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Email Recipient'
+				'caption' => 'Email Recipient'
 			],
 			[
 				'name' => 'email',
@@ -3142,7 +4265,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			],
 			[
 				'type' => 'Label',
-				'label' => 'email subject'
+				'caption' => 'email subject'
 			],
 			[
 				'name' => 'subject',
@@ -3151,7 +4274,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 			],
 			[
 				'type' => 'Label',
-				'label' => 'email text'
+				'caption' => 'email text'
 			],
 			[
 				'name' => 'emailtext',
@@ -3175,7 +4298,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email2',
@@ -3184,7 +4307,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject2',
@@ -3193,7 +4316,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext2',
@@ -3219,7 +4342,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email3',
@@ -3228,7 +4351,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject3',
@@ -3237,7 +4360,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext3',
@@ -3263,7 +4386,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email4',
@@ -3272,7 +4395,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject4',
@@ -3281,7 +4404,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext4',
@@ -3307,7 +4430,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email5',
@@ -3316,7 +4439,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject5',
@@ -3325,7 +4448,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext5',
@@ -3351,7 +4474,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email6',
@@ -3360,7 +4483,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject6',
@@ -3369,7 +4492,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext6',
@@ -3395,7 +4518,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email7',
@@ -3404,7 +4527,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject7',
@@ -3413,7 +4536,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext7',
@@ -3439,7 +4562,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email8',
@@ -3448,7 +4571,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject8',
@@ -3457,7 +4580,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext8',
@@ -3483,7 +4606,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email9',
@@ -3492,7 +4615,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject9',
@@ -3501,7 +4624,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext9',
@@ -3527,7 +4650,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email10',
@@ -3536,7 +4659,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject10',
@@ -3545,7 +4668,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext10',
@@ -3571,7 +4694,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'notification email adress'
+						'caption' => 'notification email adress'
 					],
 					[
 						'name' => 'email11',
@@ -3580,7 +4703,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email subject'
+						'caption' => 'email subject'
 					],
 					[
 						'name' => 'subject11',
@@ -3589,7 +4712,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 					],
 					[
 						'type' => 'Label',
-						'label' => 'email text'
+						'caption' => 'email text'
 					],
 					[
 						'name' => 'emailtext11',
@@ -3611,47 +4734,47 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 		$form = [
 			[
 				'type' => 'Label',
-				'label' => 'Get snapshot from Camera'
+				'caption' => 'Get snapshot from Camera'
 			],
 			[
 				'type' => 'Button',
-				'label' => 'Get snapshot',
+				'caption' => 'Get snapshot',
 				'onClick' => 'INSTAR_GetSnapshot($id);'
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Move left'
+				'caption' => 'Move left'
 			],
 			[
 				'type' => 'Button',
-				'label' => 'Left',
+				'caption' => 'Left',
 				'onClick' => 'INSTAR_Left($id);'
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Move left'
+				'caption' => 'Move left'
 			],
 			[
 				'type' => 'Button',
-				'label' => 'Right',
+				'caption' => 'Right',
 				'onClick' => 'INSTAR_Right($id);'
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Move left'
+				'caption' => 'Move left'
 			],
 			[
 				'type' => 'Button',
-				'label' => 'Up',
+				'caption' => 'Up',
 				'onClick' => 'INSTAR_Up($id);'
 			],
 			[
 				'type' => 'Label',
-				'label' => 'Move down'
+				'caption' => 'Move down'
 			],
 			[
 				'type' => 'Button',
-				'label' => 'Left',
+				'caption' => 'Left',
 				'onClick' => 'INSTAR_Down($id);'
 			],
 			[
