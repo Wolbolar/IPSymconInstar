@@ -314,7 +314,6 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
 
-
         $this->RegisterAttributeBoolean('1080p_API', false);
         $this->RegisterAttributeBoolean('720p_API', false);
         $this->RegisterAttributeBoolean('VGA_API', true);
@@ -430,11 +429,8 @@ class INSTAR extends IPSModule
 
     /**
      * Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
-     * Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wiefolgt zur Verfügung gestellt:
-     *
-     *
+     * Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wiefolgt zur Verfügung gestellt:.
      */
-
     private function ValidateConfiguration()
     {
         $host             = $this->ReadPropertyString('Host');
@@ -469,7 +465,6 @@ class INSTAR extends IPSModule
         } else {
             $domaincheck = false;
         }
-
 
         if ($domaincheck === true || $ipcheck === true) {
             $hostcheck = true;
@@ -576,12 +571,10 @@ class INSTAR extends IPSModule
 
             }
 
-
             // Status Aktiv
             $this->SetStatus(102);
         }
     }
-
 
     protected function GetHostIP()
     {
@@ -614,7 +607,6 @@ class INSTAR extends IPSModule
             $this->SetStatus(207); //email not valid
         }
     }
-
 
     protected function is_valid_domain($url)
     {
@@ -708,7 +700,6 @@ class INSTAR extends IPSModule
         return $prefix;
     }
 
-
     protected function GetConnectURL()
     {
         $instID = IPS_GetInstanceListByModuleID('{9486D575-BE8C-4ED8-B5B5-20930E26DE6F}')[0];
@@ -737,7 +728,6 @@ class INSTAR extends IPSModule
                 break;
         }
 
-
         if ($SenderID == $this->GetIDForIdent('LastMovement')) {
             $this->GetSnapshot();
             $this->SendDebug('INSTAR recieved LastMovement at', date('H:i', time()), 0);
@@ -757,7 +747,7 @@ class INSTAR extends IPSModule
     }
 
     /** Set Language
-     * 1 = german, 2 = english, 3 = french, 4 = chinese
+     * 1 = german, 2 = english, 3 = french, 4 = chinese.
      *
      * @param string $language
      *
@@ -804,7 +794,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Process Webhook Data
+     * Process Webhook Data.
      */
     protected function ProcessHookData()
     {
@@ -838,7 +828,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Register Webhook
+     * Register Webhook.
      *
      * @param string $webhook
      * @param bool   $delete
@@ -847,10 +837,10 @@ class INSTAR extends IPSModule
     {
         $ids = IPS_GetInstanceListByModuleID('{015A6EB8-D6E5-4B93-B496-0D3F77AE9FE1}');
 
-        if (sizeof($ids) > 0) {
+        if (count($ids) > 0) {
             $hooks = json_decode(IPS_GetProperty($ids[0], 'Hooks'), true);
             $found = false;
-            foreach ($hooks AS $index => $hook) {
+            foreach ($hooks as $index => $hook) {
                 if ($hook['Hook'] == $webhook) {
                     if ($hook['TargetID'] == $this->InstanceID && !$delete) {
                         return;
@@ -1154,7 +1144,6 @@ class INSTAR extends IPSModule
         $this->SetCameraRTMP_Port($rtmp_port);
     }
 
-
     /** Get Network Configuration
      *
      * @return array
@@ -1211,7 +1200,6 @@ class INSTAR extends IPSModule
         $this->SendDebug('INSTAR', 'IR mode: ' . $mode, 0);
         return $mode;
     }
-
 
     // Wifi Settings
 
@@ -1333,7 +1321,6 @@ class INSTAR extends IPSModule
     }
 
     // Remote Access
-
 
     /** Get your Camera´s INSTAR DDNS Configuration
      *
@@ -1570,11 +1557,10 @@ class INSTAR extends IPSModule
 
     // Privacy Mask
 
-
     // Pan & Tilt
 
     /**
-     * Moves continuously right
+     * Moves continuously right.
      *
      * @return bool|string
      */
@@ -1588,7 +1574,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves continuously left
+     * Moves continuously left.
      *
      * @return bool|string
      */
@@ -1602,7 +1588,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves continuously up
+     * Moves continuously up.
      *
      * @return bool|string
      */
@@ -1616,7 +1602,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves continuously down
+     * Moves continuously down.
      *
      * @return bool|string
      */
@@ -1630,7 +1616,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Stops moving camera-head
+     * Stops moving camera-head.
      *
      * @return bool|string
      */
@@ -1644,7 +1630,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step right
+     * Moves one step right.
      *
      * @return bool|string
      */
@@ -1658,7 +1644,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step left
+     * Moves one step left.
      *
      * @return bool|string
      */
@@ -1672,7 +1658,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step up
+     * Moves one step up.
      *
      * @return bool|string
      */
@@ -1686,7 +1672,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step down
+     * Moves one step down.
      *
      * @return bool|string
      */
@@ -1700,7 +1686,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Go to Center Position
+     * Go to Center Position.
      *
      * @return bool|string
      */
@@ -1713,7 +1699,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Scan horizontal
+     * Scan horizontal.
      *
      * @return bool|string
      */
@@ -1727,7 +1713,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Scan vertical
+     * Scan vertical.
      *
      * @return bool|string
      */
@@ -1740,7 +1726,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * set a position
+     * set a position.
      *
      * @return bool|string
      */
@@ -1826,7 +1812,7 @@ class INSTAR extends IPSModule
             self::IN_6012_HD      => 'IN-6012 HD',
             self::IN_6014_HD      => 'IN-6014 HD',
             self::IN_8003_Full_HD => 'IN-8003 Full HD',
-            self::IN_8015_Full_HD => 'IN-8015 Full HD',];
+            self::IN_8015_Full_HD => 'IN-8015 Full HD', ];
         foreach ($INSTAR_types as $key => $INSTAR_type) {
             if ($key == $INSTAR_type_nr) {
                 $type = $INSTAR_type;
@@ -1834,7 +1820,6 @@ class INSTAR extends IPSModule
         }
         return $type;
     }
-
 
     // System Menu
 
@@ -1865,11 +1850,10 @@ class INSTAR extends IPSModule
 
     // Reset
 
-
     // Video
 
     /*
-	 * rtsp://admin:instar@IP-Address:RTSP-Port/11 :: VLC Stream
+     * rtsp://admin:instar@IP-Address:RTSP-Port/11 :: VLC Stream
 
   http://admin:instar@IP-Address:Port/iphone/11 :: Quicktime Stream
 
@@ -1879,7 +1863,7 @@ class INSTAR extends IPSModule
 
   http://IP-Address:Port/cgi-bin/hi3510/mjpegstream.cgi?-chn=11&-usr=admin&-pwd=instar :: MJPEG Stream
 
-	 */
+     */
 
     // Image
 
@@ -2020,10 +2004,10 @@ class INSTAR extends IPSModule
     // WLAN
 
     /*
-	 * Reset the Parameter Values
+     * Reset the Parameter Values
 
 http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SSID&-wf_enable=0&-wf_auth=2&-wf_key=1234&-wf_enc=1&-wf_mode=0
-	 */
+     */
 
     // IR-LED
 
@@ -2051,7 +2035,6 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
         return $state;
     }
 
-
     /** IR LED ON
      *
      * @return false|string
@@ -2064,18 +2047,17 @@ http://192.168.xxx.xxx./cgi-bin/hi3510/param.cgi?cmd=setwirelessattr&-wf_ssid=SS
         return $state;
     }
 
-
     // ALARM
 
     /*
-	 *  http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enable=1&-name=1 :: enables the md area 1
+     *  http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enable=1&-name=1 :: enables the md area 1
 
     http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enable=0&-name=1 :: disables the md area 1
 
     http://192.168.x.x/cgi-bin/hi3510/param.cgi?cmd=setioattr&-io_enable=1&-io_flag=1 :: enable / disable external alarm in to trigger recording
 Example:
 http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enable=0&-name=1&cmd=setmdattr&-enable=0&-name=2&cmd=setmdattr&-enable=0&-name=3&cmd=setmdattr&-enable=0&-name=4
-	 */
+     */
 
     protected function SetLastMovement()
     {
@@ -2088,7 +2070,6 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         }
     }
 
-
     private function CreateSnapshotScript()
     {
         $Script = '<?
@@ -2097,7 +2078,6 @@ INSTAR_GetSnapshot(' . $this->InstanceID . ');
 ?>';
         return $Script;
     }
-
 
     private function CreateEmailAlertScript($email)
     {
@@ -2125,7 +2105,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $this->SendDebug('INSTAR', 'Event für Snapshot mit ObjektID' . $EreignisID . ' gefunden', 0);
         }
     }
-
 
     private function SetEmailEvent(int $IDEmail, bool $state)
     {
@@ -2241,7 +2220,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
             $Content = '';
 
-
             //testen ob im Medienpool existent
             $catid = $this->ReadPropertyInteger('categorysnapshot');
 
@@ -2285,7 +2263,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         }
     }
 
-
     private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
     {
         $Content = '';
@@ -2300,7 +2277,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $allmedia = $this->GetallImages($mediaids);
             if ($allmedia) {
                 $lastmediaid = array_search($picturelimit, array_column($allmedia, 'picid'));
-                unset ($allmedia[$lastmediaid]);
+                unset($allmedia[$lastmediaid]);
                 //Neues Bild zu allmedia hinzufügen
                 $allmedia = $this->AddCurrentPic($allmedia, $mediaids, $Content);
                 //allmedia schreiben
@@ -2528,7 +2505,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     //Profile
 
     /**
-     * register profiles
+     * register profiles.
      *
      * @param $Name
      * @param $Icon
@@ -2563,7 +2540,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * register profile association
+     * register profile association.
      *
      * @param $Name
      * @param $Icon
@@ -2578,19 +2555,19 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
      */
     protected function RegisterProfileAssociation($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits, $Vartype, $Associations)
     {
-        if (is_array($Associations) && sizeof($Associations) === 0) {
+        if (is_array($Associations) && count($Associations) === 0) {
             $MinValue = 0;
             $MaxValue = 0;
         }
         $this->RegisterProfile($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $Stepsize, $Digits, $Vartype);
 
         if (is_array($Associations)) {
-            foreach ($Associations AS $Association) {
+            foreach ($Associations as $Association) {
                 IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
             }
         } else {
             $Associations = $this->$Associations;
-            foreach ($Associations AS $code => $association) {
+            foreach ($Associations as $code => $association) {
                 IPS_SetVariableProfileAssociation($Name, $code, $this->Translate($association), $Icon, -1);
             }
         }
@@ -2623,13 +2600,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $ipsversion;
     }
 
-
     /***********************************************************
      * Configuration Form
      ***********************************************************/
 
     /**
-     * build configuration form
+     * build configuration form.
      *
      * @return string
      */
@@ -2645,7 +2621,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * return form configurations on configuration step
+     * return form configurations on configuration step.
      *
      * @return array
      */
@@ -3029,27 +3005,27 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  [
                                      'name'    => 'model',
                                      'caption' => 'Model',
-                                     'width'   => '150px',],
+                                     'width'   => '150px', ],
                                  [
                                      'name'    => 'hardwareversion',
                                      'caption' => 'Hardware Version',
-                                     'width'   => '150px',],
+                                     'width'   => '150px', ],
                                  [
                                      'name'    => 'softwareversion',
                                      'caption' => 'Software Version',
-                                     'width'   => '150px',],
+                                     'width'   => '150px', ],
                                  [
                                      'name'    => 'webversion',
                                      'caption' => 'Web Version',
-                                     'width'   => '150px',],
+                                     'width'   => '150px', ],
                                  [
                                      'name'    => 'sdfreespace',
                                      'caption' => 'SD Free Space',
-                                     'width'   => '150px',],
+                                     'width'   => '150px', ],
                                  [
                                      'name'    => 'sdtotalspace',
                                      'caption' => 'SD Capacity',
-                                     'width'   => '150px',]],
+                                     'width'   => '150px', ]],
                              'values'   => [
                                  [
                                      'name'            => $this->ReadAttributeString('name'),
@@ -3125,7 +3101,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  [
                                      'name'    => 'networktype',
                                      'caption' => 'Network Type',
-                                     'width'   => '150px',]],
+                                     'width'   => '150px', ]],
                              'values'   => [
                                  [
                                      'ip'          => $this->ReadAttributeString('ip'),
@@ -3226,7 +3202,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         );
         return $form;
     }
-
 
     private function FormWIFIInfo()
     {
@@ -3706,7 +3681,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
             ]];
 
-
         if ($model == 0) {
             $selection = array_merge_recursive(
                 $selection, [
@@ -3823,7 +3797,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                   'image' => 'data:image/png;base64, iVBORw0KGgoAAAANSUhEUgAAAIIAAACCCAIAAAAFYYeqAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAA3ZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuNi1jMDY3IDc5LjE1Nzc0NywgMjAxNS8wMy8zMC0yMzo0MDo0MiAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wTU09Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9tbS8iIHhtbG5zOnN0UmVmPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvc1R5cGUvUmVzb3VyY2VSZWYjIiB4bWxuczp4bXA9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC8iIHhtcE1NOk9yaWdpbmFsRG9jdW1lbnRJRD0ieG1wLmRpZDo1NTFkMWQ0MC1iNjgzLTRiNDAtOWMzNC1mYjJjMjY3NGJhYWMiIHhtcE1NOkRvY3VtZW50SUQ9InhtcC5kaWQ6Mjk4OEFFQkM4MTZBMTFFOTk0MkZBRDZERkYzODlFRUMiIHhtcE1NOkluc3RhbmNlSUQ9InhtcC5paWQ6Mjk4OEFFQkI4MTZBMTFFOTk0MkZBRDZERkYzODlFRUMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENDIDIwMTUgKFdpbmRvd3MpIj4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6ODhlNjJlYjYtMDg4NS05YjQxLWI5NjYtMTMwNTI5NDc3NmQ1IiBzdFJlZjpkb2N1bWVudElEPSJ4bXAuZGlkOjU1MWQxZDQwLWI2ODMtNGI0MC05YzM0LWZiMmMyNjc0YmFhYyIv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']]
             );
         }
-
 
         return $selection;
     }
@@ -4220,7 +4193,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * return form actions by token
+     * return form actions by token.
      *
      * @return array
      */
@@ -4269,7 +4242,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * return from status
+     * return from status.
      *
      * @return array
      */
@@ -4333,11 +4306,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * send debug log
+     * send debug log.
      *
      * @param string $notification
      * @param string $message
-     * @param int    $format 0 = Text, 1 = Hex
+     * @param int    $format       0 = Text, 1 = Hex
      */
     private function _debug(string $notification = null, string $message = null, $format = 0)
     {
@@ -4345,7 +4318,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     }
 
     /**
-     * return incremented position
+     * return incremented position.
      *
      * @return int
      */
@@ -4360,7 +4333,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
      ***********************************************************/
 
     /**
-     * Polyfill for IP-Symcon 4.4 and older
+     * Polyfill for IP-Symcon 4.4 and older.
      *
      * @param string $Ident
      * @param mixed  $Value
