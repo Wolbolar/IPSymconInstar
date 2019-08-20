@@ -5511,143 +5511,71 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         return $data;
     }
 
-    public function SetAlarmZone1X(int $m1_x)
+    public function SetAlarmZone1Parameters(int $m1_x, int $m1_y, int $m1_w, int $m1_h)
     {
         $this->WriteAttributeInteger('m1_x', $m1_x);
+        $this->WriteAttributeInteger('m1_y', $m1_y);
+        $this->WriteAttributeInteger('m1_w', $m1_w);
+        $this->WriteAttributeInteger('m1_h', $m1_h);
         $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
-    public function SetAlarmZone2X(int $m2_x)
+    public function SetAlarmZone2Parameters(int $m2_x, int $m2_y, int $m2_w, int $m2_h)
     {
         $this->WriteAttributeInteger('m2_x', $m2_x);
+        $this->WriteAttributeInteger('m2_y', $m2_y);
+        $this->WriteAttributeInteger('m2_w', $m2_w);
+        $this->WriteAttributeInteger('m2_h', $m2_h);
         $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
-    public function SetAlarmZone3X(int $m3_x)
+    public function SetAlarmZone3Parameters(int $m3_x, int $m3_y, int $m3_w, int $m3_h)
     {
         $this->WriteAttributeInteger('m3_x', $m3_x);
+        $this->WriteAttributeInteger('m3_y', $m3_y);
+        $this->WriteAttributeInteger('m3_w', $m3_w);
+        $this->WriteAttributeInteger('m3_h', $m3_h);
         $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
-    public function SetAlarmZone4X(int $m4_x)
+    public function SetAlarmZone4Parameters(int $m4_x, int $m4_y, int $m4_w, int $m4_h)
     {
         $this->WriteAttributeInteger('m4_x', $m4_x);
+        $this->WriteAttributeInteger('m4_y', $m4_y);
+        $this->WriteAttributeInteger('m4_w', $m4_w);
+        $this->WriteAttributeInteger('m4_h', $m4_h);
         $data    = $this->SetAlarmAreasParameter();
-        return $data;
-    }
-
-    public function SetAlarmZone1Y(bool $m1_enable)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone2Y(bool $m1_enable)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone3Y(bool $m1_enable)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone4Y(bool $m1_enable)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone1W(int $m1_w)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone2W(int $m2_w)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone3W(int $m3_w)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone4W(int $m4_w)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone1H(int $m1_h)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone2H(int $m2_h)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone3H(int $m3_h)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
-        return $data;
-    }
-
-    public function SetAlarmZone4H(int $m4_h)
-    {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
         return $data;
     }
 
     public function SetAlarmZone1Senitivity(int $m1_sensitivity)
     {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
+        $this->WriteAttributeInteger('m1_sensitivity', $m1_sensitivity);
+        $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone2Senitivity(int $m2_sensitivity)
     {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
+        $this->WriteAttributeInteger('m2_sensitivity', $m2_sensitivity);
+        $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone3Senitivity(int $m3_sensitivity)
     {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
+        $this->WriteAttributeInteger('m3_sensitivity', $m3_sensitivity);
+        $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone4Senitivity(int $m4_sensitivity)
     {
-        $payload = $this->SendParameter('getmdattr');
-        $data    = $this->SplitPayload($payload);
+        $this->WriteAttributeInteger('m4_sensitivity', $m4_sensitivity);
+        $data    = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -10122,7 +10050,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m1_x'),
-                        'onChange' => 'INSTAR_SetAlarmZone1X($id, $m1_x);'],
+                        'onChange' => 'INSTAR_SetAlarmZone1Parameters($id, $m1_x, $m1_y, $m1_w, $m1_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm1_y',
@@ -10130,7 +10058,7 @@ var initpresetindex="1""
                         'minimum'  => 0,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m1_y'),
-                        'onChange' => 'INSTAR_SetAlarmZone1Y($id, $m1_y);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone1Parameters($id, $m1_x, $m1_y, $m1_w, $m1_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10142,7 +10070,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m1_w'),
-                        'onChange' => 'INSTAR_SetAlarmZone1W($id, $m1_w);'],
+                        'onChange' => 'INSTAR_SetAlarmZone1Parameters($id, $m1_x, $m1_y, $m1_w, $m1_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm1_h',
@@ -10150,7 +10078,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m1_h'),
-                        'onChange' => 'INSTAR_SetAlarmZone1H($id, $m1_h);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone1Parameters($id, $m1_x, $m1_y, $m1_w, $m1_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10202,7 +10130,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m2_x'),
-                        'onChange' => 'INSTAR_SetAlarmZone2X($id, $m2_x);'],
+                        'onChange' => 'INSTAR_SetAlarmZone2Parameters($id, $m2_x, $m2_y, $m2_w, $m2_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm2_y',
@@ -10210,7 +10138,7 @@ var initpresetindex="1""
                         'minimum'  => 0,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m2_y'),
-                        'onChange' => 'INSTAR_SetAlarmZone2Y($id, $m2_y);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone2Parameters($id, $m2_x, $m2_y, $m2_w, $m2_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10222,7 +10150,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m2_w'),
-                        'onChange' => 'INSTAR_SetAlarmZone2W($id, $m2_w);'],
+                        'onChange' => 'INSTAR_SetAlarmZone2Parameters($id, $m2_x, $m2_y, $m2_w, $m2_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm2_h',
@@ -10230,7 +10158,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m2_h'),
-                        'onChange' => 'INSTAR_SetAlarmZone2H($id, $m2_h);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone2Parameters($id, $m2_x, $m2_y, $m2_w, $m2_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10282,7 +10210,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m3_x'),
-                        'onChange' => 'INSTAR_SetAlarmZone3X($id, $m3_x);'],
+                        'onChange' => 'INSTAR_SetAlarmZone3Parameters($id, $m3_x, $m3_y, $m3_w, $m3_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm3_y',
@@ -10290,7 +10218,7 @@ var initpresetindex="1""
                         'minimum'  => 0,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m3_y'),
-                        'onChange' => 'INSTAR_SetAlarmZone3Y($id, $m3_y);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone3Parameters($id, $m3_x, $m3_y, $m3_w, $m3_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10302,7 +10230,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m3_w'),
-                        'onChange' => 'INSTAR_SetAlarmZone3W($id, $m3_w);'],
+                        'onChange' => 'INSTAR_SetAlarmZone3Parameters($id, $m3_x, $m3_y, $m3_w, $m3_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm3_h',
@@ -10310,7 +10238,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m3_h'),
-                        'onChange' => 'INSTAR_SetAlarmZone3H($id, $m3_h);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone3Parameters($id, $m3_x, $m3_y, $m3_w, $m3_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10343,7 +10271,7 @@ var initpresetindex="1""
                         'visible'  => true,
                         'caption'  => 'Zone 4',
                         'value'    => boolval($this->ReadAttributeInteger('m4_enable')),
-                        'onChange' => 'INSTAR_SetAlarmZone1($id, $m4_enable);'],
+                        'onChange' => 'INSTAR_SetAlarmZone4($id, $m4_enable);'],
                     [
                         'name'     => 'm4_enable_enabled',
                         'type'     => 'CheckBox',
@@ -10362,7 +10290,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m4_x'),
-                        'onChange' => 'INSTAR_SetAlarmZone4X($id, $m4_x);'],
+                        'onChange' => 'INSTAR_SetAlarmZone4Parameters($id, $m4_x, $m4_y, $m4_w, $m4_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm4_y',
@@ -10370,7 +10298,7 @@ var initpresetindex="1""
                         'minimum'  => 0,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m4_y'),
-                        'onChange' => 'INSTAR_SetAlarmZone4Y($id, $m4_y);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone4Parameters($id, $m4_x, $m4_y, $m4_w, $m4_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10382,7 +10310,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1920,
                         'value'    => $this->ReadAttributeInteger('m4_w'),
-                        'onChange' => 'INSTAR_SetAlarmZone4W($id, $m4_w);'],
+                        'onChange' => 'INSTAR_SetAlarmZone4Parameters($id, $m4_x, $m4_y, $m4_w, $m4_h);'],
                     [
                         'type'     => 'HorizontalSlider',
                         'name'     => 'm4_h',
@@ -10390,7 +10318,7 @@ var initpresetindex="1""
                         'minimum'  => 1,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('m4_h'),
-                        'onChange' => 'INSTAR_SetAlarmZone4H($id, $m4_h);'],]],
+                        'onChange' => 'INSTAR_SetAlarmZone4Parameters($id, $m4_x, $m4_y, $m4_w, $m4_h);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
