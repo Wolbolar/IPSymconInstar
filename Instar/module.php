@@ -4488,25 +4488,14 @@ class INSTAR extends IPSModule
      */
     public function SetVideoEncoderAttributes()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setvencattr&-chn=11&-bps_1=2048&-imagegrade_1=4&-brmode_1=1&-fps_1=20&-gop_1=40
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setvencattr' . $parameter);
-        }
+        $chn = $this->ReadAttributeInteger('chn');
+        $bps_1 = $this->ReadAttributeInteger('bps_1');
+        $imagegrade_1 = $this->ReadAttributeInteger('imagegrade_1');
+        $brmode_1 = $this->ReadAttributeInteger('brmode_1');
+        $fps_1 = $this->ReadAttributeInteger('fps_1');
+        $gop_1 = $this->ReadAttributeInteger('gop_1');
+        $parameter = '&-chn=' . $chn . '&-bps_1=' . $bps_1 . '&-imagegrade_1=' . $imagegrade_1 . '&-brmode_1=' . $brmode_1 . '&-fps_1=' . $fps_1 . '&-gop_1=' . $gop_1;
+        $data      = $this->SendParameter('setvencattr' . $parameter);
         return $data;
     }
 
@@ -4713,25 +4702,12 @@ class INSTAR extends IPSModule
      */
     public function SetExtendedImageAttributes()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setimageattrex&-wdrauto=0&-wdrautval=2&-d3noauto=1&-d3noval=120
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setimageattrex' . $parameter);
-        }
+        $wdrauto = $this->ReadAttributeInteger('wdrauto');
+        $wdrautval = $this->ReadAttributeInteger('wdrautval');
+        $d3noauto = $this->ReadAttributeInteger('d3noauto');
+        $d3noval = $this->ReadAttributeInteger('d3noval');
+        $parameter = '&-wdrauto=' . $wdrauto . '&-wdrautval=' . $wdrautval . '&-d3noauto=' . $d3noauto . '&-d3noval=' . $d3noval;
+        $data      = $this->SendParameter('setimageattrex' . $parameter);
         return $data;
     }
 
@@ -4752,25 +4728,12 @@ class INSTAR extends IPSModule
      */
     public function SetLensDistortionCorrection()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setldcattr&-ldc_enable=1&-ldc_xoffset=0&-ldc_yoffset=0&-ldc_ratio=399
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setldcattr' . $parameter);
-        }
+       $ldc_enable = $this->ReadAttributeInteger('ldc_enable');
+        $ldc_xoffset = $this->ReadAttributeInteger('ldc_xoffset');
+        $ldc_yoffset = $this->ReadAttributeInteger('ldc_yoffset');
+        $ldc_ratio = $this->ReadAttributeInteger('ldc_ratio');
+        $parameter = '&-ldc_enable=' . $ldc_enable . '&-ldc_xoffset=' . $ldc_xoffset . '&-ldc_yoffset=' . $ldc_yoffset . '&-ldc_ratio=' . $ldc_ratio;
+        $data      = $this->SendParameter('setldcattr' . $parameter);
         return $data;
     }
 
@@ -4795,25 +4758,10 @@ class INSTAR extends IPSModule
      */
     public function SetOSDParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setoverlayattr&-region=1&-show=1&-name=IN-8015FullHD&cmd=setoverlayattr&-region=0&-show=1
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setoverlayattr' . $parameter);
-        }
+        $name = $this->ReadAttributeString('name');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setoverlayattr&-region=1&-show=1&-name=IN-8015FullHD&cmd=setoverlayattr&-region=0&-show=1
+        $parameter = '&-name=' . $name;
+        $data      = $this->SendParameter('setoverlayattr&-region=1&-show=1' . $parameter);
         return $data;
     }
 
@@ -4837,25 +4785,14 @@ class INSTAR extends IPSModule
      */
     public function SetPrivacyMaskAttributes()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setcover&-region=1&-show=0&-color=f42ee7&-x=0&-y=0&-w=240&-h=240&cmd=setcover&-region=2&-show=1&-color=f42ee7&-x=1173&-y=270&-w=408&-h=228&cmd=setcover&-region=3&-show=0&-color=f42ee7&-x=0&-y=840&-w=240&-h=240&cmd=setcover&-region=4&-show=0&-color=f42ee7&-x=1680&-y=840&-w=240&-h=240
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setcover' . $parameter);
-        }
+        $color = $this->ReadAttributeString('color');
+        $x_1 = $this->ReadAttributeInteger('x_1');
+        $y_1 = $this->ReadAttributeInteger('y_1');
+        $w_1 = $this->ReadAttributeInteger('w_1');
+        $h_1 = $this->ReadAttributeInteger('h_1');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setcover&-region=1&-show=0&-color=f42ee7&-x=0&-y=0&-w=240&-h=240&cmd=setcover&-region=2&-show=1&-color=f42ee7&-x=1173&-y=270&-w=408&-h=228&cmd=setcover&-region=3&-show=0&-color=f42ee7&-x=0&-y=840&-w=240&-h=240&cmd=setcover&-region=4&-show=0&-color=f42ee7&-x=1680&-y=840&-w=240&-h=240
+        $parameter = '&-color=' . $color . '&-x=' . $x_1 . '&-y=' . $y_1 . '&-w=' . $w_1 . '&-h=' . $h_1;
+        $data      = $this->SendParameter('setcover' . $parameter);
         return $data;
     }
 
@@ -4880,6 +4817,7 @@ class INSTAR extends IPSModule
      */
     public function SetEmailNotificationParameter()
     {
+        // TODO
         $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
         $data         = 'could not set Audio Output info';
         if ($audio_output != '[]') {
@@ -4895,10 +4833,11 @@ class INSTAR extends IPSModule
 
             $aec     = $audio_output[0]->out_aec;
             $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setsmtpattr&-ma_ssl=3&-ma_from=cam%40instar.email&-ma_to=me@gmail.com%3B&-ma_subject=Alarm%20Email&-ma_text=ALARM&-ma_server=mx.instar.email&-ma_port=587&-ma_logintype=1&-ma_username=cam%40instar.email&-ma_password=kunde123
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setsmtpattr' . $parameter);
+
         }
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setsmtpattr&-ma_ssl=3&-ma_from=cam%40instar.email&-ma_to=me@gmail.com%3B&-ma_subject=Alarm%20Email&-ma_text=ALARM&-ma_server=mx.instar.email&-ma_port=587&-ma_logintype=1&-ma_username=cam%40instar.email&-ma_password=kunde123
+        $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $data      = $this->SendParameter('setsmtpattr' . $parameter);
         return $data;
     }
 
@@ -4936,10 +4875,11 @@ class INSTAR extends IPSModule
 
             $aec     = $audio_output[0]->out_aec;
             $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setftpattr&-ft_server=192.168.178.1&-ft_port=21&-ft_username=ftpuser&-ft_password=123456&-ft_mode=1&-ft_dirname=.%2F&-ft_autocreatedir=1&-ft_dirmode=1&-ft_ssl=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setftpattr' . $parameter);
+
         }
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setftpattr&-ft_server=192.168.178.1&-ft_port=21&-ft_username=ftpuser&-ft_password=123456&-ft_mode=1&-ft_dirname=.%2F&-ft_autocreatedir=1&-ft_dirmode=1&-ft_ssl=0
+        $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $data      = $this->SendParameter('setftpattr' . $parameter);
         return $data;
     }
 
@@ -4975,10 +4915,11 @@ class INSTAR extends IPSModule
 
             $aec     = $audio_output[0]->out_aec;
             $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=31&-value=192.168.178.1%3B21%3Bftpuser%3B1234%3B1%3B.%2F%3B1%3B0%3B0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('set_instar_admin&-index=31' . $parameter);
+
         }
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=31&-value=192.168.178.1%3B21%3Bftpuser%3B1234%3B1%3B.%2F%3B1%3B0%3B0
+        $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $data      = $this->SendParameter('set_instar_admin&-index=31' . $parameter);
         return $data;
     }
 
@@ -5051,25 +4992,10 @@ class INSTAR extends IPSModule
      */
     public function SetIR_LEDParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setinfrared&-infraredstat=auto
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setinfrared' . $parameter);
-        }
+        $infraredstat = $this->ReadAttributeString('infraredstat');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setinfrared&-infraredstat=auto
+        $parameter = '&-infraredstat=' . $infraredstat;
+        $data      = $this->SendParameter('setinfrared' . $parameter);
         return $data;
     }
 
@@ -5090,25 +5016,13 @@ class INSTAR extends IPSModule
      */
     public function SetTimeWindowSwitchIR()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_0=1&-plancgi_enable_1=1&-plancgi_time_0=21600&-plancgi_time_1=64800
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setplancgi' . $parameter);
-        }
+        $plancgi_enable_0 = $this->ReadAttributeInteger('plancgi_enable_0');
+        $plancgi_enable_1 = $this->ReadAttributeInteger('plancgi_enable_1');
+        $plancgi_time_0 = $this->ReadAttributeInteger('plancgi_time_0');
+        $plancgi_time_1 = $this->ReadAttributeInteger('plancgi_time_1');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_0=1&-plancgi_enable_1=1&-plancgi_time_0=21600&-plancgi_time_1=64800
+        $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_time_0=' . $plancgi_time_0 . '&-plancgi_time_1=' . $plancgi_time_1;
+        $data      = $this->SendParameter('setplancgi' . $parameter);
         return $data;
     }
 
@@ -5131,25 +5045,19 @@ class INSTAR extends IPSModule
      */
     public function SetPan_TiltSettings()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setmotorattr&-selfdet=on&-movehome=off&-ptzalarmmask=on&-tiltspeed=0&-panspeed=0&-tiltscan=50&-panscan=50&-value=0&-alarmpresetindex=3
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setmotorattr' . $parameter);
-        }
+        $selfdet = $this->ReadAttributeString('selfdet');
+        $movehome = $this->ReadAttributeString('movehome');
+        $ptzalarmmask = $this->ReadAttributeString('ptzalarmmask');
+        $tiltspeed = $this->ReadAttributeInteger('tiltspeed');
+        $panspeed = $this->ReadAttributeInteger('panspeed');
+        $tiltscan = $this->ReadAttributeInteger('tiltscan');
+        $panscan = $this->ReadAttributeInteger('panscan');
+        // $value = $this->ReadAttributeInteger('value');
+        $value = 0;
+        $alarmpresetindex = $this->ReadAttributeInteger('alarmpresetindex');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmotorattr&-selfdet=on&-movehome=off&-ptzalarmmask=on&-tiltspeed=0&-panspeed=0&-tiltscan=50&-panscan=50&-value=0&-alarmpresetindex=3
+        $parameter = '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed=' . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
+        $data      = $this->SendParameter('setmotorattr' . $parameter);
         return $data;
     }
 
@@ -5170,25 +5078,10 @@ class INSTAR extends IPSModule
      */
     public function SetStateAlarmPosition()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=preset&-switch=on
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
-        }
+        $switch = $this->ReadAttributeString('switch');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=preset&-switch=on
+        $parameter = '&-switch=' . $switch;
+        $data      = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
         return $data;
     }
 
@@ -5209,25 +5102,12 @@ class INSTAR extends IPSModule
      */
     public function SetParkPositionParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=settimerpreset&-timerpreset_enable=1&-timerpreset_index=1&-timerpreset_interval=600
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('settimerpreset' . $parameter);
-        }
+        $timerpreset_enable = $this->ReadAttributeInteger('timerpreset_enable');
+        $timerpreset_index = $this->ReadAttributeInteger('timerpreset_index');
+        $timerpreset_interval = $this->ReadAttributeInteger('timerpreset_interval');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=settimerpreset&-timerpreset_enable=1&-timerpreset_index=1&-timerpreset_interval=600
+        $parameter = '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval=' . $timerpreset_interval;
+        $data      = $this->SendParameter('settimerpreset' . $parameter);
         return $data;
     }
 
@@ -5248,25 +5128,11 @@ class INSTAR extends IPSModule
      */
     public function SetOneStepPanTiltControl()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=46&-value=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
-        }
+        // $value = $this->ReadAttributeInteger('value');
+        $value = 0;
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=46&-value=0
+        $parameter = '&-value=' . $value;
+        $data      = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
         return $data;
     }
 
@@ -5289,25 +5155,12 @@ class INSTAR extends IPSModule
      */
     public function SetPanTiltTourSettings()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setptztour&-tour_index=0;1;2;-1;-1;-1;-1;-1&-tour_interval=300;300;300;300;300;300;300;300&-tour_times=1
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setptztour' . $parameter);
-        }
+        $tour_index = $this->ReadAttributeString('tour_index');
+        $tour_interval = $this->ReadAttributeString('tour_interval');
+        $tour_times = $this->ReadAttributeInteger('tour_times');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setptztour&-tour_index=0;1;2;-1;-1;-1;-1;-1&-tour_interval=300;300;300;300;300;300;300;300&-tour_times=1
+        $parameter = '&-tour_index=' . $tour_index . '&-tour_interval=' . $tour_interval . '&-tour_times=' . $tour_times;
+        $data      = $this->SendParameter('setptztour' . $parameter);
         return $data;
     }
 
@@ -5330,25 +5183,11 @@ class INSTAR extends IPSModule
      */
     public function SetStatusLED()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setlightattr&-light_index=1&-light_enable=on&cmd=setlightattr&-light_index=2&-light_enable=on
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setlightattr' . $parameter);
-        }
+        $light_index = $this->ReadAttributeInteger('light_index');
+        $light_enable = $this->ReadAttributeString('light_enable');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setlightattr&-light_index=1&-light_enable=on&cmd=setlightattr&-light_index=2&-light_enable=on
+        $parameter = '&-light_index=' . $light_index . '&-light_enable=' . $light_enable;
+        $data      = $this->SendParameter('setlightattr' . $parameter);
         return $data;
     }
 
@@ -5369,27 +5208,11 @@ class INSTAR extends IPSModule
      *
      * @return false|string
      */
-    public function SetFileLengthManualRecordings()
+    public function SetFileLengthManualRecordings(int $value)
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=44&-value=600
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('set_instar_admin&-index=44' . $parameter);
-        }
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=44&-value=600
+        $parameter = '&-value=' . $value;
+        $data      = $this->SendParameter('set_instar_admin&-index=44' . $parameter);
         return $data;
     }
 
@@ -5425,6 +5248,16 @@ class INSTAR extends IPSModule
      */
     public function GetAlarmActionParameter()
     {
+        /*
+* http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=emailsnap
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=snap
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=record
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftprec
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=relay
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftpsnap
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=sound
+GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
+*/
         $payload = $this->SendParameter('getmdalarm');
         $data    = $this->SplitPayload($payload);
         return $data;
@@ -5436,36 +5269,12 @@ class INSTAR extends IPSModule
      */
     public function SetAlarmActionParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-
-            /*
- * http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=emailsnap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=snap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=record
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftprec
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=relay
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftpsnap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=sound
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
-*/
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=emailsnap&-switch=off&cmd=setmdalarm&-aname=snap&-switch=off&cmd=setmdalarm&-aname=ftpsnap&-switch=off&cmd=setmdalarm&-aname=record&-switch=off&cmd=setmdalarm&-aname=ftprec&-switch=on&cmd=setmdalarm&-aname=type&-switch=off&cmd=setmdalarm&-aname=relay&-switch=off&cmd=setmdalarm&-aname=sound&-switch=off
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setmdalarm' . $parameter);
-        }
+        $emailsnap = $this->ReadAttributeString('emailsnap');
+        $setmdalarm = $this->ReadAttributeString('setmdalarm');
+        $ftpsnap = $this->ReadAttributeString('ftpsnap');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=emailsnap&-switch=off&cmd=setmdalarm&-aname=snap&-switch=off&cmd=setmdalarm&-aname=ftpsnap&-switch=off&cmd=setmdalarm&-aname=record&-switch=off&cmd=setmdalarm&-aname=ftprec&-switch=on&cmd=setmdalarm&-aname=type&-switch=off&cmd=setmdalarm&-aname=relay&-switch=off&cmd=setmdalarm&-aname=sound&-switch=off
+        $parameter = '&-aname=emailsnap&-switch=' . $emailsnap . '&cmd=setmdalarm&-aname=snap&-switch=' . $setmdalarm . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap;
+        $data      = $this->SendParameter('setmdalarm' . $parameter);
         return $data;
     }
 
@@ -5501,10 +5310,11 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
 
             $aec     = $audio_output[0]->out_aec;
             $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setaudioalarmattr&-aa_enable=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setaudioalarmattr' . $parameter);
+
         }
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setaudioalarmattr&-aa_enable=0
+        $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $data      = $this->SendParameter('setaudioalarmattr' . $parameter);
         return $data;
     }
 
@@ -10227,9 +10037,9 @@ var initpresetindex="1""
                         'name'     => 'wdrmanval',
                         'caption'  => 'duration of manual recordings',
                         'minimum'  => 0,
-                        'maximum'  => 255,
+                        'maximum'  => 600,
                         'value'    => $this->ReadAttributeInteger('wdrmanval'),
-                        'onChange' => 'INSTAR_SetDurationRecordings($id, $wdrmanval);'],
+                        'onChange' => 'INSTAR_SetFileLengthManualRecordings($id, $wdrmanval);'],
                     [
                         'name'     => 'wdrmanval_enabled',
                         'type'     => 'CheckBox',
@@ -10575,7 +10385,7 @@ var initpresetindex="1""
                         'onChange' => 'INSTAR_SetAlarmZone4W($id, $m4_w);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'm1_h',
+                        'name'     => 'm4_h',
                         'caption'  => 'H',
                         'minimum'  => 1,
                         'maximum'  => 1080,
@@ -10657,9 +10467,68 @@ var initpresetindex="1""
     /** Alarmserver Setup
      * @param int $alarmserver 0 IP-Symcon Connect, 1 IP-Symcon lokal
      */
-    public function SetupAlarmServer()
+    public function SetupAlarmServer(string $user, string $password, string $parameter_1_key, string $parameter_1_value, string $parameter_2_key, string $parameter_2_value, string $parameter_3_key, string $parameter_3_value)
     {
-        // TODO get Values from Fields
+        $this->WriteAttributeString('as_username[2]', $user);
+        $this->WriteAttributeString('as_password[2]', $password);
+        $this->WriteAttributeString('as_queryattr1[2]', $parameter_1_key);
+        $this->WriteAttributeString('as_queryval1[2]', $parameter_1_value);
+        $this->WriteAttributeString('as_queryattr2[2]', $parameter_2_key);
+        $this->WriteAttributeString('as_queryval2[2]', $parameter_2_value);
+        $this->WriteAttributeString('as_queryattr3[2]', $parameter_3_key);
+        $this->WriteAttributeString('as_queryval3[2]', $parameter_3_value);
+        $this->SetAlarmserver2Configuration();
+    }
+
+    public function SendQueryMotionDetected(bool $as_area)
+    {
+        if($as_area)
+        {
+            $this->WriteAttributeInteger('as_area', 1);
+        }
+        else
+        {
+            $this->WriteAttributeInteger('as_area', 0);
+        }
+        $this->SetAlarmserver2Configuration();
+    }
+
+    public function SendQueryAlarmInputTriggered(bool $as_io)
+    {
+        if($as_io)
+        {
+            $this->WriteAttributeInteger('as_io', 1);
+        }
+        else
+        {
+            $this->WriteAttributeInteger('as_io', 0);
+        }
+        $this->SetAlarmserver2Configuration();
+    }
+
+    public function SendQueryAudioAlarmTriggered(bool $as_audio)
+    {
+        if($as_audio)
+        {
+            $this->WriteAttributeInteger('as_audio', 1);
+        }
+        else
+        {
+            $this->WriteAttributeInteger('as_audio', 0);
+        }
+        $this->SetAlarmserver2Configuration();
+    }
+
+    public function SendQueryMotionDetectedInputTriggered(bool $as_areaio)
+    {
+        if($as_areaio)
+        {
+            $this->WriteAttributeInteger('as_areaio', 1);
+        }
+        else
+        {
+            $this->WriteAttributeInteger('as_areaio', 0);
+        }
         $this->SetAlarmserver2Configuration();
     }
 
@@ -10713,24 +10582,6 @@ var initpresetindex="1""
                         'visible'  => false,
                         'value'    => $this->ReadAttributeBoolean('alarmserver_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "alarmserver_enabled", $alarmserver_enabled);'],]],
-            [
-                'type'    => 'RowLayout',
-                'visible' => false,
-                'items'   => [
-                    [
-                        'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
-                        'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
-                    [
-                        'name'     => 'wdrauto_enabled',
-                        'type'     => 'CheckBox',
-                        'caption'  => 'Create Variable for Webfront',
-                        'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
@@ -10794,7 +10645,7 @@ var initpresetindex="1""
                         'visible'  => true,
                         'caption'  => 'Send Query when Motion is Detected',
                         'value'    => boolval($this->ReadAttributeInteger('as_area')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $as_area);'],
+                        'onChange' => 'INSTAR_SendQueryMotionDetected($id, $as_area);'],
                     [
                         'name'     => 'as_area_enabled',
                         'type'     => 'CheckBox',
@@ -10812,7 +10663,7 @@ var initpresetindex="1""
                         'visible'  => true,
                         'caption'  => 'Send Query when Alarm Input is Triggered',
                         'value'    => boolval($this->ReadAttributeInteger('as_io')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SendQueryAlarmInputTriggered($id, $aec);'],
                     [
                         'name'     => 'as_io_enabled',
                         'type'     => 'CheckBox',
@@ -10830,7 +10681,7 @@ var initpresetindex="1""
                         'visible'  => true,
                         'caption'  => 'Send Query when Audio Alarm is Triggered',
                         'value'    => boolval($this->ReadAttributeInteger('as_audio')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $as_audio);'],
+                        'onChange' => 'INSTAR_SendQueryAudioAlarmTriggered($id, $as_audio);'],
                     [
                         'name'     => 'as_audio_enabled',
                         'type'     => 'CheckBox',
@@ -10848,7 +10699,7 @@ var initpresetindex="1""
                         'visible'  => true,
                         'caption'  => 'Send Query when Motion is Detected and Input is Triggered',
                         'value'    => boolval($this->ReadAttributeInteger('as_areaio')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SendQueryMotionDetectedInputTriggered($id, $as_areaio);'],
                     [
                         'name'     => 'as_areaio_enabled',
                         'type'     => 'CheckBox',
@@ -10872,21 +10723,21 @@ var initpresetindex="1""
                         'caption' => 'Parameter 1 Key',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('as_queryattr1[2]'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
                         'type'    => 'ValidationTextBox',
                         'name'    => 'as_queryval1[2]',
                         'caption' => 'Parameter 1 Value',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('ip'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
-                        'name'     => 'ip_enabled',
+                        'name'     => 'as_queryattr1[2]_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('ip_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ip_enabled", $ip_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr1[2]_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr1[2]_enabled", $as_queryattr1[2]_enabled);'],]],
             [
                 // as_query2[2]
                 'name'    => 'parameter_2_label',
@@ -10903,21 +10754,21 @@ var initpresetindex="1""
                         'caption' => 'Parameter 2 Key',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('as_queryattr2[2]'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr2[2]", $as_queryattr2[2]);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
                         'type'    => 'ValidationTextBox',
                         'name'    => 'as_queryval2[2]',
                         'caption' => 'Parameter 2 Value',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('as_queryval2[2]'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_queryval2[2]", $as_queryval2[2]);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
-                        'name'     => 'ip_enabled',
+                        'name'     => 'as_queryattr2[2]_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('ip_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ip_enabled", $ip_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr2[2]_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr2[2]_enabled", $as_queryattr2[2]_enabled);'],]],
             [
                 // as_query3[2]
                 'name'    => 'parameter_3_label',
@@ -10934,21 +10785,21 @@ var initpresetindex="1""
                         'caption' => 'Parameter 3 Key',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('as_queryattr3[2]'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr3[2]", $as_queryattr3[2]);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
                         'type'    => 'ValidationTextBox',
                         'name'    => 'as_queryval3[2]',
                         'caption' => 'Parameter 3 Value',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('as_queryval3[2]'),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_queryval3[2]", $as_queryval3[2]);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
                     [
-                        'name'     => 'ip_enabled',
+                        'name'     => 'as_queryattr3[2]_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('ip_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ip_enabled", $ip_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr3[2]_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr3[2]_enabled", $as_queryattr3[2]_enabled);'],]],
             [
                 'type'    => 'Label',
                 'caption' => 'username and password for INSTAR webhook'],
@@ -10965,7 +10816,7 @@ var initpresetindex="1""
             [
                 'type'    => 'Button',
                 'caption' => 'Setup Alarmserver Settings',
-                'onClick' => 'INSTAR_SetupAlarmServer($id);'],
+                'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
         ];
         /*
          * as_username[0]="";
