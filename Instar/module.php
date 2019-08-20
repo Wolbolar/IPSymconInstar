@@ -5817,11 +5817,16 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         if ($as_query3 == 1) {
             $parameter_3 = '&-as_queryattr3=' . $as_queryattr3 . '&-as_queryval3=' . $as_queryval3;
         }
+        // &-as_server=&-as_port=0&-as_path=/hook/INSTAR48405&-as_auth=1&-as_username=symcon&-as_password=instar&-as_area=1&-as_io=1&-as_audio=1&-as_areaio=1&-as_activequery=1&-as_query1=0&-as_query2=1&-as_query3=1&-as_queryattr2=&-as_queryval2=&-as_queryattr3=&-as_queryval3=');
+
+
+        // &-as_server=192.168.2.48&-as_port=30065&-as_path=/instar&-as_queryattr1=&-as_queryval1=&-as_queryattr2=&-as_queryval2=&-as_queryattr3=&-as_queryval3=&-as_activequery=1&-as_auth=0&-as_query1=0&-as_query2=0&-as_query3=0');
+
         $parameter = '&-as_server=' . $as_server . '&-as_port=' . $as_port . '&-as_path=' . $as_path . '&-as_auth=' . $as_auth . '&-as_username='
                      . $as_username . '&-as_password=' . $as_password . '&-as_area=' . $as_area . '&-as_io=' . $as_io . '&-as_audio=' . $as_audio
                      . '&-as_areaio=' . $as_areaio . '&-as_activequery=' . $as_activequery . '&-as_query1=' . $as_query1 . '&-as_query2=' . $as_query2
                      . '&-as_query3=' . $as_query3 . $parameter_1 . $parameter_2 . $parameter_3;
-        $data      = $this->SendParameter('setalarmserverattr&-as_index=3' . $parameter);
+        $data      = $this->SendParameter('setmdalarm&-aname=server2&-switch=on&cmd=setalarmserverattr&-as_index=3' . $parameter);
         return $data;
     }
 
@@ -10377,18 +10382,25 @@ var initpresetindex="1""
         $this->WriteAttributeInteger('alarmserver', $alarmserver);
         if ($alarmserver == 0) {
             $this->SendDebug('Set Alarmserver', 'Selection IP-Symcon Connect', 0);
-            $ip = $this->GetConnectURL();
+            $connectinfo = $this->GetConnectURL();
+            $pos = strpos($connectinfo, 'https://');
+            if($pos === 0)
+            {
+                $ip = str_replace('https://', '', $connectinfo);
+            }
             $this->SendDebug('Set Alarmserver', 'Selection IP ' . $ip, 0);
             $port = 80;
             $this->SendDebug('Set Alarmserver', 'Selection Port ' . $port, 0);
         } else {
             $this->SendDebug('Set Alarmserver', 'Selection IP-Symcon local network', 0);
-            $ip = 'http://' . $this->GetHostIP()[0];
+            $ip = $this->GetHostIP()[0];
             $this->SendDebug('Set Alarmserver', 'Selection IP ' . $ip, 0);
             $port = 3777;
             $this->SendDebug('Set Alarmserver', 'Selection Port ' . $port, 0);
         }
+        $this->WriteAttributeString('as_server[2]', $ip);
         $this->UpdateParameter('as_server[2]', 'value', $ip);
+        $this->WriteAttributeInteger('as_port[2]', $port);
         $this->UpdateParameter('as_port[2]', 'value', $port);
     }
 
@@ -10405,7 +10417,8 @@ var initpresetindex="1""
         $this->WriteAttributeString('as_queryval2[2]', $parameter_2_value);
         $this->WriteAttributeString('as_queryattr3[2]', $parameter_3_key);
         $this->WriteAttributeString('as_queryval3[2]', $parameter_3_value);
-        $this->SetAlarmserver2Configuration();
+        $data = $this->SetAlarmserver2Configuration();
+        return $data;
     }
 
     public function SendQueryMotionDetected(bool $as_area)
@@ -10462,15 +10475,13 @@ var initpresetindex="1""
 
     private function GetAlarmServerPort()
     {
-        $port = 3777;
+        $port = $this->ReadAttributeInteger('as_port[2]');
         return $port;
     }
 
     private function GetAlarmServerAdress()
     {
-        $ip_hosts = $this->GetHostIP();
-        $connect  = $this->GetConnectURL();
-        $ip       = 'http://' . $ip_hosts[0];
+        $ip       = $this->ReadAttributeString('as_server[2]');
         return $ip;
     }
 
