@@ -218,6 +218,7 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('Port', 80);
         $this->RegisterPropertyString('User', 'admin');
         $this->RegisterPropertyString('Password', 'instar');
+        $this->RegisterPropertyInteger('relaxationmotionsensor', 10);
         $this->RegisterPropertyBoolean('activeemail', false);
         $this->RegisterPropertyString('email', '');
         $this->RegisterPropertyInteger('smtpmodule', 0);
@@ -1291,8 +1292,8 @@ class INSTAR extends IPSModule
         $user             = $this->ReadPropertyString('User');
         $password         = $this->ReadPropertyString('Password');
         $model            = $this->ReadPropertyInteger('model');
-        $webhook_username = $this->ReadPropertyString('webhook_username');
-        $webhook_password = $this->ReadPropertyString('webhook_password');
+        $webhook_username = $this->ReadAttributeString('as_username[2]');
+        $webhook_password = $this->ReadAttributeString('as_password[2]');
 
         if ($webhook_username == '' || $webhook_password == '') {
             $this->SetStatus(210);
@@ -1350,6 +1351,11 @@ class INSTAR extends IPSModule
             }
 
             $ipsversion = $this->GetIPSVersion();
+
+            $this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+            $this->SetupVariable(
+                'LastMovement', $this->Translate('Time last movement'), 'INSTAR.Movement', $this->_getPosition(), VARIABLETYPE_STRING, false, true
+            );
 
             if ($ipsversion == 0) {
                 //Skript bei Bewegung
@@ -1432,10 +1438,6 @@ class INSTAR extends IPSModule
 
     protected function SetupVariables()
     {
-        $this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable(
-            'LastMovement', $this->Translate('Time last movement'), 'INSTAR.Movement', $this->_getPosition(), VARIABLETYPE_STRING, false, true
-        );
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Continuous', 'Move', '', '', 0, 4, 0, 0, VARIABLETYPE_INTEGER, [
                                            [0, $this->Translate('Left'), '', -1],
@@ -1587,9 +1589,7 @@ class INSTAR extends IPSModule
                                    [2, $this->Translate('failed'), '', -1]]
         );
         $this->SetupVariable(
-            'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true,
-            true
-        ); // INSTAR 3rd Party DDNS Status ok, off, failed
+            'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // INSTAR 3rd Party DDNS Status ok, off, failed
         $this->SetupVariable('startdate', $this->Translate('Camera Uptime'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // Camera Uptime
         $this->RegisterProfileAssociation(
             'INSTAR.INSTAR_DDNS_State', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
@@ -1628,30 +1628,78 @@ class INSTAR extends IPSModule
             'wf_auth', $this->Translate('WiFi Authentification'), 'WLAN_Auth', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
 
-        $this->SetupVariable('m1_enable', $this->Translate('Zone 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->SetupVariable('m1_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->SetupVariable('m1_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->SetupVariable('m1_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Width [1-1920] Pixel
-        $this->SetupVariable('m1_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Height [1-1080] Pixel
-        $this->SetupVariable('m1_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Detection Sensitivity [1 - 100]
-        $this->SetupVariable('m2_enable', $this->Translate('Zone 2'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->SetupVariable('m2_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->SetupVariable('m2_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->SetupVariable('m2_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Width [1-1920] Pixel
-        $this->SetupVariable('m2_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Height [1-1080] Pixel
-        $this->SetupVariable('m2_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Detection Sensitivity [1 - 100]
-        $this->SetupVariable('m3_enable', $this->Translate('Zone 3'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->SetupVariable('m3_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->SetupVariable('m3_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->SetupVariable('m3_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Width [1-1920] Pixel
-        $this->SetupVariable('m3_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Height [1-1080] Pixel
-        $this->SetupVariable('m3_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Detection Sensitivity [1 - 100]
-        $this->SetupVariable('m4_enable', $this->Translate('Zone 4'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->SetupVariable('m4_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->SetupVariable('m4_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->SetupVariable('m4_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Width [1-1920] Pixel
-        $this->SetupVariable('m4_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Alarm Area Height [1-1080] Pixel
-        $this->SetupVariable('m4_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // Detection Sensitivity [1 - 100]
+        $this->SetupVariable(
+            'm1_enable', $this->Translate('Zone 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'm1_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $this->SetupVariable(
+            'm1_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $this->SetupVariable(
+            'm1_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Width [1-1920] Pixel
+        $this->SetupVariable(
+            'm1_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Height [1-1080] Pixel
+        $this->SetupVariable(
+            'm1_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Detection Sensitivity [1 - 100]
+        $this->SetupVariable(
+            'm2_enable', $this->Translate('Zone 2'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'm2_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $this->SetupVariable(
+            'm2_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $this->SetupVariable(
+            'm2_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Width [1-1920] Pixel
+        $this->SetupVariable(
+            'm2_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Height [1-1080] Pixel
+        $this->SetupVariable(
+            'm2_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Detection Sensitivity [1 - 100]
+        $this->SetupVariable(
+            'm3_enable', $this->Translate('Zone 3'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'm3_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $this->SetupVariable(
+            'm3_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $this->SetupVariable(
+            'm3_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Width [1-1920] Pixel
+        $this->SetupVariable(
+            'm3_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Height [1-1080] Pixel
+        $this->SetupVariable(
+            'm3_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Detection Sensitivity [1 - 100]
+        $this->SetupVariable(
+            'm4_enable', $this->Translate('Zone 4'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'm4_x', $this->Translate('X-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $this->SetupVariable(
+            'm4_y', $this->Translate('Y-Axis Offset'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $this->SetupVariable(
+            'm4_w', $this->Translate('Alarm Area Width'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Width [1-1920] Pixel
+        $this->SetupVariable(
+            'm4_h', $this->Translate('Alarm Area Height'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Alarm Area Height [1-1080] Pixel
+        $this->SetupVariable(
+            'm4_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // Detection Sensitivity [1 - 100]
 
 
         /*
@@ -3658,7 +3706,16 @@ class INSTAR extends IPSModule
             return;
         }
         $this->SendDebug('Instar I/O', 'GET: ' . json_encode($_GET), 0);
-        $this->SetValue('notification_alarm', true);
+        if(isset($_GET['active']))
+        {
+            $this->SetValue('notification_alarm', $_GET['active']);
+            $this->SetLastMovement();
+        }
+        else
+        {
+            $this->SetValue('notification_alarm', "Event");
+            $this->SetLastMovement();
+        }
     }
 
     /**
@@ -4488,14 +4545,16 @@ class INSTAR extends IPSModule
      */
     public function SetVideoEncoderAttributes()
     {
-        $chn = $this->ReadAttributeInteger('chn');
-        $bps_1 = $this->ReadAttributeInteger('bps_1');
+        $chn          = $this->ReadAttributeInteger('chn');
+        $bps_1        = $this->ReadAttributeInteger('bps_1');
         $imagegrade_1 = $this->ReadAttributeInteger('imagegrade_1');
-        $brmode_1 = $this->ReadAttributeInteger('brmode_1');
-        $fps_1 = $this->ReadAttributeInteger('fps_1');
-        $gop_1 = $this->ReadAttributeInteger('gop_1');
-        $parameter = '&-chn=' . $chn . '&-bps_1=' . $bps_1 . '&-imagegrade_1=' . $imagegrade_1 . '&-brmode_1=' . $brmode_1 . '&-fps_1=' . $fps_1 . '&-gop_1=' . $gop_1;
-        $data      = $this->SendParameter('setvencattr' . $parameter);
+        $brmode_1     = $this->ReadAttributeInteger('brmode_1');
+        $fps_1        = $this->ReadAttributeInteger('fps_1');
+        $gop_1        = $this->ReadAttributeInteger('gop_1');
+        $parameter    =
+            '&-chn=' . $chn . '&-bps_1=' . $bps_1 . '&-imagegrade_1=' . $imagegrade_1 . '&-brmode_1=' . $brmode_1 . '&-fps_1=' . $fps_1 . '&-gop_1='
+            . $gop_1;
+        $data         = $this->SendParameter('setvencattr' . $parameter);
         return $data;
     }
 
@@ -4702,10 +4761,10 @@ class INSTAR extends IPSModule
      */
     public function SetExtendedImageAttributes()
     {
-        $wdrauto = $this->ReadAttributeInteger('wdrauto');
+        $wdrauto   = $this->ReadAttributeInteger('wdrauto');
         $wdrautval = $this->ReadAttributeInteger('wdrautval');
-        $d3noauto = $this->ReadAttributeInteger('d3noauto');
-        $d3noval = $this->ReadAttributeInteger('d3noval');
+        $d3noauto  = $this->ReadAttributeInteger('d3noauto');
+        $d3noval   = $this->ReadAttributeInteger('d3noval');
         $parameter = '&-wdrauto=' . $wdrauto . '&-wdrautval=' . $wdrautval . '&-d3noauto=' . $d3noauto . '&-d3noval=' . $d3noval;
         $data      = $this->SendParameter('setimageattrex' . $parameter);
         return $data;
@@ -4728,12 +4787,13 @@ class INSTAR extends IPSModule
      */
     public function SetLensDistortionCorrection()
     {
-       $ldc_enable = $this->ReadAttributeInteger('ldc_enable');
+        $ldc_enable  = $this->ReadAttributeInteger('ldc_enable');
         $ldc_xoffset = $this->ReadAttributeInteger('ldc_xoffset');
         $ldc_yoffset = $this->ReadAttributeInteger('ldc_yoffset');
-        $ldc_ratio = $this->ReadAttributeInteger('ldc_ratio');
-        $parameter = '&-ldc_enable=' . $ldc_enable . '&-ldc_xoffset=' . $ldc_xoffset . '&-ldc_yoffset=' . $ldc_yoffset . '&-ldc_ratio=' . $ldc_ratio;
-        $data      = $this->SendParameter('setldcattr' . $parameter);
+        $ldc_ratio   = $this->ReadAttributeInteger('ldc_ratio');
+        $parameter   =
+            '&-ldc_enable=' . $ldc_enable . '&-ldc_xoffset=' . $ldc_xoffset . '&-ldc_yoffset=' . $ldc_yoffset . '&-ldc_ratio=' . $ldc_ratio;
+        $data        = $this->SendParameter('setldcattr' . $parameter);
         return $data;
     }
 
@@ -4786,10 +4846,10 @@ class INSTAR extends IPSModule
     public function SetPrivacyMaskAttributes()
     {
         $color = $this->ReadAttributeString('color');
-        $x_1 = $this->ReadAttributeInteger('x_1');
-        $y_1 = $this->ReadAttributeInteger('y_1');
-        $w_1 = $this->ReadAttributeInteger('w_1');
-        $h_1 = $this->ReadAttributeInteger('h_1');
+        $x_1   = $this->ReadAttributeInteger('x_1');
+        $y_1   = $this->ReadAttributeInteger('y_1');
+        $w_1   = $this->ReadAttributeInteger('w_1');
+        $h_1   = $this->ReadAttributeInteger('h_1');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setcover&-region=1&-show=0&-color=f42ee7&-x=0&-y=0&-w=240&-h=240&cmd=setcover&-region=2&-show=1&-color=f42ee7&-x=1173&-y=270&-w=408&-h=228&cmd=setcover&-region=3&-show=0&-color=f42ee7&-x=0&-y=840&-w=240&-h=240&cmd=setcover&-region=4&-show=0&-color=f42ee7&-x=1680&-y=840&-w=240&-h=240
         $parameter = '&-color=' . $color . '&-x=' . $x_1 . '&-y=' . $y_1 . '&-w=' . $w_1 . '&-h=' . $h_1;
         $data      = $this->SendParameter('setcover' . $parameter);
@@ -5018,10 +5078,11 @@ class INSTAR extends IPSModule
     {
         $plancgi_enable_0 = $this->ReadAttributeInteger('plancgi_enable_0');
         $plancgi_enable_1 = $this->ReadAttributeInteger('plancgi_enable_1');
-        $plancgi_time_0 = $this->ReadAttributeInteger('plancgi_time_0');
-        $plancgi_time_1 = $this->ReadAttributeInteger('plancgi_time_1');
+        $plancgi_time_0   = $this->ReadAttributeInteger('plancgi_time_0');
+        $plancgi_time_1   = $this->ReadAttributeInteger('plancgi_time_1');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_0=1&-plancgi_enable_1=1&-plancgi_time_0=21600&-plancgi_time_1=64800
-        $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_time_0=' . $plancgi_time_0 . '&-plancgi_time_1=' . $plancgi_time_1;
+        $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_time_0=' . $plancgi_time_0
+                     . '&-plancgi_time_1=' . $plancgi_time_1;
         $data      = $this->SendParameter('setplancgi' . $parameter);
         return $data;
     }
@@ -5045,18 +5106,20 @@ class INSTAR extends IPSModule
      */
     public function SetPan_TiltSettings()
     {
-        $selfdet = $this->ReadAttributeString('selfdet');
-        $movehome = $this->ReadAttributeString('movehome');
+        $selfdet      = $this->ReadAttributeString('selfdet');
+        $movehome     = $this->ReadAttributeString('movehome');
         $ptzalarmmask = $this->ReadAttributeString('ptzalarmmask');
-        $tiltspeed = $this->ReadAttributeInteger('tiltspeed');
-        $panspeed = $this->ReadAttributeInteger('panspeed');
-        $tiltscan = $this->ReadAttributeInteger('tiltscan');
-        $panscan = $this->ReadAttributeInteger('panscan');
+        $tiltspeed    = $this->ReadAttributeInteger('tiltspeed');
+        $panspeed     = $this->ReadAttributeInteger('panspeed');
+        $tiltscan     = $this->ReadAttributeInteger('tiltscan');
+        $panscan      = $this->ReadAttributeInteger('panscan');
         // $value = $this->ReadAttributeInteger('value');
-        $value = 0;
+        $value            = 0;
         $alarmpresetindex = $this->ReadAttributeInteger('alarmpresetindex');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setmotorattr&-selfdet=on&-movehome=off&-ptzalarmmask=on&-tiltspeed=0&-panspeed=0&-tiltscan=50&-panscan=50&-value=0&-alarmpresetindex=3
-        $parameter = '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed=' . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
+        $parameter =
+            '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed='
+            . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
         $data      = $this->SendParameter('setmotorattr' . $parameter);
         return $data;
     }
@@ -5102,11 +5165,12 @@ class INSTAR extends IPSModule
      */
     public function SetParkPositionParameter()
     {
-        $timerpreset_enable = $this->ReadAttributeInteger('timerpreset_enable');
-        $timerpreset_index = $this->ReadAttributeInteger('timerpreset_index');
+        $timerpreset_enable   = $this->ReadAttributeInteger('timerpreset_enable');
+        $timerpreset_index    = $this->ReadAttributeInteger('timerpreset_index');
         $timerpreset_interval = $this->ReadAttributeInteger('timerpreset_interval');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=settimerpreset&-timerpreset_enable=1&-timerpreset_index=1&-timerpreset_interval=600
-        $parameter = '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval=' . $timerpreset_interval;
+        $parameter = '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval='
+                     . $timerpreset_interval;
         $data      = $this->SendParameter('settimerpreset' . $parameter);
         return $data;
     }
@@ -5155,9 +5219,9 @@ class INSTAR extends IPSModule
      */
     public function SetPanTiltTourSettings()
     {
-        $tour_index = $this->ReadAttributeString('tour_index');
+        $tour_index    = $this->ReadAttributeString('tour_index');
         $tour_interval = $this->ReadAttributeString('tour_interval');
-        $tour_times = $this->ReadAttributeInteger('tour_times');
+        $tour_times    = $this->ReadAttributeInteger('tour_times');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setptztour&-tour_index=0;1;2;-1;-1;-1;-1;-1&-tour_interval=300;300;300;300;300;300;300;300&-tour_times=1
         $parameter = '&-tour_index=' . $tour_index . '&-tour_interval=' . $tour_interval . '&-tour_times=' . $tour_times;
         $data      = $this->SendParameter('setptztour' . $parameter);
@@ -5183,7 +5247,7 @@ class INSTAR extends IPSModule
      */
     public function SetStatusLED()
     {
-        $light_index = $this->ReadAttributeInteger('light_index');
+        $light_index  = $this->ReadAttributeInteger('light_index');
         $light_enable = $this->ReadAttributeString('light_enable');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setlightattr&-light_index=1&-light_enable=on&cmd=setlightattr&-light_index=2&-light_enable=on
         $parameter = '&-light_index=' . $light_index . '&-light_enable=' . $light_enable;
@@ -5269,11 +5333,12 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
      */
     public function SetAlarmActionParameter()
     {
-        $emailsnap = $this->ReadAttributeString('emailsnap');
+        $emailsnap  = $this->ReadAttributeString('emailsnap');
         $setmdalarm = $this->ReadAttributeString('setmdalarm');
-        $ftpsnap = $this->ReadAttributeString('ftpsnap');
+        $ftpsnap    = $this->ReadAttributeString('ftpsnap');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=emailsnap&-switch=off&cmd=setmdalarm&-aname=snap&-switch=off&cmd=setmdalarm&-aname=ftpsnap&-switch=off&cmd=setmdalarm&-aname=record&-switch=off&cmd=setmdalarm&-aname=ftprec&-switch=on&cmd=setmdalarm&-aname=type&-switch=off&cmd=setmdalarm&-aname=relay&-switch=off&cmd=setmdalarm&-aname=sound&-switch=off
-        $parameter = '&-aname=emailsnap&-switch=' . $emailsnap . '&cmd=setmdalarm&-aname=snap&-switch=' . $setmdalarm . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap;
+        $parameter = '&-aname=emailsnap&-switch=' . $emailsnap . '&cmd=setmdalarm&-aname=snap&-switch=' . $setmdalarm
+                     . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap;
         $data      = $this->SendParameter('setmdalarm' . $parameter);
         return $data;
     }
@@ -5457,57 +5522,45 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
 
     public function SetAlarmZone1(bool $m1_enable)
     {
-        if($m1_enable)
-        {
+        if ($m1_enable) {
             $this->WriteAttributeInteger('m1_enable', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('m1_enable', 0);
         }
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone2(bool $m2_enable)
     {
-        if($m2_enable)
-        {
+        if ($m2_enable) {
             $this->WriteAttributeInteger('m2_enable', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('m2_enable', 0);
         }
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone3(bool $m3_enable)
     {
-        if($m3_enable)
-        {
+        if ($m3_enable) {
             $this->WriteAttributeInteger('m3_enable', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('m3_enable', 0);
         }
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone4(bool $m4_enable)
     {
-        if($m4_enable)
-        {
+        if ($m4_enable) {
             $this->WriteAttributeInteger('m4_enable', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('m4_enable', 0);
         }
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -5517,7 +5570,7 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         $this->WriteAttributeInteger('m1_y', $m1_y);
         $this->WriteAttributeInteger('m1_w', $m1_w);
         $this->WriteAttributeInteger('m1_h', $m1_h);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -5527,7 +5580,7 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         $this->WriteAttributeInteger('m2_y', $m2_y);
         $this->WriteAttributeInteger('m2_w', $m2_w);
         $this->WriteAttributeInteger('m2_h', $m2_h);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -5537,7 +5590,7 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         $this->WriteAttributeInteger('m3_y', $m3_y);
         $this->WriteAttributeInteger('m3_w', $m3_w);
         $this->WriteAttributeInteger('m3_h', $m3_h);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -5547,35 +5600,35 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
         $this->WriteAttributeInteger('m4_y', $m4_y);
         $this->WriteAttributeInteger('m4_w', $m4_w);
         $this->WriteAttributeInteger('m4_h', $m4_h);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone1Senitivity(int $m1_sensitivity)
     {
         $this->WriteAttributeInteger('m1_sensitivity', $m1_sensitivity);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone2Senitivity(int $m2_sensitivity)
     {
         $this->WriteAttributeInteger('m2_sensitivity', $m2_sensitivity);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone3Senitivity(int $m3_sensitivity)
     {
         $this->WriteAttributeInteger('m3_sensitivity', $m3_sensitivity);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
     public function SetAlarmZone4Senitivity(int $m4_sensitivity)
     {
         $this->WriteAttributeInteger('m4_sensitivity', $m4_sensitivity);
-        $data    = $this->SetAlarmAreasParameter();
+        $data = $this->SetAlarmAreasParameter();
         return $data;
     }
 
@@ -5585,52 +5638,56 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
      */
     public function SetAlarmAreasParameter()
     {
-        $m1_enable = $this->ReadAttributeInteger('m1_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $m1_x = $this->ReadAttributeInteger('m1_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $m1_y = $this->ReadAttributeInteger('m1_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $m1_w = $this->ReadAttributeInteger('m1_w'); // Alarm Area Width [1-1920] Pixel
-        $m1_h = $this->ReadAttributeInteger('m1_h'); // Alarm Area Height [1-1080] Pixel
+        $m1_enable      = $this->ReadAttributeInteger('m1_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $m1_x           = $this->ReadAttributeInteger('m1_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $m1_y           = $this->ReadAttributeInteger('m1_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $m1_w           = $this->ReadAttributeInteger('m1_w'); // Alarm Area Width [1-1920] Pixel
+        $m1_h           = $this->ReadAttributeInteger('m1_h'); // Alarm Area Height [1-1080] Pixel
         $m1_sensitivity = $this->ReadAttributeInteger('m1_sensitivity'); // Detection Sensitivity [1 - 100]
         // $m1_threshold = $this->ReadAttributeInteger('m1_threshold'); // Detection Threshold (not active)
-        $m2_enable = $this->ReadAttributeInteger('m2_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $m2_x = $this->ReadAttributeInteger('m2_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $m2_y = $this->ReadAttributeInteger('m2_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $m2_w = $this->ReadAttributeInteger('m2_w'); // Alarm Area Width [1-1920] Pixel
-        $m2_h = $this->ReadAttributeInteger('m2_h'); // Alarm Area Height [1-1080] Pixel
+        $m2_enable      = $this->ReadAttributeInteger('m2_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $m2_x           = $this->ReadAttributeInteger('m2_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $m2_y           = $this->ReadAttributeInteger('m2_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $m2_w           = $this->ReadAttributeInteger('m2_w'); // Alarm Area Width [1-1920] Pixel
+        $m2_h           = $this->ReadAttributeInteger('m2_h'); // Alarm Area Height [1-1080] Pixel
         $m2_sensitivity = $this->ReadAttributeInteger('m2_sensitivity'); // Detection Sensitivity [1 - 100]
         // $m2_threshold = $this->ReadAttributeInteger('m2_threshold'); // Detection Threshold (not active)
-        $m3_enable = $this->ReadAttributeInteger('m3_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $m3_x = $this->ReadAttributeInteger('m3_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $m3_y = $this->ReadAttributeInteger('m3_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $m3_w = $this->ReadAttributeInteger('m3_w'); // Alarm Area Width [1-1920] Pixel
-        $m3_h = $this->ReadAttributeInteger('m3_h'); // Alarm Area Height [1-1080] Pixel
+        $m3_enable      = $this->ReadAttributeInteger('m3_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $m3_x           = $this->ReadAttributeInteger('m3_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $m3_y           = $this->ReadAttributeInteger('m3_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $m3_w           = $this->ReadAttributeInteger('m3_w'); // Alarm Area Width [1-1920] Pixel
+        $m3_h           = $this->ReadAttributeInteger('m3_h'); // Alarm Area Height [1-1080] Pixel
         $m3_sensitivity = $this->ReadAttributeInteger('m3_sensitivity'); // Detection Sensitivity [1 - 100]
         // $m3_threshold = $this->ReadAttributeInteger('m3_threshold'); // Detection Threshold (not active)
-        $m4_enable = $this->ReadAttributeInteger('m4_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $m4_x = $this->ReadAttributeInteger('m4_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $m4_y = $this->ReadAttributeInteger('m4_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $m4_w = $this->ReadAttributeInteger('m4_w'); // Alarm Area Width [1-1920] Pixel
-        $m4_h = $this->ReadAttributeInteger('m4_h'); // Alarm Area Height [1-1080] Pixel
+        $m4_enable      = $this->ReadAttributeInteger('m4_enable'); //  Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+        $m4_x           = $this->ReadAttributeInteger('m4_x'); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
+        $m4_y           = $this->ReadAttributeInteger('m4_y'); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
+        $m4_w           = $this->ReadAttributeInteger('m4_w'); // Alarm Area Width [1-1920] Pixel
+        $m4_h           = $this->ReadAttributeInteger('m4_h'); // Alarm Area Height [1-1080] Pixel
         $m4_sensitivity = $this->ReadAttributeInteger('m4_sensitivity'); // Detection Sensitivity [1 - 100]
         // $m4_threshold = $this->ReadAttributeInteger('m4_threshold'); // Detection Threshold (not active)
 
         $parameter_2 = '';
         $parameter_3 = '';
         $parameter_4 = '';
-        if($m2_enable == 1)
-        {
-            $parameter_2 = '&cmd=setmdattr&-name=2&-enable=' . $m2_enable . '&-s=' . $m2_sensitivity . '&-x=' . $m2_x . '&-y=' . $m2_y . '&-w=' . $m2_w . '&-h=' . $m2_h;
+        if ($m2_enable == 1) {
+            $parameter_2 =
+                '&cmd=setmdattr&-name=2&-enable=' . $m2_enable . '&-s=' . $m2_sensitivity . '&-x=' . $m2_x . '&-y=' . $m2_y . '&-w=' . $m2_w . '&-h='
+                . $m2_h;
         }
-        if($m3_enable == 1)
-        {
-            $parameter_3 = '&cmd=setmdattr&-name=3&-enable=' . $m3_enable . '&-s=' . $m3_sensitivity . '&-x=' . $m3_x . '&-y=' . $m3_y . '&-w=' . $m3_w . '&-h=' . $m3_h;
+        if ($m3_enable == 1) {
+            $parameter_3 =
+                '&cmd=setmdattr&-name=3&-enable=' . $m3_enable . '&-s=' . $m3_sensitivity . '&-x=' . $m3_x . '&-y=' . $m3_y . '&-w=' . $m3_w . '&-h='
+                . $m3_h;
         }
-        if($m4_enable == 1)
-        {
-            $parameter_4 = '&cmd=setmdattr&-name=4&-enable=' . $m4_enable . '&-s=' . $m4_sensitivity . '&-x=' . $m4_x . '&-y=' . $m4_y . '&-w=' . $m4_w . '&-h=' . $m4_h;
+        if ($m4_enable == 1) {
+            $parameter_4 =
+                '&cmd=setmdattr&-name=4&-enable=' . $m4_enable . '&-s=' . $m4_sensitivity . '&-x=' . $m4_x . '&-y=' . $m4_y . '&-w=' . $m4_w . '&-h='
+                . $m4_h;
         }
         // TODO threshold
-        $parameter = '&-name=1&-enable=' . $m1_enable . '&-s=' . $m1_sensitivity . '&-x=' . $m1_x . '&-y=' . $m1_y . '&-w=' . $m1_w . '&-h=' . $m1_h . $parameter_2 . $parameter_3 . $parameter_4;
+        $parameter = '&-name=1&-enable=' . $m1_enable . '&-s=' . $m1_sensitivity . '&-x=' . $m1_x . '&-y=' . $m1_y . '&-w=' . $m1_w . '&-h=' . $m1_h
+                     . $parameter_2 . $parameter_3 . $parameter_4;
         $data      = $this->SendParameter('setmdattr' . $parameter);
         return $data;
     }
@@ -7228,7 +7285,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              [
                                  'name'    => 'picturelimitsnapshot',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'Number of Alarm Snapshots']]]]
+                                 'caption' => 'Number of Alarm Snapshots'],
+                             [
+                                 'type'  => 'Label',
+                                 'label' => 'Relaxation time for motionsensor (seconds)'],
+                             [
+                                 'name'    => 'relaxationmotionsensor',
+                                 'type'    => 'NumberSpinner',
+                                 'caption' => 'relaxation (s)'],]]]
         );
         return $form;
     }
@@ -7549,18 +7613,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'wf_mode',
-                                     'caption' => 'Networktype',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'wf_mode',
+                                     'caption'  => 'Networktype',
+                                     'options'  => [
                                          [
                                              'caption' => 'infrastructure',
                                              'value'   => 0],
                                          [
                                              'caption' => 'ad-hoc',
                                              'value'   => 1]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('wf_mode'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('wf_mode'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'wf_mode_enabled',
@@ -7572,10 +7636,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'wf_auth',
-                                     'caption' => 'Authentifikation',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'wf_auth',
+                                     'caption'  => 'Authentifikation',
+                                     'options'  => [
                                          [
                                              'caption' => 'no encryption',
                                              'value'   => 0],
@@ -7588,8 +7652,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          [
                                              'caption' => 'WPA2-PSK',
                                              'value'   => 3]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('wf_auth'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('wf_auth'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'wf_auth_enabled',
@@ -7601,18 +7665,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'wf_enc',
-                                     'caption' => 'Type',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'wf_enc',
+                                     'caption'  => 'Type',
+                                     'options'  => [
                                          [
                                              'caption' => 'TKIP',
                                              'value'   => 0],
                                          [
                                              'caption' => 'AES',
                                              'value'   => 1]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('wf_enc'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('wf_enc'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'wf_enc_enabled',
@@ -7843,18 +7907,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'd3th_service',
-                                     'caption' => 'Service',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'd3th_service',
+                                     'caption'  => 'Service',
+                                     'options'  => [
                                          [
                                              'caption' => 'DynDNS',
                                              'value'   => 0],
                                          [
                                              'caption' => 'NoIP',
                                              'value'   => 1]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('d3th_service'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('d3th_service'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'd3th_service_enabled',
@@ -8044,10 +8108,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'ov_forbitset',
-                                     'caption' => 'forbiset',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'ov_forbitset',
+                                     'caption'  => 'forbiset',
+                                     'options'  => [
                                          [
                                              'caption' => 'When the time zone setting allows image parameter settings allow',
                                              'value'   => 0],
@@ -8060,8 +8124,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          [
                                              'caption' => 'When the time zone setting is prohibited, prohibited image parameter settings',
                                              'value'   => 3]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('ov_forbitset'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('ov_forbitset'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'ov_forbitset_enabled',
@@ -8073,10 +8137,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'ov_subchn',
-                                     'caption' => 'Video Subchannel',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'ov_subchn',
+                                     'caption'  => 'Video Subchannel',
+                                     'options'  => [
                                          [
                                              'caption' => 'Channel 11',
                                              'value'   => 11],
@@ -8086,8 +8150,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          [
                                              'caption' => 'Channel 13',
                                              'value'   => 13]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('ov_subchn'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('ov_subchn'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'ov_subchn_enabled',
@@ -8099,10 +8163,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'type'  => 'RowLayout',
                              'items' => [
                                  [
-                                     'type'    => 'Select',
-                                     'name'    => 'ov_snapchn',
-                                     'caption' => 'Video Subchannel Snapshot',
-                                     'options' => [
+                                     'type'     => 'Select',
+                                     'name'     => 'ov_snapchn',
+                                     'caption'  => 'Video Subchannel Snapshot',
+                                     'options'  => [
                                          [
                                              'caption' => 'Channel 11',
                                              'value'   => 11],
@@ -8112,8 +8176,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          [
                                              'caption' => 'Channel 13',
                                              'value'   => 13]],
-                                     'visible' => true,
-                                     'value'   => $this->ReadAttributeInteger('ov_snapchn'),
+                                     'visible'  => true,
+                                     'value'    => $this->ReadAttributeInteger('ov_snapchn'),
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                                  [
                                      'name'     => 'ov_snapchn_enabled',
@@ -8274,10 +8338,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'videomode',
-                        'caption' => 'videomode',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'videomode',
+                        'caption'  => 'videomode',
+                        'options'  => [
                             [
                                 'caption' => 'Please select a videomode',
                                 'value'   => 0],
@@ -8293,8 +8357,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             [
                                 'caption' => '160p (QVGA)',
                                 'value'   => self::RESOLUTION_160p],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('videomode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('videomode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9574,18 +9638,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'FTP_Mode',
-                        'caption' => 'FTP Mode',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'FTP_Mode',
+                        'caption'  => 'FTP Mode',
+                        'options'  => [
                             [
                                 'caption' => 'PASV',
                                 'value'   => 0],
                             [
                                 'caption' => 'Port',
                                 'value'   => 1],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('FTP_Mode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('FTP_Mode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9619,18 +9683,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'FTP_Directory_Mode',
-                        'caption' => 'FTP Directory Mode',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'FTP_Directory_Mode',
+                        'caption'  => 'FTP Directory Mode',
+                        'options'  => [
                             [
                                 'caption' => 'sort by day',
                                 'value'   => 0],
                             [
                                 'caption' => 'one folder',
                                 'value'   => 1],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('FTP_Directory_Mode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('FTP_Directory_Mode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9646,10 +9710,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'FTP_SSL',
-                        'caption' => 'FTP_SSL',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'FTP_SSL',
+                        'caption'  => 'FTP_SSL',
+                        'options'  => [
                             [
                                 'caption' => 'no encrytion',
                                 'value'   => 0],
@@ -9659,8 +9723,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             [
                                 'caption' => 'TLS',
                                 'value'   => 1],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('FTP_SSL'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('FTP_SSL'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9738,18 +9802,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'wdrmode',
-                        'caption' => 'Wide Dynamic Range',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'wdrmode',
+                        'caption'  => 'Wide Dynamic Range',
+                        'options'  => [
                             [
                                 'caption' => 'Hardware WDR Mode',
                                 'value'   => self::Hardware_WDR_Modus],
                             [
                                 'caption' => 'Software WDR Mode',
                                 'value'   => self::Software_WDR_Modus],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('wdrmode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('wdrmode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9783,18 +9847,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'wdrmode',
-                        'caption' => 'Wide Dynamic Range',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'wdrmode',
+                        'caption'  => 'Wide Dynamic Range',
+                        'options'  => [
                             [
                                 'caption' => 'Hardware WDR Mode',
                                 'value'   => self::Hardware_WDR_Modus],
                             [
                                 'caption' => 'Software WDR Mode',
                                 'value'   => self::Software_WDR_Modus],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('wdrmode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('wdrmode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -9828,18 +9892,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'wdrmode',
-                        'caption' => 'Wide Dynamic Range',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'wdrmode',
+                        'caption'  => 'Wide Dynamic Range',
+                        'options'  => [
                             [
                                 'caption' => 'Hardware WDR Mode',
                                 'value'   => self::Hardware_WDR_Modus],
                             [
                                 'caption' => 'Software WDR Mode',
                                 'value'   => self::Software_WDR_Modus],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('wdrmode'),
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('wdrmode'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
@@ -10342,14 +10406,12 @@ var initpresetindex="1""
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('m4_sensitivity_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "m4_sensitivity_enabled", $m4_sensitivity_enabled);'],]],
-           ];
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "m4_sensitivity_enabled", $m4_sensitivity_enabled);'],]],];
         return $form;
 
 
         // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
         // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-
 
 
     }
@@ -10383,9 +10445,8 @@ var initpresetindex="1""
         if ($alarmserver == 0) {
             $this->SendDebug('Set Alarmserver', 'Selection IP-Symcon Connect', 0);
             $connectinfo = $this->GetConnectURL();
-            $pos = strpos($connectinfo, 'https://');
-            if($pos === 0)
-            {
+            $pos         = strpos($connectinfo, 'https://');
+            if ($pos === 0) {
                 $ip = str_replace('https://', '', $connectinfo);
             }
             $this->SendDebug('Set Alarmserver', 'Selection IP ' . $ip, 0);
@@ -10405,9 +10466,11 @@ var initpresetindex="1""
     }
 
     /** Alarmserver Setup
+     *
      * @param int $alarmserver 0 IP-Symcon Connect, 1 IP-Symcon lokal
      */
-    public function SetupAlarmServer(string $user, string $password, string $parameter_1_key, string $parameter_1_value, string $parameter_2_key, string $parameter_2_value, string $parameter_3_key, string $parameter_3_value)
+    public function SetupAlarmServer(string $user, string $password, string $parameter_1_key, string $parameter_1_value, string $parameter_2_key,
+                                     string $parameter_2_value, string $parameter_3_key, string $parameter_3_value)
     {
         $this->WriteAttributeString('as_username[2]', $user);
         $this->WriteAttributeString('as_password[2]', $password);
@@ -10418,17 +10481,30 @@ var initpresetindex="1""
         $this->WriteAttributeString('as_queryattr3[2]', $parameter_3_key);
         $this->WriteAttributeString('as_queryval3[2]', $parameter_3_value);
         $data = $this->SetAlarmserver2Configuration();
+        if($data === false)
+        {
+            $this->ShowPopup('Colud not connect to INSTAR camera');
+        }
+        else
+        {
+            $this->ShowPopup($data);
+        }
         return $data;
+    }
+
+    public function ShowPopup(string $message)
+    {
+        $this->UpdateParameter('popup', 'visible', true);
+        $this->UpdateParameter('popup_message', 'value', $message);
+        $this->UpdateParameter('popup_message', 'visible', true);
+        $this->UpdateParameter('popup_message', 'value', $message);
     }
 
     public function SendQueryMotionDetected(bool $as_area)
     {
-        if($as_area)
-        {
+        if ($as_area) {
             $this->WriteAttributeInteger('as_area', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('as_area', 0);
         }
         $this->SetAlarmserver2Configuration();
@@ -10436,12 +10512,9 @@ var initpresetindex="1""
 
     public function SendQueryAlarmInputTriggered(bool $as_io)
     {
-        if($as_io)
-        {
+        if ($as_io) {
             $this->WriteAttributeInteger('as_io', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('as_io', 0);
         }
         $this->SetAlarmserver2Configuration();
@@ -10449,12 +10522,9 @@ var initpresetindex="1""
 
     public function SendQueryAudioAlarmTriggered(bool $as_audio)
     {
-        if($as_audio)
-        {
+        if ($as_audio) {
             $this->WriteAttributeInteger('as_audio', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('as_audio', 0);
         }
         $this->SetAlarmserver2Configuration();
@@ -10462,12 +10532,9 @@ var initpresetindex="1""
 
     public function SendQueryMotionDetectedInputTriggered(bool $as_areaio)
     {
-        if($as_areaio)
-        {
+        if ($as_areaio) {
             $this->WriteAttributeInteger('as_areaio', 1);
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeInteger('as_areaio', 0);
         }
         $this->SetAlarmserver2Configuration();
@@ -10481,7 +10548,7 @@ var initpresetindex="1""
 
     private function GetAlarmServerAdress()
     {
-        $ip       = $this->ReadAttributeString('as_server[2]');
+        $ip = $this->ReadAttributeString('as_server[2]');
         return $ip;
     }
 
@@ -10500,20 +10567,19 @@ var initpresetindex="1""
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'alarmserver',
-                        'caption' => 'Alarm Server',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'alarmserver',
+                        'caption'  => 'Alarm Server',
+                        'options'  => [
                             [
                                 'caption' => 'IP-Symcon Connect',
                                 'value'   => 0],
                             [
                                 'caption' => 'IP-Symcon in local network',
                                 'value'   => 1],],
-                        'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('alarmserver'),
-                        'onChange' => 'INSTAR_SetAlarmServer($id, $alarmserver);',
-                    ],
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('alarmserver'),
+                        'onChange' => 'INSTAR_SetAlarmServer($id, $alarmserver);',],
                     [
                         'name'     => 'alarmserver_enabled',
                         'type'     => 'CheckBox',
@@ -10755,8 +10821,7 @@ var initpresetindex="1""
             [
                 'type'    => 'Button',
                 'caption' => 'Setup Alarmserver Settings',
-                'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
-        ];
+                'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],];
         /*
          * as_username[0]="";
 as_password[0]="";
@@ -11284,8 +11349,19 @@ as_password[0]="";
                     'onClick' => 'INSTAR_UpdateParameter($id, "TestCenter", "visible", false);'],
                 [
                     'type'    => 'TestCenter',
-                    'visible' => false]]];
-
+                    'visible' => false]],
+                [
+                    'type'    => 'PopupAlert',
+                    'name'    => 'popup',
+                    'visible' => false,
+                    'popup'   => [
+                        'closeCaption' => 'Ok',
+                        'items'        => [
+                            [
+                                'type'    => 'ValidationTextBox',
+                                'visible' => false,
+                                'name'    => 'popup_message',
+                                'caption' => 'Response from INSTAR'],]]],];
         return $form;
     }
 
