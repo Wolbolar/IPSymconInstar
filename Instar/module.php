@@ -175,6 +175,15 @@ class INSTAR extends IPSModule
     private const Hardware_WDR_Modus = 1; //  Hardware Wide Dynamic Range
     private const Software_WDR_Modus = 0; //  Software Wide Dynamic Range
 
+    private const GET_IMAGE_1080p          = '/tmpfs/snap.jpg'; // Get Image (1080p)
+    private const GET_IMAGE_320p          = '/tmpfs/auto.jpg'; // Get Image (320p)
+    private const GET_IMAGE_160p          = '/tmpfs/auto2.jpg'; // Get Image (160p)
+
+    private const RESOLUTION_SNAPSHOT_1080p          = 0; // Get Image (1080p)
+    private const RESOLUTION_SNAPSHOT_320p          = 1; // Get Image (320p)
+    private const RESOLUTION_SNAPSHOT_160p          = 2; // Get Image (160p)
+
+
     private $BooleanAttributes = [
         'boolean_attribute',
         'volume',
@@ -218,6 +227,7 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('Port', 80);
         $this->RegisterPropertyString('User', 'admin');
         $this->RegisterPropertyString('Password', 'instar');
+        $this->RegisterPropertyInteger('snapshot_resolution', 0);
         $this->RegisterPropertyInteger('relaxationmotionsensor', 10);
         $this->RegisterPropertyBoolean('activeemail', false);
         $this->RegisterPropertyString('email', '');
@@ -3652,6 +3662,14 @@ class INSTAR extends IPSModule
         return $root;
     }
 
+    private function GetINSTARURL()
+    {
+        $host     = $this->ReadPropertyString('Host');
+        $port     = $this->ReadPropertyInteger('Port');
+        $root     = $host . ':' . $port;
+        return $root;
+    }
+
     /** Set Language
      * 1 = german, 2 = english, 3 = french, 4 = chinese.
      *
@@ -6825,6 +6843,25 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         }
     }
 
+    public function SendINSTAR(string $URL)
+    {
+        $instaruser     = $this->ReadPropertyString('User');
+        $instarpassword = $this->ReadPropertyString('Password');
+        $INSTAR_URL     = $this->GetINSTARURL() . $URL;
+        $this->SendDebug('INSTAR URL', $INSTAR_URL, 0);
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $INSTAR_URL);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_USERPWD, "$instaruser:$instarpassword");
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        $this->SendDebug('INSTAR', 'Status Code ' . $status_code, 0);
+        $result = curl_exec($ch);
+        curl_close($ch);
+        return $result;
+    }
+
     public function GetSnapshot()
     {
         $name         = 'INSTAR Snapshot';
@@ -6842,7 +6879,24 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
     {
-        $Content = '';
+        $snapshot_resolution = $this->ReadPropertyInteger('snapshot_resolution');
+        if($snapshot_resolution == self::RESOLUTION_SNAPSHOT_1080p)
+        {
+            $URL     = self::GET_IMAGE_1080p;
+        }
+        elseif($snapshot_resolution == self::RESOLUTION_SNAPSHOT_320p)
+        {
+            $URL     = self::GET_IMAGE_320p;
+        }
+        elseif($snapshot_resolution == self::RESOLUTION_SNAPSHOT_160p)
+        {
+            $URL     = self::GET_IMAGE_160p;
+        }
+        else
+        {
+            $URL     = self::GET_IMAGE_1080p;
+        }
+        $Content = $this->SendINSTAR($URL);
         //lastsnapshot bestimmen
         $mediaids     = IPS_GetChildrenIDs($catid);
         $countmedia   = count($mediaids);
@@ -7299,10 +7353,36 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              [
                                  'name'    => 'relaxationmotionsensor',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'relaxation (s)'],]]]
+                                 'caption' => 'relaxation (s)'],
+                             [
+                                 'type'    => 'Select',
+                                 'name'    => 'snapshot_resolution',
+                                 'caption' => 'Snapshot Resolution',
+                                 'options' => [
+                                     [
+                                         'caption' => '1080 p',
+                                         'value'   => self::RESOLUTION_SNAPSHOT_1080p],
+                                     [
+                                         'caption' => '320 p',
+                                         'value'   => self::RESOLUTION_SNAPSHOT_320p],
+                                     [
+                                         'caption' => '160 p',
+                                         'value'   => self::RESOLUTION_SNAPSHOT_160p]]
+
+                             ]]]]
         );
         return $form;
     }
+
+
+    /*
+ * http://IP-Address:Port/tmpfs/snap.jpg?usr=admin&pwd=instar
+Snapshot (1080p)
+http://IP-Address:Port/tmpfs/auto.jpg?usr=admin&pwd=instar
+Snapshot (320p)
+http://IP-Address:Port/tmpfs/auto2.jpg?usr=admin&pwd=instar
+Snapshot (160p)
+ */
 
     private function FormNetworkInfo()
     {
