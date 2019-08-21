@@ -228,6 +228,7 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyString('User', 'admin');
         $this->RegisterPropertyString('Password', 'instar');
         $this->RegisterPropertyInteger('snapshot_resolution', 0);
+        $this->RegisterPropertyInteger('MJPEG_Stream', 11);
         $this->RegisterPropertyInteger('relaxationmotionsensor', 10);
         $this->RegisterPropertyBoolean('activeemail', false);
         $this->RegisterPropertyString('email', '');
@@ -1362,7 +1363,8 @@ class INSTAR extends IPSModule
                 IPS_SetPosition($MediaID, -1);
                 IPS_SetName($MediaID, $this->Translate('INSTAR Live Picture')); // Medienobjekt benennen
             }
-            $url = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=12&usr=' . $user . '&pwd=' . $password;
+            $channel = $this->ReadPropertyInteger('MJPEG_Stream');
+            $url = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
 
             // Kategorie prüfen
@@ -4156,6 +4158,25 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function EnableWIFI(bool $wf_enable)
+    {
+        $this->WriteAttributeInteger('wf_enable', intval($wf_enable));
+        $data = $this->SetCameraWIFIConfiguration();
+        return $data;
+    }
+
+    public function SetWifiParameters(bool $wf_enable, string $wf_ssid, int $wf_auth, string $wf_key, int $wf_enc, int $wf_mode)
+    {
+        $this->WriteAttributeInteger('wf_enable', intval($wf_enable));
+        $this->WriteAttributeString('wf_ssid', $wf_ssid);
+        $this->WriteAttributeInteger('wf_auth', $wf_auth);
+        $this->WriteAttributeString('wf_key', $wf_key);
+        $this->WriteAttributeInteger('wf_enc', $wf_enc);
+        $this->WriteAttributeInteger('wf_mode', $wf_mode);
+        $data = $this->SetCameraWIFIConfiguration();
+        return $data;
+    }
+
     /** Set Camera´s WIFI Configuration
      *
      * @return array
@@ -6616,24 +6637,6 @@ class INSTAR extends IPSModule
         return $type;
     }
 
-
-
-    // Video
-
-    /*
-     * rtsp://admin:instar@IP-Address:RTSP-Port/11 :: VLC Stream
-
-  http://admin:instar@IP-Address:Port/iphone/11 :: Quicktime Stream
-
-  http://IP-Address:Port/tmpfs/snap.jpg?usr=admin&pwd=instar :: Snapshot (720p / 1280x720 Pixel)
-
-  http://IP-Address:Port/tmpfs/auto.jpg?usr=admin&pwd=instar :: Snapshot (352p or 176p)
-
-  http://IP-Address:Port/cgi-bin/hi3510/mjpegstream.cgi?-chn=11&-usr=admin&-pwd=instar :: MJPEG Stream
-
-     */
-
-
     // WLAN
 
     /*
@@ -7156,7 +7159,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 $this->GotoPosition($Value);
                 break;
             case 'wf_enable':
-                $this->GotoPosition($Value);
+                $this->EnableWIFI($Value);
                 break;
             default:
                 $this->SendDebug('INSTAR', 'Invalid ident', 0);
@@ -7373,20 +7376,32 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => '160 p',
                                          'value'   => self::RESOLUTION_SNAPSHOT_160p]]
 
-                             ]]]]
+                             ],
+                             [
+                                 'type'  => 'Label',
+                                 'label' => 'Select Channel for MJPEG Stream'],
+                             [
+                                 'type'    => 'Select',
+                                 'name'    => 'MJPEG_Stream',
+                                 'caption' => 'MJPEG Stream Channel',
+                                 'options' => [
+                                     [
+                                         'caption' => 'Channel 11',
+                                         'value'   => 11],
+                                     [
+                                         'caption' => 'Channel 12',
+                                         'value'   => 12],
+                                     [
+                                         'caption' => 'Channel 13',
+                                         'value'   => 13]]
+
+                             ],
+                             ]]]
         );
         return $form;
     }
 
 
-    /*
- * http://IP-Address:Port/tmpfs/snap.jpg?usr=admin&pwd=instar
-Snapshot (1080p)
-http://IP-Address:Port/tmpfs/auto.jpg?usr=admin&pwd=instar
-Snapshot (320p)
-http://IP-Address:Port/tmpfs/auto2.jpg?usr=admin&pwd=instar
-Snapshot (160p)
- */
 
     private function FormNetworkInfo()
     {
@@ -7677,7 +7692,7 @@ Snapshot (160p)
                                      'caption' => 'WLAN Enabled',
                                      'visible' => true,
                                      'value'   => boolval($this->ReadAttributeInteger('wf_enable')),
-                                     'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onClick' => 'INSTAR_EnableWIFI($id, $wf_enable);'],
                                  [
                                      'name'     => 'wf_enable_enabled',
                                      'type'     => 'CheckBox',
@@ -7693,7 +7708,7 @@ Snapshot (160p)
                                      'caption' => 'SSID',
                                      'visible' => true,
                                      'value'   => $this->ReadAttributeString('wf_ssid'),
-                                     'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);'],
                                  [
                                      'name'     => 'wf_ssid_enabled',
                                      'type'     => 'CheckBox',
@@ -7716,7 +7731,7 @@ Snapshot (160p)
                                              'value'   => 1]],
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeInteger('wf_mode'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);'],
                                  [
                                      'name'     => 'wf_mode_enabled',
                                      'type'     => 'CheckBox',
@@ -7745,7 +7760,7 @@ Snapshot (160p)
                                              'value'   => 3]],
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeInteger('wf_auth'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);'],
                                  [
                                      'name'     => 'wf_auth_enabled',
                                      'type'     => 'CheckBox',
@@ -7768,7 +7783,7 @@ Snapshot (160p)
                                              'value'   => 1]],
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeInteger('wf_enc'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);'],
                                  [
                                      'name'     => 'wf_enc_enabled',
                                      'type'     => 'CheckBox',
@@ -7784,24 +7799,21 @@ Snapshot (160p)
                                      'caption' => 'Key',
                                      'visible' => true,
                                      'value'   => $this->ReadAttributeString('wf_key'),
-                                     'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);'],
                                  [
                                      'name'     => 'wf_key_enabled',
                                      'type'     => 'CheckBox',
                                      'caption'  => 'Create Variable for Webfront',
                                      'value'    => $this->ReadAttributeBoolean('wf_key_enabled'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "wf_key_enabled", $wf_key_enabled);'],]]]
-
-            /*
-
+                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "wf_key_enabled", $wf_key_enabled);'],]],
                                      [
                                          'type'    => 'Label',
                                          'caption' => 'Set WIFI infos for the camera'],
                                      [
                                          'type'    => 'Button',
                                          'caption' => 'Set WIFI infos',
-                                         'onClick' => 'INSTAR_SetCameraWIFIConfiguration($id);']]
-            */
+                                         'onClick' => 'INSTAR_SetWifiParameters($id, $wf_enable, $wf_ssid, $wf_auth, $wf_key, $wf_enc, $wf_mode);']]
+
             );
         }
         /*
