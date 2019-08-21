@@ -4543,9 +4543,12 @@ class INSTAR extends IPSModule
         return $data;
     }
 
-    public function SetVideonorm($vinorm)
+    public function SetVideonorm(int $vinorm)
     {
-        $this->WriteAttributeInteger('vinorm', $vinorm);
+        if($vinorm == 0)
+        {
+            $this->WriteAttributeString('vinorm', 'P');
+        }
         $data = $this->SetVideoAttributes();
         return $data;
     }
@@ -8407,6 +8410,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     private function FormVideoSettings()
     {
+        $vinorm = $this->ReadAttributeString('vinorm');
+        $vinorm_value = 0;
+        if($vinorm == 'P')
+        {
+            $vinorm_value = 0;
+        }
         $form = [
             [
                 'type'    => 'RowLayout',
@@ -8457,7 +8466,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'caption' => 'Video Norm 50Hz (PAL)',
                                 'value'   => 'P'],
                             'visible'  => true,
-                            'value'    => $this->ReadAttributeInteger('vinorm'),
+                            'value'    => $vinorm_value,
                             'onChange' => 'INSTAR_SetVideonorm($id, $vinorm);']
 
                     ],
