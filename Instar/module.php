@@ -6869,12 +6869,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $picturename  = 'instar_snapshot_';
         $picturelimit = $this->ReadPropertyInteger('picturelimitsnapshot');
         $catid        = $this->ReadPropertyInteger('categorysnapshot');
+        $picture = '';
         if ($catid > 0) {
-            $this->GetImageCamera($name, $ident, $picturename, $picturelimit, $catid);
+            $picture = $this->GetImageCamera($name, $ident, $picturename, $picturelimit, $catid);
         } else {
             $this->SendDebug('INSTAR', 'No category is set, please set category.', 0);
             $this->LogMessage('Es wurde keine Kategorie gesetzt. Die Funktion wurde nicht ausgeführt.', KL_DEBUG);
         }
+        return $picture;
     }
 
     private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
@@ -6896,7 +6898,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         {
             $URL     = self::GET_IMAGE_1080p;
         }
-        $Content = $this->SendINSTAR($URL);
+        // $Content = $this->SendINSTAR($URL);
+        $Content = file_get_contents('http://' . $this->GetHostURL() . $URL);
         //lastsnapshot bestimmen
         $mediaids     = IPS_GetChildrenIDs($catid);
         $countmedia   = count($mediaids);
@@ -6956,6 +6959,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
             }
         }
+        return $Content;
     }
 
     private function GetallImages($mediaids)
