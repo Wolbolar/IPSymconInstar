@@ -762,12 +762,22 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('admin_value44', 44); // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
         $this->RegisterAttributeBoolean('admin_value44_enabled', false); // show Attribute in Webfront
         // Alarm Menu
-        $this->RegisterAttributeString('emailsnap', 'on'); // E-mail Alarm / Send Snapshot
-        $this->RegisterAttributeBoolean('emailsnap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('snap', 'on'); // Save Snapshot to SD
-        $this->RegisterAttributeBoolean('snap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('record', 'on'); // Save Video to SD
-        $this->RegisterAttributeBoolean('record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_emailsnap_switch', 'on'); // E-mail Alarm / Send Snapshot
+        $this->RegisterAttributeBoolean('md_emailsnap_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_snap_switch', 'on'); // Save Snapshot to SD
+        $this->RegisterAttributeBoolean('md_snap_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_record_switch', 'on'); //
+        $this->RegisterAttributeBoolean('md_record_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_ftprec_switch', 'on'); //
+        $this->RegisterAttributeBoolean('md_ftprec_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_relay_switch', 'on'); //
+        $this->RegisterAttributeBoolean('md_relay_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_ftpsnap_switch', 'on'); //
+        $this->RegisterAttributeBoolean('md_ftpsnap_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_sound_switch', 'on'); //
+        $this->RegisterAttributeBoolean('md_sound_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_alarm_type', 'on'); //
+        $this->RegisterAttributeBoolean('md_alarm_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'admin_value31', ''
         ); // [FTP Server];[FTP User Name];[FTP User Password];[FTP Mode];[FTP Directory];[Auto Create Directory];[FTP Directory Mode];[FTP SSL]", e.g "192.168.178.1;21;ftpuser;1234;1;./Kamera;1;0;0
@@ -1594,7 +1604,8 @@ class INSTAR extends IPSModule
                                    [2, $this->Translate('failed'), '', -1]]
         );
         $this->SetupVariable(
-            'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true); // INSTAR 3rd Party DDNS Status ok, off, failed
+            'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // INSTAR 3rd Party DDNS Status ok, off, failed
         $this->SetupVariable('startdate', $this->Translate('Camera Uptime'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // Camera Uptime
         $this->RegisterProfileAssociation(
             'INSTAR.INSTAR_DDNS_State', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
@@ -1705,19 +1716,17 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'm4_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Detection Sensitivity [1 - 100]
-        $this->SetupVariable('wf_key', $this->Translate('WIFI Key'), '', $this->_getPosition(), VARIABLETYPE_STRING, true);  // Key max. 63 Characters (Allowed special characters: &='`)
+        $this->SetupVariable(
+            'wf_key', $this->Translate('WIFI Key'), '', $this->_getPosition(), VARIABLETYPE_STRING, true
+        );  // Key max. 63 Characters (Allowed special characters: &='`)
         $this->RegisterProfileAssociation(
             'INSTAR.WLAN_Key_Type', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
-                                  [0, $this->Translate('TKIP'), '', -1],
-                                  [1, $this->Translate('AES'), '', -1]]
+                                      [0, $this->Translate('TKIP'), '', -1],
+                                      [1, $this->Translate('AES'), '', -1]]
         );
         $this->SetupVariable(
             'wf_auth', $this->Translate('WiFi Key Type'), 'INSTAR.WLAN_Key_Type', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Key type 0 (TKIP), 1 (AES)
-
-
-
-
 
 
         /*
@@ -2579,7 +2588,7 @@ class INSTAR extends IPSModule
         $API_Cameras = [];
 
         $API_Cameras[self::IN_9020_Full_HD] = [
-            'model'     => true,
+            'model'          => true,
             'hardVersion'    => true,
             'softVersion'    => true,
             'webVersion'     => true,
@@ -2588,16 +2597,16 @@ class INSTAR extends IPSModule
             'sdtotalspace'   => true,
             'platformstatus' => true,
 
-            'dhcpflag' => true,
-            'ip' => true,
-            'netmask' => true,
-            'gateway' => true,
-            'dnsstat' => true,
-            'fdnsip' => true,
-            'sdnsip' => true,
-            'macaddress' => true,
-            'networktype' => true,
-            'upnpstatus' => true,
+            'dhcpflag'      => true,
+            'ip'            => true,
+            'netmask'       => true,
+            'gateway'       => true,
+            'dnsstat'       => true,
+            'fdnsip'        => true,
+            'sdnsip'        => true,
+            'macaddress'    => true,
+            'networktype'   => true,
+            'upnpstatus'    => true,
             'th3ddnsstatus' => true,];
 
         /*
@@ -3723,13 +3732,10 @@ class INSTAR extends IPSModule
             return;
         }
         $this->SendDebug('Instar I/O', 'GET: ' . json_encode($_GET), 0);
-        if(isset($_GET['active']))
-        {
+        if (isset($_GET['active'])) {
             $this->SetValue('notification_alarm', $_GET['active']);
             $this->SetLastMovement();
-        }
-        else
-        {
+        } else {
             $this->SetValue('notification_alarm', "Event");
             $this->SetLastMovement();
         }
@@ -3801,18 +3807,13 @@ class INSTAR extends IPSModule
                 }
             }
         } else {
-            if($var_name == 'admin_value46')
-            {
-                if($var_content == '""')
-                {
+            if ($var_name == 'admin_value46') {
+                if ($var_content == '""') {
                     $this->WriteAttributeInteger($var_name . $suffix, 0);
-                }
-                else{
+                } else {
                     $this->WriteAttributeInteger($var_name . $suffix, $var_content);
                 }
-            }
-            else
-            {
+            } else {
                 $this->WriteAttributeString($var_name . $suffix, $var_content);
                 if ($var_name == 'dhcpflag') {
                     if ($var_content == 'off') {
@@ -3854,15 +3855,12 @@ class INSTAR extends IPSModule
                 $var_content = trim($info[1], '"');
             } else {
                 $var_name = $info[0];
-                if($var_name == 'admin_value31' || $var_name == 'admin_value46')
-                {
+                if ($var_name == 'admin_value31' || $var_name == 'admin_value46') {
                     $var_content = explode('=', $payload)[1];
                     $this->CheckAttributeType($var_name, $var_content, $suffix);
                     break;
 
-                }
-                else
-                {
+                } else {
                     if (isset($info[1])) {
                         $var_content = $info[1];
                     }
@@ -4306,11 +4304,11 @@ class INSTAR extends IPSModule
         ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
         $ov_subchn    = $this->ReadAttributeInteger('ov_subchn'); // Use video channel 11, 12 or 13
         $ov_snapchn   = $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
-        $ov_nvctype  = $this->ReadAttributeInteger('ov_nvctype');
+        $ov_nvctype   = $this->ReadAttributeInteger('ov_nvctype');
 
-        $parameter    = '&-ov_enable=' . $ov_enable . '&-ov_port=' . $ov_port . '&-ov_authflag=' . $ov_authflag . '&-ov_forbitset=' . $ov_forbitset
-                        . '&-ov_subchn=' . $ov_subchn . '&-ov_snapchn=' . $ov_snapchn . '&-ov_nvctype=' . $ov_nvctype;
-        $data         = $this->SendParameter('setonvifattr' . $parameter);
+        $parameter = '&-ov_enable=' . $ov_enable . '&-ov_port=' . $ov_port . '&-ov_authflag=' . $ov_authflag . '&-ov_forbitset=' . $ov_forbitset
+                     . '&-ov_subchn=' . $ov_subchn . '&-ov_snapchn=' . $ov_snapchn . '&-ov_nvctype=' . $ov_nvctype;
+        $data      = $this->SendParameter('setonvifattr' . $parameter);
         return $data;
     }
 
@@ -4490,7 +4488,7 @@ class INSTAR extends IPSModule
     private function SetAudioEncoderParameter($channel)
     {
         $aeswitch = $this->ReadAttributeInteger('aeswitch_' . $channel);
-        $aeformat = $this->ReadAttributeString('aeformat_'  . $channel);
+        $aeformat = $this->ReadAttributeString('aeformat_' . $channel);
 
         $parameter = '&-chn=' . $channel . '&-aeswitch_' . $channel . '=' . $aeswitch . '&-aeformat_' . $channel . '=' . $aeformat;
         $data      = $this->SendParameter('setaudioinvolume' . $parameter);
@@ -4690,8 +4688,8 @@ class INSTAR extends IPSModule
         }
         $this->SetValue('flip', $flip);
         $this->WriteAttributeString('flip', $flip_value);
-        $parameter  = '&-flip=' . $flip_value;
-        $data       = $this->SendParameter('setimageattr' . $parameter);
+        $parameter = '&-flip=' . $flip_value;
+        $data      = $this->SendParameter('setimageattr' . $parameter);
         return $data;
     }
 
@@ -4710,8 +4708,8 @@ class INSTAR extends IPSModule
         }
         $this->SetValue('mirror', $mirror);
         $this->WriteAttributeString('mirror', $mirror_value);
-        $parameter  = '&-mirror=' . $mirror_value;
-        $data       = $this->SendParameter('setimageattr' . $parameter);
+        $parameter = '&-mirror=' . $mirror_value;
+        $data      = $this->SendParameter('setimageattr' . $parameter);
         return $data;
     }
 
@@ -4852,34 +4850,39 @@ class INSTAR extends IPSModule
     {
         $show_1  = $this->ReadAttributeInteger('show_1');
         $color_1 = $this->ReadAttributeString('color_1');
-        $x_1   = $this->ReadAttributeInteger('x_1');
-        $y_1   = $this->ReadAttributeInteger('y_1');
-        $w_1   = $this->ReadAttributeInteger('w_1');
-        $h_1   = $this->ReadAttributeInteger('h_1');
+        $x_1     = $this->ReadAttributeInteger('x_1');
+        $y_1     = $this->ReadAttributeInteger('y_1');
+        $w_1     = $this->ReadAttributeInteger('w_1');
+        $h_1     = $this->ReadAttributeInteger('h_1');
         $show_2  = $this->ReadAttributeInteger('show_2');
         $color_2 = $this->ReadAttributeString('color_2');
-        $x_2   = $this->ReadAttributeInteger('x_2');
-        $y_2   = $this->ReadAttributeInteger('y_2');
-        $w_2   = $this->ReadAttributeInteger('w_2');
-        $h_2   = $this->ReadAttributeInteger('h_2');
+        $x_2     = $this->ReadAttributeInteger('x_2');
+        $y_2     = $this->ReadAttributeInteger('y_2');
+        $w_2     = $this->ReadAttributeInteger('w_2');
+        $h_2     = $this->ReadAttributeInteger('h_2');
         $show_3  = $this->ReadAttributeInteger('show_3');
         $color_3 = $this->ReadAttributeString('color_3');
-        $x_3   = $this->ReadAttributeInteger('x_3');
-        $y_3   = $this->ReadAttributeInteger('y_3');
-        $w_3   = $this->ReadAttributeInteger('w_3');
-        $h_3   = $this->ReadAttributeInteger('h_3');
+        $x_3     = $this->ReadAttributeInteger('x_3');
+        $y_3     = $this->ReadAttributeInteger('y_3');
+        $w_3     = $this->ReadAttributeInteger('w_3');
+        $h_3     = $this->ReadAttributeInteger('h_3');
         $show_4  = $this->ReadAttributeInteger('show_4');
         $color_4 = $this->ReadAttributeString('color_4');
-        $x_4   = $this->ReadAttributeInteger('x_4');
-        $y_4   = $this->ReadAttributeInteger('y_4');
-        $w_4   = $this->ReadAttributeInteger('w_4');
-        $h_4   = $this->ReadAttributeInteger('h_4');
+        $x_4     = $this->ReadAttributeInteger('x_4');
+        $y_4     = $this->ReadAttributeInteger('y_4');
+        $w_4     = $this->ReadAttributeInteger('w_4');
+        $h_4     = $this->ReadAttributeInteger('h_4');
 
-        $parameter_2 = '&cmd=setcover&-region=2&-show=' . $show_2 . '&-color=' . $color_2 . '&-x=' . $x_2 . '&-y=' . $y_2 . '&-w=' . $w_2 . '&-h=' . $h_2;
-        $parameter_3 = '&cmd=setcover&-region=3&-show=' . $show_3 . '&-color=' . $color_3 . '&-x=' . $x_3 . '&-y=' . $y_3 . '&-w=' . $w_3 . '&-h=' . $h_3;
-        $parameter_4 = '&cmd=setcover&-region=4&-show=' . $show_4 . '&-color=' . $color_4 . '&-x=' . $x_4 . '&-y=' . $y_4 . '&-w=' . $w_4 . '&-h=' . $h_4;
+        $parameter_2 =
+            '&cmd=setcover&-region=2&-show=' . $show_2 . '&-color=' . $color_2 . '&-x=' . $x_2 . '&-y=' . $y_2 . '&-w=' . $w_2 . '&-h=' . $h_2;
+        $parameter_3 =
+            '&cmd=setcover&-region=3&-show=' . $show_3 . '&-color=' . $color_3 . '&-x=' . $x_3 . '&-y=' . $y_3 . '&-w=' . $w_3 . '&-h=' . $h_3;
+        $parameter_4 =
+            '&cmd=setcover&-region=4&-show=' . $show_4 . '&-color=' . $color_4 . '&-x=' . $x_4 . '&-y=' . $y_4 . '&-w=' . $w_4 . '&-h=' . $h_4;
 
-        $parameter = '&-show=' . $show_1 . '&-color=' . $color_1 . '&-x=' . $x_1 . '&-y=' . $y_1 . '&-w=' . $w_1 . '&-h=' . $h_1 . $parameter_2 . $parameter_3. $parameter_4;
+        $parameter =
+            '&-show=' . $show_1 . '&-color=' . $color_1 . '&-x=' . $x_1 . '&-y=' . $y_1 . '&-w=' . $w_1 . '&-h=' . $h_1 . $parameter_2 . $parameter_3
+            . $parameter_4;
         $data      = $this->SendParameter('setcover&-region=1' . $parameter);
         return $data;
     }
@@ -4905,18 +4908,21 @@ class INSTAR extends IPSModule
      */
     public function SetEmailNotificationParameter()
     {
-        $ma_ssl = $this->ReadPropertyInteger('ma_ssl');
-        $ma_from = $this->ReadPropertyString('ma_from');
-        $ma_to = $this->ReadPropertyString('ma_to');
-        $ma_subject = $this->ReadPropertyString('ma_subject');
-        $ma_text = $this->ReadPropertyString('ma_text');
-        $ma_server = $this->ReadPropertyString('ma_text');
-        $ma_port = $this->ReadPropertyInteger('ma_port');
+        $ma_ssl       = $this->ReadPropertyInteger('ma_ssl');
+        $ma_from      = $this->ReadPropertyString('ma_from');
+        $ma_to        = $this->ReadPropertyString('ma_to');
+        $ma_subject   = $this->ReadPropertyString('ma_subject');
+        $ma_text      = $this->ReadPropertyString('ma_text');
+        $ma_server    = $this->ReadPropertyString('ma_text');
+        $ma_port      = $this->ReadPropertyInteger('ma_port');
         $ma_logintype = $this->ReadPropertyInteger('ma_logintype');
-        $ma_username = $this->ReadPropertyString('ma_username');
-        $ma_password = $this->ReadPropertyString('ma_password');
-        $parameter = '&-ma_ssl=' . $ma_ssl . '&-ma_from=' . $ma_from . '&-ma_to=' . $ma_to . '&-ma_subject=' . $ma_subject . '&-ma_text=' . $ma_text . '&-ma_server=' . $ma_server . '&-ma_port=' . $ma_port . '&-ma_logintype=' . $ma_logintype . '&-ma_username=' . $ma_username . '&-ma_password=' . $ma_password;
-        $data      = $this->SendParameter('setsmtpattr' . $parameter);
+        $ma_username  = $this->ReadPropertyString('ma_username');
+        $ma_password  = $this->ReadPropertyString('ma_password');
+        $parameter    =
+            '&-ma_ssl=' . $ma_ssl . '&-ma_from=' . $ma_from . '&-ma_to=' . $ma_to . '&-ma_subject=' . $ma_subject . '&-ma_text=' . $ma_text
+            . '&-ma_server=' . $ma_server . '&-ma_port=' . $ma_port . '&-ma_logintype=' . $ma_logintype . '&-ma_username=' . $ma_username
+            . '&-ma_password=' . $ma_password;
+        $data         = $this->SendParameter('setsmtpattr' . $parameter);
         return $data;
     }
 
@@ -4939,17 +4945,20 @@ class INSTAR extends IPSModule
      */
     public function SetINSTARCloudServerParameter()
     {
-        $ft_server = $this->ReadPropertyString('ft_server');
-        $ft_port = $this->ReadPropertyInteger('ft_port');
-        $ft_username = $this->ReadPropertyString('ft_username');
-        $ft_password = $this->ReadPropertyString('ft_password');
-        $ft_mode = $this->ReadPropertyInteger('ft_mode');
-        $ft_dirname = $this->ReadPropertyString('ft_dirname');
+        $ft_server        = $this->ReadPropertyString('ft_server');
+        $ft_port          = $this->ReadPropertyInteger('ft_port');
+        $ft_username      = $this->ReadPropertyString('ft_username');
+        $ft_password      = $this->ReadPropertyString('ft_password');
+        $ft_mode          = $this->ReadPropertyInteger('ft_mode');
+        $ft_dirname       = $this->ReadPropertyString('ft_dirname');
         $ft_autocreatedir = $this->ReadPropertyInteger('ft_autocreatedir');
-        $ft_dirmode = $this->ReadPropertyInteger('ft_dirmode');
-        $ft_ssl = $this->ReadPropertyInteger('ft_ssl');
-        $parameter = '&-ft_server=' . $ft_server . '&-ft_port=' . $ft_port . '&-ft_username=' . $ft_username . '&-ft_password=' . $ft_password . '&-ft_mode=' . $ft_mode . '&-ft_dirname=' . $ft_dirname . '&-ft_autocreatedir=' . $ft_autocreatedir . '&-ft_dirmode=' . $ft_dirmode . '&-ft_ssl=' . $ft_ssl;
-        $data      = $this->SendParameter('setftpattr' . $parameter);
+        $ft_dirmode       = $this->ReadPropertyInteger('ft_dirmode');
+        $ft_ssl           = $this->ReadPropertyInteger('ft_ssl');
+        $parameter        =
+            '&-ft_server=' . $ft_server . '&-ft_port=' . $ft_port . '&-ft_username=' . $ft_username . '&-ft_password=' . $ft_password . '&-ft_mode='
+            . $ft_mode . '&-ft_dirname=' . $ft_dirname . '&-ft_autocreatedir=' . $ft_autocreatedir . '&-ft_dirmode=' . $ft_dirmode . '&-ft_ssl='
+            . $ft_ssl;
+        $data             = $this->SendParameter('setftpattr' . $parameter);
         return $data;
     }
 
@@ -4971,9 +4980,9 @@ class INSTAR extends IPSModule
     public function SetFTPServerParameter()
     {
         $admin_value31 = $this->ReadPropertyString('admin_value31');
-        $url_code = urlencode($admin_value31);
-        $parameter = '&-value=' . $url_code;
-        $data      = $this->SendParameter('set_instar_admin&-index=31' . $parameter);
+        $url_code      = urlencode($admin_value31);
+        $parameter     = '&-value=' . $url_code;
+        $data          = $this->SendParameter('set_instar_admin&-index=31' . $parameter);
         return $data;
     }
 
@@ -5047,8 +5056,8 @@ class INSTAR extends IPSModule
     public function SetIR_LEDParameter()
     {
         $infraredstat = $this->ReadAttributeString('infraredstat');
-        $parameter = '&-infraredstat=' . $infraredstat;
-        $data      = $this->SendParameter('setinfrared' . $parameter);
+        $parameter    = '&-infraredstat=' . $infraredstat;
+        $data         = $this->SendParameter('setinfrared' . $parameter);
         return $data;
     }
 
@@ -5240,7 +5249,7 @@ class INSTAR extends IPSModule
     public function SetStatusLED()
     {
         $light_index  = $this->ReadAttributeInteger('light_index');
-        $light_enable = $this->ReadAttributeString('light_enable');
+        $light_enable = $this->ReadAttributeString('light2_enable');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setlightattr&-light_index=1&-light_enable=on&cmd=setlightattr&-light_index=2&-light_enable=on
         $parameter = '&-light_index=' . $light_index . '&-light_enable=' . $light_enable;
         $data      = $this->SendParameter('setlightattr' . $parameter);
@@ -5301,64 +5310,64 @@ class INSTAR extends IPSModule
     public function GetAlarmActionParameterEmailsnap()
     {
         $parameter = '&-aname=emailsnap';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterSnap()
     {
         $parameter = '&-aname=snap';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterRecord()
     {
         $parameter = '&-aname=record';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterFTPRecord()
     {
         $parameter = '&-aname=ftprec';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterRelay()
     {
         $parameter = '&-aname=relay';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterFTPSnap()
     {
         $parameter = '&-aname=ftpsnap';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterSound()
     {
         $parameter = '&-aname=sound';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
     public function GetAlarmActionParameterType()
     {
         $parameter = '&-aname=type';
-        $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data    = $this->SplitPayload($payload);
+        $payload   = $this->SendParameter('getmdalarm' . $parameter);
+        $data      = $this->SplitPayload($payload);
         return $data;
     }
 
@@ -5368,16 +5377,6 @@ class INSTAR extends IPSModule
      */
     public function GetAlarmActionParameter()
     {
-        /*
-* http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=emailsnap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=snap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=record
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftprec
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=relay
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=ftpsnap
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=sound
-GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
-*/
         $payload = $this->SendParameter('getmdalarm');
         $data    = $this->SplitPayload($payload);
         return $data;
@@ -5389,13 +5388,19 @@ GET: http://admin:instar@192.168.178.88/param.cgi?cmd=getmdalarm&-aname=type
      */
     public function SetAlarmActionParameter()
     {
-        $emailsnap  = $this->ReadAttributeString('emailsnap');
-        $setmdalarm = $this->ReadAttributeString('setmdalarm');
-        $ftpsnap    = $this->ReadAttributeString('ftpsnap');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=emailsnap&-switch=off&cmd=setmdalarm&-aname=snap&-switch=off&cmd=setmdalarm&-aname=ftpsnap&-switch=off&cmd=setmdalarm&-aname=record&-switch=off&cmd=setmdalarm&-aname=ftprec&-switch=on&cmd=setmdalarm&-aname=type&-switch=off&cmd=setmdalarm&-aname=relay&-switch=off&cmd=setmdalarm&-aname=sound&-switch=off
-        $parameter = '&-aname=emailsnap&-switch=' . $emailsnap . '&cmd=setmdalarm&-aname=snap&-switch=' . $setmdalarm
-                     . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap;
-        $data      = $this->SendParameter('setmdalarm' . $parameter);
+        $emailsnap  = $this->ReadAttributeString('md_emailsnap_switch');
+        $setmdalarm = $this->ReadAttributeString('md_snap_switch');
+        $ftpsnap    = $this->ReadAttributeString('md_ftpsnap_switch');
+        $sound      = $this->ReadAttributeString('md_sound_switch');
+        $alarm      = $this->ReadAttributeString('md_alarm_type');
+        $relay      = $this->ReadAttributeString('md_relay_switch');
+        $record     = $this->ReadAttributeString('md_record_switch');
+        $ftprec     = $this->ReadAttributeString('md_ftprec_switch');
+        $parameter  = '&-aname=emailsnap&-switch=' . $emailsnap . '&cmd=setmdalarm&-aname=snap&-switch=' . $setmdalarm
+                      . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap . '&cmd=setmdalarm&-aname=record&-switch=' . $record
+                      . '&cmd=setmdalarm&-aname=ftprec&-switch=' . $ftprec . '&cmd=setmdalarm&-aname=type&-switch=' . $alarm
+                      . '&cmd=setmdalarm&-aname=relay&-switch=' . $relay . '&cmd=setmdalarm&-aname=sound&-switch=' . $sound;
+        $data       = $this->SendParameter('setmdalarm' . $parameter);
         return $data;
     }
 
@@ -8330,9 +8335,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('volin_type_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "volin_type_enabled", $volin_type_enabled);'],]],
             [
-                'type'  => 'RowLayout',
+                'type'    => 'RowLayout',
                 'visible' => false,
-                'items' => [
+                'items'   => [
                     [
                         'type'    => 'Select',
                         'name'    => 'aeformat_1',
@@ -8354,9 +8359,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('aeformat_1_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "aeformat_1_enabled", $aeformat_1_enabled);'],]],
             [
-                'type'  => 'RowLayout',
+                'type'    => 'RowLayout',
                 'visible' => false,
-                'items' => [
+                'items'   => [
                     [
                         'type'    => 'Select',
                         'name'    => 'aeformat_2',
@@ -8378,9 +8383,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('aeformat_2_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "aeformat_2_enabled", $aeformat_2_enabled);'],]],
             [
-                'type'  => 'RowLayout',
+                'type'    => 'RowLayout',
                 'visible' => false,
-                'items' => [
+                'items'   => [
                     [
                         'type'    => 'Select',
                         'name'    => 'aeformat_3',
@@ -9128,8 +9133,8 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     private function FormCameraSelection()
     {
-        $model_type     = $this->ReadPropertyInteger('model_type');
-        $selection = [
+        $model_type = $this->ReadPropertyInteger('model_type');
+        $selection  = [
             [
                 'type'    => 'Select',
                 'name'    => 'model_type',
@@ -10608,12 +10613,9 @@ var initpresetindex="1""
         $this->WriteAttributeString('as_queryattr3[2]', $parameter_3_key);
         $this->WriteAttributeString('as_queryval3[2]', $parameter_3_value);
         $data = $this->SetAlarmserver2Configuration();
-        if($data === false)
-        {
+        if ($data === false) {
             $this->ShowPopup('Colud not connect to INSTAR camera');
-        }
-        else
-        {
+        } else {
             $this->ShowPopup($data);
         }
         return $data;
@@ -11477,18 +11479,18 @@ as_password[0]="";
                 [
                     'type'    => 'TestCenter',
                     'visible' => false]],
-                [
-                    'type'    => 'PopupAlert',
-                    'name'    => 'popup',
-                    'visible' => false,
-                    'popup'   => [
-                        'closeCaption' => 'Ok',
-                        'items'        => [
-                            [
-                                'type'    => 'ValidationTextBox',
-                                'visible' => false,
-                                'name'    => 'popup_message',
-                                'caption' => 'Response from INSTAR'],]]],];
+            [
+                'type'    => 'PopupAlert',
+                'name'    => 'popup',
+                'visible' => false,
+                'popup'   => [
+                    'closeCaption' => 'Ok',
+                    'items'        => [
+                        [
+                            'type'    => 'ValidationTextBox',
+                            'visible' => false,
+                            'name'    => 'popup_message',
+                            'caption' => 'Response from INSTAR'],]]],];
         return $form;
     }
 
