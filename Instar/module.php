@@ -8424,7 +8424,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'Select',
                         'name'     => 'videomode',
-                        'caption'  => 'videomode',
+                        'caption'  => 'Videomode',
                         'options'  => [
                             [
                                 'caption' => 'Please select a videomode',
@@ -8819,7 +8819,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'    => 'ValidationTextBox',
                         'name'    => 'name_0_osd',
                         'visible' => true,
-                        'caption' => 'Camera Name',
+                        'caption' => 'OSD Camera Name',
                         'value'   => $this->ReadAttributeString('name_0_osd'),
                         'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
                     [
@@ -9840,7 +9840,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'Select',
                         'name'     => 'FTP_SSL',
-                        'caption'  => 'FTP_SSL',
+                        'caption'  => 'FTP SSL',
                         'options'  => [
                             [
                                 'caption' => 'no encrytion',
