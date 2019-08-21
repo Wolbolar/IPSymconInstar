@@ -897,32 +897,35 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('m3_threshold_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('m4_threshold', 0); // Detection Threshold (not active)
         $this->RegisterAttributeBoolean('m4_threshold_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_as', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week0_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week0_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week1', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week1_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week1_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week2', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week2_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week3', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week3_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week3_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week4', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week4_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week4_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week5', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week5_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week5_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
-            'as_week6', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+            'week6_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('as_week6_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
@@ -1005,6 +1008,16 @@ class INSTAR extends IPSModule
             'plancgi_enable_19', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
         $this->RegisterAttributeBoolean('plancgi_enable_19_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('plancgi_time_0', '');
+        $this->RegisterAttributeString('plancgi_time_1', '');
+        $this->RegisterAttributeString('plancgi_time_2', '');
+        $this->RegisterAttributeString('plancgi_time_3', '');
+        $this->RegisterAttributeString('plancgi_time_4', '');
+        $this->RegisterAttributeString('plancgi_time_5', '');
+        $this->RegisterAttributeString('plancgi_time_6', '');
+        $this->RegisterAttributeString('plancgi_time_7', '');
+        $this->RegisterAttributeString('plancgi_time_8', '');
+        $this->RegisterAttributeString('plancgi_time_9', '');
         $this->RegisterAttributeString('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_port', 0); // Port of the receiving Server [1-65536]
@@ -1048,101 +1061,83 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('alarmserver', 1); // Alarmserver 0 IP-Symcon connect, 1 local network
         $this->RegisterAttributeBoolean('alarmserver_enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server[0]', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port[0]', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth[0]', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username[0]', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password[0]', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path[0]', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area[0]', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io[0]', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio[0]', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio[0]', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery[0]', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1[0]', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1[0]', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1[0]', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2[0]', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2[0]', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2[0]', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3[0]', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_enabled[0]', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3[0]', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3[0]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3[0]', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3[0]_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_0_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_0_', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_0_', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_0_', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_0_', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_0_', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_0_', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_0_', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_0_', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_0_', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_0_', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_0_', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr1_0_', ''); // Command 1 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr1_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval1_0_', ''); // Command 1 Value
+        $this->RegisterAttributeBoolean('as_queryval1_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_query2_0_', ''); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeBoolean('as_query2_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr2_0_', ''); // Command 2 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr2_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval2_0_', ''); // Command 2 Value
+        $this->RegisterAttributeBoolean('as_queryval2_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_query3_0_', ''); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeBoolean('as_query3_enabled_0_', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr3_0_', ''); // Command 3 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr3_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval3_0_', ''); // Command 3 Value
+        $this->RegisterAttributeBoolean('as_queryval3_0__enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server[2]', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port[2]', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth[2]', 1); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username[2]', 'instar'); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password[2]', 'symcon'); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password[2]_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_1_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_1_', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_1_', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_1_', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_1_', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_1_', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_1_', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_1_', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_1_', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_1_', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_1_', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_1_', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_1__enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_path[2]', '/hook/INSTAR'); // URL Path
-        $this->RegisterAttributeBoolean('as_path[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area[2]', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io[2]', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio[2]', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio[2]', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery[2]', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1[2]', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1[2]', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1[2]', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query2[2]', 1); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2[2]', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2[2]', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query3[2]', 1); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3[2]', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3[2]', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3[2]_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
-        $this->RegisterAttributeBoolean('md_server2_switch_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_port_2', 0); // Port of the receiving Server [1-65536]
         $this->RegisterAttributeBoolean('as_port_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_2', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeInteger('as_auth_2', 1); // Authentication required [0, 1]
         $this->RegisterAttributeBoolean('as_auth_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_2', ''); // Alarmserver Username
+        $this->RegisterAttributeString('as_username_2', 'instar'); // Alarmserver Username
         $this->RegisterAttributeBoolean('as_username_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_2', ''); // Alarmserver Password
+        $this->RegisterAttributeString('as_password_2', 'symcon'); // Alarmserver Password
         $this->RegisterAttributeBoolean('as_password_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_2', ''); // URL Path
+        $this->RegisterAttributeString('as_path_2', '/hook/INSTAR'); // URL Path
         $this->RegisterAttributeBoolean('as_path_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_area_2', 1); // Send Query when Motion is Detected
         $this->RegisterAttributeBoolean('as_area_2_enabled', false); // show Attribute in Webfront
@@ -1160,18 +1155,21 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('as_queryattr1_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval1_2', ''); // Command 1 Value
         $this->RegisterAttributeBoolean('as_queryval1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2_2', ''); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeInteger('as_query2_2', 1); // Activate Sending optional Parameter 2
         $this->RegisterAttributeBoolean('as_query2_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr2_2', ''); // Command 2 Attribute
         $this->RegisterAttributeBoolean('as_queryattr2_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval2_2', ''); // Command 2 Value
         $this->RegisterAttributeBoolean('as_queryval2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3_2', ''); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeInteger('as_query3_2', 1); // Activate Sending optional Parameter 3
         $this->RegisterAttributeBoolean('as_query3_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr3_2', ''); // Command 3 Attribute
         $this->RegisterAttributeBoolean('as_queryattr3_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval3_2', ''); // Command 3 Value
         $this->RegisterAttributeBoolean('as_queryval3_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
+        $this->RegisterAttributeBoolean('md_server2_switch_enabled', false); // show Attribute in Webfront
+
         // Recording Menu
         $this->RegisterAttributeInteger('as_snap_enable', 0); // Dis/Enable snapshot to SD card： [0, 1]
         $this->RegisterAttributeBoolean('as_snap_enable_enabled', false); // show Attribute in Webfront
@@ -1307,8 +1305,8 @@ class INSTAR extends IPSModule
         $user             = $this->ReadPropertyString('User');
         $password         = $this->ReadPropertyString('Password');
         $model            = $this->ReadPropertyInteger('model_type');
-        $webhook_username = $this->ReadAttributeString('as_username[2]');
-        $webhook_password = $this->ReadAttributeString('as_password[2]');
+        $webhook_username = $this->ReadAttributeString('as_username_2');
+        $webhook_password = $this->ReadAttributeString('as_password_2');
 
         if ($webhook_username == '' || $webhook_password == '') {
             $this->SetStatus(210);
@@ -3788,33 +3786,34 @@ class INSTAR extends IPSModule
             $key = array_search($var_name, $this->StringAttributes);
             if ($key > 0) {
                 $var_content = strval($var_content);
-                $this->WriteAttributeString($var_name . $suffix, $var_content);
-                $this->SendDebug('INSTAR Write Value', 'String ' . $var_name . ' = ' . print_r($var_content, true), 0);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->SendDebug('INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($var_content, true), 0);
             } else {
                 $var_content = intval($var_content);
                 $key         = array_search($var_name, $this->BooleanAttributes);
-                $this->WriteAttributeInteger($var_name . $suffix, $var_content);
+                $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 if ($key > 0) {
                     $var_content = boolval($var_content);
                     if ($var_content) {
-                        $this->SendDebug('INSTAR Write Value', 'Boolean ' . $var_name . ' = true', 0);
+                        $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = true', 0);
                     } else {
-                        $this->SendDebug('INSTAR Write Value', 'Boolean ' . $var_name . ' = false', 0);
+                        $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = false', 0);
                     }
 
                 } else {
-                    $this->SendDebug('INSTAR Write Value', 'Integer ' . $var_name . ' = ' . $var_content, 0);
+                    $this->SendDebug('INSTAR Write Value', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . $var_content, 0);
                 }
             }
         } else {
             if ($var_name == 'admin_value46') {
                 if ($var_content == '""') {
-                    $this->WriteAttributeInteger($var_name . $suffix, 0);
+                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
                 } else {
-                    $this->WriteAttributeInteger($var_name . $suffix, $var_content);
+                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
             } else {
-                $this->WriteAttributeString($var_name . $suffix, $var_content);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 if ($var_name == 'dhcpflag') {
                     if ($var_content == 'off') {
                         $var_content = false;
@@ -3824,15 +3823,15 @@ class INSTAR extends IPSModule
                 }
             }
         }
-        $this->WriteValue($var_name . $suffix, $var_content);
-        $this->SendDebug('INSTAR Write Attribute', $var_name . $suffix . ' = ' . $var_content, 0);
-        $this->UpdateParameter($var_name, 'value', $var_content);
-        $this->SendDebug('INSTAR Update Parameter', $var_name . $suffix . ' = ' . $var_content, 0);
+        $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+        $this->SendDebug('INSTAR Write Attribute', $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
+        $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
+        $this->SendDebug('INSTAR Update Parameter', $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
     }
 
     protected function WriteValue($var_name, $var_content)
     {
-        if (@$this->GetIDForIdent('$var_name') > 0) {
+        if (@$this->GetIDForIdent($var_name) > 0) {
             $this->SetValue($var_name, $var_content);
         }
     }
@@ -3843,6 +3842,13 @@ class INSTAR extends IPSModule
         array_pop($data);
         $data = $this->SaveData($data, $suffix, $payload);
         return $data;
+    }
+
+    protected function ConvertNameToAtrribute($var_name)
+    {
+        $attribute_name = str_replace('[', '_', $var_name);
+        $attribute_name = str_replace(']', '_', $attribute_name);
+        return $attribute_name;
     }
 
     protected function SaveData($data, $suffix, $payload)
@@ -3862,7 +3868,7 @@ class INSTAR extends IPSModule
 
                 } else {
                     if (isset($info[1])) {
-                        $var_content = $info[1];
+                        $var_content = trim($info[1], '"');
                     }
                 }
             }
@@ -5421,25 +5427,8 @@ class INSTAR extends IPSModule
      */
     public function SetAudioDetectionParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-
-        }
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setaudioalarmattr&-aa_enable=0
-        $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $aa_enable = $this->ReadAttributeInteger('aa_enable');
+        $parameter = '&-aa_enable=' . $aa_enable;
         $data      = $this->SendParameter('setaudioalarmattr' . $parameter);
         return $data;
     }
@@ -5461,25 +5450,9 @@ class INSTAR extends IPSModule
      */
     public function SetAlarmInputParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setioattr&-io_enable=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setioattr' . $parameter);
-        }
+        $io_enable = $this->ReadAttributeInteger('io_enable');
+        $parameter = '&-io_enable=' . $io_enable;
+        $data      = $this->SendParameter('setioattr' . $parameter);
         return $data;
     }
 
@@ -5506,25 +5479,9 @@ class INSTAR extends IPSModule
      */
     public function SetPassiveInfraredMotionDetectionSensorParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setpirattr&-pir_enable=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setpirattr' . $parameter);
-        }
+        $pir_enable = $this->ReadAttributeInteger('pir_enable');
+        $parameter  = '&-pir_enable=' . $pir_enable;
+        $data       = $this->SendParameter('setpirattr' . $parameter);
         return $data;
     }
 
@@ -5545,25 +5502,14 @@ class INSTAR extends IPSModule
      */
     public function SetNumberAlarmSnapshots()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setalarmsnapattr&-snap_chn=11&-snap_count=6&-email_snap_count=6&-ftp_snap_count=6
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setalarmsnapattr' . $parameter);
-        }
+        $snap_chn         = $this->ReadAttributeInteger('snap_chn');
+        $snap_count       = $this->ReadAttributeInteger('snap_count');
+        $email_snap_count = $this->ReadAttributeInteger('email_snap_count');
+        $ftp_snap_count   = $this->ReadAttributeInteger('ftp_snap_count');
+        $parameter        =
+            '&-snap_chn=' . $snap_chn . '&-snap_count=' . $snap_count . '&-email_snap_count=' . $email_snap_count . '&-ftp_snap_count='
+            . $ftp_snap_count;
+        $data             = $this->SendParameter('setalarmsnapattr' . $parameter);
         return $data;
     }
 
@@ -5762,7 +5708,7 @@ class INSTAR extends IPSModule
     public function GetMotionDetectionTimeScheduleParameter()
     {
         $payload = $this->SendParameter('getscheduleex&-ename=md');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_as');
         return $data;
     }
 
@@ -5772,25 +5718,17 @@ class INSTAR extends IPSModule
      */
     public function SetMotionDetectionTimeScheduleParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=md&-week0=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week1=NNNNNNNNNNNNNNNNPPPPPPPPPPPPPPPPPPPPPPNNNNNNNNNN&-week2=NNNNNNNNNNNNNNNNPPPPPPPPPPPPPPPPPPPPPPNNNNNNNNNN&-week3=NNNNNNNNNNNNNNNNPPPPPPPPPPPPPPPPPPPPPPNNNNNNNNNN&-week4=NNNNNNNNNNNNNNNNPPPPPPPPPPPPPPPPPPPPPPNNNNNNNNNN&-week5=NNNNNNNNNNNNNNNNPPPPPPPPPPPPPPPPPPPPPPNNNNNNNNNN&-week6=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
-        }
+        // $etm = $this->ReadAttributeInteger('etm_as');
+        $week0     = $this->ReadAttributeString('week0_as');
+        $week1     = $this->ReadAttributeString('week1_as');
+        $week2     = $this->ReadAttributeString('week2_as');
+        $week3     = $this->ReadAttributeString('week3_as');
+        $week4     = $this->ReadAttributeString('week4_as');
+        $week5     = $this->ReadAttributeString('week5_as');
+        $week6     = $this->ReadAttributeString('week6_as');
+        $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
+                     . '&-week6=' . $week6;
+        $data      = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
         return $data;
     }
 
@@ -5811,25 +5749,33 @@ class INSTAR extends IPSModule
      */
     public function SetTimerParameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_3=0&-plancgi_enable_4=0
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setplancgi' . $parameter);
-        }
+        /*
+        $plancgi_time_0   = $this->ReadAttributeString('plancgi_time_0');
+        $plancgi_time_1   = $this->ReadAttributeString('plancgi_time_1');
+        $plancgi_time_2   = $this->ReadAttributeString('plancgi_time_2');
+        $plancgi_time_3   = $this->ReadAttributeString('plancgi_time_3');
+        $plancgi_time_4   = $this->ReadAttributeString('plancgi_time_4');
+        $plancgi_time_5   = $this->ReadAttributeString('plancgi_time_5');
+        $plancgi_time_6   = $this->ReadAttributeString('plancgi_time_6');
+        $plancgi_time_7   = $this->ReadAttributeString('plancgi_time_7');
+        $plancgi_time_8   = $this->ReadAttributeString('plancgi_time_8');
+        $plancgi_time_9   = $this->ReadAttributeString('plancgi_time_9');
+        */
+        $plancgi_enable_0 = $this->ReadAttributeInteger('plancgi_enable_0');
+        $plancgi_enable_1 = $this->ReadAttributeInteger('plancgi_enable_1');
+        $plancgi_enable_2 = $this->ReadAttributeInteger('plancgi_enable_2');
+        $plancgi_enable_3 = $this->ReadAttributeInteger('plancgi_enable_3');
+        /*
+        $plancgi_enable_4 = $this->ReadAttributeInteger('plancgi_enable_4');
+        $plancgi_enable_5 = $this->ReadAttributeInteger('plancgi_enable_5');
+        $plancgi_enable_6 = $this->ReadAttributeInteger('plancgi_enable_6');
+        $plancgi_enable_7 = $this->ReadAttributeInteger('plancgi_enable_7');
+        $plancgi_enable_8 = $this->ReadAttributeInteger('plancgi_enable_8');
+        $plancgi_enable_9 = $this->ReadAttributeInteger('plancgi_enable_9');
+        */
+        $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_enable_2=' . $plancgi_enable_2
+                     . '&-plancgi_enable_3=' . $plancgi_enable_3;
+        $data      = $this->SendParameter('setplancgi' . $parameter);
         return $data;
     }
 
@@ -5863,25 +5809,9 @@ class INSTAR extends IPSModule
      */
     public function SetAlarmServer1Parameter()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=server2&-switch=on
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setmdalarm&-aname=server2' . $parameter);
-        }
+        $switch = $this->ReadAttributeString('switch');
+        $parameter = '&-switch=' . $switch;
+        $data      = $this->SendParameter('setmdalarm&-aname=server2' . $parameter);
         return $data;
     }
 
@@ -5902,26 +5832,26 @@ class INSTAR extends IPSModule
      */
     public function SetAlarmserver2Configuration()
     {
-        $as_server      = $this->ReadAttributeString('as_server[2]'); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $as_port        = $this->ReadAttributeInteger('as_port[2]'); // Port of the receiving Server [1-65536]
-        $as_auth        = $this->ReadAttributeInteger('as_auth[2]'); // Authentication required [0, 1]
-        $as_username    = $this->ReadAttributeString('as_username[2]'); // Alarmserver Username
-        $as_password    = $this->ReadAttributeString('as_password[2]'); // Alarmserver Password
-        $as_path        = $this->ReadAttributeString('as_path[2]'); // URL Path
-        $as_area        = $this->ReadAttributeInteger('as_area[2]'); // Send Query when Motion is Detected
-        $as_io          = $this->ReadAttributeInteger('as_io[2]');  // Send Query when Alarm Input is Triggered
-        $as_audio       = $this->ReadAttributeInteger('as_audio[2]'); // Send Query when Audio Alarm is Triggered
-        $as_areaio      = $this->ReadAttributeInteger('as_areaio[2]'); // Send Query when Motion is Detected and Input is Triggered
-        $as_activequery = $this->ReadAttributeInteger('as_activequery[2]'); // Append Alarm Trigger to Query
-        $as_query1      = $this->ReadAttributeInteger('as_query1[2]'); // Activate Sending optional Parameter 1
-        $as_query2      = $this->ReadAttributeInteger('as_query2[2]'); // Activate Sending optional Parameter 1
-        $as_query3      = $this->ReadAttributeInteger('as_query3[2]'); // Activate Sending optional Parameter 1
-        $as_queryattr1  = $this->ReadAttributeString('as_queryattr1[2]'); // Command 1 Attribute
-        $as_queryval1   = $this->ReadAttributeString('as_queryval1[2]'); // Command 1 Value
-        $as_queryattr2  = $this->ReadAttributeString('as_queryattr2[2]'); // Command 2 Attribute
-        $as_queryval2   = $this->ReadAttributeString('as_queryval2[2]'); // Command 2 Value
-        $as_queryattr3  = $this->ReadAttributeString('as_queryattr3[2]'); // Command 3 Attribute
-        $as_queryval3   = $this->ReadAttributeString('as_queryval3[2]'); // Command 3 Value
+        $as_server      = $this->ReadAttributeString('as_server_2'); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $as_port        = $this->ReadAttributeInteger('as_port_2'); // Port of the receiving Server [1-65536]
+        $as_auth        = $this->ReadAttributeInteger('as_auth_2'); // Authentication required [0, 1]
+        $as_username    = $this->ReadAttributeString('as_username_2'); // Alarmserver Username
+        $as_password    = $this->ReadAttributeString('as_password_2'); // Alarmserver Password
+        $as_path        = $this->ReadAttributeString('as_path_2'); // URL Path
+        $as_area        = $this->ReadAttributeInteger('as_area_2'); // Send Query when Motion is Detected
+        $as_io          = $this->ReadAttributeInteger('as_io_2');  // Send Query when Alarm Input is Triggered
+        $as_audio       = $this->ReadAttributeInteger('as_audio_2'); // Send Query when Audio Alarm is Triggered
+        $as_areaio      = $this->ReadAttributeInteger('as_areaio_2'); // Send Query when Motion is Detected and Input is Triggered
+        $as_activequery = $this->ReadAttributeInteger('as_activequery_2'); // Append Alarm Trigger to Query
+        $as_query1      = $this->ReadAttributeInteger('as_query1_2'); // Activate Sending optional Parameter 1
+        $as_query2      = $this->ReadAttributeInteger('as_query2_2'); // Activate Sending optional Parameter 1
+        $as_query3      = $this->ReadAttributeInteger('as_query3_2'); // Activate Sending optional Parameter 1
+        $as_queryattr1  = $this->ReadAttributeString('as_queryattr1_2'); // Command 1 Attribute
+        $as_queryval1   = $this->ReadAttributeString('as_queryval1_2'); // Command 1 Value
+        $as_queryattr2  = $this->ReadAttributeString('as_queryattr2_2'); // Command 2 Attribute
+        $as_queryval2   = $this->ReadAttributeString('as_queryval2_2'); // Command 2 Value
+        $as_queryattr3  = $this->ReadAttributeString('as_queryattr3_2'); // Command 3 Attribute
+        $as_queryval3   = $this->ReadAttributeString('as_queryval3_2'); // Command 3 Value
 
         $parameter_1 = '';
         $parameter_2 = '';
@@ -5969,25 +5899,12 @@ class INSTAR extends IPSModule
      */
     public function SetIntervalSnapshotSeriesTask()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_type=snap&-as_enable=1&-as_interval=60&cmd=setsnaptimerattrex&-as_type=email&-as_enable=1&-as_interval=300&cmd=setsnaptimerattrex&-as_type=ftp&-as_enable=1&-as_interval=60
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setsnaptimerattrex' . $parameter);
-        }
+        $as_type = $this->ReadAttributeString('as_type');
+        $as_enable = $this->ReadAttributeInteger('as_enable');
+        $as_interval = $this->ReadAttributeInteger('as_interval');
+        // &cmd=setsnaptimerattrex&-as_type=email&-as_enable=1&-as_interval=300&cmd=setsnaptimerattrex&-as_type=ftp&-as_enable=1&-as_interval=60
+        $parameter = '&-as_type=' . $as_type . '&-as_enable=' . $as_enable . '&-as_interval=' . $as_interval;
+        $data      = $this->SendParameter('setsnaptimerattrex' . $parameter);
         return $data;
     }
 
@@ -6008,25 +5925,10 @@ class INSTAR extends IPSModule
      */
     public function SetScheduleIntervalSnapshotSeries()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=snap&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=email&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=ftp
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
-        }
+        $as_enable = $this->ReadAttributeInteger('as_enable');
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=snap&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=email&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=ftp
+        $parameter = '&-as_enable=' . $as_enable;
+        $data      = $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
         return $data;
     }
 
@@ -6049,25 +5951,11 @@ class INSTAR extends IPSModule
      */
     public function SetPlannedVideoRecordingAttribute()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setplanrecattr&-planrec_enable=1&-planrec_chn=11&-planrec_time=900
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setplanrecattr' . $parameter);
-        }
+        $planrec_enable = $this->ReadAttributeInteger('planrec_enable');
+        $planrec_chn = $this->ReadAttributeInteger('planrec_chn');
+        $planrec_time = $this->ReadAttributeInteger('planrec_time');
+        $parameter = '&-planrec_enable=' . $planrec_enable . '&-planrec_chn=' . $planrec_chn . '&-planrec_time=' . $planrec_time;
+        $data      = $this->SendParameter('setplanrecattr' . $parameter);
         return $data;
     }
 
@@ -6088,25 +5976,11 @@ class INSTAR extends IPSModule
      */
     public function SetScheduleManualRecordingTask()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setscheduleex&-ename' . $parameter);
-        }
+        // TODO
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $parameter = '';
+        $data      = $this->SendParameter('setscheduleex&-ename' . $parameter);
         return $data;
     }
 
@@ -6166,25 +6040,11 @@ class INSTAR extends IPSModule
      */
     public function SetNetworkConfiguration()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setuserattr' . $parameter);
-        }
+       // TODO
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $parameter = '';
+        $data      = $this->SendParameter('setuserattr' . $parameter);
         return $data;
     }
 
@@ -6207,25 +6067,11 @@ class INSTAR extends IPSModule
      */
     public function SetCameraTimeConfiguration()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setservertime' . $parameter);
-        }
+        // TODO
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $parameter = '';
+        $data      = $this->SendParameter('setservertime' . $parameter);
         return $data;
     }
 
@@ -6246,25 +6092,11 @@ class INSTAR extends IPSModule
      */
     public function SetCamerasNetworkConfiguration()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setntpattr' . $parameter);
-        }
+        // TODO
+        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
+        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
+        $parameter = '';
+        $data      = $this->SendParameter('setntpattr' . $parameter);
         return $data;
     }
 
@@ -6287,25 +6119,9 @@ class INSTAR extends IPSModule
      */
     public function SetCameraUI_LanguageConfiguration()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_guest&-index=11&-value=de
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('et_instar_guest&-index=11' . $parameter);
-        }
+        // TODO
+        $value = $this->ReadAttributeString('value');
+        $data      = $this->SendParameter('et_instar_guest&-index=11&-value' . $value);
         return $data;
     }
 
@@ -6351,25 +6167,10 @@ class INSTAR extends IPSModule
      */
     public function SetCameraRebootAutomatically()
     {
-        $audio_output = $this->ReadPropertyString('Audio_Output_Configuration');
-        $data         = 'could not set Audio Output info';
-        if ($audio_output != '[]') {
-            $audio_output = json_decode($audio_output);
-            $volume       = $audio_output[0]->out_volume;
-            if ($volume < 1) {
-                $volume = 1;
-            }
-            if ($volume > 100) {
-                $volume = 100;
-            }
-            $volin_type = $audio_output[0]->out_volin_type;
-
-            $aec     = $audio_output[0]->out_aec;
-            $denoise = $audio_output[0]->out_denoise;
-            // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_2=1&-plancgi_time_2=36000
-            $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-            $data      = $this->SendParameter('setplancgi' . $parameter);
-        }
+        $plancgi_enable_2 = $this->ReadAttributeInteger('plancgi_enable_2');
+        $plancgi_time_2 = $this->ReadAttributeInteger('plancgi_time_2');
+        $parameter = '&-plancgi_enable_2=' . $plancgi_enable_2 . '&-plancgi_time_2=' . $plancgi_time_2;
+        $data      = $this->SendParameter('setplancgi' . $parameter);
         return $data;
     }
 
@@ -10591,10 +10392,10 @@ var initpresetindex="1""
             $port = 3777;
             $this->SendDebug('Set Alarmserver', 'Selection Port ' . $port, 0);
         }
-        $this->WriteAttributeString('as_server[2]', $ip);
-        $this->UpdateParameter('as_server[2]', 'value', $ip);
-        $this->WriteAttributeInteger('as_port[2]', $port);
-        $this->UpdateParameter('as_port[2]', 'value', $port);
+        $this->WriteAttributeString('as_server_2', $ip);
+        $this->UpdateParameter('as_server_2', 'value', $ip);
+        $this->WriteAttributeInteger('as_port_2', $port);
+        $this->UpdateParameter('as_port_2', 'value', $port);
     }
 
     /** Alarmserver Setup
@@ -10604,14 +10405,14 @@ var initpresetindex="1""
     public function SetupAlarmServer(string $user, string $password, string $parameter_1_key, string $parameter_1_value, string $parameter_2_key,
                                      string $parameter_2_value, string $parameter_3_key, string $parameter_3_value)
     {
-        $this->WriteAttributeString('as_username[2]', $user);
-        $this->WriteAttributeString('as_password[2]', $password);
-        $this->WriteAttributeString('as_queryattr1[2]', $parameter_1_key);
-        $this->WriteAttributeString('as_queryval1[2]', $parameter_1_value);
-        $this->WriteAttributeString('as_queryattr2[2]', $parameter_2_key);
-        $this->WriteAttributeString('as_queryval2[2]', $parameter_2_value);
-        $this->WriteAttributeString('as_queryattr3[2]', $parameter_3_key);
-        $this->WriteAttributeString('as_queryval3[2]', $parameter_3_value);
+        $this->WriteAttributeString('as_username_2', $user);
+        $this->WriteAttributeString('as_password_2', $password);
+        $this->WriteAttributeString('as_queryattr1_2', $parameter_1_key);
+        $this->WriteAttributeString('as_queryval1_2', $parameter_1_value);
+        $this->WriteAttributeString('as_queryattr2_2', $parameter_2_key);
+        $this->WriteAttributeString('as_queryval2_2', $parameter_2_value);
+        $this->WriteAttributeString('as_queryattr3_2', $parameter_3_key);
+        $this->WriteAttributeString('as_queryval3_2', $parameter_3_value);
         $data = $this->SetAlarmserver2Configuration();
         if ($data === false) {
             $this->ShowPopup('Colud not connect to INSTAR camera');
@@ -10671,20 +10472,20 @@ var initpresetindex="1""
 
     private function GetAlarmServerPort()
     {
-        $port = $this->ReadAttributeInteger('as_port[2]');
+        $port = $this->ReadAttributeInteger('as_port_2');
         return $port;
     }
 
     private function GetAlarmServerAdress()
     {
-        $ip = $this->ReadAttributeString('as_server[2]');
+        $ip = $this->ReadAttributeString('as_server_2');
         return $ip;
     }
 
     private function GetWebhook()
     {
         $hook = '/hook/INSTAR' . $this->InstanceID;
-        $this->WriteAttributeString('as_path[2]', $hook);
+        $this->WriteAttributeString('as_path_2', $hook);
         return $hook;
     }
 
@@ -10721,54 +10522,54 @@ var initpresetindex="1""
                 'items' => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_server[2]',
+                        'name'    => 'as_server_2',
                         'caption' => 'Alarm Server Address',
                         'visible' => true,
                         'value'   => $this->GetAlarmServerAdress(),
-                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_server[2]", $as_server[2]);'],
+                        'onClick' => 'INSTAR_SetWebFrontVariable($id, "as_server_2", $as_server_2);'],
                     [
-                        'name'     => 'as_server[2]_enabled',
+                        'name'     => 'as_server_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_server[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_server[2]_enabled", $as_server[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_server_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_server_2_enabled", $as_server_2_enabled);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'NumberSpinner',
-                        'name'    => 'as_port[2]',
+                        'name'    => 'as_port_2',
                         'caption' => 'Alarm Server Port',
                         'visible' => true,
                         'enabled' => false,
                         'value'   => $this->GetAlarmServerPort(),
                         'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                     [
-                        'name'     => 'as_port[2]_enabled',
+                        'name'     => 'as_port_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_port[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_port[2]_enabled", $as_port[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_port_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_port_2_enabled", $as_port_2_enabled);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_path[2]',
+                        'name'    => 'as_path_2',
                         'caption' => 'server path',
                         'visible' => true,
                         'enabled' => false,
                         'value'   => $this->GetWebhook(),
                         'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
                     [
-                        'name'     => 'as_path[2]_enabled',
+                        'name'     => 'as_path_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_path[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_path[2]_enabled", $as_path[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_path_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_path_2_enabled", $as_path_2_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10842,7 +10643,7 @@ var initpresetindex="1""
                         'value'    => $this->ReadAttributeBoolean('as_areaio_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_areaio_enabled", $as_areaio_enabled);'],]],
             [
-                // as_query1[2]
+                // as_query1_2
                 'name'    => 'parameter_1_label',
                 'type'    => 'Label',
                 'visible' => false,
@@ -10853,27 +10654,27 @@ var initpresetindex="1""
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryattr1[2]',
+                        'name'    => 'as_queryattr1_2',
                         'caption' => 'Parameter 1 Key',
                         'visible' => true,
-                        'value'   => $this->ReadAttributeString('as_queryattr1[2]'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'value'   => $this->ReadAttributeString('as_queryattr1_2'),
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryval1[2]',
+                        'name'    => 'as_queryval1_2',
                         'caption' => 'Parameter 1 Value',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('ip'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
-                        'name'     => 'as_queryattr1[2]_enabled',
+                        'name'     => 'as_queryattr1_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_queryattr1[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr1[2]_enabled", $as_queryattr1[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr1_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr1_2_enabled", $as_queryattr1_2_enabled);'],]],
             [
-                // as_query2[2]
+                // as_query2_2
                 'name'    => 'parameter_2_label',
                 'type'    => 'Label',
                 'visible' => false,
@@ -10884,27 +10685,27 @@ var initpresetindex="1""
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryattr2[2]',
+                        'name'    => 'as_queryattr2_2',
                         'caption' => 'Parameter 2 Key',
                         'visible' => true,
-                        'value'   => $this->ReadAttributeString('as_queryattr2[2]'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'value'   => $this->ReadAttributeString('as_queryattr2_2'),
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryval2[2]',
+                        'name'    => 'as_queryval2_2',
                         'caption' => 'Parameter 2 Value',
                         'visible' => true,
-                        'value'   => $this->ReadAttributeString('as_queryval2[2]'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'value'   => $this->ReadAttributeString('as_queryval2_2'),
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
-                        'name'     => 'as_queryattr2[2]_enabled',
+                        'name'     => 'as_queryattr2_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_queryattr2[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr2[2]_enabled", $as_queryattr2[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr2_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr2_2_enabled", $as_queryattr2_2_enabled);'],]],
             [
-                // as_query3[2]
+                // as_query3_2
                 'name'    => 'parameter_3_label',
                 'type'    => 'Label',
                 'visible' => false,
@@ -10915,42 +10716,42 @@ var initpresetindex="1""
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryattr3[2]',
+                        'name'    => 'as_queryattr3_2',
                         'caption' => 'Parameter 3 Key',
                         'visible' => true,
-                        'value'   => $this->ReadAttributeString('as_queryattr3[2]'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'value'   => $this->ReadAttributeString('as_queryattr3_2'),
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'as_queryval3[2]',
+                        'name'    => 'as_queryval3_2',
                         'caption' => 'Parameter 3 Value',
                         'visible' => true,
-                        'value'   => $this->ReadAttributeString('as_queryval3[2]'),
-                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],
+                        'value'   => $this->ReadAttributeString('as_queryval3_2'),
+                        'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],
                     [
-                        'name'     => 'as_queryattr3[2]_enabled',
+                        'name'     => 'as_queryattr3_2_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => false,
-                        'value'    => $this->ReadAttributeBoolean('as_queryattr3[2]_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr3[2]_enabled", $as_queryattr3[2]_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('as_queryattr3_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr3_2_enabled", $as_queryattr3_2_enabled);'],]],
             [
                 'type'    => 'Label',
                 'caption' => 'username and password for INSTAR webhook'],
             [
-                'name'    => 'as_username[2]',
+                'name'    => 'as_username_2',
                 'type'    => 'ValidationTextBox',
                 'caption' => 'Webhook Username',
-                'value'   => $this->ReadAttributeString('as_username[2]')],
+                'value'   => $this->ReadAttributeString('as_username_2')],
             [
-                'name'    => 'as_password[2]',
+                'name'    => 'as_password_2',
                 'type'    => 'PasswordTextBox',
                 'caption' => 'Webhook Password',
-                'value'   => $this->ReadAttributeString('as_password[2]')],
+                'value'   => $this->ReadAttributeString('as_password_2')],
             [
                 'type'    => 'Button',
                 'caption' => 'Setup Alarmserver Settings',
-                'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username[2], $as_password[2], $as_queryattr1[2], $as_queryval1[2], $as_queryattr2[2], $as_queryval2[2], $as_queryattr3[2], $as_queryval3[2]);'],];
+                'onClick' => 'INSTAR_SetupAlarmServer($id, $as_username_2, $as_password_2, $as_queryattr1_2, $as_queryval1_2, $as_queryattr2_2, $as_queryval2_2, $as_queryattr3_2, $as_queryval3_2);'],];
         /*
          * as_username[0]="";
 as_password[0]="";
