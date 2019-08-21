@@ -417,8 +417,12 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('aeswitch_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aeswitch_3', 0); // Audio encode switch on, off: 1, 0
         $this->RegisterAttributeBoolean('aeswitch_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeformat', 0); //  Audio encode format g711a: G711A 64Kbps, g726: G726 16Kbps
-        $this->RegisterAttributeBoolean('aeformat_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('aeformat_1', 'g711a'); //  Audio encode format g711a: G711A 64Kbps, g726: G726 16Kbps
+        $this->RegisterAttributeBoolean('aeformat_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('aeformat_2', 'g711a'); //  Audio encode format g711a: G711A 64Kbps, g726: G726 16Kbps
+        $this->RegisterAttributeBoolean('aeformat_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('aeformat_3', 'g711a'); //  Audio encode format g711a: G711A 64Kbps, g726: G726 16Kbps
+        $this->RegisterAttributeBoolean('aeformat_3_enabled', false); // show Attribute in Webfront
 
         $this->RegisterAttributeInteger('videomode', 41); //  Resolution CH11=1080p, CH12=320p, CH13=160p
         $this->RegisterAttributeBoolean('videomode_enabled', false); // show Attribute in Webfront
@@ -3427,7 +3431,14 @@ class INSTAR extends IPSModule
         $this->GetPanTiltTourSettings();
         $this->GetStatusLED();
         $this->GetFileLengthManualRecordings();
-        $this->GetAlarmActionParameter();
+        $this->GetAlarmActionParameterEmailsnap();
+        $this->GetAlarmActionParameterSnap();
+        $this->GetAlarmActionParameterRecord();
+        $this->GetAlarmActionParameterFTPRecord();
+        $this->GetAlarmActionParameterRelay();
+        $this->GetAlarmActionParameterFTPSnap();
+        $this->GetAlarmActionParameterSound();
+        $this->GetAlarmActionParameterType();
         $this->GetAudioDetectionParameter();
         $this->GetAlarmInputParameter();
         $this->GetPassiveInfraredMotionDetectionSensorParameter();
@@ -3790,12 +3801,25 @@ class INSTAR extends IPSModule
                 }
             }
         } else {
-            $this->WriteAttributeString($var_name . $suffix, $var_content);
-            if ($var_name == 'dhcpflag') {
-                if ($var_content == 'off') {
-                    $var_content = false;
-                } elseif ($var_content == 'on') {
-                    $var_content = true;
+            if($var_name == 'admin_value46')
+            {
+                if($var_content == '""')
+                {
+                    $this->WriteAttributeInteger($var_name . $suffix, 0);
+                }
+                else{
+                    $this->WriteAttributeInteger($var_name . $suffix, $var_content);
+                }
+            }
+            else
+            {
+                $this->WriteAttributeString($var_name . $suffix, $var_content);
+                if ($var_name == 'dhcpflag') {
+                    if ($var_content == 'off') {
+                        $var_content = false;
+                    } elseif ($var_content == 'on') {
+                        $var_content = true;
+                    }
                 }
             }
         }
@@ -3811,20 +3835,6 @@ class INSTAR extends IPSModule
             $this->SetValue($var_name, $var_content);
         }
     }
-
-    /*
-     * String prüfen
-     *    if ($var_name == 'aeformat') {
-                if ($var_content = 'g726') // Audio encode format g726: G726 16Kbps
-                {
-                    $var_content = 0;
-                } else // Audio encode format g711a: G711A 64Kbps
-                {
-                    $var_content = 1;
-                }
-                $this->WriteAttributeInteger($var_name, $var_content);
-            }
-     */
 
     protected function SplitPayload(string $payload, $suffix = "")
     {
@@ -3844,7 +3854,7 @@ class INSTAR extends IPSModule
                 $var_content = trim($info[1], '"');
             } else {
                 $var_name = $info[0];
-                if($var_name == 'admin_value31')
+                if($var_name == 'admin_value31' || $var_name == 'admin_value46')
                 {
                     $var_content = explode('=', $payload)[1];
                     $this->CheckAttributeType($var_name, $var_content, $suffix);
@@ -4480,7 +4490,7 @@ class INSTAR extends IPSModule
     private function SetAudioEncoderParameter($channel)
     {
         $aeswitch = $this->ReadAttributeInteger('aeswitch_' . $channel);
-        $aeformat = $this->ReadAttributeInteger('aeformat');
+        $aeformat = $this->ReadAttributeString('aeformat_'  . $channel);
 
         $parameter = '&-chn=' . $channel . '&-aeswitch_' . $channel . '=' . $aeswitch . '&-aeformat_' . $channel . '=' . $aeformat;
         $data      = $this->SendParameter('setaudioinvolume' . $parameter);
@@ -4802,7 +4812,7 @@ class INSTAR extends IPSModule
         // TODO Region
         // http://admin:instar@192.168.178.88/param.cgi?cmd=getoverlayattr&-region=0
         $payload = $this->SendParameter('getoverlayattr&-region=0');
-        $data    = $this->SplitPayload($payload, 'osd');
+        $data    = $this->SplitPayload($payload, '_osd');
         return $data;
     }
 
@@ -4812,9 +4822,9 @@ class INSTAR extends IPSModule
      */
     public function SetOSDParameter()
     {
-        $name = $this->ReadAttributeString('name');
+        $name_0 = $this->ReadAttributeString('name_0');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setoverlayattr&-region=1&-show=1&-name=IN-8015FullHD&cmd=setoverlayattr&-region=0&-show=1
-        $parameter = '&-name=' . $name;
+        $parameter = '&-name=' . $name_0;
         $data      = $this->SendParameter('setoverlayattr&-region=1&-show=1' . $parameter);
         return $data;
     }
@@ -4827,6 +4837,7 @@ class INSTAR extends IPSModule
      */
     public function GetPrivacyMaskAttributes()
     {
+        // TODO region
         // http://admin:instar@192.168.178.88/param.cgi?cmd=getoverlayattr&-region=0
         $payload = $this->SendParameter('getcover');
         $data    = $this->SplitPayload($payload);
@@ -5036,7 +5047,6 @@ class INSTAR extends IPSModule
     public function SetIR_LEDParameter()
     {
         $infraredstat = $this->ReadAttributeString('infraredstat');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setinfrared&-infraredstat=auto
         $parameter = '&-infraredstat=' . $infraredstat;
         $data      = $this->SendParameter('setinfrared' . $parameter);
         return $data;
@@ -5175,10 +5185,9 @@ class INSTAR extends IPSModule
      */
     public function SetOneStepPanTiltControl()
     {
-        // $value = $this->ReadAttributeInteger('value');
-        $value = 0;
+        $admin_value46 = $this->ReadAttributeInteger('admin_value46');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=46&-value=0
-        $parameter = '&-value=' . $value;
+        $parameter = '&-value=' . $admin_value46;
         $data      = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
         return $data;
     }
@@ -5288,6 +5297,70 @@ class INSTAR extends IPSModule
     // Alarm Menu
 
     // Alarm Actions
+
+    public function GetAlarmActionParameterEmailsnap()
+    {
+        $parameter = '&-aname=emailsnap';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterSnap()
+    {
+        $parameter = '&-aname=snap';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterRecord()
+    {
+        $parameter = '&-aname=record';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterFTPRecord()
+    {
+        $parameter = '&-aname=ftprec';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterRelay()
+    {
+        $parameter = '&-aname=relay';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterFTPSnap()
+    {
+        $parameter = '&-aname=ftpsnap';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterSound()
+    {
+        $parameter = '&-aname=sound';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function GetAlarmActionParameterType()
+    {
+        $parameter = '&-aname=type';
+        $payload = $this->SendParameter('getmdalarm' . $parameter);
+        $data    = $this->SplitPayload($payload);
+        return $data;
+    }
 
     /** Get Alarm Action Parameter
      *
@@ -8256,6 +8329,78 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'Create Variable for Webfront',
                         'value'    => $this->ReadAttributeBoolean('volin_type_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "volin_type_enabled", $volin_type_enabled);'],]],
+            [
+                'type'  => 'RowLayout',
+                'visible' => false,
+                'items' => [
+                    [
+                        'type'    => 'Select',
+                        'name'    => 'aeformat_1',
+                        'caption' => 'input type',
+                        'options' => [
+                            [
+                                'caption' => 'G726 16Kbps',
+                                'value'   => 0],
+                            [
+                                'caption' => 'G711A 64Kbps',
+                                'value'   => 1]],
+                        'visible' => true,
+                        'value'   => $this->ReadAttributeString('aeformat_1'),
+                        'onClick' => 'INSTAR_SetVolumeInputType($id, $aeformat_1);'],
+                    [
+                        'name'     => 'aeformat_1_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'value'    => $this->ReadAttributeBoolean('aeformat_1_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "aeformat_1_enabled", $aeformat_1_enabled);'],]],
+            [
+                'type'  => 'RowLayout',
+                'visible' => false,
+                'items' => [
+                    [
+                        'type'    => 'Select',
+                        'name'    => 'aeformat_2',
+                        'caption' => 'input type',
+                        'options' => [
+                            [
+                                'caption' => 'G726 16Kbps',
+                                'value'   => 0],
+                            [
+                                'caption' => 'G711A 64Kbps',
+                                'value'   => 1]],
+                        'visible' => true,
+                        'value'   => $this->ReadAttributeString('aeformat_2'),
+                        'onClick' => 'INSTAR_SetVolumeInputType($id, $aeformat_2);'],
+                    [
+                        'name'     => 'aeformat_2_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'value'    => $this->ReadAttributeBoolean('aeformat_2_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "aeformat_2_enabled", $aeformat_2_enabled);'],]],
+            [
+                'type'  => 'RowLayout',
+                'visible' => false,
+                'items' => [
+                    [
+                        'type'    => 'Select',
+                        'name'    => 'aeformat_3',
+                        'caption' => 'input type',
+                        'options' => [
+                            [
+                                'caption' => 'G726 16Kbps',
+                                'value'   => 0],
+                            [
+                                'caption' => 'G711A 64Kbps',
+                                'value'   => 1]],
+                        'visible' => true,
+                        'value'   => $this->ReadAttributeString('aeformat_3'),
+                        'onClick' => 'INSTAR_SetVolumeInputType($id, $aeformat_3);'],
+                    [
+                        'name'     => 'aeformat_3_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'value'    => $this->ReadAttributeBoolean('aeformat_3_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "aeformat_3_enabled", $aeformat_3_enabled);'],]],
 
             // Audio input volume: 1 - 100
             [
