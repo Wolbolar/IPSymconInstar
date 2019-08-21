@@ -1459,7 +1459,7 @@ class INSTAR extends IPSModule
 
             }
             $this->SetupVariables();
-            $this->UpdateSettings();
+           // $this->UpdateSettings();
             // Status Aktiv
             $this->SetStatus(102);
         }
