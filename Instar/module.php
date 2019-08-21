@@ -4515,6 +4515,41 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function SetVideoMode($videomode)
+    {
+        $this->WriteAttributeInteger('videomode', $videomode);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetWDRMode($wdrmode)
+    {
+        $this->WriteAttributeInteger('wdrmode', $wdrmode);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetVideoProfile($profile)
+    {
+        $this->WriteAttributeInteger('profile', $profile);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetMaxChn($maxchn)
+    {
+        $this->WriteAttributeInteger('maxchn', $maxchn);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetVideonorm($vinorm)
+    {
+        $this->WriteAttributeInteger('vinorm', $vinorm);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
     /** Set the Video Attributes
      *
      * @return false|string
@@ -4763,6 +4798,41 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function SetWDRAuto($wdrauto)
+    {
+        $this->WriteAttributeInteger('wdrauto', $wdrauto);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetWDRAutval($wdrautval)
+    {
+        $this->WriteAttributeInteger('wdrautval', $wdrautval);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetD3noauto($d3noauto)
+    {
+        $this->WriteAttributeInteger('d3noauto', $d3noauto);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetD3noval($d3noval)
+    {
+        $this->WriteAttributeInteger('d3noval', $d3noval);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
+    public function SetWDRmanval($wdrmanval)
+    {
+        $this->WriteAttributeInteger('wdrmanval', $wdrmanval);
+        $data = $this->SetVideoAttributes();
+        return $data;
+    }
+
     /** Set Extended Image Attributes
      *
      * @return false|string
@@ -4845,6 +4915,78 @@ class INSTAR extends IPSModule
         // http://admin:instar@192.168.178.88/param.cgi?cmd=getoverlayattr&-region=0
         $payload = $this->SendParameter('getcover');
         $data    = $this->SplitPayload($payload);
+        return $data;
+    }
+
+    public function SetPrivacyZone1($show_1)
+    {
+        $this->WriteAttributeInteger('show_1', intval($show_1));
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetPrivacyZone2($show_2)
+    {
+        $this->WriteAttributeInteger('show_2', intval($show_2));
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetPrivacyZone3($show_3)
+    {
+        $this->WriteAttributeInteger('show_3', intval($show_3));
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetPrivacyZone4($show_4)
+    {
+        $this->WriteAttributeInteger('show_4', intval($show_4));
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetSettingsPrivacyZone1($color_1, $x_1, $y_1, $w_1, $h_1)
+    {
+        $this->WriteAttributeString('color_1', $color_1);
+        $this->WriteAttributeInteger('x_1', $x_1);
+        $this->WriteAttributeInteger('y_1', $y_1);
+        $this->WriteAttributeInteger('w_1', $w_1);
+        $this->WriteAttributeInteger('h_1', $h_1);
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetSettingsPrivacyZone2($color_2, $x_2, $y_2, $w_2, $h_2)
+    {
+        $this->WriteAttributeString('color_2', $color_2);
+        $this->WriteAttributeInteger('x_2', $x_2);
+        $this->WriteAttributeInteger('y_2', $y_2);
+        $this->WriteAttributeInteger('w_2', $w_2);
+        $this->WriteAttributeInteger('h_2', $h_2);
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetSettingsPrivacyZone3($color_3, $x_3, $y_3, $w_3, $h_3)
+    {
+        $this->WriteAttributeString('color_1', $color_3);
+        $this->WriteAttributeInteger('x_3', $x_3);
+        $this->WriteAttributeInteger('y_3', $y_3);
+        $this->WriteAttributeInteger('w_3', $w_3);
+        $this->WriteAttributeInteger('h_3', $h_3);
+        $data = $this->SetPrivacyMaskAttributes();
+        return $data;
+    }
+
+    public function SetSettingsPrivacyZone4($color_4, $x_4, $y_4, $w_4, $h_4)
+    {
+        $this->WriteAttributeString('color_1', $color_4);
+        $this->WriteAttributeInteger('x_4', $x_4);
+        $this->WriteAttributeInteger('y_4', $y_4);
+        $this->WriteAttributeInteger('w_4', $w_4);
+        $this->WriteAttributeInteger('h_4', $h_4);
+        $data = $this->SetPrivacyMaskAttributes();
         return $data;
     }
 
@@ -8292,7 +8434,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'value'   => self::RESOLUTION_160p],],
                         'visible'  => true,
                         'value'    => $this->ReadAttributeInteger('videomode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'onChange' => 'INSTAR_SetVideoMode($id, $videomode);'
 
                     ],
                     [
@@ -8313,7 +8455,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'options' => [
                             [
                                 'caption' => 'Video Norm 50Hz (PAL)',
-                                'value'   => 'P']]
+                                'value'   => 'P'],
+                            'visible'  => true,
+                            'value'    => $this->ReadAttributeInteger('vinorm'),
+                            'onChange' => 'INSTAR_SetVideonorm($id, $vinorm);']
 
                     ],
                     [
@@ -8323,7 +8468,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('vinorm_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "vinorm_enabled", $vinorm_enabled);'],]],
-
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -8334,7 +8478,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'h.264 encoder',
                         'visible'  => true,
                         'value'    => boolval($this->ReadAttributeInteger('profile')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SetVideoProfile($id, $profile);'],
                     [
                         'name'     => 'profile_enabled',
                         'type'     => 'CheckBox',
@@ -8352,7 +8496,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption' => 'Maximum active video channels',
                         'visible' => true,
                         'value'   => $this->ReadAttributeInteger('maxchn'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onClick' => 'INSTAR_SetMaxChn($id, $maxchn);'],
 
                     [
                         'name'     => 'maxchn_enabled',
@@ -8490,25 +8634,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('gamma_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "gamma_enabled", $gamma_enabled);'],]],
             [
-                'type'    => 'RowLayout',
-                'visible' => true,
-                'items'   => [
-                    [
-                        'type'     => 'HorizontalSlider',
-                        'name'     => 'targety',
-                        'caption'  => 'Exposure',
-                        'minimum'  => 0,
-                        'maximum'  => 255,
-                        'value'    => $this->ReadAttributeInteger('targety'),
-                        'onChange' => 'INSTAR_Exposure($id, $targety);'],
-                    [
-                        'name'     => 'targety_enabled',
-                        'type'     => 'CheckBox',
-                        'caption'  => 'Create Variable for Webfront',
-                        'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('targety_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "targety_enabled", $targety_enabled);'],]],
-            [
                 'type'    => 'Label',
                 'visible' => true,
                 'caption' => 'advanced settings'],
@@ -8566,7 +8691,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'value'   => self::Software_WDR_Modus],],
                         'visible' => true,
                         'value'   => $this->ReadAttributeInteger('wdrmode'),
-                        'onClick' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'onClick' => 'INSTAR_SetWDRMode($id, $wdrmode);'
 
                     ],
                     [
@@ -8586,7 +8711,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'caption'  => 'Auto WDR',
                         'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SetWDRAuto($id, $wdrauto);'],
                     [
                         'name'     => 'wdrauto_enabled',
                         'type'     => 'CheckBox',
@@ -8605,7 +8730,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'minimum'  => 0,
                         'maximum'  => 2,
                         'value'    => $this->ReadAttributeInteger('wdrautval'),
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetWDRAutval($id, $wdrautval);'],
                     [
                         'name'     => 'wdrautval_enabled',
                         'type'     => 'CheckBox',
@@ -8624,7 +8749,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'minimum'  => 0,
                         'maximum'  => 255,
                         'value'    => $this->ReadAttributeInteger('wdrmanval'),
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetWDRmanval($id, $wdrmanval);'],
                     [
                         'name'     => 'wdrmanval_enabled',
                         'type'     => 'CheckBox',
@@ -8642,7 +8767,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'caption'  => 'Noise Reduction Mode',
                         'value'    => boolval($this->ReadAttributeInteger('d3noauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SetD3noauto($id, $d3noauto);'],
                     [
                         'name'     => 'd3noauto_enabled',
                         'type'     => 'CheckBox',
@@ -8661,7 +8786,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'minimum'  => 0,
                         'maximum'  => 255,
                         'value'    => $this->ReadAttributeInteger('d3noval'),
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetD3noval($id, $d3noval);'],
                     [
                         'name'     => 'd3noval_enabled',
                         'type'     => 'CheckBox',
@@ -8747,7 +8872,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_1',
                         'caption'  => 'Zone 1',
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetPrivacyZone1($id, $show_1);'],
                     [
                         'name'     => 'show_1_enabled',
                         'type'     => 'CheckBox',
@@ -8760,18 +8885,39 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'X_Coordinate_Origin_1',
+                        'name'     => 'x_1',
                         'caption'  => 'X-Coordinate Origin Zone 1 (0-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('x_1'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Y_Coordinate_Origin_1',
+                        'name'     => 'y_1',
                         'caption'  => 'Y-Coordinate Origin Zone 1 (0-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('y_1'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],]],
+            [
+                'type'  => 'RowLayout',
+                'items' => [
+                    [
+                        'type'     => 'HorizontalSlider',
+                        'name'     => 'w_1',
+                        'caption'  => 'Mask Width Zone 1 (1-1920) Pixel',
+                        'minimum'  => 0,
+                        'maximum'  => 1920,
+                        'value'    => $this->ReadAttributeInteger('w_1'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],
+                    [
+                        'type'     => 'HorizontalSlider',
+                        'name'     => 'h_1',
+                        'caption'  => 'Mask Height Zone 1 (1-1080) Pixel',
+                        'minimum'  => 0,
+                        'maximum'  => 1080,
+                        'value'    => $this->ReadAttributeInteger('h_1'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
@@ -8779,7 +8925,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_2',
                         'caption'  => 'Zone 2',
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetPrivacyZone2($id, $show_2);'],
                     [
                         'name'     => 'show_2_enabled',
                         'type'     => 'CheckBox',
@@ -8792,35 +8938,39 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'X_Coordinate_Origin_2',
+                        'name'     => 'x_2',
                         'caption'  => 'X-Coordinate Origin Zone 2 (0-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('x_2'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Y_Coordinate_Origin_2',
+                        'name'     => 'y_2',
                         'caption'  => 'Y-Coordinate Origin Zone 2 (0-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('y_2'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Width_2',
+                        'name'     => 'w_2',
                         'caption'  => 'Mask Width Zone 2 (1-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('w_2'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Height_2',
+                        'name'     => 'h_2',
                         'caption'  => 'Mask Height Zone 2 (1-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('h_2'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
@@ -8828,7 +8978,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_3',
                         'caption'  => 'Zone 3',
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetPrivacyZone3($id, $show_3);'],
                     [
                         'name'     => 'show_3_enabled',
                         'type'     => 'CheckBox',
@@ -8841,35 +8991,39 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'X_Coordinate_Origin_3',
+                        'name'     => 'x_3',
                         'caption'  => 'X-Coordinate Origin Zone 3 (0-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('x_3'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Y_Coordinate_Origin_3',
+                        'name'     => 'y_3',
                         'caption'  => 'Y-Coordinate Origin Zone 3 (0-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('y_3'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Width_3',
+                        'name'     => 'w_3',
                         'caption'  => 'Mask Width Zone 3 (1-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('w_3'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Height_3',
+                        'name'     => 'h_3',
                         'caption'  => 'Mask Height Zone 3 (1-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('h_3'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
@@ -8877,7 +9031,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_4',
                         'caption'  => 'Zone 4',
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'onChange' => 'INSTAR_SetPrivacyZone4($id, $show_4);'],
                     [
                         'name'     => 'show_4_enabled',
                         'type'     => 'CheckBox',
@@ -8890,35 +9044,40 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'X_Coordinate_Origin_4',
+                        'name'     => 'x_4',
                         'caption'  => 'X-Coordinate Origin Zone 4 (0-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('x_4'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Y_Coordinate_Origin_4',
+                        'name'     => 'y_4',
                         'caption'  => 'Y-Coordinate Origin Zone 4 (0-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],
+                        'value'    => $this->ReadAttributeInteger('y_4'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Width_4',
+                        'name'     => 'w_4',
                         'caption'  => 'Mask Width Zone 4 (1-1920) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1920,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('w_4'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'Mask_Height_4',
+                        'name'     => 'h_4',
                         'caption'  => 'Mask Height Zone 4 (1-1080) Pixel',
                         'minimum'  => 0,
                         'maximum'  => 1080,
-                        'onChange' => 'INSTAR_EnableAudio($id);'],]],];
+                        'value'    => $this->ReadAttributeInteger('h_4'),
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],]]
+        ,];
         return $form;
     }
 
