@@ -194,7 +194,11 @@ class INSTAR extends IPSModule
         'ov_authflag',
         'd3th_enable',
         'our_enable',
-        'wf_enable'];
+        'wf_enable',
+        'show_1',
+        'show_2',
+        'show_3',
+        'show_4'];
 
     private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex'];
 
@@ -1455,7 +1459,7 @@ class INSTAR extends IPSModule
 
             }
             $this->SetupVariables();
-            // $this->UpdateSettings();
+            $this->UpdateSettings();
             // Status Aktiv
             $this->SetStatus(102);
         }
@@ -1738,6 +1742,79 @@ class INSTAR extends IPSModule
             'wf_auth', $this->Translate('WiFi Key Type'), 'INSTAR.WLAN_Key_Type', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Key type 0 (TKIP), 1 (AES)
 
+        $this->SetupVariable(
+            'show_1', $this->Translate('Zone 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'show_2', $this->Translate('Zone 2'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'show_3', $this->Translate('Zone 3'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'show_4', $this->Translate('Zone 4'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Dis/Enable Area 1 - 4: [0, 1]
+        $this->SetupVariable(
+            'color_1', $this->Translate('Color 1'), '~HexColor', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'color_2', $this->Translate('Color 2'), '~HexColor', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'color_3', $this->Translate('Color 3'), '~HexColor', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'color_4', $this->Translate('Color 4'), '~HexColor', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'x_1', $this->Translate('X Zone 1'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'x_2', $this->Translate('X Zone 2'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'x_3', $this->Translate('X Zone 3'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'x_4', $this->Translate('X Zone 4'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'y_1', $this->Translate('y Zone 1'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'y_2', $this->Translate('y Zone 2'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'y_3', $this->Translate('y Zone 3'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'y_4', $this->Translate('y Zone 4'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'w_1', $this->Translate('w Zone 1'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'w_2', $this->Translate('w Zone 2'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'w_3', $this->Translate('w Zone 3'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'w_4', $this->Translate('w Zone 4'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'h_1', $this->Translate('h Zone 1'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'h_2', $this->Translate('h Zone 2'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'h_3', $this->Translate('h Zone 3'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->SetupVariable(
+            'h_4', $this->Translate('h Zone 4'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+
 
         /*
         $this->SetupVariable('httpport', $this->Translate('HTTP Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
@@ -1879,16 +1956,6 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('height_3_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('display_mode', 0); //  Current 0: black and white mode 1: color mode
         $this->RegisterAttributeBoolean('display_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brightness', 70); //  brightness [0-100]
-        $this->RegisterAttributeBoolean('brightness_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('saturation', 150); //  saturation [0-255]
-        $this->RegisterAttributeBoolean('saturation_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('sharpness', 70); //  sharpness [0-100]
-        $this->RegisterAttributeBoolean('sharpness_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('contrast', 70); //  contrast [0-100]
-        $this->RegisterAttributeBoolean('contrast_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('hue', 100); //  [0-255]
-        $this->RegisterAttributeBoolean('hue_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
         $this->RegisterAttributeBoolean('wdr_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
@@ -1957,54 +2024,7 @@ class INSTAR extends IPSModule
 
         $this->RegisterAttributeInteger('privacy_region', 1); // Privacy Mask [1-4]
         $this->RegisterAttributeBoolean('privacy_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_1', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_2', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_3', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_4', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_1', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_2', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_3', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_4', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_1', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_2', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_3', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_4', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_1', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_2', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_3', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_4', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_1', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_2', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_3', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_4', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_1', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_2', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_3', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_4', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_4_enabled', false); // show Attribute in Webfront
+
         // Features
         $this->RegisterAttributeString('ma_server', ''); // SMTP Server Address e.g. smtp.strato.de
         $this->RegisterAttributeBoolean('ma_server_enabled', false); // show Attribute in Webfront
@@ -2503,7 +2523,7 @@ class INSTAR extends IPSModule
             $this->SendDebug('INSTAR Varibale:', 'Variable with Ident ' . $ident . ' is visible', 0);
         } else {
             $visible = $this->ReadAttributeBoolean($ident . '_enabled');
-            $this->SendDebug('INSTAR Varibale:', 'Variable with Ident ' . $ident . ' is show' . print_r($visible, true), 0);
+            $this->SendDebug('INSTAR Varibale:', 'Variable with Ident ' . $ident . ' is shown' . print_r($visible, true), 0);
         }
         if ($visible == true) {
             switch ($vartype) {
@@ -3446,8 +3466,9 @@ class INSTAR extends IPSModule
         $this->GetPan_TiltSettings();
         $this->GetStateAlarmPosition();
         $this->GetParkPositionParameter();
-        $this->GetOneStepPanTiltControl();
-        $this->GetPanTiltTourSettings();
+        // $this->GetOneStepPanTiltControl();
+        // $this->GetPanTiltTourSettings();
+
         $this->GetStatusLED();
         $this->GetFileLengthManualRecordings();
         $this->GetAlarmActionParameterEmailsnap();
@@ -3464,23 +3485,23 @@ class INSTAR extends IPSModule
         $this->GetNumberAlarmSnapshots();
         $this->GetAlarmAreasParameter();
         $this->GetMotionDetectionTimeScheduleParameter();
-        $this->GetTimerParameter();
-        $this->GetConfigurationPushService();
+        // $this->GetTimerParameter();
+        // $this->GetConfigurationPushService();
         $this->GetAlarmServer1Parameter();
-        $this->GetAlarmserver2Configuration();
+        // $this->GetAlarmserver2Configuration();
         $this->GetIntervalSnapshotSeriesTask();
         $this->GetScheduleIntervalSnapshotSeries();
         $this->GetPlannedVideoRecordingAttribute();
         $this->GetScheduleManualRecordingTask();
         $this->GetLAN_MACAddress();
-        $this->GetWIFI_MACAddress();
+        // $this->GetWIFI_MACAddress();
         $this->GetWAN_IPAddress();
         $this->GetNetworkConfiguration();
-        $this->GetCameraTimeConfiguration();
+        // $this->GetCameraTimeConfiguration();
         $this->GetCamerasNetworkConfiguration();
         $this->GetCameraUI_LanguageConfiguration();
         $this->GetCameraSystemLog();
-        $this->GetCameraRebootAutomatically();
+        // $this->GetCameraRebootAutomatically();
     }
 
     protected function GetHostIP()
@@ -3805,50 +3826,62 @@ class INSTAR extends IPSModule
         if (is_numeric($var_content)) {
             $key = array_search($var_name, $this->StringAttributes);
             if ($key > 0) {
-                $var_content = strval($var_content);
-                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                $this->SendDebug('INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($var_content, true), 0);
+                $string_var_content = strval($var_content);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $string_var_content);
+                $this->SendDebug('INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($string_var_content, true), 0);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
             } else {
-                $var_content = intval($var_content);
-                $key         = array_search($var_name, $this->BooleanAttributes);
+                $int_var_content = intval($var_content);
                 $this->SendDebug(
-                    'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0
+                    'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($int_var_content, true), 0
                 );
-                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $int_var_content);
+                $key         = array_search($var_name, $this->BooleanAttributes);
                 if ($key > 0) {
-                    $var_content = boolval($var_content);
-                    if ($var_content) {
+                    $bool_var_content = boolval($int_var_content);
+                    if ($bool_var_content) {
                         $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = true', 0);
+                        $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, true);
                     } else {
                         $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = false', 0);
+                        $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, false);
                     }
-
                 } else {
                     $this->SendDebug('INSTAR Write Value', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . $var_content, 0);
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
                 }
             }
         } else {
             if ($var_name == 'admin_value46') {
                 if ($var_content == '""') {
+                    $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
                     $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
                 } else {
+                    $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
                     $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
                 }
+
             } else {
-                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 if ($var_name == 'dhcpflag') {
                     if ($var_content == 'off') {
-                        $var_content = false;
+                        $bool_var_content = false;
                     } elseif ($var_content == 'on') {
-                        $var_content = true;
+                        $bool_var_content = true;
                     }
+                    $this->WriteAttributeBoolean($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $bool_var_content);
                 }
+                $this->SendDebug('INSTAR Write Attribute', 'String ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             }
         }
-        $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-        $this->SendDebug('INSTAR Write Attribute', $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
-        $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
-        $this->SendDebug('INSTAR Update Parameter', $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
+
+
     }
 
     protected function WriteValue($var_name, $var_content)
@@ -3875,6 +3908,7 @@ class INSTAR extends IPSModule
 
     protected function SaveData($data, $suffix, $payload)
     {
+        $result = [];
         foreach ($data as $info_device) {
             $info   = explode('=', $info_device);
             $prefix = substr(trim($info[0]), 0, 3);
@@ -3895,8 +3929,9 @@ class INSTAR extends IPSModule
                 }
             }
             $this->CheckAttributeType($var_name, $var_content, $suffix);
+            $result[] = ['name' => $var_name, 'value' => $var_content];
         }
-        return $data;
+        return $result;
     }
 
     // Network Menu
@@ -3914,6 +3949,22 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function SetNetworkParameters($ip, $netmask, $gateway, $fdnsip, $httpport, $httpsport, $rtmpport, $rtsp_aenable, $rtspport)
+    {
+        $this->WriteAttributeString('ip', $ip);
+        $this->WriteAttributeString('netmask', $netmask);
+        $this->WriteAttributeString('gateway', $gateway);
+        $this->SetCameraNetworkConfiguration();
+        $this->WriteAttributeString('fdnsip', $fdnsip);
+        $this->SetCameraNetworkConfiguration();
+        $this->SetCameraHTTP_Port($httpport);
+        $this->SetCameraHTTPS_Port($httpsport);
+        $this->SetCameraRTMP_Port($rtmpport);
+        $this->SetCameraRTSP_Port($rtspport);
+        $this->SetRTSPAuthenticationState($rtsp_aenable);
+    }
+
+
     /** Set Camera´s Network Configuration
      *
      * @return array
@@ -3924,7 +3975,9 @@ class INSTAR extends IPSModule
         $dhcpflag  = $this->ReadAttributeString('dhcpflag');
         $netmask   = $this->ReadAttributeString('netmask');
         $gateway   = $this->ReadAttributeString('gateway');
-        $parameter = '&-dhcpflag=' . $dhcpflag . '&-ip=' . $ip . '&-netmask=' . $netmask . '&-gateway=' . $gateway . '&-fdnsip=8.8.8.8&-sdnsip=';
+        $fdnsip   = $this->ReadAttributeString('fdnsip');
+        $sdnsip   = $this->ReadAttributeString('sdnsip');
+        $parameter = '&-dhcpflag=' . $dhcpflag . '&-ip=' . $ip . '&-netmask=' . $netmask . '&-gateway=' . $gateway . '&-fdnsip=' . $fdnsip . '&-sdnsip=' . $sdnsip;
         $data      = $this->SendParameter('setnetattr' . $parameter);
         return $data;
     }
@@ -3936,15 +3989,6 @@ class INSTAR extends IPSModule
         $this->GetCameraRTSP_Port();
         $this->GetRTSPAuthenticationState();
         $this->GetCameraRTMP_Port();
-    }
-
-    public function SetCameraPorts()
-    {
-        $this->SetCameraHTTP_PortList();
-        $this->SetCameraHTTPS_PortList();
-        $this->SetCameraRTPS_PortList();
-        $this->SetRTSPAuthenticationStateList();
-        $this->SetCameraRTMP_PortList();
     }
 
     private function ExplodePort($string_port)
@@ -3982,12 +4026,6 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    private function SetCameraHTTP_PortList()
-    {
-        $http_port = $this->ReadAttributeInteger('httpport');
-        $this->SetCameraHTTP_Port($http_port);
-    }
-
     /** Get your Camera´s HTTPS Port
      *
      * @return false|string
@@ -4016,12 +4054,6 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    private function SetCameraHTTPS_PortList()
-    {
-        $http_port = $this->ReadAttributeInteger('httpsport');
-        $this->SetCameraHTTPS_Port($http_port);
-    }
-
     /** Get your Camera´s RTSP Port
      *
      * @return false|string
@@ -4045,12 +4077,6 @@ class INSTAR extends IPSModule
         $parameter = '&rtspport=' . $rtsp_port;
         $port      = $this->SendParameter('setrtspport' . $parameter);
         return $port;
-    }
-
-    private function SetCameraRTPS_PortList()
-    {
-        $rtsp_port = $this->ReadAttributeInteger('rtspport');
-        $this->SetCameraRTSP_Port($rtsp_port);
     }
 
     /** Get RTSP Authentication State
@@ -4081,12 +4107,6 @@ class INSTAR extends IPSModule
         return $state;
     }
 
-    private function SetRTSPAuthenticationStateList()
-    {
-        $auth = boolval($this->ReadAttributeInteger('rtsp_aenable'));
-        $this->SetRTSPAuthenticationState($auth);
-    }
-
     /** Get your Camera's RTMP Port
      *
      * @return false|string
@@ -4110,12 +4130,6 @@ class INSTAR extends IPSModule
         $parameter = '&-rtmpport=' . $rtmp_port;
         $port      = $this->SendParameter('setrtmpattr' . $parameter);
         return $port;
-    }
-
-    private function SetCameraRTMP_PortList()
-    {
-        $rtmpport = $this->ReadAttributeInteger('rtmpport');
-        $this->SetCameraRTMP_Port($rtmpport);
     }
 
     /** Get Network Configuration
@@ -4274,6 +4288,53 @@ class INSTAR extends IPSModule
         $payload = $this->SendParameter('get3thddnsattr');
         $data    = $this->SplitPayload($payload);
         return $data;
+    }
+
+    public function EnabeINSTAR_DNS(bool $our_enable)
+    {
+        $this->WriteAttributeInteger('our_enable', intval($our_enable));
+        if($our_enable)
+        {
+            $this->WriteAttributeInteger('d3th_enable', 0);
+            $this->UpdateParameter('d3th_enable', 'value', false);
+            $parameter    = '&-d3th_enable=0';
+        }
+        else{
+            $this->WriteAttributeInteger('d3th_enable', 1);
+            $this->UpdateParameter('d3th_enable', 'value', true);
+            $parameter    = '&-d3th_enable=1';
+        }
+
+
+        $data         = $this->SendParameter('set3thddnsattr' . $parameter);
+        return $data;
+    }
+
+    public function Enabel3thDNS(bool $d3th_enable)
+    {
+        $this->WriteAttributeInteger('d3th_enable', intval($d3th_enable));
+        if($d3th_enable)
+        {
+            $this->WriteAttributeInteger('our_enable', 0);
+            $this->UpdateParameter('our_enable', 'value', false);
+        }
+        else{
+            $this->WriteAttributeInteger('our_enable', 1);
+            $this->UpdateParameter('our_enable', 'value', true);
+        }
+
+        $parameter    = '&-d3th_enable=' . $d3th_enable;
+        $data         = $this->SendParameter('set3thddnsattr' . $parameter);
+        return $data;
+    }
+
+    public function Set3rdPartyDDNSParameters(string $d3th_domain, string $d3th_service, string $d3th_uname, string $d3th_passwd)
+    {
+        $this->WriteAttributeString('d3th_domain', $d3th_domain);
+        $this->WriteAttributeString('d3th_service', $d3th_service);
+        $this->WriteAttributeString('d3th_uname', $d3th_uname);
+        $this->WriteAttributeString('d3th_passwd', $d3th_passwd);
+        $this->Set3rdPartyDDNSConfiguration();
     }
 
     public function Set3rdPartyDDNSConfiguration()
@@ -4717,6 +4778,20 @@ class INSTAR extends IPSModule
         return $response;
     }
 
+    public function Sharpness(int $sharpness)
+    {
+        if ($sharpness < 0) {
+            $sharpness = 0;
+        }
+        if ($sharpness > 100) {
+            $sharpness = 100;
+        }
+        $this->SetValue('sharpness', $sharpness);
+        $this->WriteAttributeInteger('sharpness', $sharpness);
+        $response = $this->SetImageParameter();
+        return $response;
+    }
+
     /**
      * @param int $contrast [0 - 100] the bigger the value the more contrast the image has
      *
@@ -4811,7 +4886,7 @@ class INSTAR extends IPSModule
         if ($targety > 255) {
             $targety = 255;
         }
-        $this->SetValue('hue', $targety);
+        $this->SetValue('targety', $targety);
         $this->WriteAttributeInteger('targety', $targety);
         $response = $this->SetImageParameter();
         return $response;
@@ -4926,11 +5001,28 @@ class INSTAR extends IPSModule
      */
     public function GetOSDParameter()
     {
-        // TODO Region
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=getoverlayattr&-region=0
-        $payload = $this->SendParameter('getoverlayattr&-region=0');
+        $payload = $this->SendParameter('getoverlayattr&-region=0&cmd=getoverlayattr&-region=1');
         $data    = $this->SplitPayload($payload, '_osd');
         return $data;
+    }
+
+    public function EnableOSD_Name(bool $show_1)
+    {
+        $this->WriteAttributeInteger('show_1_osd', intval($show_1));
+        $this->SetOSDParameter();
+    }
+
+    public function EnableOSD_Time(bool $show_2)
+    {
+        $this->WriteAttributeInteger('show_1_osd', intval($show_2));
+        $this->SetOSDParameter();
+    }
+
+    public function SetOSDParameters(string $name_0, string $name_1)
+    {
+        $this->WriteAttributeString('name_0_osd', $name_0);
+        $this->WriteAttributeString('name_1_osd', $name_1);
+        $this->SetOSDParameter();
     }
 
     /** Set OSD Parameter
@@ -4939,10 +5031,13 @@ class INSTAR extends IPSModule
      */
     public function SetOSDParameter()
     {
-        $name_0 = $this->ReadAttributeString('name_0');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setoverlayattr&-region=1&-show=1&-name=IN-8015FullHD&cmd=setoverlayattr&-region=0&-show=1
-        $parameter = '&-name=' . $name_0;
-        $data      = $this->SendParameter('setoverlayattr&-region=1&-show=1' . $parameter);
+        $show_0 = $this->ReadAttributeInteger('show_0_osd');
+        $show_1 = $this->ReadAttributeInteger('show_1_osd');
+        $name_0 = $this->ReadAttributeString('name_0_osd');
+        $name_1 = $this->ReadAttributeString('name_1_osd');
+        $parameter_2 = '&cmd=setoverlayattr&-region=1&-show=' . $show_1 .'&-name=' . $name_1;
+        $parameter = '&-show=' . $show_0 . '&-name=' . $name_0;
+        $data      = $this->SendParameter('setoverlayattr&-region=0' . $parameter . $parameter_2);
         return $data;
     }
 
@@ -5128,6 +5223,18 @@ class INSTAR extends IPSModule
         $payload = $this->SendParameter('getftpattr');
         $data    = $this->SplitPayload($payload);
         return $data;
+    }
+
+    public function SetFTPParameter($ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode)
+    {
+        $this->WriteAttributeString('ft_server', $ft_server);
+        $this->WriteAttributeInteger('ft_port', $ft_port);
+        $this->WriteAttributeString('ft_username', $ft_username);
+        $this->WriteAttributeString('ft_password', $ft_password);
+        $this->WriteAttributeInteger('ft_mode', $ft_mode);
+        $this->WriteAttributeString('ft_dirname', $ft_dirname);
+        $this->WriteAttributeInteger('ft_dirmode', $ft_dirmode);
+        $this->SetINSTARCloudServerParameter();
     }
 
     /** Set INSTAR Cloud Server Parameter
@@ -7056,6 +7163,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     public function RequestAction($Ident, $Value)
     {
+        $this->SendDebug('INSTAR Request Action', 'Ident ' . $Ident . ', Value ' .print_r($Value, true) , 0);
         switch ($Ident) {
             case 'Control_Continuous':
                 if ($Value == 0) {
@@ -7121,6 +7229,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 break;
             case 'contrast':
                 $this->Contrast($Value);
+                break;
+            case 'sharpness':
+                $this->Sharpness($Value);
+                break;
+            case 'targety':
+                $this->EqualizeImage($Value);
                 break;
             case 'scene':
                 if ($Value == 0) {
@@ -7386,13 +7500,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'caption' => 'MJPEG Stream Channel',
                                  'options' => [
                                      [
-                                         'caption' => 'Channel 11',
+                                         'caption' => '1080p (FullHD) Channel 11',
                                          'value'   => 11],
                                      [
-                                         'caption' => 'Channel 12',
+                                         'caption' => '320p (VGA) Channel 12',
                                          'value'   => 12],
                                      [
-                                         'caption' => 'Channel 13',
+                                         'caption' => '160p (QVGA) Channel 13',
                                          'value'   => 13]]
 
                              ],
@@ -7559,7 +7673,15 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'type'     => 'CheckBox',
                                      'caption'  => 'Create Variable for Webfront',
                                      'value'    => $this->ReadAttributeBoolean('rtspport_enabled'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "rtspport_enabled", $rtspport_enabled);'],]]]
+                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "rtspport_enabled", $rtspport_enabled);'],]],
+                         [
+                             'type'    => 'Label',
+                             'caption' => 'Set Network infos for the camera'],
+                         [
+                             'type'    => 'Button',
+                             'caption' => 'Set network infos',
+                             'onClick' => 'INSTAR_SetNetworkParameters($id, $ip, $netmask, $gateway, $fdnsip, $httpport, $httpsport, $rtmpport, $rtsp_aenable, $rtspport);']
+                    ]
             /*
             [
                 'type'  => 'RowLayout',
@@ -7965,24 +8087,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'visible' => true,
                                      'value'   => boolval($this->ReadAttributeInteger('our_enable')),
                                      'enabled' => true,
-                                     'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onClick' => 'INSTAR_EnabeINSTAR_DNS($id, $our_enable);'],
                                  [
                                      'name'     => 'our_enable_enabled',
                                      'type'     => 'CheckBox',
                                      'caption'  => 'Create Variable for Webfront',
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeBoolean('our_enable_enabled'),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "our_enable_enabled", $our_enable_enabled);'],]],
-
-                         [
-                             'type'    => 'Label',
-                             'visible' => false,
-                             'caption' => 'Set INSTAR DDNS'],
-                         [
-                             'type'    => 'Button',
-                             'visible' => false,
-                             'caption' => 'Set INSTAR DDNS',
-                             'onClick' => 'INSTAR_SetINSTAR_DDNS($id);']]
+                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, "our_enable_enabled", $our_enable_enabled);'],]]]
             );
         }
         $our_enable = $this->ReadAttributeInteger('our_enable');
@@ -8074,7 +8186,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'caption' => '3rd Party DDNS',
                                      'visible' => true,
                                      'value'   => boolval($this->ReadAttributeInteger('d3th_enable')),
-                                     'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onClick' => 'INSTAR_Enabel3thDNS($id, $d3th_enable);'],
                                  [
                                      'name'     => 'd3th_enable_enabled',
                                      'type'     => 'CheckBox',
@@ -8084,33 +8196,33 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'onChange' => 'INSTAR_SetWebFrontVariable($id, "d3th_enable_enabled", $d3th_enable_enabled);'],]],
                          [
                              'type'    => 'Label',
-                             'visible' => false,
+                             'visible' => true,
                              'caption' => 'Set 3rd Party DDNS Configuration'],
                          [
                              'type'    => 'Button',
-                             'visible' => false,
+                             'visible' => true,
                              'caption' => 'Set DDNS',
-                             'onClick' => 'INSTAR_Set3rdPartyDDNSConfiguration($id);']]
+                             'onClick' => 'INSTAR_Set3rdPartyDDNSParameters($id, $d3th_domain, $d3th_service, $d3th_uname, $d3th_passwd);']]
             );
         }
         $form = array_merge_recursive(
             $form, [
                      [
                          'type'    => 'Label',
-                         'visible' => false,
+                         'visible' => true,
                          'caption' => 'Get INSTAR DDNS'],
                      [
                          'type'    => 'Button',
-                         'visible' => false,
+                         'visible' => true,
                          'caption' => 'Get DDNS Configuration',
                          'onClick' => 'INSTAR_GetDDNSConfiguration($id);'],
                      [
                          'type'    => 'Label',
-                         'visible' => false,
+                         'visible' => true,
                          'caption' => 'Get DDNS'],
                      [
                          'type'     => 'Button',
-                         'visible'  => false,
+                         'visible'  => true,
                          'caption'  => 'Get DDNS Configuration',
                          'onChange' => 'INSTAR_Get3rdPartyDDNSConfiguration($id);']]
         );
@@ -8128,7 +8240,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'    => 'CheckBox',
                         'caption' => 'UPNP',
                         'value'   => boolval($this->ReadAttributeInteger('upm_enable')),
-                        'onClick' => 'INSTAR_SetUPNPConfiguration($id, $value);'],
+                        'onClick' => 'INSTAR_SetUPNPConfiguration($id, $upm_enable);'],
                     [
                         'name'     => 'upm_enable_enabled',
                         'type'     => 'CheckBox',
@@ -8915,9 +9027,27 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'    => 'ValidationTextBox',
                         'name'    => 'name_0_osd',
                         'visible' => true,
-                        'caption' => 'OSD Camera Name',
+                        'caption' => 'OSD Time',
                         'value'   => $this->ReadAttributeString('name_0_osd'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onClick' => 'INSTAR_SetOSDParameters($id, $name_0_osd, $name_1_osd);'],
+                    [
+                        'name'     => 'name_0_osd_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeBoolean('name_0_osd_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "name_0_osd_enabled", $name_0_osd_enabled);'],]],
+            [
+                'type'    => 'RowLayout',
+                'visible' => true,
+                'items'   => [
+                    [
+                        'type'    => 'ValidationTextBox',
+                        'name'    => 'name_1_osd',
+                        'visible' => true,
+                        'caption' => 'OSD Camera Name',
+                        'value'   => $this->ReadAttributeString('name_1_osd'),
+                        'onClick' => 'INSTAR_SetOSDParameters($id, $name_0_osd, $name_1_osd);'],
                     [
                         'name'     => 'name_0_osd_enabled',
                         'type'     => 'CheckBox',
@@ -8933,9 +9063,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_0_osd',
                         'visible'  => true,
-                        'caption'  => 'Display Camera Name',
+                        'caption'  => 'Display Time Stamp',
                         'value'    => boolval($this->ReadAttributeInteger('show_0_osd')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_EnableOSD_Time($id, $show_0_osd);'],
                     [
                         'name'     => 'show_0_osd_enabled',
                         'type'     => 'CheckBox',
@@ -8943,18 +9073,17 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('show_0_osd_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_0_osd_enabled", $show_0_osd_enabled);'],]],
-            //  TODO Timestamp
             [
                 'type'    => 'RowLayout',
-                'visible' => false,
+                'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
                         'name'     => 'show_1_osd',
                         'visible'  => true,
-                        'caption'  => 'Display Time Stamp',
+                        'caption'  => 'Display Camera Name',
                         'value'    => boolval($this->ReadAttributeInteger('show_1_osd')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_EnableOSD_Name($id, $show_1_osd);'],
                     [
                         'name'     => 'show_1_osd_enabled',
                         'type'     => 'CheckBox',
@@ -8962,6 +9091,15 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('show_1_osd_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_1_osd_enabled", $show_1_osd_enabled);'],]],
+            [
+                'type'    => 'Label',
+                'visible' => true,
+                'caption' => 'Set OSD infos for the camera'],
+            [
+                'type'    => 'Button',
+                'visible' => true,
+                'caption' => 'Set OSD infos',
+                'onClick' => 'INSTAR_SetONVIFConfiguration($id);'],
 
         ];
         return $form;
@@ -9216,6 +9354,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     public function UpdateParameter(string $Field, string $Parameter, $Value)
     {
         $this->UpdateFormField($Field, $Parameter, $Value);
+        if($Parameter == 'value')
+        {
+            $this->SendDebug('INSTAR Update Parameter', $Field . ' = ' . $Value, 0);
+        }
     }
 
     public function Reload()
@@ -9809,61 +9951,79 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'FTP_Server',
+                        'name'    => 'ft_server',
                         'visible' => true,
                         'caption' => 'FTP Server',
                         'value'   => $this->ReadAttributeString('FTP_Server'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
-                        'name'     => 'FTP_Server_enabled',
+                        'name'     => 'ft_server_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_Server_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_Server_enabled", $FTP_Server_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_server_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_server_enabled", $ft_server_enabled);'],]],
+            [
+                'type'    => 'RowLayout',
+                'visible' => true,
+                'items'   => [
+                    [
+                        'type'    => 'NumberSpinner',
+                        'name'    => 'ft_port',
+                        'caption' => 'FTP Port',
+                        'visible' => true,
+                        'value'   => $this->ReadAttributeInteger('ft_port'),
+                        'onClick' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
+                    [
+                        'name'     => 'ft_port_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeBoolean('ft_port_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_port_enabled", $ft_port_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'FTP_User_Name',
+                        'name'    => 'ft_username',
                         'visible' => true,
                         'caption' => 'FTP User Name',
-                        'value'   => $this->ReadAttributeString('FTP_User_Name'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'value'   => $this->ReadAttributeString('ft_username'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
-                        'name'     => 'FTP_User_Name_enabled',
+                        'name'     => 'ft_username_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_User_Name_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_User_Name_enabled", $FTP_User_Name_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_username_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_username_enabled", $ft_username_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'FTP_User_Password',
+                        'name'    => 'ft_password',
                         'visible' => true,
                         'caption' => 'FTP User Password',
-                        'value'   => $this->ReadAttributeString('FTP_User_Password'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'value'   => $this->ReadAttributeString('ft_password'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
                         'name'     => 'FTP_User_Password_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_User_Password_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_User_Password_enabled", $FTP_User_Password_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_password_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_password_enabled", $ft_password_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'FTP_Mode',
+                        'name'     => 'ft_mode',
                         'caption'  => 'FTP Mode',
                         'options'  => [
                             [
@@ -9873,42 +10033,42 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'caption' => 'Port',
                                 'value'   => 1],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('FTP_Mode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('ft_mode'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'
 
                     ],
                     [
-                        'name'     => 'FTP_Mode_enabled',
+                        'name'     => 'ft_mode_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_Mode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_Mode_enabled", $FTP_Mode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_mode_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_mode_enabled", $ft_mode_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'    => 'ValidationTextBox',
-                        'name'    => 'FTP_Directory',
+                        'name'    => 'ft_dirname',
                         'visible' => true,
                         'caption' => 'FTP Directory',
-                        'value'   => $this->ReadAttributeString('FTP_Directory'),
-                        'onClick' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'value'   => $this->ReadAttributeString('ft_dirname'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
                         'name'     => 'FTP_User_Password_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_Directory_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_Directory_enabled", $FTP_Directory_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_dirname_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_dirname_enabled", $ft_dirname_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'FTP_Directory_Mode',
+                        'name'     => 'ft_dirmode',
                         'caption'  => 'FTP Directory Mode',
                         'options'  => [
                             [
@@ -9918,24 +10078,24 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'caption' => 'one folder',
                                 'value'   => 1],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('FTP_Directory_Mode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('ft_dirmode'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'
 
                     ],
                     [
-                        'name'     => 'FTP_Directory_Mode_enabled',
+                        'name'     => 'ft_dirmode_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_Directory_Mode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_Directory_Mode_enabled", $FTP_Directory_Mode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_dirmode_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_dirmode_enabled", $ft_dirmode_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'FTP_SSL',
+                        'name'     => 'ft_ssl',
                         'caption'  => 'FTP SSL',
                         'options'  => [
                             [
@@ -9948,24 +10108,34 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'caption' => 'TLS',
                                 'value'   => 1],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('FTP_SSL'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('ft_ssl'),
+                        'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'
 
                     ],
                     [
-                        'name'     => 'FTP_SSL_enabled',
+                        'name'     => 'ft_ssl_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_SSL_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_SSL_enabled", $FTP_SSL_enabled);'],]],/*
+                        'value'    => $this->ReadAttributeBoolean('ft_ssl_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_ssl_enabled", $ft_ssl_enabled);'],]],
+            [
+                'type'    => 'Label',
+                'visible' => true,
+                'caption' => 'Set FTP infos for the camera'],
+            [
+                'type'    => 'Button',
+                'visible' => true,
+                'caption' => 'Set FTP infos',
+                'onClick' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
+            /*
              * [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'    => 'Select',
-                        'name'    => 'Auto_Create_Directory',
+                        'name'    => 'ft_autocreatedir',
                         'caption' => 'Auto_Create_Directory',
                         'options' => [
                             [
@@ -9975,17 +10145,17 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                 'caption' => 'Port',
                                 'value'   => 1],],
                         'visible' => true,
-                        'value'   => $this->ReadAttributeInteger('Auto_Create_Directory'),
+                        'value'   => $this->ReadAttributeInteger('ft_autocreatedir'),
                         'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
 
                     ],
                     [
-                        'name'     => 'FTP_Mode_enabled',
+                        'name'     => 'ft_autocreatedir_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('FTP_Mode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "FTP_Mode_enabled", $FTP_Mode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('ft_autocreatedir_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ft_autocreatedir_enabled", $ft_autocreatedir_enabled);'],]],
              */];
         return $form;
     }

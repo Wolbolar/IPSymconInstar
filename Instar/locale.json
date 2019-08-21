@@ -1,6 +1,9 @@
 {
   "translations": {
     "de":    {
+      "1080p (FullHD) Channel 11": "1080p (FullHD) Kanal 11",
+      "320p (VGA) Channel 12": "320p (VGA) Kanal 12",
+      "160p (QVGA) Channel 13": "160p (QVGA) Kanal 13",
       "Actions": "Aktionen",
       "Activate IR LEDs": "IR Beleuchtung der Kamera aktivieren",
       "Activate if there are Problems with the Live Video in the Webfront": "Bei Problemen mit der Live Bild Anzeige im Webfront aktivieren",
@@ -243,9 +246,13 @@
       "Set DDNS": "DDNS einstellen",
       "Set INSTAR DDNS": "INSTAR DDNS setzen",
       "Set INSTAR UPNP": "UPNP setzten",
+      "Set OSD infos": "OSD Werte setzten",
+      "Set OSD infos for the camera": "OSD Werte für die Kamera setzen",
       "Set Position": "Position setzten",
       "Set WIFI infos": "WIFI setzten",
       "Set WIFI infos for the camera": "WIFI Einstellungen setzten",
+      "Set Network infos for the camera": "Netzwerk Einstellungen für die Kamera setzten",
+      "Set network infos": "Netzwerk Einstellungen setzten",
       "Set port infos": "Ports setzen",
       "Set port infos for the camera": "Ports der Kamera setzten",
       "Setup Alarmserver Settings": "Alarmserver Einstellungen übertragen",
