@@ -3791,7 +3791,9 @@ class INSTAR extends IPSModule
             } else {
                 $var_content = intval($var_content);
                 $key         = array_search($var_name, $this->BooleanAttributes);
-                $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0);
+                $this->SendDebug(
+                    'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0
+                );
                 $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 if ($key > 0) {
                     $var_content = boolval($var_content);
@@ -4515,28 +4517,28 @@ class INSTAR extends IPSModule
         return $data;
     }
 
-    public function SetVideoMode($videomode)
+    public function SetVideoMode(int $videomode)
     {
         $this->WriteAttributeInteger('videomode', $videomode);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetWDRMode($wdrmode)
+    public function SetWDRMode(int $wdrmode)
     {
         $this->WriteAttributeInteger('wdrmode', $wdrmode);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetVideoProfile($profile)
+    public function SetVideoProfile(int $profile)
     {
         $this->WriteAttributeInteger('profile', $profile);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetMaxChn($maxchn)
+    public function SetMaxChn(int $maxchn)
     {
         $this->WriteAttributeInteger('maxchn', $maxchn);
         $data = $this->SetVideoAttributes();
@@ -4545,8 +4547,7 @@ class INSTAR extends IPSModule
 
     public function SetVideonorm(int $vinorm)
     {
-        if($vinorm == 0)
-        {
+        if ($vinorm == 0) {
             $this->WriteAttributeString('vinorm', 'P');
         }
         $data = $this->SetVideoAttributes();
@@ -4801,35 +4802,35 @@ class INSTAR extends IPSModule
         return $data;
     }
 
-    public function SetWDRAuto($wdrauto)
+    public function SetWDRAuto(int $wdrauto)
     {
         $this->WriteAttributeInteger('wdrauto', $wdrauto);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetWDRAutval($wdrautval)
+    public function SetWDRAutval(int $wdrautval)
     {
         $this->WriteAttributeInteger('wdrautval', $wdrautval);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetD3noauto($d3noauto)
+    public function SetD3noauto(int $d3noauto)
     {
         $this->WriteAttributeInteger('d3noauto', $d3noauto);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetD3noval($d3noval)
+    public function SetD3noval(int $d3noval)
     {
         $this->WriteAttributeInteger('d3noval', $d3noval);
         $data = $this->SetVideoAttributes();
         return $data;
     }
 
-    public function SetWDRmanval($wdrmanval)
+    public function SetWDRmanval(int $wdrmanval)
     {
         $this->WriteAttributeInteger('wdrmanval', $wdrmanval);
         $data = $this->SetVideoAttributes();
@@ -5954,7 +5955,7 @@ class INSTAR extends IPSModule
      */
     public function SetAlarmServer1Parameter()
     {
-        $switch = $this->ReadAttributeString('switch');
+        $switch    = $this->ReadAttributeString('switch');
         $parameter = '&-switch=' . $switch;
         $data      = $this->SendParameter('setmdalarm&-aname=server2' . $parameter);
         return $data;
@@ -6044,8 +6045,8 @@ class INSTAR extends IPSModule
      */
     public function SetIntervalSnapshotSeriesTask()
     {
-        $as_type = $this->ReadAttributeString('as_type');
-        $as_enable = $this->ReadAttributeInteger('as_enable');
+        $as_type     = $this->ReadAttributeString('as_type');
+        $as_enable   = $this->ReadAttributeInteger('as_enable');
         $as_interval = $this->ReadAttributeInteger('as_interval');
         // &cmd=setsnaptimerattrex&-as_type=email&-as_enable=1&-as_interval=300&cmd=setsnaptimerattrex&-as_type=ftp&-as_enable=1&-as_interval=60
         $parameter = '&-as_type=' . $as_type . '&-as_enable=' . $as_enable . '&-as_interval=' . $as_interval;
@@ -6097,10 +6098,10 @@ class INSTAR extends IPSModule
     public function SetPlannedVideoRecordingAttribute()
     {
         $planrec_enable = $this->ReadAttributeInteger('planrec_enable');
-        $planrec_chn = $this->ReadAttributeInteger('planrec_chn');
-        $planrec_time = $this->ReadAttributeInteger('planrec_time');
-        $parameter = '&-planrec_enable=' . $planrec_enable . '&-planrec_chn=' . $planrec_chn . '&-planrec_time=' . $planrec_time;
-        $data      = $this->SendParameter('setplanrecattr' . $parameter);
+        $planrec_chn    = $this->ReadAttributeInteger('planrec_chn');
+        $planrec_time   = $this->ReadAttributeInteger('planrec_time');
+        $parameter      = '&-planrec_enable=' . $planrec_enable . '&-planrec_chn=' . $planrec_chn . '&-planrec_time=' . $planrec_time;
+        $data           = $this->SendParameter('setplanrecattr' . $parameter);
         return $data;
     }
 
@@ -6185,7 +6186,7 @@ class INSTAR extends IPSModule
      */
     public function SetNetworkConfiguration()
     {
-       // TODO
+        // TODO
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
         $parameter = '';
@@ -6266,7 +6267,7 @@ class INSTAR extends IPSModule
     {
         // TODO
         $value = $this->ReadAttributeString('value');
-        $data      = $this->SendParameter('et_instar_guest&-index=11&-value' . $value);
+        $data  = $this->SendParameter('et_instar_guest&-index=11&-value' . $value);
         return $data;
     }
 
@@ -6313,9 +6314,9 @@ class INSTAR extends IPSModule
     public function SetCameraRebootAutomatically()
     {
         $plancgi_enable_2 = $this->ReadAttributeInteger('plancgi_enable_2');
-        $plancgi_time_2 = $this->ReadAttributeInteger('plancgi_time_2');
-        $parameter = '&-plancgi_enable_2=' . $plancgi_enable_2 . '&-plancgi_time_2=' . $plancgi_time_2;
-        $data      = $this->SendParameter('setplancgi' . $parameter);
+        $plancgi_time_2   = $this->ReadAttributeInteger('plancgi_time_2');
+        $parameter        = '&-plancgi_enable_2=' . $plancgi_enable_2 . '&-plancgi_time_2=' . $plancgi_time_2;
+        $data             = $this->SendParameter('setplancgi' . $parameter);
         return $data;
     }
 
@@ -8410,10 +8411,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     private function FormVideoSettings()
     {
-        $vinorm = $this->ReadAttributeString('vinorm');
+        $vinorm       = $this->ReadAttributeString('vinorm');
         $vinorm_value = 0;
-        if($vinorm == 'P')
-        {
+        if ($vinorm == 'P') {
             $vinorm_value = 0;
         }
         $form = [
@@ -8458,16 +8458,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'visible' => true,
                 'items'   => [
                     [
-                        'type'    => 'Select',
-                        'name'    => 'vinorm',
-                        'caption' => 'vinorm',
-                        'options' => [
+                        'type'     => 'Select',
+                        'name'     => 'vinorm',
+                        'caption'  => 'vinorm',
+                        'options'  => [
                             [
                                 'caption' => 'Video Norm 50Hz (PAL)',
-                                'value'   => 'P'],
-                            'visible'  => true,
-                            'value'    => $vinorm_value,
-                            'onChange' => 'INSTAR_SetVideonorm($id, $vinorm);']
+                                'value'   => 0],],
+                        'visible'  => true,
+                        'value'    => $vinorm_value,
+                        'onChange' => 'INSTAR_SetVideonorm($id, $vinorm);'
 
                     ],
                     [
@@ -8890,6 +8890,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('show_1_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_1_enabled", $show_1_enabled);']]],
             [
+                'type'     => 'SelectColor',
+                'name'     => 'color_1',
+                'caption'  => 'Color 1',
+                'visible'  => true,
+                'value'    => $this->ReadAttributeInteger('color_1'),
+                'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],
+            [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
@@ -8942,6 +8949,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('show_2_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_2_enabled", $show_2_enabled);']]],
+            [
+                'type'     => 'SelectColor',
+                'name'     => 'color_2',
+                'caption'  => 'Color 2',
+                'visible'  => true,
+                'value'    => $this->ReadAttributeInteger('color_2'),
+                'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],
             [
                 'type'  => 'RowLayout',
                 'items' => [
@@ -8996,6 +9010,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('show_3_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_3_enabled", $show_3_enabled);']]],
             [
+                'type'     => 'SelectColor',
+                'name'     => 'color_3',
+                'caption'  => 'Color 3',
+                'visible'  => true,
+                'value'    => $this->ReadAttributeInteger('color_3'),
+                'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],
+            [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
@@ -9049,6 +9070,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeBoolean('show_4_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "show_4_enabled", $show_4_enabled);']]],
             [
+                'type'     => 'SelectColor',
+                'name'     => 'color_4',
+                'caption'  => 'Color 4',
+                'visible'  => true,
+                'value'    => $this->ReadAttributeInteger('color_4'),
+                'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],
+            [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
@@ -9085,8 +9113,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'minimum'  => 0,
                         'maximum'  => 1080,
                         'value'    => $this->ReadAttributeInteger('h_4'),
-                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],]]
-        ,];
+                        'onChange' => 'INSTAR_SetSettingsPrivacyZone4($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],]],];
         return $form;
     }
 
