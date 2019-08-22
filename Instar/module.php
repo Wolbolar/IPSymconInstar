@@ -1459,7 +1459,7 @@ class INSTAR extends IPSModule
 
             }
             $this->SetupVariables();
-            $this->UpdateSettings();
+           // $this->UpdateSettings();
             // Status Aktiv
             $this->SetStatus(102);
         }
@@ -7447,6 +7447,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'name'    => 'Password',
                                  'type'    => 'PasswordTextBox',
                                  'caption' => 'Password']]],
+                     [
+                         'type'    => 'ExpansionPanel',
+                         'caption' => 'email notification settings',
+                         'items'   => $this->FormShowEmail()],
                      [
                          'type'    => 'ExpansionPanel',
                          'caption' => 'INSTAR Picture Settings',
