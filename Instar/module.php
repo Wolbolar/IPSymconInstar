@@ -7449,6 +7449,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'caption' => 'Password']]],
                      [
                          'type'    => 'ExpansionPanel',
+                         'caption' => 'email notification settings',
+                         'items'   => $this->FormShowEmail()],
+                     [
+                         'type'    => 'ExpansionPanel',
                          'caption' => 'INSTAR Picture Settings',
                          'items'   => [
                              [
