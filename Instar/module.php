@@ -785,15 +785,15 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('timerpreset_index_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
         $this->RegisterAttributeBoolean('timerpreset_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
+        $this->RegisterAttributeInteger('admin_value46', 0); // De/Activate One-Step Pan&Tilt Control - [0, 1]
         $this->RegisterAttributeBoolean('admin_value46_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
         $this->RegisterAttributeBoolean('tour_enable_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('tour_times', 1); // Number of Rounds [1 - 50]
         $this->RegisterAttributeBoolean('tour_times_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_index', 1); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
+        $this->RegisterAttributeString('tour_index', ''); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
         $this->RegisterAttributeBoolean('tour_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_interval', 60); // Set Pause when Tour Position is reached in seconds [60-43200]
+        $this->RegisterAttributeString('tour_interval', ''); // Set Pause when Tour Position is reached in seconds [60-43200]
         $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
         $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
@@ -1048,16 +1048,26 @@ class INSTAR extends IPSModule
             'plancgi_enable_19', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
         $this->RegisterAttributeBoolean('plancgi_enable_19_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('plancgi_time_0', '');
-        $this->RegisterAttributeString('plancgi_time_1', '');
-        $this->RegisterAttributeString('plancgi_time_2', '');
-        $this->RegisterAttributeString('plancgi_time_3', '');
-        $this->RegisterAttributeString('plancgi_time_4', '');
-        $this->RegisterAttributeString('plancgi_time_5', '');
-        $this->RegisterAttributeString('plancgi_time_6', '');
-        $this->RegisterAttributeString('plancgi_time_7', '');
-        $this->RegisterAttributeString('plancgi_time_8', '');
-        $this->RegisterAttributeString('plancgi_time_9', '');
+        $this->RegisterAttributeInteger('plancgi_time_0', 0);
+        $this->RegisterAttributeInteger('plancgi_time_1', 0);
+        $this->RegisterAttributeInteger('plancgi_time_2', 0);
+        $this->RegisterAttributeInteger('plancgi_time_3', 0);
+        $this->RegisterAttributeInteger('plancgi_time_4', 0);
+        $this->RegisterAttributeInteger('plancgi_time_5', 0);
+        $this->RegisterAttributeInteger('plancgi_time_6', 0);
+        $this->RegisterAttributeInteger('plancgi_time_7', 0);
+        $this->RegisterAttributeInteger('plancgi_time_8', 0);
+        $this->RegisterAttributeInteger('plancgi_time_9', 0);
+        $this->RegisterAttributeInteger('plancgi_time_10', 0);
+        $this->RegisterAttributeInteger('plancgi_time_11', 0);
+        $this->RegisterAttributeInteger('plancgi_time_12', 0);
+        $this->RegisterAttributeInteger('plancgi_time_13', 0);
+        $this->RegisterAttributeInteger('plancgi_time_14', 0);
+        $this->RegisterAttributeInteger('plancgi_time_15', 0);
+        $this->RegisterAttributeInteger('plancgi_time_16', 0);
+        $this->RegisterAttributeInteger('plancgi_time_17', 0);
+        $this->RegisterAttributeInteger('plancgi_time_18', 0);
+        $this->RegisterAttributeInteger('plancgi_time_19', 0);
         $this->RegisterAttributeString('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_port', 0); // Port of the receiving Server [1-65536]
@@ -1086,13 +1096,13 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('as_queryattr1_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval1', ''); // Command 1 Value
         $this->RegisterAttributeBoolean('as_queryval1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2', ''); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeInteger('as_query2', 0); // Activate Sending optional Parameter 2
         $this->RegisterAttributeBoolean('as_query2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr2', ''); // Command 2 Attribute
         $this->RegisterAttributeBoolean('as_queryattr2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval2', ''); // Command 2 Value
         $this->RegisterAttributeBoolean('as_queryval2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3', ''); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeInteger('as_query3', 0); // Activate Sending optional Parameter 3
         $this->RegisterAttributeBoolean('as_query3_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr3', ''); // Command 3 Attribute
         $this->RegisterAttributeBoolean('as_queryattr3_enabled', false); // show Attribute in Webfront
@@ -1101,71 +1111,87 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('alarmserver', 1); // Alarmserver 0 IP-Symcon connect, 1 local network
         $this->RegisterAttributeBoolean('alarmserver_enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server_0_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_0_', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_0_', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_0_', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_0_', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_0_', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area_0_', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io_0_', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio_0_', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio_0_', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery_0_', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1_0_', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1_0_', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1_0_', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2_0_', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2_0_', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2_0_', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3_0_', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_enabled_0_', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3_0_', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3_0_', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_0', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_0', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_0', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_0', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_0', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_0', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_0', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_0', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_0', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_0', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_0', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_0', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr1_0', ''); // Command 1 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval1_0', ''); // Command 1 Value
+        $this->RegisterAttributeBoolean('as_queryval1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query2_0', 0); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeBoolean('as_query2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr2_0', ''); // Command 2 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval2_0', ''); // Command 2 Value
+        $this->RegisterAttributeBoolean('as_queryval2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query3_0', 0); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeBoolean('as_query3_enabled_0', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr3_0', ''); // Command 3 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr3_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval3_0', ''); // Command 3 Value
+        $this->RegisterAttributeBoolean('as_queryval3_0_enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server_1_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_1_', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_1_', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_1_', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_1_', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_1_', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area_1_', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io_1_', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio_1_', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio_1_', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery_1_', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1_1_', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_1', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_1', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_1', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_1', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_1', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_1', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_1', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_1', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_1', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_1', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_1', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_1', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr1_1', ''); // Command 1 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval1_1', ''); // Command 1 Value
+        $this->RegisterAttributeBoolean('as_queryval1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query2_1', 0); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeBoolean('as_query2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr2_1', ''); // Command 2 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval2_1', ''); // Command 2 Value
+        $this->RegisterAttributeBoolean('as_queryval2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query3_1', 0); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeBoolean('as_query3_enabled_1', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr3_1', ''); // Command 3 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr3_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval3_1', ''); // Command 3 Value
+        $this->RegisterAttributeBoolean('as_queryval3_1_enabled', false); // show Attribute in Webfront
 
         $this->RegisterAttributeString('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_2_enabled', false); // show Attribute in Webfront
@@ -1267,6 +1293,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('lanmac_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('wifimac', ''); // MAC Address of the WLAN Interface
         $this->RegisterAttributeBoolean('wifimac_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('wifitype', 0); //
+        $this->RegisterAttributeBoolean('wifitype_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('internetip', ''); // Get Wide Area Network Address
         $this->RegisterAttributeBoolean('internetip_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('at_username0', ''); // Username for User 1
@@ -1293,7 +1321,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('at_authlevel2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('at_enable2', 1); // De/Activate [0, 1]
         $this->RegisterAttributeBoolean('at_enable2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('time', ''); // Camera Time
+        $this->RegisterAttributeInteger('time', 0); // Camera Time
         $this->RegisterAttributeBoolean('time_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
         $this->RegisterAttributeBoolean('timeZone_enabled', false); // show Attribute in Webfront
@@ -1484,7 +1512,7 @@ class INSTAR extends IPSModule
 
             }
             $this->SetupVariables();
-            // $this->UpdateSettings();
+            $this->UpdateSettings();
             // Status Aktiv
             $this->SetStatus(102);
         }
@@ -1571,18 +1599,25 @@ class INSTAR extends IPSModule
         );
         $this->SetupVariable('IR_LED', $this->Translate('IR LED'), 'INSTAR.IRLED', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true);
 
-        $this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
+        $this->RegisterProfileAssociation(
+            'INSTAR.Position', 'Image', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
+                                 [0, $this->Translate('Position 1'), '', -1],
+                                 [1, $this->Translate('Position 2'), '', -1],
+                                 [2, $this->Translate('Position 3'), '', -1],
+                                 [3, $this->Translate('Position 4'), '', -1],
+                                 [4, $this->Translate('Position 5'), '', -1],
+                                 [5, $this->Translate('Position 6'), '', -1],
+                                 [6, $this->Translate('Position 7'), '', -1],
+                                 [7, $this->Translate('Position 8'), '', -1]]
+        );
         $this->SetupVariable(
-            'SetPosition', $this->Translate('Set Position'), 'INSTAR.SetPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            'SetPosition', $this->Translate('Set Position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (0-7), integer
-        $this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'UnsetPosition', $this->Translate('Unset Position'), 'INSTAR.UnsetPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            'UnsetPosition', $this->Translate('Unset Position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (0-7), integer
-
-        $this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'GotoPosition', $this->Translate('Go to Position'), 'INSTAR.GotoPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            'GotoPosition', $this->Translate('Go to Position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (0-7), integer
 
         $this->SetupVariable(
@@ -3491,8 +3526,8 @@ class INSTAR extends IPSModule
         $this->GetPan_TiltSettings();
         $this->GetStateAlarmPosition();
         $this->GetParkPositionParameter();
-        // $this->GetOneStepPanTiltControl();
-        // $this->GetPanTiltTourSettings();
+        $this->GetOneStepPanTiltControl();
+        $this->GetPanTiltTourSettings();
 
         $this->GetStatusLED();
         $this->GetFileLengthManualRecordings();
@@ -3510,23 +3545,23 @@ class INSTAR extends IPSModule
         $this->GetNumberAlarmSnapshots();
         $this->GetAlarmAreasParameter();
         $this->GetMotionDetectionTimeScheduleParameter();
-        // $this->GetTimerParameter();
-        // $this->GetConfigurationPushService();
+        $this->GetTimerParameter();
+        $this->GetConfigurationPushService();
         $this->GetAlarmServer1Parameter();
-        // $this->GetAlarmserver2Configuration();
+        $this->GetAlarmserver2Configuration();
         $this->GetIntervalSnapshotSeriesTask();
         $this->GetScheduleIntervalSnapshotSeries();
         $this->GetPlannedVideoRecordingAttribute();
         $this->GetScheduleManualRecordingTask();
         $this->GetLAN_MACAddress();
-        // $this->GetWIFI_MACAddress();
+        $this->GetWIFI_MACAddress();
         $this->GetWAN_IPAddress();
         $this->GetNetworkConfiguration();
-        // $this->GetCameraTimeConfiguration();
+        $this->GetCameraTimeConfiguration();
         $this->GetCamerasNetworkConfiguration();
         $this->GetCameraUI_LanguageConfiguration();
         $this->GetCameraSystemLog();
-        // $this->GetCameraRebootAutomatically();
+        $this->GetCameraRebootAutomatically();
     }
 
     protected function GetHostIP()
@@ -3846,29 +3881,32 @@ class INSTAR extends IPSModule
         $this->GetNetInfo();
     }
 
-    protected function CheckAttributeType($var_name, $var_content, $suffix)
+    protected function CheckAttributeType(&$var_name, &$var_content, $suffix)
     {
         if (is_numeric($var_content)) {
             $key = array_search($var_name, $this->StringAttributes);
             if ($key > 0) {
-                $string_var_content = strval($var_content);
-                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
-                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $string_var_content);
+                // is string
+                $var_content = strval($var_content);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
                 $this->SendDebug(
-                    'INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($string_var_content, true), 0
+                    'INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($var_content, true), 0
                 );
-                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             } else {
-                $int_var_content = intval($var_content);
+                // is int
+                $var_content = intval($var_content);
                 $this->SendDebug(
                     'INSTAR Write Attribute',
-                    'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($int_var_content, true), 0
+                    'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0
                 );
-                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
-                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $int_var_content);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
+                // search bool variable value
                 $key = array_search($var_name, $this->BooleanAttributes);
                 if ($key > 0) {
-                    $bool_var_content = boolval($int_var_content);
+                    $bool_var_content = boolval($var_content);
                     if ($bool_var_content) {
                         $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = true', 0);
                         $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, true);
@@ -3878,23 +3916,14 @@ class INSTAR extends IPSModule
                     }
                 } else {
                     $this->SendDebug('INSTAR Write Value', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . $var_content, 0);
-                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
             }
         } else {
             if ($var_name == 'admin_value46') {
-                if ($var_content == '""') {
-                    $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
-                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
-                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
-                } else {
-                    $this->SendDebug(
-                        'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0
-                    );
-                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
-                }
-
+                $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
             } else {
                 if ($var_name == 'dhcpflag') {
                     if ($var_content == 'off') {
@@ -3902,7 +3931,7 @@ class INSTAR extends IPSModule
                     } elseif ($var_content == 'on') {
                         $bool_var_content = true;
                     }
-                    $this->WriteAttributeBoolean($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
+                    $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                     $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $bool_var_content);
                 }
                 $this->SendDebug('INSTAR Write Attribute', 'String ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
@@ -3910,8 +3939,6 @@ class INSTAR extends IPSModule
                 $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             }
         }
-
-
     }
 
     protected function WriteValue($var_name, $var_content)
@@ -3923,45 +3950,39 @@ class INSTAR extends IPSModule
 
     protected function SplitPayload(string $payload, $suffix = "")
     {
-        $data = explode(';', $payload);
+        $payload = str_replace(array("\r", "\n"), '' , $payload);
+        $result = [];
+        $data = explode('";', $payload);
         array_pop($data);
-        $data = $this->SaveData($data, $suffix, $payload);
-        return $data;
+        // var_dump($data);
+        foreach ($data as $info_device) {
+            $thing = explode('=', $info_device);
+            $var_content = trim($thing[1], '"');
+            $prefix = substr(trim($thing[0], ' \n\r' ), 0, 3);
+            if ($prefix == 'var') {
+                $var_name    = substr(trim($thing[0]), 4);
+            }
+            else
+            {
+                $var_name = trim($thing[0]);
+            }
+            $this->CheckAttributeType($var_name, $var_content, $suffix);
+            $result[$var_name] = $var_content;
+        }
+        return $result;
     }
 
     protected function ConvertNameToAtrribute($var_name)
     {
         $attribute_name = str_replace('[', '_', $var_name);
-        $attribute_name = str_replace(']', '_', $attribute_name);
-        return $attribute_name;
-    }
-
-    protected function SaveData($data, $suffix, $payload)
-    {
-        $result = [];
-        foreach ($data as $info_device) {
-            $info   = explode('=', $info_device);
-            $prefix = substr(trim($info[0]), 0, 3);
-            if ($prefix == 'var') {
-                $var_name    = substr(trim($info[0]), 4);
-                $var_content = trim($info[1], '"');
-            } else {
-                $var_name = $info[0];
-                if ($var_name == 'admin_value31' || $var_name == 'admin_value46') {
-                    $var_content = explode('=', $payload)[1];
-                    $this->CheckAttributeType($var_name, $var_content, $suffix);
-                    break;
-
-                } else {
-                    if (isset($info[1])) {
-                        $var_content = trim($info[1], '"');
-                    }
-                }
-            }
-            $this->CheckAttributeType($var_name, $var_content, $suffix);
-            $result[] = ['name' => $var_name, 'value' => $var_content];
+        $attribute_name = trim(str_replace(']', '_', $attribute_name));
+        $last_char = substr($var_name, -1);
+        if($last_char == ']')
+        {
+            $attribute_name = substr($attribute_name, 0, -1);
         }
-        return $result;
+        $attribute_name = str_replace('__', '_', $attribute_name);
+        return $attribute_name;
     }
 
     // Network Menu
@@ -5536,6 +5557,8 @@ class INSTAR extends IPSModule
     public function GetPanTiltTourSettings()
     {
         $payload = $this->SendParameter('getptztour');
+        // TODO auswerten
+
         $data    = $this->SplitPayload($payload);
         return $data;
     }
