@@ -1031,6 +1031,68 @@ class INSTAR extends IPSModule
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
         $this->RegisterAttributeBoolean('week6_time_enabled', false); // show Attribute in Webfront
 
+        $this->RegisterAttributeInteger('etm_record', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_record_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_snapshot', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_snapshot_enabled', false); // show Attribute in Webfront
+
         $this->RegisterAttributeInteger(
             'plancgi_enable_0', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
@@ -1384,18 +1446,20 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('at_authlevel2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('at_enable2', 1); // De/Activate [0, 1]
         $this->RegisterAttributeBoolean('at_enable2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('time', 0); // Camera Time
-        $this->RegisterAttributeBoolean('time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
-        $this->RegisterAttributeBoolean('timeZone_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('dstmode', 'on'); // De/Activate Daylight Saving Time [off, on]
-        $this->RegisterAttributeBoolean('dstmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpenable', 1); // De/Activate NTP Time Adjustment [0, 1]
-        $this->RegisterAttributeBoolean('ntpenable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ntpserver', ''); // NTP Server Address
+
+        $this->RegisterAttributeInteger('time_time', 0); // Camera Time
+        $this->RegisterAttributeBoolean('time_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('timeZone_time', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
+        $this->RegisterAttributeBoolean('timeZone_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('dstmode_time', 'on'); // De/Activate Daylight Saving Time [off, on]
+        $this->RegisterAttributeBoolean('dstmode_time_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('ntpenable_network', 1); // De/Activate NTP Time Adjustment [0, 1]
+        $this->RegisterAttributeBoolean('ntpenable_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('ntpserver_network', ''); // NTP Server Address
         $this->RegisterAttributeBoolean('ntpserver_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpinterval', 1); // NTP Sync Interval in Hours [1 - 12]
-        $this->RegisterAttributeBoolean('ntpinterval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('ntpinterval_network', 1); // NTP Sync Interval in Hours [1 - 12]
+        $this->RegisterAttributeBoolean('ntpinterval_network_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('guest_value11', 'de'); // UI Language Selector [de, en, fr, cn]
         $this->RegisterAttributeBoolean('guest_value11_enabled', false); // show Attribute in Webfront
 
@@ -3591,7 +3655,6 @@ class INSTAR extends IPSModule
         $this->GetParkPositionParameter();
         $this->GetOneStepPanTiltControl();
         $this->GetPanTiltTourSettings();
-
         $this->GetStatusLED();
         $this->GetFileLengthManualRecordings();
         $this->GetAlarmActionParameterEmailsnap();
@@ -3987,8 +4050,9 @@ class INSTAR extends IPSModule
                 $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
                 $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
                 $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             } else {
-                if ($var_name == 'dhcpflag') {
+                if ($var_name == 'dhcpflag' || $var_name == 'flip' || $var_name == 'mirror') {
                     if ($var_content == 'off') {
                         $bool_var_content = false;
                     } elseif ($var_content == 'on') {
@@ -3996,10 +4060,15 @@ class INSTAR extends IPSModule
                     }
                     $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                     $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $bool_var_content);
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
+                }
+                else
+                {
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
                 $this->SendDebug('INSTAR Write Attribute', 'String ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
                 $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+
             }
         }
     }
@@ -6332,9 +6401,10 @@ class INSTAR extends IPSModule
     public function GetScheduleIntervalSnapshotSeries()
     {
         $payload = $this->SendParameter('getscheduleex&-ename=snap');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_snapshot');
         return $data;
     }
+
 
     /** Set Schedule for Interval Snapshot Series
      *
@@ -6343,6 +6413,14 @@ class INSTAR extends IPSModule
     public function SetScheduleIntervalSnapshotSeries()
     {
         $as_enable = $this->ReadAttributeInteger('as_enable');
+        // $etm = $this->ReadAttributeInteger('etm_snapshot');
+        $week0     = $this->ReadAttributeString('week0_snapshot');
+        $week1     = $this->ReadAttributeString('week1_snapshot');
+        $week2     = $this->ReadAttributeString('week2_snapshot');
+        $week3     = $this->ReadAttributeString('week3_snapshot');
+        $week4     = $this->ReadAttributeString('week4_snapshot');
+        $week5     = $this->ReadAttributeString('week5_snapshot');
+        $week6     = $this->ReadAttributeString('week6_snapshot');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=snap&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=email&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=ftp
         $parameter = '&-as_enable=' . $as_enable;
         $data      = $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
@@ -6383,7 +6461,7 @@ class INSTAR extends IPSModule
     public function GetScheduleManualRecordingTask()
     {
         $payload = $this->SendParameter('getscheduleex&-ename=plan');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_record');
         return $data;
     }
 
@@ -6393,7 +6471,14 @@ class INSTAR extends IPSModule
      */
     public function SetScheduleManualRecordingTask()
     {
-        // TODO
+        // $etm = $this->ReadAttributeInteger('etm_record');
+        $week0     = $this->ReadAttributeString('week0_record');
+        $week1     = $this->ReadAttributeString('week1_record');
+        $week2     = $this->ReadAttributeString('week2_record');
+        $week3     = $this->ReadAttributeString('week3_record');
+        $week4     = $this->ReadAttributeString('week4_record');
+        $week5     = $this->ReadAttributeString('week5_record');
+        $week6     = $this->ReadAttributeString('week6_record');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
         $parameter = '';
