@@ -943,31 +943,94 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeString(
             'week0_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week0_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week1_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week1_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week2_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week2_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week3_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week3_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week3_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week4_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week4_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week4_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week5_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week5_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week5_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week6_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week6_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week6_as_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_network', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_network_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_time', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_time_enabled', false); // show Attribute in Webfront
+
         $this->RegisterAttributeInteger(
             'plancgi_enable_0', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
@@ -6411,7 +6474,7 @@ class INSTAR extends IPSModule
     public function GetCameraTimeConfiguration()
     {
         $payload = $this->SendParameter('getservertime');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_time');
         return $data;
     }
 
@@ -6421,10 +6484,16 @@ class INSTAR extends IPSModule
      */
     public function SetCameraTimeConfiguration()
     {
-        // TODO
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-        $parameter = '';
+        // $etm = $this->ReadAttributeInteger('etm_time');
+        $week0     = $this->ReadAttributeString('week0_time');
+        $week1     = $this->ReadAttributeString('week1_time');
+        $week2     = $this->ReadAttributeString('week2_time');
+        $week3     = $this->ReadAttributeString('week3_time');
+        $week4     = $this->ReadAttributeString('week4_time');
+        $week5     = $this->ReadAttributeString('week5_time');
+        $week6     = $this->ReadAttributeString('week6_time');
+        $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
+                     . '&-week6=' . $week6;
         $data      = $this->SendParameter('setservertime' . $parameter);
         return $data;
     }
@@ -6436,7 +6505,7 @@ class INSTAR extends IPSModule
     public function GetCamerasNetworkConfiguration()
     {
         $payload = $this->SendParameter('getntpattr');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_network');
         return $data;
     }
 
@@ -6446,10 +6515,16 @@ class INSTAR extends IPSModule
      */
     public function SetCamerasNetworkConfiguration()
     {
-        // TODO
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-        $parameter = '';
+        // $etm = $this->ReadAttributeInteger('etm_network');
+        $week0     = $this->ReadAttributeString('week0_network');
+        $week1     = $this->ReadAttributeString('week1_network');
+        $week2     = $this->ReadAttributeString('week2_network');
+        $week3     = $this->ReadAttributeString('week3_network');
+        $week4     = $this->ReadAttributeString('week4_network');
+        $week5     = $this->ReadAttributeString('week5_network');
+        $week6     = $this->ReadAttributeString('week6_network');
+        $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
+                     . '&-week6=' . $week6;
         $data      = $this->SendParameter('setntpattr' . $parameter);
         return $data;
     }
