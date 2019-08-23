@@ -3956,15 +3956,26 @@ class INSTAR extends IPSModule
         array_pop($data);
         // var_dump($data);
         foreach ($data as $info_device) {
-            $thing = explode('=', $info_device);
-            $var_content = trim($thing[1], '"');
-            $prefix = substr(trim($thing[0], ' \n\r' ), 0, 3);
-            if ($prefix == 'var') {
-                $var_name    = substr(trim($thing[0]), 4);
+            if($info_device == 'admin_value31=')
+            {
+                $var_name = 'admin_value31';
+                $var_content = $data[1];
+                $this->CheckAttributeType($var_name, $var_content, $suffix);
+                $result[$var_name] = $var_content;
+                break;
             }
             else
             {
-                $var_name = trim($thing[0]);
+                $thing = explode('=', $info_device);
+                $var_content = trim($thing[1], '"');
+                $prefix = substr(trim($thing[0], ' \n\r' ), 0, 3);
+                if ($prefix == 'var') {
+                    $var_name    = substr(trim($thing[0]), 4);
+                }
+                else
+                {
+                    $var_name = trim($thing[0]);
+                }
             }
             $this->CheckAttributeType($var_name, $var_content, $suffix);
             $result[$var_name] = $var_content;
