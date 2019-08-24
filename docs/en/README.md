@@ -25,7 +25,7 @@ With the module commands can be sent to an [INSTAR](https://www.instar.de/ "INST
 ### Send commands to INSTAR:  
 
 - Control (up, down, left, right, stop)
-- Set position and start
+- Set preset position and start
 - Camera settings (contrast, brightness, color)
 
 ### Status feedback:  
