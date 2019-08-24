@@ -186,57 +186,57 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyString('email', '');
         $this->RegisterPropertyInteger('smtpmodule', 0);
         $this->RegisterPropertyString('subject', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail2', false);
         $this->RegisterPropertyString('email2', '');
         $this->RegisterPropertyInteger('smtpmodule2', 0);
         $this->RegisterPropertyString('subject2', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext2', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext2', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail3', false);
         $this->RegisterPropertyString('email3', '');
         $this->RegisterPropertyInteger('smtpmodule3', 0);
         $this->RegisterPropertyString('subject3', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext3', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext3', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail4', false);
         $this->RegisterPropertyString('email4', '');
         $this->RegisterPropertyInteger('smtpmodule4', 0);
         $this->RegisterPropertyString('subject4', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext4', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext4', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail5', false);
         $this->RegisterPropertyString('email5', '');
         $this->RegisterPropertyInteger('smtpmodule5', 0);
         $this->RegisterPropertyString('subject5', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext5', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext5', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail6', false);
         $this->RegisterPropertyString('email6', '');
         $this->RegisterPropertyInteger('smtpmodule6', 0);
         $this->RegisterPropertyString('subject6', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext6', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext6', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail7', false);
         $this->RegisterPropertyString('email7', '');
         $this->RegisterPropertyInteger('smtpmodule7', 0);
         $this->RegisterPropertyString('subject7', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext7', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext7', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail8', false);
         $this->RegisterPropertyString('email8', '');
         $this->RegisterPropertyInteger('smtpmodule8', 0);
         $this->RegisterPropertyString('subject8', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext8', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext8', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail9', false);
         $this->RegisterPropertyString('email9', '');
         $this->RegisterPropertyInteger('smtpmodule9', 0);
         $this->RegisterPropertyString('subject9', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext9', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext9', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail10', false);
         $this->RegisterPropertyString('email10', '');
         $this->RegisterPropertyInteger('smtpmodule10', 0);
         $this->RegisterPropertyString('subject10', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext10', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext10', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail11', false);
         $this->RegisterPropertyString('email11', '');
         $this->RegisterPropertyInteger('smtpmodule11', 0);
         $this->RegisterPropertyString('subject11', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext11', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext11', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('altview', false);
         $this->RegisterPropertyInteger('categorysnapshot', 0);
         $this->RegisterPropertyInteger('picturelimitsnapshot', 20);
@@ -334,7 +334,7 @@ class INSTAR extends IPSModule
         }
 
         $this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->RegisterVariableString('LastMovement', $this->Translate('Time last movement'), 'INSTAR.Movement', $this->_getPosition());
+        $this->RegisterVariableString('LastMovement', $this->Translate('Last motion detection'), 'INSTAR.Movement', $this->_getPosition());
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Continuous', 'Move', '', '', 0, 4, 0, 0, 1, [
                                            [0, $this->Translate('Left'), '', -1],
@@ -344,17 +344,17 @@ class INSTAR extends IPSModule
                                            [4, $this->Translate('Stop'), '', -1]]
         );
         $this->RegisterVariableInteger(
-            'Control_Continuous', $this->Translate('Control Continuous'), 'INSTAR.Control.Continuous', $this->_getPosition()
+            'Control_Continuous', $this->Translate('Continuous movement'), 'INSTAR.Control.Continuous', $this->_getPosition()
         );
         $this->EnableAction('Control_Continuous');
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Step', 'Move', '', '', 0, 3, 0, 0, 1, [
-                                     [0, $this->Translate('Step Left'), '', -1],
-                                     [1, $this->Translate('Step Up'), '', -1],
-                                     [2, $this->Translate('Step Down'), '', -1],
-                                     [3, $this->Translate('Step Right'), '', -1]]
+                                     [0, $this->Translate('Step left'), '', -1],
+                                     [1, $this->Translate('Step up'), '', -1],
+                                     [2, $this->Translate('Step down'), '', -1],
+                                     [3, $this->Translate('Step right'), '', -1]]
         );
-        $this->RegisterVariableInteger('Control_Step', $this->Translate('Control Step'), 'INSTAR.Control.Step', $this->_getPosition());
+        $this->RegisterVariableInteger('Control_Step', $this->Translate('Stepped movement'), 'INSTAR.Control.Step', $this->_getPosition());
         $this->EnableAction('Control_Step');
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, 1, [
@@ -366,7 +366,7 @@ class INSTAR extends IPSModule
         $this->EnableAction('Control_Scan');
         $this->RegisterProfileAssociation(
             'INSTAR.Snapshot', 'Camera', '', '', 0, 0, 0, 0, 1, [
-                                 [0, $this->Translate('Save Picture'), '', -1]]
+                                 [0, $this->Translate('Save snapshot'), '', -1]]
         );
 
         $this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, VARIABLETYPE_INTEGER);
@@ -379,7 +379,7 @@ class INSTAR extends IPSModule
         $this->RegisterVariableInteger('Contrast', $this->Translate('Contrast'), '~Intensity.255', $this->_getPosition()); // Brightness (0-255)
         $this->EnableAction('Contrast');
 
-        $this->RegisterVariableInteger('INSTARButtonSnapshot', $this->Translate('Save INSTAR picture'), 'INSTAR.Snapshot', $this->_getPosition());
+        $this->RegisterVariableInteger('INSTARButtonSnapshot', $this->Translate('Save camera snapshot'), 'INSTAR.Snapshot', $this->_getPosition());
         $this->EnableAction('INSTARButtonSnapshot');
 
         $this->RegisterVariableBoolean('Flip', $this->Translate('Flip'), '~Switch', $this->_getPosition());
@@ -404,21 +404,21 @@ class INSTAR extends IPSModule
         $this->EnableAction('IR_LED');
         $this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            'SetPosition', $this->Translate('Set Position'), 'INSTAR.SetPosition', $this->_getPosition()
+            'SetPosition', $this->Translate('Set preset position'), 'INSTAR.SetPosition', $this->_getPosition()
         ); // (0-7), integer
         $this->EnableAction('SetPosition');
         $this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            'UnsetPosition', $this->Translate('Unset Position'), 'INSTAR.UnsetPosition', $this->_getPosition()
+            'UnsetPosition', $this->Translate('Unset preset position'), 'INSTAR.UnsetPosition', $this->_getPosition()
         ); // (0-7), integer
         $this->EnableAction('UnsetPosition');
         $this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
         $this->RegisterVariableInteger(
-            'GotoPosition', $this->Translate('Go to Position'), 'INSTAR.GotoPosition', $this->_getPosition()
+            'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.GotoPosition', $this->_getPosition()
         ); // (0-7), integer
         $this->EnableAction('GotoPosition');
 
-        $this->RegisterVariableString('notification_alarm', $this->Translate('Alarm Notification'), '', $this->_getPosition());
+        $this->RegisterVariableString('notification_alarm', $this->Translate('Alarm notification'), '', $this->_getPosition());
 
         // register Webhook
         $this->RegisterWebhook('/hook/INSTAR' . $this->InstanceID);
@@ -450,7 +450,7 @@ class INSTAR extends IPSModule
             $this->SetAPI($model);
         }
 
-        //IP INSTAR prüfen
+        //IP address prüfen
         if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
             //IP ok
             $ipcheck = true;
@@ -483,7 +483,7 @@ class INSTAR extends IPSModule
                 IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
                 IPS_SetIdent($MediaID, 'INSTARVideo');
                 IPS_SetPosition($MediaID, -1);
-                IPS_SetName($MediaID, $this->Translate('INSTAR Live Picture')); // Medienobjekt benennen
+                IPS_SetName($MediaID, $this->Translate('INSTAR live video')); // Medienobjekt benennen
             }
             $url = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=12&usr=' . $user . '&pwd=' . $password;
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
@@ -976,7 +976,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Get your Camera´s HTTP Port
+    /** Get your Camera´s HTTP port
      *
      * @return false|string
      */
@@ -988,7 +988,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Set your Camera´s HTTP Port
+    /** Set your Camera´s HTTP port
      *
      * @param int $http_port
      *
@@ -1074,7 +1074,7 @@ class INSTAR extends IPSModule
         $this->SetCameraRTSP_Port($rtsp_port);
     }
 
-    /** Get RTSP Authentication State
+    /** Get RTSP authentication State
      *
      * @return false|string
      */
@@ -1092,7 +1092,7 @@ class INSTAR extends IPSModule
         return $authentication;
     }
 
-    /** Set RTSP Authentication State
+    /** Set RTSP authentication State
      *
      * @return false|string
      */
@@ -1630,7 +1630,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step right.
+     * Moves one Step right.
      *
      * @return bool|string
      */
@@ -1638,13 +1638,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 3);
         $command = '-step=1&-act=right';
-        $this->SendDebug('INSTAR:', 'step right', 0);
+        $this->SendDebug('INSTAR:', 'Step right', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step left.
+     * Moves one Step left.
      *
      * @return bool|string
      */
@@ -1652,13 +1652,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 0);
         $command = '-step=1&-act=left';
-        $this->SendDebug('INSTAR:', 'step left', 0);
+        $this->SendDebug('INSTAR:', 'Step left', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step up.
+     * Moves one Step up.
      *
      * @return bool|string
      */
@@ -1666,13 +1666,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 1);
         $command = '-step=1&-act=up';
-        $this->SendDebug('INSTAR:', 'step up', 0);
+        $this->SendDebug('INSTAR:', 'Step up', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step down.
+     * Moves one Step down.
      *
      * @return bool|string
      */
@@ -1680,7 +1680,7 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 2);
         $command = '-step=1&-act=down';
-        $this->SendDebug('INSTAR:', 'step down', 0);
+        $this->SendDebug('INSTAR:', 'Step down', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -1733,7 +1733,7 @@ class INSTAR extends IPSModule
     public function SetPosition(int $position)
     {
         $this->SetValue('SetPosition', $position);
-        $this->SendDebug('INSTAR:', 'Set position ' . $position, 0);
+        $this->SendDebug('INSTAR:', 'Set preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=1&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
@@ -1749,14 +1749,14 @@ class INSTAR extends IPSModule
     public function UnsetPosition(int $position)
     {
         $this->SetValue('UnsetPosition', $position);
-        $this->SendDebug('INSTAR:', 'Unset position ' . $position, 0);
+        $this->SendDebug('INSTAR:', 'Unset preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=0&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
         return $state;
     }
 
-    /** goto to a set position
+    /** goto to a Set preset position
      * @param int $position
      *
      * @return false|string
@@ -2642,44 +2642,44 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'username and password for INSTAR webhook'],
+                                 'caption' => 'Username and password for the INSTAR Webhook'],
                              [
                                  'name'    => 'webhook_username',
                                  'type'    => 'ValidationTextBox',
-                                 'caption' => 'Webhook Username'],
+                                 'caption' => 'Webhook username'],
                              [
                                  'name'    => 'webhook_password',
                                  'type'    => 'PasswordTextBox',
-                                 'caption' => 'Webhook Password']]]]
+                                 'caption' => 'Webhook password']]]]
         );
 
         $form = array_merge_recursive(
             $form, [
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'INSTAR Settings',
+                         'caption' => 'INSTAR settings',
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'IP Address or Hostname'],
+                                 'caption' => 'IP address or hostname'],
                              [
                                  'name'    => 'Host',
                                  'type'    => 'ValidationTextBox',
-                                 'caption' => 'Camera Address'],
+                                 'caption' => 'Camera IP address'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'Port INSTAR Camera'],
+                                 'caption' => 'Network port'],
                              [
                                  'name'    => 'Port',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'Camera Port']]],
+                                 'caption' => 'Camera port']]],
                      [
                          'type'    => 'ExpansionPanel',
                          'caption' => 'INSTAR login credentials',
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'INSTAR user with authorization as admin'],
+                                 'caption' => 'INSTAR user with admin authorization'],
                              [
                                  'name'    => 'User',
                                  'type'    => 'ValidationTextBox',
@@ -2729,7 +2729,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'items'   => $this->FormONVIFInfo()]]],
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'Multimeadia Menu',
+                         'caption' => 'Multimedia Menu',
                          'items'   => [
                              [
                                  'type'    => 'ExpansionPanel',
@@ -2779,7 +2779,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => 'INSTAR Camera Menu'],
                                      [
                                          'type'    => 'ExpansionPanel',
-                                         'caption' => 'email notification settings (Symcon)',
+                                         'caption' => 'Email notification settings (Symcon)',
                                          'items'   => $this->FormShowEmail()]]],
                              [
                                  'type'    => 'ExpansionPanel',
@@ -2811,7 +2811,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => 'INSTAR Camera Menu']]],
                              [
                                  'type'    => 'ExpansionPanel',
-                                 'caption' => 'Manual record',
+                                 'caption' => 'Manual recording',
                                  'items'   => [
                                      [
                                          'type'    => 'Label',
@@ -2935,7 +2935,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => 'INSTAR Camera Menu']]],
                              [
                                  'type'    => 'ExpansionPanel',
-                                 'caption' => 'Firmware-Update',
+                                 'caption' => 'Firmware Update',
                                  'items'   => [
                                      [
                                          'type'    => 'Label',
@@ -2949,32 +2949,32 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => 'INSTAR Camera Menu']]],
                              [
                                  'type'    => 'ExpansionPanel',
-                                 'caption' => 'Werksreset',
+                                 'caption' => 'Factory reset',
                                  'items'   => [
                                      [
                                          'type'    => 'Label',
                                          'caption' => 'INSTAR Camera Menu']]]]],
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'INSTAR Picture Settings',
+                         'caption' => 'INSTAR image settings',
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'Please first choose a Snapshot Category in the IP-Symcon Object Tree and select it in the Field below'],
+                                 'caption' => 'Please first choose a snapshot category in the IP-Symcon Object Tree and select it in the field below'],
                              [
                                  'type'    => 'Label',
                                  'caption' => 'INSTAR snapshot pictures category'],
                              [
                                  'name'    => 'categorysnapshot',
                                  'type'    => 'SelectCategory',
-                                 'caption' => 'Alarm Snapshots'],
+                                 'caption' => 'Alarm snapshots'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'picture limit for INSTAR snapshots pictures'],
+                                 'caption' => 'Number of snapshots'],
                              [
                                  'name'    => 'picturelimitsnapshot',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'Number of Alarm Snapshots']]]]
+                                 'caption' => 'Number of alarm snapshots']]]]
         );
         return $form;
     }
@@ -3020,11 +3020,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'width'   => '150px', ],
                                  [
                                      'name'    => 'sdfreespace',
-                                     'caption' => 'SD Free Space',
+                                     'caption' => 'SD free storage',
                                      'width'   => '150px', ],
                                  [
                                      'name'    => 'sdtotalspace',
-                                     'caption' => 'SD Capacity',
+                                     'caption' => 'SD capacity',
                                      'width'   => '150px', ]],
                              'values'   => [
                                  [
@@ -3042,10 +3042,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get camera infos from the camera'],
+                         'caption' => 'Get system info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get camera infos',
+                         'caption' => 'Get camera system info',
                          'onClick' => 'INSTAR_GetServerInfo($id);']]
         );
         return $form;
@@ -3096,7 +3096,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'type' => 'ValidationTextBox']],
                                  [
                                      'name'    => 'macaddress',
-                                     'caption' => 'MAC  Address',
+                                     'caption' => 'MAC address',
                                      'width'   => '150px'],
                                  [
                                      'name'    => 'networktype',
@@ -3116,10 +3116,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get network infos from the camera'],
+                         'caption' => 'Get network info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get network infos',
+                         'caption' => 'Get network info',
                          'onClick' => 'INSTAR_GetNetInfo($id);']]
         );
         return $form;
@@ -3164,7 +3164,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'type' => 'NumberSpinner']],
                                  [
                                      'name'    => 'rtsp_authentication',
-                                     'caption' => 'RTSP Authentication',
+                                     'caption' => 'RTSP authentication',
                                      'width'   => '250px',
                                      'edit'    => [
                                          'type' => 'CheckBox']],
@@ -3183,10 +3183,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'rtmp'                => $this->ReadAttributeInteger('rtmp_port')]]],
                          [
                              'type'    => 'Label',
-                             'caption' => 'Set port infos for the camera'],
+                             'caption' => 'Set network port for the camera'],
                          [
                              'type'    => 'Button',
-                             'caption' => 'Set port infos',
+                             'caption' => 'Set network port',
                              'onClick' => 'INSTAR_SetCameraPorts($id);']]
             );
         }
@@ -3194,10 +3194,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get port infos from the camera'],
+                         'caption' => 'Get network port info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get port infos',
+                         'caption' => 'Get network port info',
                          'onClick' => 'INSTAR_GetCameraPorts($id);']]
         );
         return $form;
@@ -3301,10 +3301,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'wf_mode'   => $this->ReadAttributeInteger('wf_mode')]]],
                          [
                              'type'    => 'Label',
-                             'caption' => 'Set WIFI infos for the camera'],
+                             'caption' => 'Set WIFI parameter for the camera'],
                          [
                              'type'    => 'Button',
-                             'caption' => 'Set WIFI infos',
+                             'caption' => 'Set WIFI parameter',
                              'onClick' => 'INSTAR_SetCameraWIFIConfiguration($id);']]
             );
         }
@@ -3312,10 +3312,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get WIFI infos from the camera'],
+                         'caption' => 'Get WIFI parameter from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get WIFI infos',
+                         'caption' => 'Get WIFI parameter',
                          'onClick' => 'INSTAR_GetCameraWIFIConfiguration($id);']]
         );
         return $form;
@@ -3381,10 +3381,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'our_enable'   => $this->ReadAttributeBoolean('our_enable')]]],
                          [
                              'type'    => 'Label',
-                             'caption' => 'Set INSTAR DDNS'],
+                             'caption' => 'Set DDNS parameter parameter'],
                          [
                              'type'    => 'Button',
-                             'caption' => 'Set INSTAR DDNS',
+                             'caption' => 'Set DDNS parameter parameter',
                              'onClick' => 'INSTAR_SetINSTAR_DDNS($id);']]
             );
         }
@@ -3455,7 +3455,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'Set 3rd Party DDNS Configuration'],
                          [
                              'type'    => 'Button',
-                             'caption' => 'Set DDNS',
+                             'caption' => 'Set DDNS parameter',
                              'onClick' => 'INSTAR_Set3rdPartyDDNSConfiguration($id);']]
             );
         }
@@ -3463,17 +3463,17 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get INSTAR DDNS'],
+                         'caption' => 'Get INSTAR DDNS parameter'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get DDNS Configuration',
+                         'caption' => 'Get DDNS parameter Configuration',
                          'onClick' => 'INSTAR_GetDDNSConfiguration($id);'],
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get DDNS'],
+                         'caption' => 'Get DDNS parameter'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get DDNS Configuration',
+                         'caption' => 'Get DDNS parameter Configuration',
                          'onClick' => 'INSTAR_Get3rdPartyDDNSConfiguration($id);']]
         );
         return $form;
@@ -3495,7 +3495,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'onClick' => 'INSTAR_SetUPNPConfiguration($id);'],
             [
                 'type'    => 'Label',
-                'caption' => 'Get INSTAR UPNP'],
+                'caption' => 'Get UPNP configuration'],
             [
                 'type'    => 'Button',
                 'caption' => 'Get UPNP Configuration',
@@ -3816,28 +3816,28 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $form          = [
             [
                 'type'    => 'Label',
-                'caption' => 'Optional Email Notification (configurated SMTP module required)'],
+                'caption' => 'Optional email notification (requires a configured SMTP module)'],
             [
                 'type'    => 'Label',
-                'caption' => 'Email Notification active'],
+                'caption' => 'Email notification active'],
             [
                 'name'    => 'activeemail',
                 'type'    => 'CheckBox',
-                'caption' => 'active email'],
+                'caption' => 'Active email'],
             [
                 'name'    => 'smtpmodule',
                 'type'    => 'SelectInstance',
                 'caption' => 'SMTP module'],
             [
                 'type'    => 'Label',
-                'caption' => 'Email Recipient'],
+                'caption' => 'Email recipient'],
             [
                 'name'    => 'email',
                 'type'    => 'ValidationTextBox',
                 'caption' => 'email'],
             [
                 'type'    => 'Label',
-                'caption' => 'email subject'],
+                'caption' => 'Email subject'],
             [
                 'name'    => 'subject',
                 'type'    => 'ValidationTextBox',
@@ -3852,7 +3852,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'name'    => 'activeemail2',
                 'type'    => 'CheckBox',
-                'caption' => 'active email 2']];
+                'caption' => 'Active email 2']];
         if ($activeemail2) {
             $form = array_merge_recursive(
                 $form, [
@@ -3862,14 +3862,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email2',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject2',
                              'type'    => 'ValidationTextBox',
@@ -3884,7 +3884,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail3',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 3']]
+                             'caption' => 'Active email 3']]
             );
         }
         if ($activeemail3) {
@@ -3896,14 +3896,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email3',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject3',
                              'type'    => 'ValidationTextBox',
@@ -3918,7 +3918,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail4',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 4']]
+                             'caption' => 'Active email 4']]
             );
         }
         if ($activeemail4) {
@@ -3930,14 +3930,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email4',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject4',
                              'type'    => 'ValidationTextBox',
@@ -3952,7 +3952,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail5',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 5']]
+                             'caption' => 'Active email 5']]
             );
         }
         if ($activeemail5) {
@@ -3964,14 +3964,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email5',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject5',
                              'type'    => 'ValidationTextBox',
@@ -3986,7 +3986,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail6',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 6']]
+                             'caption' => 'Active email 6']]
             );
         }
         if ($activeemail6) {
@@ -3998,14 +3998,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email6',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject6',
                              'type'    => 'ValidationTextBox',
@@ -4020,7 +4020,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail7',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 7']]
+                             'caption' => 'Active email 7']]
             );
         }
         if ($activeemail7) {
@@ -4032,14 +4032,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email7',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject7',
                              'type'    => 'ValidationTextBox',
@@ -4054,7 +4054,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail8',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 8']]
+                             'caption' => 'Active email 8']]
             );
         }
         if ($activeemail8) {
@@ -4066,14 +4066,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email8',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject8',
                              'type'    => 'ValidationTextBox',
@@ -4088,7 +4088,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail9',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 9']]
+                             'caption' => 'Active email 9']]
             );
         }
         if ($activeemail9) {
@@ -4100,14 +4100,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email9',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject9',
                              'type'    => 'ValidationTextBox',
@@ -4122,7 +4122,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail10',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 10']]
+                             'caption' => 'Active email 10']]
             );
         }
         if ($activeemail10) {
@@ -4134,14 +4134,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email10',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject10',
                              'type'    => 'ValidationTextBox',
@@ -4156,7 +4156,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail11',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 11']]
+                             'caption' => 'Active email 11']]
             );
         }
         if ($activeemail11) {
@@ -4168,14 +4168,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email11',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject11',
                              'type'    => 'ValidationTextBox',
@@ -4202,7 +4202,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Get snapshot from Camera'],
+                'caption' => 'Get snapshot from camera'],
             [
                 'type'    => 'Button',
                 'caption' => 'Get snapshot',
@@ -4256,11 +4256,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'code'    => 102,
                 'icon'    => 'active',
-                'caption' => 'INSTAR accessible.'],
+                'caption' => 'Camera is accessible.'],
             [
                 'code'    => 104,
                 'icon'    => 'inactive',
-                'caption' => 'interface closed.'],
+                'caption' => 'Interface closed.'],
             [
                 'code'    => 201,
                 'icon'    => 'inactive',
@@ -4272,7 +4272,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'code'    => 203,
                 'icon'    => 'error',
-                'caption' => 'No valid IP adress or host.'],
+                'caption' => 'No valid IP address or host.'],
             [
                 'code'    => 204,
                 'icon'    => 'error',
@@ -4300,7 +4300,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'code'    => 210,
                 'icon'    => 'error',
-                'caption' => 'webhook field must not be empty']];
+                'caption' => 'Webhook username and password can not be left empty']];
 
         return $form;
     }
