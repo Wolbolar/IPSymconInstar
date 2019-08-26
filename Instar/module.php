@@ -250,57 +250,72 @@ class INSTAR extends IPSModule
     // state code mapper
     protected $state_codes        = [
         0  => 'unknown',
-        1  => 'unknown',
-        2  => 'unknown',
-        3  => 'unknown',
-        4  => 'unknown',
-        5  => 'unknown',
-        6  => 'unknown',
-        7  => 'unknown',
-        8  => 'unknown',
-        9  => 'unknown',
-        10 => 'unknown'];
+        1  => 'alarm area 1 triggered',
+        2  => 'alarm area 2 triggered',
+        3  => 'alarm area 3 triggered',
+        4  => 'alarm area 4 triggered',
+        5  => 'alarm input / pir triggered',
+        6  => 'audio alarm triggered',
+        7  => 'motion detection & PIR triggered (area 1)',
+        8  => 'motion detection & PIR triggered (area 2)',
+        9  => 'motion detection & PIR triggered (area 3)',
+        10 => 'motion detection & PIR triggered (area 4)'];
 
     protected $push_notifications = [
         [
             'enabled'  => true,
             'state_id' => 1,
-            'name'     => 'alarm 1',
+            'name'     => 'alarm area 1 triggered',
             'sound'    => 'alarm'],
         [
             'enabled'  => true,
             'state_id' => 2,
-            'name'     => 'alarm 2',
+            'name'     => 'alarm area 2 triggered',
             'sound'    => '' // empty = default sound
         ],
         [
             'enabled'  => true,
             'state_id' => 3,
-            'name'     => 'alarm 3',
+            'name'     => 'alarm area 3 triggered',
             'sound'    => '' // empty = default sound
         ],
         [
             'enabled'  => true,
             'state_id' => 4,
-            'name'     => 'alarm 4',
+            'name'     => 'alarm area 4 triggered',
             'sound'    => '' // empty = default sound
         ],
         [
             'enabled'  => true,
             'state_id' => 5,
-            'name'     => 'alarm 5',
+            'name'     => 'alarm input / pir triggered',
             'sound'    => '' // empty = default sound
         ],
         [
             'enabled'  => true,
             'state_id' => 6,
-            'name'     => 'alarm 6',
+            'name'     => 'audio alarm triggered',
             'sound'    => '' // empty = default sound
         ],
         [
             'enabled'  => true,
             'state_id' => 7,
-            'name'     => 'alarm 7',
+            'name'     => 'motion detection & PIR triggered (area 1)',
+            'sound'    => 'alarm'],
+        [
+            'enabled'  => true,
+            'state_id' => 8,
+            'name'     => 'motion detection & PIR triggered (area 2)',
+            'sound'    => 'alarm'],
+        [
+            'enabled'  => true,
+            'state_id' => 9,
+            'name'     => 'motion detection & PIR triggered (area 3)',
+            'sound'    => 'alarm'],
+        [
+            'enabled'  => true,
+            'state_id' => 10,
+            'name'     => 'motion detection & PIR triggered (area 4)',
             'sound'    => 'alarm']];
 
     public function Create()
@@ -1811,10 +1826,24 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (0-7), integer
-
-        $this->SetupVariable(
-            'notification_alarm', $this->Translate('Alarm notification'), '', $this->_getPosition(), VARIABLETYPE_STRING, false, true
+        $this->RegisterProfileAssociation(
+            'INSTAR.notification_alarm', '', '', '', 0, 10, 0, 0, VARIABLETYPE_INTEGER, [
+                                           [0, $this->Translate('alarm area 1 triggered'), '', -1],
+                [1, $this->Translate('alarm area 1 triggered'), '', -1],
+                             [2, $this->Translate('alarm area 2 triggered'), '', -1],
+                             [3, $this->Translate('alarm area 3 triggered'), '', -1],
+                             [4, $this->Translate('alarm area 4 triggered'), '', -1],
+                             [5, $this->Translate('alarm input / pir triggered'), '', -1],
+                             [6, $this->Translate('audio alarm triggered'), '', -1],
+                             [7, $this->Translate('motion detection & PIR triggered (area 1)'), '', -1],
+                             [8, $this->Translate('motion detection & PIR triggered (area 2)'), '', -1],
+                             [9, $this->Translate('motion detection & PIR triggered (area 3)'), '', -1],
+                             [10, $this->Translate('motion detection & PIR triggered (area 4)'), '', -1]]
         );
+        $this->SetupVariable(
+            'notification_alarm', $this->Translate('Alarm notification'), 'INSTAR.notification_alarm', $this->_getPosition(), VARIABLETYPE_INTEGER, false, true
+        );
+
         if (@$this->GetIDForIdent('weekplan_position')) {
             $this->SendDebug('INSTAR Weeplan Position', 'Weekplan exists with id ' . $this->GetIDForIdent('weekplan_position'), 0);
         } else {
@@ -4224,7 +4253,7 @@ class INSTAR extends IPSModule
         }
 
         if (($_SERVER['PHP_AUTH_USER'] != $username) || ($_SERVER['PHP_AUTH_PW'] != $password)) {
-            header('WWW-Authenticate: Basic Realm="Plex WebHook"');
+            header('WWW-Authenticate: Basic Realm="INSTAR WebHook"');
             header('HTTP/1.0 401 Unauthorized');
             echo 'Authorization required';
             return;
@@ -4244,7 +4273,7 @@ class INSTAR extends IPSModule
             $this->SetValue('notification_alarm', $_GET['active']);
             $this->SetLastMovement();
         } else {
-            $this->SetValue('notification_alarm', "Event");
+            $this->SetValue('notification_alarm', 0);
             $this->SetLastMovement();
         }
     }
