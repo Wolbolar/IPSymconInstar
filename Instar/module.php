@@ -240,6 +240,66 @@ class INSTAR extends IPSModule
         'GotoPosition',
         'notification_alarm'];
 
+    // state code mapper
+    protected $state_codes = [
+        0   => 'unknown',
+        1   => 'unknown',
+        2   => 'unknown',
+        3   => 'unknown',
+        4   => 'unknown',
+        5   => 'unknown',
+        6   => 'unknown',
+        7   => 'unknown',
+        8   => 'unknown',
+        9   => 'unknown',
+        10  => 'unknown'
+    ];
+
+    protected $push_notifications = [
+        [
+            'enabled'  => true,
+            'state_id' => 1,
+            'name'     => 'alarm 1',
+            'sound'    => 'alarm'
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 2,
+            'name'     => 'alarm 2',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 3,
+            'name'     => 'alarm 3',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 4,
+            'name'     => 'alarm 4',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 5,
+            'name'     => 'alarm 5',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 6,
+            'name'     => 'alarm 6',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 7,
+            'name'     => 'alarm 7',
+            'sound'    => 'alarm'
+        ]
+    ];
+
     public function Create()
     {
         //Never delete this line!
@@ -259,6 +319,8 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('snapshot_resolution', 0);
         $this->RegisterPropertyInteger('MJPEG_Stream', 11);
         $this->RegisterPropertyInteger('relaxationmotionsensor', 10);
+        $this->RegisterPropertyInteger('notification_instance', 0);
+        $this->RegisterPropertyString('notifications', $this->GetPushNotifications());
         $this->RegisterPropertyBoolean('activeemail', false);
         $this->RegisterPropertyString('email', '');
         $this->RegisterPropertyInteger('smtpmodule', 0);
@@ -1750,6 +1812,15 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'notification_alarm', $this->Translate('Alarm notification'), '', $this->_getPosition(), VARIABLETYPE_STRING, false, true
         );
+        if(@$this->GetIDForIdent('weekplan_position'))
+        {
+            $this->SendDebug('INSTAR Weeplan Position', 'Weekplan exists with id ' . $this->GetIDForIdent('weekplan_position'), 0);
+        }
+        else
+        {
+            $this->CreateWeekplan();
+        }
+
 
         // Selected Variables
         $this->SetupVariable('model', $this->Translate('Camera Model Identifier'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
@@ -3690,6 +3761,108 @@ class INSTAR extends IPSModule
         $this->GetCameraRebootAutomatically();
     }
 
+    public function SendPushNotificationTest(int $state_id, bool $force_send)
+    {
+        $this->SendDebug('Notification Test Message', 'state id ' . $state_id, 0);
+        $this->SendPushNotification($state_id, $force_send);
+    }
+
+    /**
+     * Send push notifications.
+     *
+     * @param string $state_id
+     * @param bool   $force_send
+     *
+     * @return bool
+     */
+    protected function SendPushNotification($state_id, $force_send = false)
+    {
+        // get codes by state_id
+        $codes = $this->state_codes;
+        $prefix = 'Event';
+
+        $notification_ident = 'notification_alarm';
+
+        // check notification
+        $last_notification = GetValueString($this->GetIDForIdent($notification_ident));
+        // TODO check time since last event
+
+        // return false, when last notification is the same as current notification or id is 0
+        /*
+        if (($last_notification == $state_id && !$force_send) || $state_id == 0) {
+            return false;
+        }
+        */
+        // get picture
+        $targetid = 0;
+        $this->SendDebug('Notification Message', 'state id ' . $state_id, 0);
+        // check notification instance (webfront)
+        $instance_id = $this->ReadPropertyInteger('notification_instance');
+        $this->SendDebug('Notification Message', 'Webfront configurator id ' . $instance_id, 0);
+        if ($instance_id > 0) {
+            // get notification settings
+            if ($notifications = @json_decode($this->ReadPropertyString('notifications'), true)) {
+                // loop notifications and search for current state
+                foreach ($notifications as $notification) {
+                    if ($notification['state_id'] == $state_id) {
+                        // check if notification is enabled
+                        if ($notification['enabled'] || $force_send) {
+                            // send notification
+                            if ($state_id > 0 && isset($codes[$state_id])) {
+                                // build message
+                                $title = IPS_GetName($this->InstanceID); // instance name
+                                $message = $prefix . $this->Translate($codes[$state_id]);
+                                $this->SendDebug('Push Message', $title . ' / ' . $message . ' / sound ' . $notification['sound'], 0);
+                                // send notification
+                                WFC_PushNotification($instance_id, $title, $message, $notification['sound'], $targetid);
+                            }
+                        }
+
+                        // break loop
+                        return true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            $this->SendDebug('Notification Message', 'No webfront configurator selected, no push message send', 0);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get push notifications.
+     *
+     * @return string json encoded settings
+     */
+    protected function GetPushNotifications()
+    {
+        // translate default notifications
+        $notifications = $this->push_notifications;
+        foreach ($notifications as &$notification) {
+            $notification['name'] = $this->Translate($notification['name']);
+        }
+
+        // merge with current settings
+        if ($current_notifications = @$this->ReadPropertyString('notifications')) {
+            $current_notifications = json_decode($current_notifications, true);
+            foreach ($current_notifications as $current) {
+                // loop and replace settings
+                foreach ($notifications as &$n)
+                    if ($n['state_id'] == $current['state_id']) {
+                        $n['sound'] = $current['sound'];
+                        $n['enabled'] = $current['enabled'];
+
+                        break;
+                    }
+            }
+        }
+
+        return json_encode($notifications);
+    }
+
     protected function GetHostIP()
     {
         $ip_hosts = [];
@@ -3855,10 +4028,13 @@ class INSTAR extends IPSModule
 
         if ($SenderID == $this->GetIDForIdent('LastMovement')) {
             $this->GetSnapshot();
+            $email = $this->ReadPropertyString('email');
+            $this->EmailAlert($email);
+            $notification_alarm_type = GetValue($this->GetIDForIdent('notification_alarm'));
+            $this->SendPushNotification($notification_alarm_type, false);
             $this->SendDebug('INSTAR recieved LastMovement at', date('H:i', time()), 0);
             $this->SendDebug('INSTAR', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . '\r\n Data: ' . print_r($Data, true), 0);
         }
-
     }
 
     private function GetHostURL()
@@ -7044,7 +7220,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $EreignisID = IPS_CreateEvent(0);
             IPS_SetName($EreignisID, 'INSTAR Email Alert');
             IPS_SetIdent($EreignisID, 'EventINSTAREmail');
-            IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastRingtone'));   //bei Variablenaktualisierung
+            IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('notification_alarm'));   //bei Variablenaktualisierung
             IPS_SetParent($EreignisID, $ParentID);
             IPS_SetEventActive($EreignisID, $state);             //Ereignis aktivieren	/ deaktivieren
         } else {
@@ -7054,7 +7230,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     }
 
-    public function EmailAlert()
+    public function EmailAlert(string $email)
     {
         $emailalert   = $this->ReadPropertyBoolean('activeemail');
         $emailalert2  = $this->ReadPropertyBoolean('activeemail2');
@@ -7068,7 +7244,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $emailalert10 = $this->ReadPropertyBoolean('activeemail10');
         $emailalert11 = $this->ReadPropertyBoolean('activeemail11');
         if ($emailalert) {
-            $email     = $this->ReadPropertyString('email');
+            if ($email != '') {
+                $email = $this->ReadPropertyString('email');
+            }
             $subject   = $this->ReadPropertyString('subject');
             $emailtext = $this->ReadPropertyString('emailtext');
             $this->SendSMTPEmail($email, $subject, $emailtext);
@@ -7347,6 +7525,99 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $allmedia[$lastid]['saveinfo']    = $saveinfo;
         $allmedia[$lastid]['imagebase64'] = base64_encode($Content);  //Bild Base64 codieren und ablegen;
         return $allmedia;
+    }
+
+    public function CreateWeekplan()
+    {
+        $eid = IPS_CreateEvent(2);                  // Weekplan Event 2
+        IPS_SetParent($eid, $this->InstanceID);         // set parent
+        IPS_SetIcon($eid, "Camera");
+        IPS_SetIdent($eid, "weekplan_position");
+        IPS_SetInfo($eid, $this->Translate('INSTAR weekplan preset position'));
+        IPS_SetName($eid, $this->Translate('Weekplan preset position'));
+        IPS_SetEventScheduleAction($eid, 0, 'Position 1', 0xFF00FF, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 0;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 1, 'Position 2', 0x0000FF, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 1;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 2, 'Position 3', 0x00FF00, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 2;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 3, 'Position 4', 0xA88132, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 3;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 4, 'Position 5', 0xFF0000, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 4;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 5, 'Position 6', 0x323AA8, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 5;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 6, 'Position 7', 0xEDED00, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 6;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 7, 'Position 8', 0x00EDE9, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 7;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleGroup($eid, 1, 127);
+        IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+        return $eid;
     }
 
     public function ReceiveData($JSONString)
@@ -7677,14 +7948,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          'items'   => $this->FormShowEmail()],
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'INSTAR image settings',
+                         'caption' => 'Image settings',
                          'name'     => 'instar_picture_settings_menu',
                          'visible'  => true,
                          'expanded' => false,
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'Please first choose a snapshot category in the IP-Symcon Object Tree and select it in the Field below'],
+                                 'caption' => 'Please first choose a snapshot category in the IP-Symcon object tree and select it in the field below'],
                              [
                                  'type'    => 'Label',
                                  'caption' => 'INSTAR snapshot pictures category'],
@@ -7740,7 +8011,151 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => '160p (QVGA) Channel 13',
                                          'value'   => 13]]
 
-                             ],]]]
+                             ],]],
+                     [
+                         'type'    => 'ExpansionPanel',
+                         'caption' => 'Push Notifications',
+                         'name'     => 'instar_push_notifications_menu',
+                         'visible'  => true,
+                         'expanded' => false,
+                         'items'   => [
+                             [
+                                 'type'  => 'Label',
+                                 'label' => 'Push Notifications'
+                             ],
+                             [
+                                 'name'    => 'notification_instance',
+                                 'type'    => 'SelectInstance',
+                                 'caption' => 'Webfront Configurator'
+                             ],
+                             [
+                                 'type'     => 'List',
+                                 'name'     => 'notifications',
+                                 'caption'  => 'Push Notifications',
+                                 'rowCount' => count($this->push_notifications),
+                                 'add'      => false,
+                                 'delete'   => false,
+                                 'sort'     => [
+                                     'column'    => 'name',
+                                     'direction' => 'ascending'
+                                 ],
+                                 'columns' => [
+                                     [
+                                         'name'  => 'enabled',
+                                         'label' => 'Enabled',
+                                         'width' => '100px',
+                                         'edit'  => [
+                                             'type'    => 'CheckBox',
+                                             'caption' => 'Enable Push Notification'
+                                         ]
+                                     ],
+                                     [
+                                         'name'  => 'name',
+                                         'label' => 'Notification',
+                                         'width' => 'auto',
+                                         'save'  => true
+                                     ],
+                                     [
+                                         'name'  => 'sound',
+                                         'label' => 'Notification Sound',
+                                         'width' => '170px',
+                                         'edit'  => [
+                                             'type'    => 'Select',
+                                             'options' => [
+                                                 [
+                                                     'label' => 'default',
+                                                     'value' => ''
+                                                 ],
+                                                 [
+                                                     'label' => 'alarm',
+                                                     'value' => 'alarm'
+                                                 ],
+                                                 [
+                                                     'label' => 'bell',
+                                                     'value' => 'bell'
+                                                 ],
+                                                 [
+                                                     'label' => 'boom',
+                                                     'value' => 'boom'
+                                                 ],
+                                                 [
+                                                     'label' => 'buzzer',
+                                                     'value' => 'buzzer'
+                                                 ],
+                                                 [
+                                                     'label' => 'connected',
+                                                     'value' => 'connected'
+                                                 ],
+                                                 [
+                                                     'label' => 'dark',
+                                                     'value' => 'dark'
+                                                 ],
+                                                 [
+                                                     'label' => 'digital',
+                                                     'value' => 'digital'
+                                                 ],
+                                                 [
+                                                     'label' => 'drums',
+                                                     'value' => 'drums'
+                                                 ],
+                                                 [
+                                                     'label' => 'duck',
+                                                     'value' => 'duck'
+                                                 ],
+                                                 [
+                                                     'label' => 'full',
+                                                     'value' => 'full'
+                                                 ],
+                                                 [
+                                                     'label' => 'happy',
+                                                     'value' => 'happy'
+                                                 ],
+                                                 [
+                                                     'label' => 'horn',
+                                                     'value' => 'horn'
+                                                 ],
+                                                 [
+                                                     'label' => 'inception',
+                                                     'value' => 'inception'
+                                                 ],
+                                                 [
+                                                     'label' => 'kazoo',
+                                                     'value' => 'kazoo'
+                                                 ],
+                                                 [
+                                                     'label' => 'roll',
+                                                     'value' => 'roll'
+                                                 ],
+                                                 [
+                                                     'label' => 'siren',
+                                                     'value' => 'siren'
+                                                 ],
+                                                 [
+                                                     'label' => 'space',
+                                                     'value' => 'space'
+                                                 ],
+                                                 [
+                                                     'label' => 'trickling',
+                                                     'value' => 'trickling'
+                                                 ],
+                                                 [
+                                                     'label' => 'turn',
+                                                     'value' => 'turn'
+                                                 ]
+                                             ]
+                                         ]
+                                     ],
+                                     [
+                                         'name'    => 'state_id',
+                                         'label'   => 'State ID',
+                                         'width'   => 'auto',
+                                         'save'    => true,
+                                         'visible' => false
+                                     ]
+                                 ]
+                             ]
+                         ]
+                     ]]
         );
         return $form;
     }
