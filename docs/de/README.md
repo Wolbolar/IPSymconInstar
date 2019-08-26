@@ -5,7 +5,7 @@
 [![StyleCI](https://github.styleci.io/repos/187536063/shield?branch=master)](https://github.styleci.io/repos/187536063)
 
 
-Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera.
+Modul für IP-Symcon ab Version 5.2. Ermöglicht die Kommunikation mit einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera.
 
 ## Dokumentation
 
@@ -20,24 +20,26 @@ Modul für IP-Symcon ab Version 5.x. Ermöglicht die Kommunikation mit einer [IN
 
 ## 1. Funktionsumfang
 
-Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTAR") Kamera aus IP-Symcon senden und die Events einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera in IP-Symcon (ab Version 5) empfangen. 
+Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTAR") Kamera aus IP-Symcon senden und die Events einer [INSTAR](https://www.instar.de/ "INSTAR") Kamera in IP-Symcon (ab Version 5.2) empfangen. 
 
 ### Befehle an INSTAR senden:  
 
  - Steuerung ( hoch, runter, links, rechts, stop) 
  - Position setzten und anfahren
  - Kamera Einstellungen (Kontrast, Helligkeit, Farbe)
+ - es werden sämtliche von INSTAR beschriebenen Befehle über das CGI (Common Gateway Interface) unterstützt
 
 ### Status Rückmeldung:  
 
  - Bild Anzeige
  - Benachrichtung von [INSTAR](https://www.instar.de/ "INSTAR") an IP-Symcon bei einem Event
- - Email Benachrichtigung bei Event	
+ - Email Benachrichtigung bei Event
+ - Push Benachrichtigung bei einem Event	
   
 
 ## 2. Voraussetzungen
 
- - IP-Symcon 5.x
+ - IP-Symcon 5.2
  - [INSTAR](https://www.instar.de/ "INSTAR") Kamera
  - der Master Branch ist für die aktuelle IP-Symcon Version ausgelegt.
  - bei IP-Symcon Versionen kleiner 5.1 ist der Branch _5.0_ zu wählen
@@ -49,7 +51,7 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
 Die Webconsole von IP-Symcon mit _http://{IP-Symcon IP}:3777/console/_ öffnen. 
 
 
-Anschließend oben rechts auf das Symbol für den Modulstore (IP-Symcon > 5.1) klicken
+Anschließend oben rechts auf das Symbol für den Modulstore (IP-Symcon > 5.2) klicken
 
 ![Store](img/store_icon.png?raw=true "open store")
 
@@ -69,44 +71,6 @@ und schließend das Modul auswählen und auf _Installieren_
 
 drücken.
 
-
-#### Alternatives Installieren über Modules Instanz (IP-Symcon < 5.1)
-
-Die Webconsole von IP-Symcon mit _http://{IP-Symcon IP}:3777/console/_ öffnen. 
-
-Anschließend den Objektbaum _Öffnen_.
-
-![Objektbaum](img/objektbaum.png?raw=true "Objektbaum")	
-
-Die Instanz _'Modules'_ unterhalb von Kerninstanzen im Objektbaum von IP-Symcon (>=Ver. 5.x) mit einem Doppelklick öffnen und das  _Plus_ Zeichen drücken.
-
-![Modules](img/Modules.png?raw=true "Modules")	
-
-![Plus](img/plus.png?raw=true "Plus")	
-
-![ModulURL](img/add_module.png?raw=true "Add Module")
- 
-Im Feld die folgende URL eintragen und mit _OK_ bestätigen:
-
-```
-https://github.com/Wolbolar/IPSymconInstar
-```  
-	        
-Anschließend erscheint ein Eintrag für das Modul in der Liste der Instanz _Modules_    
-
-Es wird im Standard der Zweig (Branch) _master_ geladen, dieser enthält aktuelle Änderungen und Anpassungen.
-Nur der Zweig _master_ wird aktuell gehalten.
-
-![Master](img/master.png?raw=true "master") 
-
-Sollte eine ältere Version von IP-Symcon die kleiner ist als Version 5.1 eingesetzt werden, ist auf das Zahnrad rechts in der Liste zu klicken.
-Es öffnet sich ein weiteres Fenster,
-
-![SelectBranch](img/select_branch.png?raw=true "select branch") 
-
-hier kann man auf einen anderen Zweig wechseln, für ältere Versionen kleiner als 5.1 ist hier
-_Old-Version_ auszuwählen. 
-
 ### b. Einrichtung in IPS
 
 
@@ -124,6 +88,8 @@ und _INSTAR_ auswählen.
 Im Konfigurationsformular ist zunächst das passende Kamera Modell von INSTAR auszuwählen.
 
 
+
+
 ## 4. Funktionsreferenz
 
 ### INSTAR:
@@ -132,6 +98,8 @@ Die IP Adresse der INSTAR Kamera sowie Username sowie Passwort von INSTAR sind a
 Es wird bei jedem Event eine Mitteilung an IP-Symcon gesendet.
 Mit Hilfe eines Ereignisses was bei Variablenaktualisierung greift können dann in IP-Symcon weitere Aktionen
 ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Bilder.
+
+
 
 #### Anwendungsbeispiele
 
