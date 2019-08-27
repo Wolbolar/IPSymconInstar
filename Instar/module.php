@@ -240,6 +240,66 @@ class INSTAR extends IPSModule
         'GotoPosition',
         'notification_alarm'];
 
+    // state code mapper
+    protected $state_codes = [
+        0   => 'unknown',
+        1   => 'unknown',
+        2   => 'unknown',
+        3   => 'unknown',
+        4   => 'unknown',
+        5   => 'unknown',
+        6   => 'unknown',
+        7   => 'unknown',
+        8   => 'unknown',
+        9   => 'unknown',
+        10  => 'unknown'
+    ];
+
+    protected $push_notifications = [
+        [
+            'enabled'  => true,
+            'state_id' => 1,
+            'name'     => 'alarm 1',
+            'sound'    => 'alarm'
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 2,
+            'name'     => 'alarm 2',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 3,
+            'name'     => 'alarm 3',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 4,
+            'name'     => 'alarm 4',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 5,
+            'name'     => 'alarm 5',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 6,
+            'name'     => 'alarm 6',
+            'sound'    => '' // empty = default sound
+        ],
+        [
+            'enabled'  => true,
+            'state_id' => 7,
+            'name'     => 'alarm 7',
+            'sound'    => 'alarm'
+        ]
+    ];
+
     public function Create()
     {
         //Never delete this line!
@@ -259,61 +319,63 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('snapshot_resolution', 0);
         $this->RegisterPropertyInteger('MJPEG_Stream', 11);
         $this->RegisterPropertyInteger('relaxationmotionsensor', 10);
+        $this->RegisterPropertyInteger('notification_instance', 0);
+        $this->RegisterPropertyString('notifications', $this->GetPushNotifications());
         $this->RegisterPropertyBoolean('activeemail', false);
         $this->RegisterPropertyString('email', '');
         $this->RegisterPropertyInteger('smtpmodule', 0);
         $this->RegisterPropertyString('subject', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail2', false);
         $this->RegisterPropertyString('email2', '');
         $this->RegisterPropertyInteger('smtpmodule2', 0);
         $this->RegisterPropertyString('subject2', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext2', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext2', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail3', false);
         $this->RegisterPropertyString('email3', '');
         $this->RegisterPropertyInteger('smtpmodule3', 0);
         $this->RegisterPropertyString('subject3', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext3', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext3', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail4', false);
         $this->RegisterPropertyString('email4', '');
         $this->RegisterPropertyInteger('smtpmodule4', 0);
         $this->RegisterPropertyString('subject4', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext4', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext4', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail5', false);
         $this->RegisterPropertyString('email5', '');
         $this->RegisterPropertyInteger('smtpmodule5', 0);
         $this->RegisterPropertyString('subject5', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext5', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext5', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail6', false);
         $this->RegisterPropertyString('email6', '');
         $this->RegisterPropertyInteger('smtpmodule6', 0);
         $this->RegisterPropertyString('subject6', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext6', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext6', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail7', false);
         $this->RegisterPropertyString('email7', '');
         $this->RegisterPropertyInteger('smtpmodule7', 0);
         $this->RegisterPropertyString('subject7', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext7', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext7', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail8', false);
         $this->RegisterPropertyString('email8', '');
         $this->RegisterPropertyInteger('smtpmodule8', 0);
         $this->RegisterPropertyString('subject8', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext8', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext8', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail9', false);
         $this->RegisterPropertyString('email9', '');
         $this->RegisterPropertyInteger('smtpmodule9', 0);
         $this->RegisterPropertyString('subject9', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext9', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext9', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail10', false);
         $this->RegisterPropertyString('email10', '');
         $this->RegisterPropertyInteger('smtpmodule10', 0);
         $this->RegisterPropertyString('subject10', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext10', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext10', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('activeemail11', false);
         $this->RegisterPropertyString('email11', '');
         $this->RegisterPropertyInteger('smtpmodule11', 0);
         $this->RegisterPropertyString('subject11', $this->Translate('Camera Alarm!'));
-        $this->RegisterPropertyString('emailtext11', $this->Translate('Movement detected'));
+        $this->RegisterPropertyString('emailtext11', $this->Translate('Motion detected'));
         $this->RegisterPropertyBoolean('altview', false);
         $this->RegisterPropertyInteger('categorysnapshot', 0);
         $this->RegisterPropertyInteger('picturelimitsnapshot', 20);
@@ -430,7 +492,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
             'ov_forbitset', 0
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
@@ -785,15 +847,15 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('timerpreset_index_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
         $this->RegisterAttributeBoolean('timerpreset_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
+        $this->RegisterAttributeInteger('admin_value46', 0); // De/Activate One-Step Pan&Tilt Control - [0, 1]
         $this->RegisterAttributeBoolean('admin_value46_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
         $this->RegisterAttributeBoolean('tour_enable_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('tour_times', 1); // Number of Rounds [1 - 50]
         $this->RegisterAttributeBoolean('tour_times_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_index', 1); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
+        $this->RegisterAttributeString('tour_index', ''); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
         $this->RegisterAttributeBoolean('tour_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_interval', 60); // Set Pause when Tour Position is reached in seconds [60-43200]
+        $this->RegisterAttributeString('tour_interval', ''); // Set Pause when Tour Position is reached in seconds [60-43200]
         $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
         $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
@@ -827,8 +889,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('FTP_User_Name_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('FTP_User_Password', '');
         $this->RegisterAttributeBoolean('FTP_User_Password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('FTP_Mode', 0);
-        $this->RegisterAttributeBoolean('FTP_Mode_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('FTP Mode', 0);
+        $this->RegisterAttributeBoolean('FTP Mode_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('FTP_Directory', '');
         $this->RegisterAttributeBoolean('FTP_Directory_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('Auto_Create_Directory', 0);
@@ -943,31 +1005,156 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeString(
             'week0_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week0_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week1_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week1_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week2_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week2_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week3_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week3_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week3_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week4_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week4_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week4_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week5_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week5_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week5_as_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString(
             'week6_as', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week6_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeBoolean('week6_as_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_network', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_network', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_network_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_time', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_time', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_time_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_record', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_record_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_record', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_record_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('etm_snapshot', 0); // Detection Threshold (not active)
+        $this->RegisterAttributeBoolean('etm_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week0_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week0_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week1_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week1_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week2_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week2_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week3_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week3_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week4_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week4_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week5_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week5_snapshot_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString(
+            'week6_snapshot', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
+        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
+        $this->RegisterAttributeBoolean('week6_snapshot_enabled', false); // show Attribute in Webfront
+
         $this->RegisterAttributeInteger(
             'plancgi_enable_0', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
@@ -1048,16 +1235,26 @@ class INSTAR extends IPSModule
             'plancgi_enable_19', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
         $this->RegisterAttributeBoolean('plancgi_enable_19_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('plancgi_time_0', '');
-        $this->RegisterAttributeString('plancgi_time_1', '');
-        $this->RegisterAttributeString('plancgi_time_2', '');
-        $this->RegisterAttributeString('plancgi_time_3', '');
-        $this->RegisterAttributeString('plancgi_time_4', '');
-        $this->RegisterAttributeString('plancgi_time_5', '');
-        $this->RegisterAttributeString('plancgi_time_6', '');
-        $this->RegisterAttributeString('plancgi_time_7', '');
-        $this->RegisterAttributeString('plancgi_time_8', '');
-        $this->RegisterAttributeString('plancgi_time_9', '');
+        $this->RegisterAttributeInteger('plancgi_time_0', 0);
+        $this->RegisterAttributeInteger('plancgi_time_1', 0);
+        $this->RegisterAttributeInteger('plancgi_time_2', 0);
+        $this->RegisterAttributeInteger('plancgi_time_3', 0);
+        $this->RegisterAttributeInteger('plancgi_time_4', 0);
+        $this->RegisterAttributeInteger('plancgi_time_5', 0);
+        $this->RegisterAttributeInteger('plancgi_time_6', 0);
+        $this->RegisterAttributeInteger('plancgi_time_7', 0);
+        $this->RegisterAttributeInteger('plancgi_time_8', 0);
+        $this->RegisterAttributeInteger('plancgi_time_9', 0);
+        $this->RegisterAttributeInteger('plancgi_time_10', 0);
+        $this->RegisterAttributeInteger('plancgi_time_11', 0);
+        $this->RegisterAttributeInteger('plancgi_time_12', 0);
+        $this->RegisterAttributeInteger('plancgi_time_13', 0);
+        $this->RegisterAttributeInteger('plancgi_time_14', 0);
+        $this->RegisterAttributeInteger('plancgi_time_15', 0);
+        $this->RegisterAttributeInteger('plancgi_time_16', 0);
+        $this->RegisterAttributeInteger('plancgi_time_17', 0);
+        $this->RegisterAttributeInteger('plancgi_time_18', 0);
+        $this->RegisterAttributeInteger('plancgi_time_19', 0);
         $this->RegisterAttributeString('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_port', 0); // Port of the receiving Server [1-65536]
@@ -1086,13 +1283,13 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('as_queryattr1_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval1', ''); // Command 1 Value
         $this->RegisterAttributeBoolean('as_queryval1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2', ''); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeInteger('as_query2', 0); // Activate Sending optional Parameter 2
         $this->RegisterAttributeBoolean('as_query2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr2', ''); // Command 2 Attribute
         $this->RegisterAttributeBoolean('as_queryattr2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryval2', ''); // Command 2 Value
         $this->RegisterAttributeBoolean('as_queryval2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3', ''); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeInteger('as_query3', 0); // Activate Sending optional Parameter 3
         $this->RegisterAttributeBoolean('as_query3_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('as_queryattr3', ''); // Command 3 Attribute
         $this->RegisterAttributeBoolean('as_queryattr3_enabled', false); // show Attribute in Webfront
@@ -1101,71 +1298,87 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('alarmserver', 1); // Alarmserver 0 IP-Symcon connect, 1 local network
         $this->RegisterAttributeBoolean('alarmserver_enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server_0_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_0_', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_0_', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_0_', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_0_', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_0_', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area_0_', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io_0_', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio_0_', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio_0_', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery_0_', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1_0_', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1_0_', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1_0_', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2_0_', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2_0_', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2_0_', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3_0_', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_enabled_0_', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3_0_', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_0__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3_0_', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_0__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_0', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_0', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_0', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_0', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_0', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_0', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_0', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_0', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_0', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_0', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_0', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_0', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr1_0', ''); // Command 1 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval1_0', ''); // Command 1 Value
+        $this->RegisterAttributeBoolean('as_queryval1_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query2_0', 0); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeBoolean('as_query2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr2_0', ''); // Command 2 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval2_0', ''); // Command 2 Value
+        $this->RegisterAttributeBoolean('as_queryval2_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query3_0', 0); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeBoolean('as_query3_enabled_0', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr3_0', ''); // Command 3 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr3_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval3_0', ''); // Command 3 Value
+        $this->RegisterAttributeBoolean('as_queryval3_0_enabled', false); // show Attribute in Webfront
 
-        $this->RegisterAttributeString('as_server_1_', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_1_', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_1_', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_1_', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_1_', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_1_', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_area_1_', 1); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_io_1_', 1); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_audio_1_', 1); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_areaio_1_', 1); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_activequery_1_', 1); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_1__enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_query1_1_', 0); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_1__enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_server_1', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+        $this->RegisterAttributeBoolean('as_server_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_port_1', 0); // Port of the receiving Server [1-65536]
+        $this->RegisterAttributeBoolean('as_port_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_auth_1', 0); // Authentication required [0, 1]
+        $this->RegisterAttributeBoolean('as_auth_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_username_1', ''); // Alarmserver Username
+        $this->RegisterAttributeBoolean('as_username_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_password_1', ''); // Alarmserver Password
+        $this->RegisterAttributeBoolean('as_password_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_path_1', ''); // URL Path
+        $this->RegisterAttributeBoolean('as_path_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_area_1', 1); // Send Query when Motion is Detected
+        $this->RegisterAttributeBoolean('as_area_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_io_1', 1); // Send Query when Alarm Input is Triggered
+        $this->RegisterAttributeBoolean('as_io_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_audio_1', 1); // Send Query when Audio Alarm is Triggered
+        $this->RegisterAttributeBoolean('as_audio_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_areaio_1', 1); // Send Query when Motion is Detected and Input is Triggered
+        $this->RegisterAttributeBoolean('as_areaio_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_activequery_1', 1); // Append Alarm Trigger to Query
+        $this->RegisterAttributeBoolean('as_activequery_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query1_1', 0); // Activate Sending optional Parameter 1
+        $this->RegisterAttributeBoolean('as_query1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr1_1', ''); // Command 1 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval1_1', ''); // Command 1 Value
+        $this->RegisterAttributeBoolean('as_queryval1_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query2_1', 0); // Activate Sending optional Parameter 2
+        $this->RegisterAttributeBoolean('as_query2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr2_1', ''); // Command 2 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval2_1', ''); // Command 2 Value
+        $this->RegisterAttributeBoolean('as_queryval2_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query3_1', 0); // Activate Sending optional Parameter 3
+        $this->RegisterAttributeBoolean('as_query3_enabled_1', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryattr3_1', ''); // Command 3 Attribute
+        $this->RegisterAttributeBoolean('as_queryattr3_1_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('as_queryval3_1', ''); // Command 3 Value
+        $this->RegisterAttributeBoolean('as_queryval3_1_enabled', false); // show Attribute in Webfront
 
         $this->RegisterAttributeString('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
         $this->RegisterAttributeBoolean('as_server_2_enabled', false); // show Attribute in Webfront
@@ -1267,6 +1480,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('lanmac_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('wifimac', ''); // MAC Address of the WLAN Interface
         $this->RegisterAttributeBoolean('wifimac_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('wifitype', 0); //
+        $this->RegisterAttributeBoolean('wifitype_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('internetip', ''); // Get Wide Area Network Address
         $this->RegisterAttributeBoolean('internetip_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('at_username0', ''); // Username for User 1
@@ -1293,18 +1508,20 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('at_authlevel2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('at_enable2', 1); // De/Activate [0, 1]
         $this->RegisterAttributeBoolean('at_enable2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('time', ''); // Camera Time
-        $this->RegisterAttributeBoolean('time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
-        $this->RegisterAttributeBoolean('timeZone_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('dstmode', 'on'); // De/Activate Daylight Saving Time [off, on]
-        $this->RegisterAttributeBoolean('dstmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpenable', 1); // De/Activate NTP Time Adjustment [0, 1]
-        $this->RegisterAttributeBoolean('ntpenable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ntpserver', ''); // NTP Server Address
+
+        $this->RegisterAttributeInteger('time_time', 0); // Camera Time
+        $this->RegisterAttributeBoolean('time_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('timeZone_time', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
+        $this->RegisterAttributeBoolean('timeZone_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('dstmode_time', 'on'); // De/Activate Daylight Saving Time [off, on]
+        $this->RegisterAttributeBoolean('dstmode_time_enabled', false); // show Attribute in Webfront
+
+        $this->RegisterAttributeInteger('ntpenable_network', 1); // De/Activate NTP Time Adjustment [0, 1]
+        $this->RegisterAttributeBoolean('ntpenable_network_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('ntpserver_network', ''); // NTP Server Address
         $this->RegisterAttributeBoolean('ntpserver_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpinterval', 1); // NTP Sync Interval in Hours [1 - 12]
-        $this->RegisterAttributeBoolean('ntpinterval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('ntpinterval_network', 1); // NTP Sync Interval in Hours [1 - 12]
+        $this->RegisterAttributeBoolean('ntpinterval_network_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('guest_value11', 'de'); // UI Language Selector [de, en, fr, cn]
         $this->RegisterAttributeBoolean('guest_value11_enabled', false); // show Attribute in Webfront
 
@@ -1357,7 +1574,7 @@ class INSTAR extends IPSModule
             $this->SetAPI($model);
         }
 
-        //IP INSTAR prüfen
+        // check IP adress
         if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
             //IP ok
             $ipcheck = true;
@@ -1390,7 +1607,7 @@ class INSTAR extends IPSModule
                 IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
                 IPS_SetIdent($MediaID, 'INSTARVideo');
                 IPS_SetPosition($MediaID, -1);
-                IPS_SetName($MediaID, $this->Translate('INSTAR Live Picture')); // Medienobjekt benennen
+                IPS_SetName($MediaID, $this->Translate('INSTAR live video')); // Medienobjekt benennen
             }
             $channel = $this->ReadPropertyInteger('MJPEG_Stream');
             $url     = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
@@ -1408,7 +1625,7 @@ class INSTAR extends IPSModule
 
             $this->RegisterProfile('INSTAR.Movement', 'Motion', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
             $this->SetupVariable(
-                'LastMovement', $this->Translate('Time last movement'), 'INSTAR.Movement', $this->_getPosition(), VARIABLETYPE_STRING, false, true
+                'LastMovement', $this->Translate('Last motion detection'), 'INSTAR.Movement', $this->_getPosition(), VARIABLETYPE_STRING, false, true
             );
 
             if ($ipsversion == 0) {
@@ -1484,7 +1701,7 @@ class INSTAR extends IPSModule
 
             }
             $this->SetupVariables();
-            // $this->UpdateSettings();
+            $this->UpdateSettings();
             // Status Aktiv
             $this->SetStatus(102);
         }
@@ -1494,14 +1711,14 @@ class INSTAR extends IPSModule
     {
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Continuous', 'Move', '', '', 0, 4, 0, 0, VARIABLETYPE_INTEGER, [
-                                           [0, $this->Translate('Left'), '', -1],
-                                           [1, $this->Translate('Up'), '', -1],
-                                           [2, $this->Translate('Down'), '', -1],
-                                           [3, $this->Translate('Right'), '', -1],
-                                           [4, $this->Translate('Stop'), '', -1]]
+                                           [0, $this->Translate('left'), '', -1],
+                                           [1, $this->Translate('up'), '', -1],
+                                           [2, $this->Translate('down'), '', -1],
+                                           [3, $this->Translate('right'), '', -1],
+                                           [4, $this->Translate('stop'), '', -1]]
         );
         $this->SetupVariable(
-            'Control_Continuous', $this->Translate('Control Continuous'), 'INSTAR.Control.Continuous', $this->_getPosition(), VARIABLETYPE_INTEGER,
+            'Control_Continuous', $this->Translate('Continuous movement'), 'INSTAR.Control.Continuous', $this->_getPosition(), VARIABLETYPE_INTEGER,
             true, true
         );
         $this->RegisterProfileAssociation(
@@ -1512,7 +1729,7 @@ class INSTAR extends IPSModule
                                      [3, $this->Translate('Step Right'), '', -1]]
         );
         $this->SetupVariable(
-            'Control_Step', $this->Translate('Control Step'), 'INSTAR.Control.Step', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            'Control_Step', $this->Translate('Stepped movement'), 'INSTAR.Control.Step', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         );
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
@@ -1525,7 +1742,7 @@ class INSTAR extends IPSModule
         );
         $this->RegisterProfileAssociation(
             'INSTAR.Snapshot', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER, [
-                                 [0, $this->Translate('Save Picture'), '', -1]]
+                                 [0, $this->Translate('Save snapshot'), '', -1]]
         );
 
         $this->RegisterProfile('INSTAR.Hue', 'Light', '', '', 0, 127, 1, 0, VARIABLETYPE_INTEGER);
@@ -1550,7 +1767,7 @@ class INSTAR extends IPSModule
         ); //  Gamma 0-3
 
         $this->SetupVariable(
-            'INSTARButtonSnapshot', $this->Translate('Save INSTAR picture'), 'INSTAR.Snapshot', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'INSTARButtonSnapshot', $this->Translate('Save camera snapshot'), 'INSTAR.Snapshot', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
 
         $this->SetupVariable('flip', $this->Translate('Flip'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
@@ -1571,23 +1788,39 @@ class INSTAR extends IPSModule
         );
         $this->SetupVariable('IR_LED', $this->Translate('IR LED'), 'INSTAR.IRLED', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true);
 
-        $this->RegisterProfile('INSTAR.SetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
-        $this->SetupVariable(
-            'SetPosition', $this->Translate('Set Position'), 'INSTAR.SetPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
-        $this->RegisterProfile('INSTAR.UnsetPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
-        $this->SetupVariable(
-            'UnsetPosition', $this->Translate('Unset Position'), 'INSTAR.UnsetPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
-
-        $this->RegisterProfile('INSTAR.GotoPosition', 'Image', '', '', 0, 7, 1, 0, VARIABLETYPE_INTEGER);
-        $this->SetupVariable(
-            'GotoPosition', $this->Translate('Go to Position'), 'INSTAR.GotoPosition', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
-
-        $this->SetupVariable(
-            'notification_alarm', $this->Translate('Alarm Notification'), '', $this->_getPosition(), VARIABLETYPE_STRING, false, true
+        $this->RegisterProfileAssociation(
+            'INSTAR.Position', 'Image', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
+                                 [0, $this->Translate('Position 1'), '', -1],
+                                 [1, $this->Translate('Position 2'), '', -1],
+                                 [2, $this->Translate('Position 3'), '', -1],
+                                 [3, $this->Translate('Position 4'), '', -1],
+                                 [4, $this->Translate('Position 5'), '', -1],
+                                 [5, $this->Translate('Position 6'), '', -1],
+                                 [6, $this->Translate('Position 7'), '', -1],
+                                 [7, $this->Translate('Position 8'), '', -1]]
         );
+        $this->SetupVariable(
+            'SetPosition', $this->Translate('Set preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+        ); // (0-7), integer
+        $this->SetupVariable(
+            'UnsetPosition', $this->Translate('Unset preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+        ); // (0-7), integer
+        $this->SetupVariable(
+            'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+        ); // (0-7), integer
+
+        $this->SetupVariable(
+            'notification_alarm', $this->Translate('Alarm notification'), '', $this->_getPosition(), VARIABLETYPE_STRING, false, true
+        );
+        if(@$this->GetIDForIdent('weekplan_position'))
+        {
+            $this->SendDebug('INSTAR Weeplan Position', 'Weekplan exists with id ' . $this->GetIDForIdent('weekplan_position'), 0);
+        }
+        else
+        {
+            $this->CreateWeekplan();
+        }
+
 
         // Selected Variables
         $this->SetupVariable('model', $this->Translate('Camera Model Identifier'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
@@ -1597,10 +1830,10 @@ class INSTAR extends IPSModule
         $this->SetupVariable('name', $this->Translate('Name'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
         $this->RegisterProfile('INSTAR.SD_Space_KB', '', '', ' KB', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
-            'sdfreespace', $this->Translate('SD free space'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'sdfreespace', $this->Translate('SD free storage'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // SD free space，KB
         $this->SetupVariable(
-            'sdtotalspace', $this->Translate('SD total space'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'sdtotalspace', $this->Translate('SD capacity'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // SD total space，KB
 
         $this->SetupVariable('platformstatus', $this->Translate('Platform Status'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, false);
@@ -1680,7 +1913,7 @@ class INSTAR extends IPSModule
                                   [3, $this->Translate('WPA2-PSK'), '', -1]]
         );
         $this->SetupVariable(
-            'wf_auth', $this->Translate('WiFi Authentification'), 'WLAN_Auth', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'wf_auth', $this->Translate('WiFi Encryption'), 'WLAN_Auth', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
 
         $this->SetupVariable(
@@ -1892,7 +2125,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
             'ov_forbitset', 0
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
@@ -2737,7 +2970,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
             'ov_forbitset', 0
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
@@ -3491,9 +3724,8 @@ class INSTAR extends IPSModule
         $this->GetPan_TiltSettings();
         $this->GetStateAlarmPosition();
         $this->GetParkPositionParameter();
-        // $this->GetOneStepPanTiltControl();
-        // $this->GetPanTiltTourSettings();
-
+        $this->GetOneStepPanTiltControl();
+        $this->GetPanTiltTourSettings();
         $this->GetStatusLED();
         $this->GetFileLengthManualRecordings();
         $this->GetAlarmActionParameterEmailsnap();
@@ -3510,23 +3742,125 @@ class INSTAR extends IPSModule
         $this->GetNumberAlarmSnapshots();
         $this->GetAlarmAreasParameter();
         $this->GetMotionDetectionTimeScheduleParameter();
-        // $this->GetTimerParameter();
-        // $this->GetConfigurationPushService();
+        $this->GetTimerParameter();
+        $this->GetConfigurationPushService();
         $this->GetAlarmServer1Parameter();
-        // $this->GetAlarmserver2Configuration();
+        $this->GetAlarmserver2Configuration();
         $this->GetIntervalSnapshotSeriesTask();
         $this->GetScheduleIntervalSnapshotSeries();
         $this->GetPlannedVideoRecordingAttribute();
         $this->GetScheduleManualRecordingTask();
         $this->GetLAN_MACAddress();
-        // $this->GetWIFI_MACAddress();
+        $this->GetWIFI_MACAddress();
         $this->GetWAN_IPAddress();
         $this->GetNetworkConfiguration();
-        // $this->GetCameraTimeConfiguration();
+        $this->GetCameraTimeConfiguration();
         $this->GetCamerasNetworkConfiguration();
         $this->GetCameraUI_LanguageConfiguration();
         $this->GetCameraSystemLog();
-        // $this->GetCameraRebootAutomatically();
+        $this->GetCameraRebootAutomatically();
+    }
+
+    public function SendPushNotificationTest(int $state_id, bool $force_send)
+    {
+        $this->SendDebug('Notification Test Message', 'state id ' . $state_id, 0);
+        $this->SendPushNotification($state_id, $force_send);
+    }
+
+    /**
+     * Send push notifications.
+     *
+     * @param string $state_id
+     * @param bool   $force_send
+     *
+     * @return bool
+     */
+    protected function SendPushNotification($state_id, $force_send = false)
+    {
+        // get codes by state_id
+        $codes = $this->state_codes;
+        $prefix = 'Event';
+
+        $notification_ident = 'notification_alarm';
+
+        // check notification
+        $last_notification = GetValueString($this->GetIDForIdent($notification_ident));
+        // TODO check time since last event
+
+        // return false, when last notification is the same as current notification or id is 0
+        /*
+        if (($last_notification == $state_id && !$force_send) || $state_id == 0) {
+            return false;
+        }
+        */
+        // get picture
+        $targetid = 0;
+        $this->SendDebug('Notification Message', 'state id ' . $state_id, 0);
+        // check notification instance (webfront)
+        $instance_id = $this->ReadPropertyInteger('notification_instance');
+        $this->SendDebug('Notification Message', 'Webfront configurator id ' . $instance_id, 0);
+        if ($instance_id > 0) {
+            // get notification settings
+            if ($notifications = @json_decode($this->ReadPropertyString('notifications'), true)) {
+                // loop notifications and search for current state
+                foreach ($notifications as $notification) {
+                    if ($notification['state_id'] == $state_id) {
+                        // check if notification is enabled
+                        if ($notification['enabled'] || $force_send) {
+                            // send notification
+                            if ($state_id > 0 && isset($codes[$state_id])) {
+                                // build message
+                                $title = IPS_GetName($this->InstanceID); // instance name
+                                $message = $prefix . $this->Translate($codes[$state_id]);
+                                $this->SendDebug('Push Message', $title . ' / ' . $message . ' / sound ' . $notification['sound'], 0);
+                                // send notification
+                                WFC_PushNotification($instance_id, $title, $message, $notification['sound'], $targetid);
+                            }
+                        }
+
+                        // break loop
+                        return true;
+                    }
+                }
+            }
+        }
+        else
+        {
+            $this->SendDebug('Notification Message', 'No webfront configurator selected, no push message send', 0);
+        }
+
+        return false;
+    }
+
+    /**
+     * Get push notifications.
+     *
+     * @return string json encoded settings
+     */
+    protected function GetPushNotifications()
+    {
+        // translate default notifications
+        $notifications = $this->push_notifications;
+        foreach ($notifications as &$notification) {
+            $notification['name'] = $this->Translate($notification['name']);
+        }
+
+        // merge with current settings
+        if ($current_notifications = @$this->ReadPropertyString('notifications')) {
+            $current_notifications = json_decode($current_notifications, true);
+            foreach ($current_notifications as $current) {
+                // loop and replace settings
+                foreach ($notifications as &$n)
+                    if ($n['state_id'] == $current['state_id']) {
+                        $n['sound'] = $current['sound'];
+                        $n['enabled'] = $current['enabled'];
+
+                        break;
+                    }
+            }
+        }
+
+        return json_encode($notifications);
     }
 
     protected function GetHostIP()
@@ -3694,10 +4028,13 @@ class INSTAR extends IPSModule
 
         if ($SenderID == $this->GetIDForIdent('LastMovement')) {
             $this->GetSnapshot();
+            $email = $this->ReadPropertyString('email');
+            $this->EmailAlert($email);
+            $notification_alarm_type = GetValue($this->GetIDForIdent('notification_alarm'));
+            $this->SendPushNotification($notification_alarm_type, false);
             $this->SendDebug('INSTAR recieved LastMovement at', date('H:i', time()), 0);
             $this->SendDebug('INSTAR', 'Message from SenderID ' . $SenderID . ' with Message ' . $Message . '\r\n Data: ' . print_r($Data, true), 0);
         }
-
     }
 
     private function GetHostURL()
@@ -3846,29 +4183,32 @@ class INSTAR extends IPSModule
         $this->GetNetInfo();
     }
 
-    protected function CheckAttributeType($var_name, $var_content, $suffix)
+    protected function CheckAttributeType(&$var_name, &$var_content, $suffix)
     {
         if (is_numeric($var_content)) {
             $key = array_search($var_name, $this->StringAttributes);
             if ($key > 0) {
-                $string_var_content = strval($var_content);
-                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
-                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $string_var_content);
+                // is string
+                $var_content = strval($var_content);
+                $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
                 $this->SendDebug(
-                    'INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($string_var_content, true), 0
+                    'INSTAR Write Value', 'String ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . print_r($var_content, true), 0
                 );
-                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $string_var_content);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             } else {
-                $int_var_content = intval($var_content);
+                // is int
+                $var_content = intval($var_content);
                 $this->SendDebug(
                     'INSTAR Write Attribute',
-                    'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($int_var_content, true), 0
+                    'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0
                 );
-                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
-                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $int_var_content);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
+                // search bool variable value
                 $key = array_search($var_name, $this->BooleanAttributes);
                 if ($key > 0) {
-                    $bool_var_content = boolval($int_var_content);
+                    $bool_var_content = boolval($var_content);
                     if ($bool_var_content) {
                         $this->SendDebug('INSTAR Write Value', 'Boolean ' . $this->ConvertNameToAtrribute($var_name) . ' = true', 0);
                         $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, true);
@@ -3878,40 +4218,35 @@ class INSTAR extends IPSModule
                     }
                 } else {
                     $this->SendDebug('INSTAR Write Value', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . ' = ' . $var_content, 0);
-                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
             }
         } else {
             if ($var_name == 'admin_value46') {
-                if ($var_content == '""') {
-                    $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
-                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
-                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
-                } else {
-                    $this->SendDebug(
-                        'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0
-                    );
-                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
-                }
-
+                $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
+                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
+                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             } else {
-                if ($var_name == 'dhcpflag') {
+                if ($var_name == 'dhcpflag' || $var_name == 'flip' || $var_name == 'mirror') {
                     if ($var_content == 'off') {
                         $bool_var_content = false;
                     } elseif ($var_content == 'on') {
                         $bool_var_content = true;
                     }
-                    $this->WriteAttributeBoolean($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
+                    $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                     $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $bool_var_content);
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
+                }
+                else
+                {
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
                 $this->SendDebug('INSTAR Write Attribute', 'String ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
                 $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+
             }
         }
-
-
     }
 
     protected function WriteValue($var_name, $var_content)
@@ -3923,45 +4258,50 @@ class INSTAR extends IPSModule
 
     protected function SplitPayload(string $payload, $suffix = "")
     {
-        $data = explode(';', $payload);
+        $payload = str_replace(array("\r", "\n"), '' , $payload);
+        $result = [];
+        $data = explode('";', $payload);
         array_pop($data);
-        $data = $this->SaveData($data, $suffix, $payload);
-        return $data;
+        // var_dump($data);
+        foreach ($data as $info_device) {
+            if($info_device == 'admin_value31=')
+            {
+                $var_name = 'admin_value31';
+                $var_content = $data[1];
+                $this->CheckAttributeType($var_name, $var_content, $suffix);
+                $result[$var_name] = $var_content;
+                break;
+            }
+            else
+            {
+                $thing = explode('=', $info_device);
+                $var_content = trim($thing[1], '"');
+                $prefix = substr(trim($thing[0], ' \n\r' ), 0, 3);
+                if ($prefix == 'var') {
+                    $var_name    = substr(trim($thing[0]), 4);
+                }
+                else
+                {
+                    $var_name = trim($thing[0]);
+                }
+            }
+            $this->CheckAttributeType($var_name, $var_content, $suffix);
+            $result[$var_name] = $var_content;
+        }
+        return $result;
     }
 
     protected function ConvertNameToAtrribute($var_name)
     {
         $attribute_name = str_replace('[', '_', $var_name);
-        $attribute_name = str_replace(']', '_', $attribute_name);
-        return $attribute_name;
-    }
-
-    protected function SaveData($data, $suffix, $payload)
-    {
-        $result = [];
-        foreach ($data as $info_device) {
-            $info   = explode('=', $info_device);
-            $prefix = substr(trim($info[0]), 0, 3);
-            if ($prefix == 'var') {
-                $var_name    = substr(trim($info[0]), 4);
-                $var_content = trim($info[1], '"');
-            } else {
-                $var_name = $info[0];
-                if ($var_name == 'admin_value31' || $var_name == 'admin_value46') {
-                    $var_content = explode('=', $payload)[1];
-                    $this->CheckAttributeType($var_name, $var_content, $suffix);
-                    break;
-
-                } else {
-                    if (isset($info[1])) {
-                        $var_content = trim($info[1], '"');
-                    }
-                }
-            }
-            $this->CheckAttributeType($var_name, $var_content, $suffix);
-            $result[] = ['name' => $var_name, 'value' => $var_content];
+        $attribute_name = trim(str_replace(']', '_', $attribute_name));
+        $last_char = substr($var_name, -1);
+        if($last_char == ']')
+        {
+            $attribute_name = substr($attribute_name, 0, -1);
         }
-        return $result;
+        $attribute_name = str_replace('__', '_', $attribute_name);
+        return $attribute_name;
     }
 
     // Network Menu
@@ -4030,7 +4370,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Get your Camera´s HTTP Port
+    /** Get your Camera´s HTTP port
      *
      * @return false|string
      */
@@ -4042,7 +4382,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Set your Camera´s HTTP Port
+    /** Set your Camera´s HTTP port
      *
      * @param int $http_port
      *
@@ -4058,7 +4398,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Get your Camera´s HTTPS Port
+    /** Get your Camera´s HTTPS port
      *
      * @return false|string
      */
@@ -4070,7 +4410,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Set your Camera´s HTTPS Port
+    /** Set your Camera´s HTTPS port
      *
      * @param int $https_port
      *
@@ -4086,7 +4426,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Get your Camera´s RTSP Port
+    /** Get your Camera´s RTSP port
      *
      * @return false|string
      */
@@ -4098,7 +4438,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Set your Camera´s RTSP Port
+    /** Set your Camera´s RTSP port
      *
      * @param int $rtsp_port
      *
@@ -4111,7 +4451,7 @@ class INSTAR extends IPSModule
         return $port;
     }
 
-    /** Get RTSP Authentication State
+    /** Get RTSP authentication State
      *
      * @return false|string
      */
@@ -4123,7 +4463,7 @@ class INSTAR extends IPSModule
         return $auth;
     }
 
-    /** Set RTSP Authentication State
+    /** Set RTSP authentication State
      *
      * @return false|string
      */
@@ -4139,7 +4479,7 @@ class INSTAR extends IPSModule
         return $state;
     }
 
-    /** Get your Camera's RTMP Port
+    /** Get your Camera's RTMP port
      *
      * @return false|string
      */
@@ -4437,7 +4777,7 @@ class INSTAR extends IPSModule
         $ov_authflag  = $this->ReadAttributeInteger('ov_authflag'); // 1 ONVIF Login Required, 0: ONVIF Authentication deactivated
         $ov_forbitset = $this->ReadAttributeInteger(
             'ov_forbitset'
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $ov_subchn    = $this->ReadAttributeInteger('ov_subchn'); // Use video channel 11, 12 or 13
         $ov_snapchn   = $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
         $ov_nvctype   = $this->ReadAttributeInteger('ov_nvctype');
@@ -5536,6 +5876,8 @@ class INSTAR extends IPSModule
     public function GetPanTiltTourSettings()
     {
         $payload = $this->SendParameter('getptztour');
+        // TODO auswerten
+
         $data    = $this->SplitPayload($payload);
         return $data;
     }
@@ -6235,9 +6577,10 @@ class INSTAR extends IPSModule
     public function GetScheduleIntervalSnapshotSeries()
     {
         $payload = $this->SendParameter('getscheduleex&-ename=snap');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_snapshot');
         return $data;
     }
+
 
     /** Set Schedule for Interval Snapshot Series
      *
@@ -6246,6 +6589,14 @@ class INSTAR extends IPSModule
     public function SetScheduleIntervalSnapshotSeries()
     {
         $as_enable = $this->ReadAttributeInteger('as_enable');
+        // $etm = $this->ReadAttributeInteger('etm_snapshot');
+        $week0     = $this->ReadAttributeString('week0_snapshot');
+        $week1     = $this->ReadAttributeString('week1_snapshot');
+        $week2     = $this->ReadAttributeString('week2_snapshot');
+        $week3     = $this->ReadAttributeString('week3_snapshot');
+        $week4     = $this->ReadAttributeString('week4_snapshot');
+        $week5     = $this->ReadAttributeString('week5_snapshot');
+        $week6     = $this->ReadAttributeString('week6_snapshot');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=snap&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=email&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=ftp
         $parameter = '&-as_enable=' . $as_enable;
         $data      = $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
@@ -6286,7 +6637,7 @@ class INSTAR extends IPSModule
     public function GetScheduleManualRecordingTask()
     {
         $payload = $this->SendParameter('getscheduleex&-ename=plan');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_record');
         return $data;
     }
 
@@ -6296,7 +6647,14 @@ class INSTAR extends IPSModule
      */
     public function SetScheduleManualRecordingTask()
     {
-        // TODO
+        // $etm = $this->ReadAttributeInteger('etm_record');
+        $week0     = $this->ReadAttributeString('week0_record');
+        $week1     = $this->ReadAttributeString('week1_record');
+        $week2     = $this->ReadAttributeString('week2_record');
+        $week3     = $this->ReadAttributeString('week3_record');
+        $week4     = $this->ReadAttributeString('week4_record');
+        $week5     = $this->ReadAttributeString('week5_record');
+        $week6     = $this->ReadAttributeString('week6_record');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
         $parameter = '';
@@ -6377,7 +6735,7 @@ class INSTAR extends IPSModule
     public function GetCameraTimeConfiguration()
     {
         $payload = $this->SendParameter('getservertime');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_time');
         return $data;
     }
 
@@ -6387,10 +6745,16 @@ class INSTAR extends IPSModule
      */
     public function SetCameraTimeConfiguration()
     {
-        // TODO
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-        $parameter = '';
+        // $etm = $this->ReadAttributeInteger('etm_time');
+        $week0     = $this->ReadAttributeString('week0_time');
+        $week1     = $this->ReadAttributeString('week1_time');
+        $week2     = $this->ReadAttributeString('week2_time');
+        $week3     = $this->ReadAttributeString('week3_time');
+        $week4     = $this->ReadAttributeString('week4_time');
+        $week5     = $this->ReadAttributeString('week5_time');
+        $week6     = $this->ReadAttributeString('week6_time');
+        $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
+                     . '&-week6=' . $week6;
         $data      = $this->SendParameter('setservertime' . $parameter);
         return $data;
     }
@@ -6402,7 +6766,7 @@ class INSTAR extends IPSModule
     public function GetCamerasNetworkConfiguration()
     {
         $payload = $this->SendParameter('getntpattr');
-        $data    = $this->SplitPayload($payload);
+        $data    = $this->SplitPayload($payload, '_network');
         return $data;
     }
 
@@ -6412,10 +6776,16 @@ class INSTAR extends IPSModule
      */
     public function SetCamerasNetworkConfiguration()
     {
-        // TODO
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
-        // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-        $parameter = '';
+        // $etm = $this->ReadAttributeInteger('etm_network');
+        $week0     = $this->ReadAttributeString('week0_network');
+        $week1     = $this->ReadAttributeString('week1_network');
+        $week2     = $this->ReadAttributeString('week2_network');
+        $week3     = $this->ReadAttributeString('week3_network');
+        $week4     = $this->ReadAttributeString('week4_network');
+        $week5     = $this->ReadAttributeString('week5_network');
+        $week6     = $this->ReadAttributeString('week6_network');
+        $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
+                     . '&-week6=' . $week6;
         $data      = $this->SendParameter('setntpattr' . $parameter);
         return $data;
     }
@@ -6580,7 +6950,7 @@ class INSTAR extends IPSModule
     }
 
     /**
-     * Moves one step right.
+     * Moves one Step right.
      *
      * @return bool|string
      */
@@ -6588,13 +6958,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 3);
         $command = '-step=1&-act=right';
-        $this->SendDebug('INSTAR:', 'step right', 0);
+        $this->SendDebug('INSTAR:', 'Step right', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step left.
+     * Moves one Step left.
      *
      * @return bool|string
      */
@@ -6602,13 +6972,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 0);
         $command = '-step=1&-act=left';
-        $this->SendDebug('INSTAR:', 'step left', 0);
+        $this->SendDebug('INSTAR:', 'Step left', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step up.
+     * Moves one Step up.
      *
      * @return bool|string
      */
@@ -6616,13 +6986,13 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 1);
         $command = '-step=1&-act=up';
-        $this->SendDebug('INSTAR:', 'step up', 0);
+        $this->SendDebug('INSTAR:', 'Step up', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
 
     /**
-     * Moves one step down.
+     * Moves one Step down.
      *
      * @return bool|string
      */
@@ -6630,7 +7000,7 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Step', 2);
         $command = '-step=1&-act=down';
-        $this->SendDebug('INSTAR:', 'step down', 0);
+        $this->SendDebug('INSTAR:', 'Step down', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
     }
@@ -6683,7 +7053,7 @@ class INSTAR extends IPSModule
     public function SetPosition(int $position)
     {
         $this->SetValue('SetPosition', $position);
-        $this->SendDebug('INSTAR:', 'Set position ' . $position, 0);
+        $this->SendDebug('INSTAR:', 'Set preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=1&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
@@ -6699,14 +7069,14 @@ class INSTAR extends IPSModule
     public function UnsetPosition(int $position)
     {
         $this->SetValue('UnsetPosition', $position);
-        $this->SendDebug('INSTAR:', 'Unset position ' . $position, 0);
+        $this->SendDebug('INSTAR:', 'Unset preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=0&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
         return $state;
     }
 
-    /** goto to a set position
+    /** goto to a Set preset position
      *
      * @param int $position
      *
@@ -6850,7 +7220,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $EreignisID = IPS_CreateEvent(0);
             IPS_SetName($EreignisID, 'INSTAR Email Alert');
             IPS_SetIdent($EreignisID, 'EventINSTAREmail');
-            IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('LastRingtone'));   //bei Variablenaktualisierung
+            IPS_SetEventTrigger($EreignisID, 0, $this->GetIDForIdent('notification_alarm'));   //bei Variablenaktualisierung
             IPS_SetParent($EreignisID, $ParentID);
             IPS_SetEventActive($EreignisID, $state);             //Ereignis aktivieren	/ deaktivieren
         } else {
@@ -6860,7 +7230,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     }
 
-    public function EmailAlert()
+    public function EmailAlert(string $email)
     {
         $emailalert   = $this->ReadPropertyBoolean('activeemail');
         $emailalert2  = $this->ReadPropertyBoolean('activeemail2');
@@ -6874,7 +7244,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $emailalert10 = $this->ReadPropertyBoolean('activeemail10');
         $emailalert11 = $this->ReadPropertyBoolean('activeemail11');
         if ($emailalert) {
-            $email     = $this->ReadPropertyString('email');
+            if ($email != '') {
+                $email = $this->ReadPropertyString('email');
+            }
             $subject   = $this->ReadPropertyString('subject');
             $emailtext = $this->ReadPropertyString('emailtext');
             $this->SendSMTPEmail($email, $subject, $emailtext);
@@ -7153,6 +7525,99 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $allmedia[$lastid]['saveinfo']    = $saveinfo;
         $allmedia[$lastid]['imagebase64'] = base64_encode($Content);  //Bild Base64 codieren und ablegen;
         return $allmedia;
+    }
+
+    public function CreateWeekplan()
+    {
+        $eid = IPS_CreateEvent(2);                  // Weekplan Event 2
+        IPS_SetParent($eid, $this->InstanceID);         // set parent
+        IPS_SetIcon($eid, "Camera");
+        IPS_SetIdent($eid, "weekplan_position");
+        IPS_SetInfo($eid, $this->Translate('INSTAR weekplan preset position'));
+        IPS_SetName($eid, $this->Translate('Weekplan preset position'));
+        IPS_SetEventScheduleAction($eid, 0, 'Position 1', 0xFF00FF, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 0;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 1, 'Position 2', 0x0000FF, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 1;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 2, 'Position 3', 0x00FF00, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 2;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 3, 'Position 4', 0xA88132, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 3;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 4, 'Position 5', 0xFF0000, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 4;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 5, 'Position 6', 0x323AA8, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 5;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 6, 'Position 7', 0xEDED00, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 6;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleAction($eid, 7, 'Position 8', 0x00EDE9, implode("\n",
+                                                                            ['// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
+                                                                             '// Template Name: Auf Wert schalten',
+                                                                             '$ident = "GotoPosition";',
+                                                                             '$value = 7;',
+                                                                             '$target = $_IPS[\'TARGET\'];',
+                                                                             'if (IPS_InstanceExists($target)) {',
+                                                                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
+                                                                             '}',
+                                                                             'RequestAction($target, $value);']));
+        IPS_SetEventScheduleGroup($eid, 1, 127);
+        IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+        return $eid;
     }
 
     public function ReceiveData($JSONString)
@@ -7437,25 +7902,25 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'INSTAR Settings',
+                         'caption' => 'INSTAR settings',
                          'name'     => 'instar_settings_menu',
                          'visible'  => true,
                          'expanded' => false,
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'IP Address or Hostname'],
+                                 'caption' => 'IP address or hostname'],
                              [
                                  'name'    => 'Host',
                                  'type'    => 'ValidationTextBox',
-                                 'caption' => 'Camera Address'],
+                                 'caption' => 'Camera IP address'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'Port INSTAR Camera'],
+                                 'caption' => 'Network port'],
                              [
                                  'name'    => 'Port',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'Camera Port']]],
+                                 'caption' => 'Camera port']]],
                      [
                          'type'    => 'ExpansionPanel',
                          'caption' => 'INSTAR login credentials',
@@ -7465,7 +7930,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'INSTAR user with authorization as admin'],
+                                 'caption' => 'INSTAR user with admin authorization'],
                              [
                                  'name'    => 'User',
                                  'type'    => 'ValidationTextBox',
@@ -7476,42 +7941,42 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'caption' => 'Password']]],
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'email notification settings',
+                         'caption' => 'Email notification settings (Symcon)',
                          'name'     => 'email_notification_settings_menu',
                          'visible'  => true,
                          'expanded' => false,
                          'items'   => $this->FormShowEmail()],
                      [
                          'type'    => 'ExpansionPanel',
-                         'caption' => 'INSTAR Picture Settings',
+                         'caption' => 'Image settings',
                          'name'     => 'instar_picture_settings_menu',
                          'visible'  => true,
                          'expanded' => false,
                          'items'   => [
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'Please first choose a Snapshot Category in the IP-Symcon Object Tree and select it in the Field below'],
+                                 'caption' => 'Please first choose a snapshot category in the IP-Symcon object tree and select it in the field below'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'INSTAR snapshot pictures category'],
+                                 'caption' => 'INSTAR snapshot category'],
                              [
                                  'name'    => 'categorysnapshot',
                                  'type'    => 'SelectCategory',
-                                 'caption' => 'Alarm Snapshots'],
+                                 'caption' => 'Alarm snapshots'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'picture limit for INSTAR snapshots pictures'],
+                                 'caption' => 'Number of snapshots'],
                              [
                                  'name'    => 'picturelimitsnapshot',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'Number of Alarm Snapshots'],
+                                 'caption' => 'Number of alarm snapshots'],
                              [
                                  'type'  => 'Label',
-                                 'label' => 'Relaxation time for motionsensor (seconds)'],
+                                 'label' => 'Cool-down for motionsensor (seconds)'],
                              [
                                  'name'    => 'relaxationmotionsensor',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'relaxation (s)'],
+                                 'caption' => 'Cool-down (s)'],
                              [
                                  'type'    => 'Select',
                                  'name'    => 'snapshot_resolution',
@@ -7546,7 +8011,151 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                          'caption' => '160p (QVGA) Channel 13',
                                          'value'   => 13]]
 
-                             ],]]]
+                             ],]],
+                     [
+                         'type'    => 'ExpansionPanel',
+                         'caption' => 'Push Notifications',
+                         'name'     => 'instar_push_notifications_menu',
+                         'visible'  => true,
+                         'expanded' => false,
+                         'items'   => [
+                             [
+                                 'type'  => 'Label',
+                                 'label' => 'Push Notifications'
+                             ],
+                             [
+                                 'name'    => 'notification_instance',
+                                 'type'    => 'SelectInstance',
+                                 'caption' => 'Webfront Configurator'
+                             ],
+                             [
+                                 'type'     => 'List',
+                                 'name'     => 'notifications',
+                                 'caption'  => 'Push Notifications',
+                                 'rowCount' => count($this->push_notifications),
+                                 'add'      => false,
+                                 'delete'   => false,
+                                 'sort'     => [
+                                     'column'    => 'name',
+                                     'direction' => 'ascending'
+                                 ],
+                                 'columns' => [
+                                     [
+                                         'name'  => 'enabled',
+                                         'label' => 'Enabled',
+                                         'width' => '100px',
+                                         'edit'  => [
+                                             'type'    => 'CheckBox',
+                                             'caption' => 'Enable Push Notification'
+                                         ]
+                                     ],
+                                     [
+                                         'name'  => 'name',
+                                         'label' => 'Notification',
+                                         'width' => 'auto',
+                                         'save'  => true
+                                     ],
+                                     [
+                                         'name'  => 'sound',
+                                         'label' => 'Notification Sound',
+                                         'width' => '170px',
+                                         'edit'  => [
+                                             'type'    => 'Select',
+                                             'options' => [
+                                                 [
+                                                     'label' => 'default',
+                                                     'value' => ''
+                                                 ],
+                                                 [
+                                                     'label' => 'alarm',
+                                                     'value' => 'alarm'
+                                                 ],
+                                                 [
+                                                     'label' => 'bell',
+                                                     'value' => 'bell'
+                                                 ],
+                                                 [
+                                                     'label' => 'boom',
+                                                     'value' => 'boom'
+                                                 ],
+                                                 [
+                                                     'label' => 'buzzer',
+                                                     'value' => 'buzzer'
+                                                 ],
+                                                 [
+                                                     'label' => 'connected',
+                                                     'value' => 'connected'
+                                                 ],
+                                                 [
+                                                     'label' => 'dark',
+                                                     'value' => 'dark'
+                                                 ],
+                                                 [
+                                                     'label' => 'digital',
+                                                     'value' => 'digital'
+                                                 ],
+                                                 [
+                                                     'label' => 'drums',
+                                                     'value' => 'drums'
+                                                 ],
+                                                 [
+                                                     'label' => 'duck',
+                                                     'value' => 'duck'
+                                                 ],
+                                                 [
+                                                     'label' => 'full',
+                                                     'value' => 'full'
+                                                 ],
+                                                 [
+                                                     'label' => 'happy',
+                                                     'value' => 'happy'
+                                                 ],
+                                                 [
+                                                     'label' => 'horn',
+                                                     'value' => 'horn'
+                                                 ],
+                                                 [
+                                                     'label' => 'inception',
+                                                     'value' => 'inception'
+                                                 ],
+                                                 [
+                                                     'label' => 'kazoo',
+                                                     'value' => 'kazoo'
+                                                 ],
+                                                 [
+                                                     'label' => 'roll',
+                                                     'value' => 'roll'
+                                                 ],
+                                                 [
+                                                     'label' => 'siren',
+                                                     'value' => 'siren'
+                                                 ],
+                                                 [
+                                                     'label' => 'space',
+                                                     'value' => 'space'
+                                                 ],
+                                                 [
+                                                     'label' => 'trickling',
+                                                     'value' => 'trickling'
+                                                 ],
+                                                 [
+                                                     'label' => 'turn',
+                                                     'value' => 'turn'
+                                                 ]
+                                             ]
+                                         ]
+                                     ],
+                                     [
+                                         'name'    => 'state_id',
+                                         'label'   => 'State ID',
+                                         'width'   => 'auto',
+                                         'save'    => true,
+                                         'visible' => false
+                                     ]
+                                 ]
+                             ]
+                         ]
+                     ]]
         );
         return $form;
     }
@@ -7740,7 +8349,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'    => 'ValidationTextBox',
                         'name'    => 'macaddress',
-                        'caption' => 'MAC  Address',
+                        'caption' => 'MAC address',
                         'visible' => true,
                         'value'   => $this->ReadAttributeString('macaddress'),
                         'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
@@ -7773,10 +8382,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get network infos from the camera'],
+                         'caption' => 'Get network info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get network infos',
+                         'caption' => 'Get network info',
                          'onClick' => 'INSTAR_GetNetInfo($id);']]
         );
         */
@@ -7900,7 +8509,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  [
                                      'type'     => 'Select',
                                      'name'     => 'wf_auth',
-                                     'caption'  => 'Authentifikation',
+                                     'caption'  => 'Encryption',
                                      'options'  => [
                                          [
                                              'caption' => 'no encryption',
@@ -7977,10 +8586,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get WIFI infos from the camera'],
+                         'caption' => 'Get WIFI info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get WIFI infos',
+                         'caption' => 'Get WIFI info',
                          'onClick' => 'INSTAR_GetCameraWIFIConfiguration($id);']]
         );
         */
@@ -8284,7 +8893,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'type'    => 'Label',
                 'visible' => false,
-                'caption' => 'Get INSTAR UPNP'],
+                'caption' => 'Get UPNP configuration'],
             [
                 'type'    => 'Button',
                 'visible' => false,
@@ -8362,16 +8971,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'caption'  => 'forbiset',
                                      'options'  => [
                                          [
-                                             'caption' => 'When the time zone setting allows image parameter settings allow',
+                                             'caption' => 'Time zone setting enabled, image parameter settings enabled',
                                              'value'   => 0],
                                          [
-                                             'caption' => 'When the time zone setting disabled, the image parameter settings allow',
+                                             'caption' => 'Time zone setting disabled, the image parameter settings enabled',
                                              'value'   => 1],
                                          [
-                                             'caption' => 'When the time zone setting allows image parameter settings prohibit',
+                                             'caption' => 'Time zone setting enabled, image parameter settings prohibited',
                                              'value'   => 2],
                                          [
-                                             'caption' => 'When the time zone setting is prohibited, prohibited image parameter settings',
+                                             'caption' => 'Time zone setting prohibited, image parameter settings prohibited',
                                              'value'   => 3]],
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeInteger('ov_forbitset'),
@@ -8895,7 +9504,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'CheckBox',
                         'name'     => 'mirror',
-                        'caption'  => 'rotate picture by 180°',
+                        'caption'  => 'Rotate picture by 180°',
                         'visible'  => true,
                         'value'    => boolval($this->ReadAttributeInteger('profile')),
                         'onChange' => 'INSTAR_MirrorPicture($id, $mirror);'],
@@ -9604,28 +10213,28 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $form          = [
             [
                 'type'    => 'Label',
-                'caption' => 'Optional Email Notification (configurated SMTP module required)'],
+                'caption' => 'Optional email notification (requires a configured SMTP module)'],
             [
                 'type'    => 'Label',
-                'caption' => 'Email Notification active'],
+                'caption' => 'Email notification active'],
             [
                 'name'    => 'activeemail',
                 'type'    => 'CheckBox',
-                'caption' => 'active email'],
+                'caption' => 'Active email'],
             [
                 'name'    => 'smtpmodule',
                 'type'    => 'SelectInstance',
                 'caption' => 'SMTP module'],
             [
                 'type'    => 'Label',
-                'caption' => 'Email Recipient'],
+                'caption' => 'Email recipient'],
             [
                 'name'    => 'email',
                 'type'    => 'ValidationTextBox',
                 'caption' => 'email'],
             [
                 'type'    => 'Label',
-                'caption' => 'email subject'],
+                'caption' => 'Email subject'],
             [
                 'name'    => 'subject',
                 'type'    => 'ValidationTextBox',
@@ -9640,7 +10249,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'name'    => 'activeemail2',
                 'type'    => 'CheckBox',
-                'caption' => 'active email 2']];
+                'caption' => 'Active email 2']];
         if ($activeemail2) {
             $form = array_merge_recursive(
                 $form, [
@@ -9650,14 +10259,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email2',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject2',
                              'type'    => 'ValidationTextBox',
@@ -9672,7 +10281,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail3',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 3']]
+                             'caption' => 'Active email 3']]
             );
         }
         if ($activeemail3) {
@@ -9684,14 +10293,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email3',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject3',
                              'type'    => 'ValidationTextBox',
@@ -9706,7 +10315,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail4',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 4']]
+                             'caption' => 'Active email 4']]
             );
         }
         if ($activeemail4) {
@@ -9718,14 +10327,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email4',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject4',
                              'type'    => 'ValidationTextBox',
@@ -9740,7 +10349,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail5',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 5']]
+                             'caption' => 'Active email 5']]
             );
         }
         if ($activeemail5) {
@@ -9752,14 +10361,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email5',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject5',
                              'type'    => 'ValidationTextBox',
@@ -9774,7 +10383,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail6',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 6']]
+                             'caption' => 'Active email 6']]
             );
         }
         if ($activeemail6) {
@@ -9786,14 +10395,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email6',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject6',
                              'type'    => 'ValidationTextBox',
@@ -9808,7 +10417,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail7',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 7']]
+                             'caption' => 'Active email 7']]
             );
         }
         if ($activeemail7) {
@@ -9820,14 +10429,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email7',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject7',
                              'type'    => 'ValidationTextBox',
@@ -9842,7 +10451,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail8',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 8']]
+                             'caption' => 'Active email 8']]
             );
         }
         if ($activeemail8) {
@@ -9854,14 +10463,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email8',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject8',
                              'type'    => 'ValidationTextBox',
@@ -9876,7 +10485,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail9',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 9']]
+                             'caption' => 'Active email 9']]
             );
         }
         if ($activeemail9) {
@@ -9888,14 +10497,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email9',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject9',
                              'type'    => 'ValidationTextBox',
@@ -9910,7 +10519,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail10',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 10']]
+                             'caption' => 'Active email 10']]
             );
         }
         if ($activeemail10) {
@@ -9922,14 +10531,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email10',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject10',
                              'type'    => 'ValidationTextBox',
@@ -9944,7 +10553,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                          [
                              'name'    => 'activeemail11',
                              'type'    => 'CheckBox',
-                             'caption' => 'active email 11']]
+                             'caption' => 'Active email 11']]
             );
         }
         if ($activeemail11) {
@@ -9956,14 +10565,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'SMTP module'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'notification email adress'],
+                             'caption' => 'Notification email address'],
                          [
                              'name'    => 'email11',
                              'type'    => 'ValidationTextBox',
                              'caption' => 'email'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email subject'],
+                             'caption' => 'Email subject'],
                          [
                              'name'    => 'subject11',
                              'type'    => 'ValidationTextBox',
@@ -11249,16 +11858,16 @@ var initpresetindex="1""
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "as_queryattr3_2_enabled", $as_queryattr3_2_enabled);'],]],
             [
                 'type'    => 'Label',
-                'caption' => 'username and password for INSTAR webhook'],
+                'caption' => 'Username and password for the INSTAR Webhook'],
             [
                 'name'    => 'as_username_2',
                 'type'    => 'ValidationTextBox',
-                'caption' => 'Webhook Username',
+                'caption' => 'Webhook username',
                 'value'   => $this->ReadAttributeString('as_username_2')],
             [
                 'name'    => 'as_password_2',
                 'type'    => 'PasswordTextBox',
-                'caption' => 'Webhook Password',
+                'caption' => 'Webhook password',
                 'value'   => $this->ReadAttributeString('as_password_2')],
             [
                 'type'    => 'Button',
@@ -11276,7 +11885,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu'],];
+                'caption' => 'Please use the INSTAR webUI'],];
         return $form;
     }
 
@@ -11285,7 +11894,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu'],];
+                'caption' => 'Please use the INSTAR webUI'],];
         return $form;
     }
 
@@ -11410,7 +12019,7 @@ as_password[0]="";
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdtotalspace',
-                        'caption' => 'SD total space:'],
+                        'caption' => 'SD capacity:'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdtotalspace',
@@ -11426,7 +12035,7 @@ as_password[0]="";
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdfreespace',
-                        'caption' => 'SD free space:'],
+                        'caption' => 'SD free storage:'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdfreespace',
@@ -11474,7 +12083,7 @@ as_password[0]="";
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdfreespace',
-                        'caption' => 'In operation since:'],
+                        'caption' => 'Uptime:'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdfreespace',
@@ -11513,7 +12122,7 @@ as_password[0]="";
         DDNS-Status: Verbindung erfolgreich!
         P2P-UID:
         P2P Status: P2P akiviert
-        uPNP Status: uPNP deaktiviert
+        uPNP state: uPNP deaktiviert
          *
          */
         return $form;
@@ -11623,7 +12232,7 @@ as_password[0]="";
                         'items'   => $this->FormONVIFInfo()]]],
             [
                 'type'    => 'ExpansionPanel',
-                'caption' => 'Multimeadia Menu',
+                'caption' => 'Multimedia Menu',
                 'name'     => 'instar_multimedia_menu',
                 'visible'  => true,
                 'expanded' => false,
@@ -11707,7 +12316,7 @@ as_password[0]="";
                         'items'   => $this->FormShowPTZ_tour()],
                     [
                         'type'    => 'ExpansionPanel',
-                        'caption' => 'Manual record',
+                        'caption' => 'Manual recording',
                         'name'     => 'instar_manual_record_menu',
                         'visible'  => true,
                         'expanded' => false,
@@ -11854,7 +12463,7 @@ as_password[0]="";
                             'items'   => $this->FormShowSystem_Logbook()],
                         [
                             'type'    => 'ExpansionPanel',
-                            'caption' => 'Firmware-Update',
+                            'caption' => 'Firmware Update',
                             'name'     => 'instar_firmware_update_menu',
                             'visible'  => true,
                             'expanded' => false,
@@ -11875,7 +12484,7 @@ as_password[0]="";
                             'items'   => $this->FormShowReset()]]],
                 [
                     'type'    => 'Label',
-                    'caption' => 'Get snapshot from Camera'],
+                    'caption' => 'Get snapshot from camera'],
                 [
                     'type'    => 'Button',
                     'caption' => 'Get snapshot',
@@ -11982,11 +12591,11 @@ as_password[0]="";
             [
                 'code'    => 102,
                 'icon'    => 'active',
-                'caption' => 'INSTAR accessible.'],
+                'caption' => 'Camera is accessible.'],
             [
                 'code'    => 104,
                 'icon'    => 'inactive',
-                'caption' => 'interface closed.'],
+                'caption' => 'Interface closed.'],
             [
                 'code'    => 201,
                 'icon'    => 'inactive',
@@ -11998,7 +12607,7 @@ as_password[0]="";
             [
                 'code'    => 203,
                 'icon'    => 'error',
-                'caption' => 'No valid IP adress or host.'],
+                'caption' => 'No valid IP address or host.'],
             [
                 'code'    => 204,
                 'icon'    => 'error',
@@ -12026,7 +12635,7 @@ as_password[0]="";
             [
                 'code'    => 210,
                 'icon'    => 'error',
-                'caption' => 'webhook field must not be empty']];
+                'caption' => 'Webhook username and password can not be left empty']];
 
         return $form;
     }
