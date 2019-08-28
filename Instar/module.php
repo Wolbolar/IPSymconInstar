@@ -506,7 +506,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
         $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise surpression: 0, 1
+        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
         $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
         $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
@@ -2138,7 +2138,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
         $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise surpression: 0, 1
+        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
         $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
         $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
@@ -2983,7 +2983,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
         $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise surpression: 0, 1
+        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
         $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
         $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
@@ -9091,14 +9091,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'Create Variable for Webfront',
                         'value'    => $this->ReadAttributeBoolean('aec_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "aec_enabled", $aec_enabled);'],]],
-            // Noise surpression: 0, 1
+            // Noise suppression: 0, 1
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'     => 'CheckBox',
                         'name'     => 'denoise',
-                        'caption'  => 'noise surpression',
+                        'caption'  => 'Noise suppression',
                         'visible'  => true,
                         'value'    => boolval($this->ReadAttributeInteger('aec')),
                         'onChange' => 'INSTAR_SetNoiseSurpression($id, $denoise);'],
