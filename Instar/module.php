@@ -510,7 +510,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
             'ov_forbitset', 0
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
@@ -524,7 +524,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
         $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise surpression: 0, 1
+        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
         $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
         $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
@@ -2170,14 +2170,14 @@ class INSTAR extends IPSModule
         );  // 1 ONVIF Login Required, 0: ONVIF Authentication deactivated
         $this->RegisterProfileAssociation(
             'INSTAR.ov_forbitset', '', '', '', 0, 3, 0, 0, VARIABLETYPE_INTEGER, [
-                                     [0, $this->Translate('When the time zone setting allows image parameter settings allow'), '', -1],
-                                     [1, $this->Translate('When the time zone setting disabled, the image parameter settings allow'), '', -1],
-                                     [2, $this->Translate('When the time zone setting allows image parameter settings prohibit'), '', -1],
-                                     [3, $this->Translate('When the time zone setting is prohibited, prohibited image parameter settings'), '', -1]]
+                                     [0, $this->Translate('Time zone setting enabled, image parameter settings enabled'), '', -1],
+                                     [1, $this->Translate('Time zone setting disabled, the image parameter settings enabled'), '', -1],
+                                     [2, $this->Translate('Time zone setting enabled, image parameter settings prohibited'), '', -1],
+                                     [3, $this->Translate('Time zone setting prohibited, image parameter settings prohibited'), '', -1]]
         );
         $this->SetupVariable(
             'ov_forbitset', $this->Translate('Forbitset'), 'INSTAR.ov_forbitset', $this->_getPosition(), VARIABLETYPE_INTEGER, true
-        );  // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        );  // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterProfileAssociation(
             'INSTAR.ov_subchn', '', '', '', 11, 13, 0, 0, VARIABLETYPE_INTEGER, [
                                   [11, $this->Translate('Channel 11'), '', -1],
@@ -2214,8 +2214,8 @@ class INSTAR extends IPSModule
             'aec', $this->Translate('Audio Encoder'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // audio encoder: 0, 1
         $this->SetupVariable(
-            'denoise', $this->Translate('Noise surpression'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
-        ); // Noise surpression: 0, 1
+            'denoise', $this->Translate('Noise suppression'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Noise suppression: 0, 1
 
         $this->SetupVariable(
             'aeswitch_1', $this->Translate('Audio encode switch 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -3107,7 +3107,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger(
             'ov_forbitset', 0
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
         $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
@@ -3120,7 +3120,7 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
         $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise surpression: 0, 1
+        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
         $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
         $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
@@ -4904,7 +4904,7 @@ class INSTAR extends IPSModule
         $ov_authflag  = $this->ReadAttributeInteger('ov_authflag'); // 1 ONVIF Login Required, 0: ONVIF Authentication deactivated
         $ov_forbitset = $this->ReadAttributeInteger(
             'ov_forbitset'
-        ); // 0: When the time zone setting allows image parameter settings allow, 1: When the time zone setting disabled, the image parameter settings allow, 2: When the time zone setting allows image parameter settings prohibit, 3: When the time zone setting is prohibited, prohibited image parameter settings
+        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $ov_subchn    = $this->ReadAttributeInteger('ov_subchn'); // Use video channel 11, 12 or 13
         $ov_snapchn   = $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
         $ov_nvctype   = $this->ReadAttributeInteger('ov_nvctype');
@@ -8134,7 +8134,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'caption' => 'Please first choose a snapshot category in the IP-Symcon object tree and select it in the field below'],
                              [
                                  'type'    => 'Label',
-                                 'caption' => 'INSTAR snapshot pictures category'],
+                                 'caption' => 'INSTAR snapshot category'],
                              [
                                  'name'    => 'categorysnapshot',
                                  'type'    => 'SelectCategory',
@@ -8148,11 +8148,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  'caption' => 'Number of alarm snapshots'],
                              [
                                  'type'  => 'Label',
-                                 'label' => 'Relaxation time for motionsensor (seconds)'],
+                                 'label' => 'Cool-down for motionsensor (seconds)'],
                              [
                                  'name'    => 'relaxationmotionsensor',
                                  'type'    => 'NumberSpinner',
-                                 'caption' => 'relaxation (s)'],
+                                 'caption' => 'Cool-down (s)'],
                              [
                                  'type'    => 'Select',
                                  'name'    => 'snapshot_resolution',
@@ -8703,7 +8703,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  [
                                      'type'     => 'Select',
                                      'name'     => 'wf_auth',
-                                     'caption'  => 'Authentification',
+                                     'caption'  => 'Encryption',
                                      'options'  => [
                                          [
                                              'caption' => 'no encryption',
@@ -8780,10 +8780,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $form, [
                      [
                          'type'    => 'Label',
-                         'caption' => 'Get WIFI infos from the camera'],
+                         'caption' => 'Get WIFI info from the camera'],
                      [
                          'type'    => 'Button',
-                         'caption' => 'Get WIFI infos',
+                         'caption' => 'Get WIFI info',
                          'onClick' => 'INSTAR_GetCameraWIFIConfiguration($id);']]
         );
         */
@@ -9165,16 +9165,16 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'caption'  => 'forbiset',
                                      'options'  => [
                                          [
-                                             'caption' => 'When the time zone setting allows image parameter settings allow',
+                                             'caption' => 'Time zone setting enabled, image parameter settings enabled',
                                              'value'   => 0],
                                          [
-                                             'caption' => 'When the time zone setting disabled, the image parameter settings allow',
+                                             'caption' => 'Time zone setting disabled, the image parameter settings enabled',
                                              'value'   => 1],
                                          [
-                                             'caption' => 'When the time zone setting allows image parameter settings prohibit',
+                                             'caption' => 'Time zone setting enabled, image parameter settings prohibited',
                                              'value'   => 2],
                                          [
-                                             'caption' => 'When the time zone setting is prohibited, prohibited image parameter settings',
+                                             'caption' => 'Time zone setting prohibited, image parameter settings prohibited',
                                              'value'   => 3]],
                                      'visible'  => true,
                                      'value'    => $this->ReadAttributeInteger('ov_forbitset'),
@@ -9285,14 +9285,14 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'Create Variable for Webfront',
                         'value'    => $this->ReadAttributeBoolean('aec_enabled'),
                         'onChange' => 'INSTAR_SetWebFrontVariable($id, "aec_enabled", $aec_enabled);'],]],
-            // Noise surpression: 0, 1
+            // Noise suppression: 0, 1
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'     => 'CheckBox',
                         'name'     => 'denoise',
-                        'caption'  => 'noise surpression',
+                        'caption'  => 'Noise suppression',
                         'visible'  => true,
                         'value'    => boolval($this->ReadAttributeInteger('aec')),
                         'onChange' => 'INSTAR_SetNoiseSurpression($id, $denoise);'],
@@ -9698,7 +9698,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'CheckBox',
                         'name'     => 'mirror',
-                        'caption'  => 'rotate picture by 180°',
+                        'caption'  => 'Rotate picture by 180°',
                         'visible'  => true,
                         'value'    => boolval($this->ReadAttributeInteger('profile')),
                         'onChange' => 'INSTAR_MirrorPicture($id, $mirror);'],
@@ -12113,7 +12113,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu'],];
+                'caption' => 'Please use the INSTAR webUI'],];
         return $form;
     }
 
@@ -12122,7 +12122,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu'],];
+                'caption' => 'Please use the INSTAR webUI'],];
         return $form;
     }
 
@@ -12311,7 +12311,7 @@ as_password[0]="";
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdfreespace',
-                        'caption' => 'In operation since:'],
+                        'caption' => 'Uptime:'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdfreespace',
@@ -12550,7 +12550,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu']];
+                'caption' => 'Please use the INSTAR webUI']];
         return $form;
     }
 
@@ -12559,7 +12559,7 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use INSTAR camera menu']];
+                'caption' => 'Please use the INSTAR webUI']];
         return $form;
     }
 
