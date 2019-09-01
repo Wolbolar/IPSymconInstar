@@ -175,6 +175,15 @@ class INSTAR extends IPSModule
     private const Hardware_WDR_Modus = 1; //  Hardware Wide Dynamic Range
     private const Software_WDR_Modus = 0; //  Software Wide Dynamic Range
 
+    private const POSITION_1 = 0; //  Position 1
+    private const POSITION_2 = 1; //  Position 2
+    private const POSITION_3 = 2; //  Position 3
+    private const POSITION_4 = 3; //  Position 4
+    private const POSITION_5 = 4; //  Position 5
+    private const POSITION_6 = 5; //  Position 6
+    private const POSITION_7 = 6; //  Position 7
+    private const POSITION_8 = 7; //  Position 8
+
     private const GET_IMAGE_1080p = '/tmpfs/snap.jpg'; // Get Image (1080p)
     private const GET_IMAGE_320p  = '/tmpfs/auto.jpg'; // Get Image (320p)
     private const GET_IMAGE_160p  = '/tmpfs/auto2.jpg'; // Get Image (160p)
@@ -182,6 +191,17 @@ class INSTAR extends IPSModule
     private const RESOLUTION_SNAPSHOT_1080p = 0; // Get Image (1080p)
     private const RESOLUTION_SNAPSHOT_320p  = 1; // Get Image (320p)
     private const RESOLUTION_SNAPSHOT_160p  = 2; // Get Image (160p)
+
+    private const ERROR_INACTIVE = 201; // Please follow the instructions.
+    private const ERROR_IP_EMPTY = 202; // INSTAR IP adress must not empty.
+    private const ERROR_IP_NOT_VALID = 203; // No valid IP address or host
+    private const ERROR_CONNECTION = 204; // connection to INSTAR lost.
+    private const ERROR_FIELD_EMPTY = 205; // Field can not be left empty
+    private const ERROR_CATEGORY_1 = 206; // The category for saving the images has not been set
+    private const ERROR_EMAIL = 207; // email not valid.
+    private const ERROR_SNAPSHOT_CATEGORY = 208; // category INSTAR snapshot not set.
+    private const ERROR_CAMERA_MODEL = 209; // Please select a camera model
+    private const ERROR_USER_PASSWORD = 210; // Webhook username and password can not be left empty
 
     private const PICTURE_TRANSPARENT = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
     // IN-5905 HD
@@ -232,7 +252,7 @@ class INSTAR extends IPSModule
         'wdrmode',
         'profile'];
 
-    private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex'];
+    private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex', 'color_1', 'color_2', 'color_3', 'color_4'];
 
     private $NoAttributes      = [
         'no_attribute',
@@ -399,7 +419,6 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('picturelimitsnapshot', 20);
         $this->RegisterPropertyInteger('model_type', 0);
         $this->RegisterAttributeBoolean('INSTARButtonSnapshot_enabled', true); // show Attribute in Webfront
-
 
         $this->RegisterAttributeString('model', ''); // Camera Model Identifier
         $this->RegisterAttributeBoolean('model_enabled', false); // show Attribute in Webfront
@@ -716,13 +735,13 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('show_3_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('show_4', 0); // [0, 1] De/Activate Mask
         $this->RegisterAttributeBoolean('show_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_1', 0); // Brightness [0-100]
+        $this->RegisterAttributeString('color_1', "0"); // Color Hex
         $this->RegisterAttributeBoolean('color_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_2', 0); // Brightness [0-100]
+        $this->RegisterAttributeString('color_2', "0"); // Color Hex
         $this->RegisterAttributeBoolean('color_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_3', 0); // Brightness [0-100]
+        $this->RegisterAttributeString('color_3', "0"); // Color Hex
         $this->RegisterAttributeBoolean('color_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_4', 0); // Brightness [0-100]
+        $this->RegisterAttributeString('color_4', "0"); // Color Hex
         $this->RegisterAttributeBoolean('color_4_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('x_1', 0); // X-Coordinate Origin [0-(1920-w)]
         $this->RegisterAttributeBoolean('x_1_enabled', false); // show Attribute in Webfront
@@ -837,6 +856,10 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeInteger('plancgi_time_18_ir', 0);
         $this->RegisterAttributeInteger('plancgi_enable_19_ir', 0);
         $this->RegisterAttributeInteger('plancgi_time_19_ir', 0);
+        $this->RegisterAttributeInteger('start_position_activate_action', 0);
+        $this->RegisterAttributeBoolean('start_position_activate_action_enabled', false);
+        $this->RegisterAttributeInteger('start_position_select_action', 0);
+        $this->RegisterAttributeBoolean('start_position_select_action_enabled', false);
         $this->RegisterAttributeString('ptzrfmask', "");
         $this->RegisterAttributeBoolean('ptzrfmask_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('panspeed', 0); // fast (0) - slow (2)
@@ -857,6 +880,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('alarmpresetindex_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('initpresetindex', 0); // [1-8]; - Position Camera goes to after Restart
         $this->RegisterAttributeBoolean('initpresetindex_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('md_preset_switch_position', 0); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
+        $this->RegisterAttributeBoolean('md_preset_switch_position_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('md_preset_switch', 'on'); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
         $this->RegisterAttributeBoolean('md_preset_switch_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('timerpreset_enable', 0); // De/Activate Park Position - [0, 1]
@@ -865,6 +890,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('timerpreset_index_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
         $this->RegisterAttributeBoolean('timerpreset_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('tour_parkposition', 0); // Enable Tour Park Position
+        $this->RegisterAttributeBoolean('tour_parkposition_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('admin_value46', 0); // De/Activate One-Step Pan&Tilt Control - [0, 1]
         $this->RegisterAttributeBoolean('admin_value46_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
@@ -875,6 +902,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('tour_index_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('tour_interval', ''); // Set Pause when Tour Position is reached in seconds [60-43200]
         $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('ptz_tour_time', 1); // Time in Seconds
+        $this->RegisterAttributeBoolean('ptz_tour_time_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
         $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light2_enable', 'on'); // Power LED - [on, off]
@@ -1566,7 +1595,6 @@ class INSTAR extends IPSModule
         $this->RegisterWebhook('/hook/INSTAR' . $this->InstanceID);
 
         $this->ValidateConfiguration();
-
     }
 
     /**
@@ -1584,10 +1612,11 @@ class INSTAR extends IPSModule
         $webhook_password = $this->ReadAttributeString('as_password_2');
 
         if ($webhook_username == '' || $webhook_password == '') {
-            $this->SetStatus(210);
+            $this->UpdateParameter('instar_settings_menu', 'expanded', true);
+            $this->SetStatus(self::ERROR_USER_PASSWORD);
         }
         if ($model == 0) {
-            $this->SetStatus(209); // Please select a camera model
+            $this->SetStatus(self::ERROR_CAMERA_MODEL); // Please select a camera model
         } else {
             $this->SetAPI($model);
         }
@@ -1612,13 +1641,22 @@ class INSTAR extends IPSModule
             $hostcheck = true;
         } else {
             $hostcheck = false;
-            $this->SetStatus(203); //IP Adresse oder Host ist ungültig
+            $this->SetStatus(self::ERROR_IP_NOT_VALID); //IP Adresse oder Host ist ungültig
+        }
+
+        // Kategorie prüfen
+        $category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
+        if($category_snapshot > 0) {
+            $this->SendDebug('INSTAR', 'Kategorie mit ObjektID ' . $category_snapshot . ' gefunden', 0);
+        } else {
+            $this->SetStatus(self::ERROR_SNAPSHOT_CATEGORY); //category INSTAR snapshot not set
         }
 
         //User und Passwort prüfen
         if ($user == '' || $password == '') {
-            $this->SetStatus(205); //Felder dürfen nicht leer sein
-        } elseif ($user !== '' && $password !== '' && $hostcheck === true) {
+            $this->SetStatus(self::ERROR_FIELD_EMPTY); //Felder dürfen nicht leer sein
+        }
+        elseif ($user !== '' && $password !== '' && $hostcheck === true) {
             $MediaID = @IPS_GetObjectIDByIdent('INSTARVideo', $this->InstanceID);
             if ($MediaID === false) {
                 $MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
@@ -1630,14 +1668,6 @@ class INSTAR extends IPSModule
             $channel = $this->ReadPropertyInteger('MJPEG_Stream');
             $url     = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
-
-            // Kategorie prüfen
-            $category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
-            if ($category_snapshot > 0) {
-                $this->SendDebug('INSTAR', 'Kategorie mit ObjektID ' . $category_snapshot . ' gefunden', 0);
-            } else {
-                $this->SetStatus(208); //category INSTAR snapshot not set
-            }
 
             $ipsversion = $this->GetIPSVersion();
 
@@ -1721,7 +1751,7 @@ class INSTAR extends IPSModule
             $this->SetupVariables();
             $this->UpdateSettings();
             // Status Aktiv
-            $this->SetStatus(102);
+            $this->SetStatus(IS_ACTIVE);
         }
     }
 
@@ -3032,69 +3062,38 @@ class INSTAR extends IPSModule
             'macaddress'    => true,
             'networktype'   => true,
             'upnpstatus'    => true,
-            'th3ddnsstatus' => true,];
+            'th3ddnsstatus' => true,
+
+            'startdate' => true,
+            'facddnsstatus' => true,
+            'sdstatus' => true,
+            'httpport' => true,
+            'httpsport' => true,
+            'rtspport' => true,
+            'rtsp_aenable' => true,
+            'rtmpport' => true,
+            'wf_enable' => true,
+            'wf_ssid' => true,
+            'wf_auth' => true,
+            'wf_key' => true,
+            'wf_enc' => true,
+            'wf_mode' => true,
+            'our_enable' => true,
+            'our_server' => true,
+            'our_port' => true,
+            'our_uname' => true,
+            'our_passwd' => true,
+            'our_domain' => true,
+
+            'our_interval' => true,
+            'd3th_enable' => true,
+            'd3th_service' => true,
+            'd3th_uname' => true,
+            'd3th_passwd' => true,
+            'd3th_domain' => true,];
 
         /*
 
-
-        $this->RegisterAttributeString('startdate', ''); // Camera Uptime
-
-        $this->RegisterAttributeString('facddnsstatus', 'ok'); // INSTAR DDNS Status ok, off, failed
-
-        $this->RegisterAttributeString('sdstatus', ''); // SD Card Status out, Ready, Read only
-
-
-        $this->RegisterAttributeInteger('httpport', 0);
-        $this->RegisterAttributeBoolean('httpport_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('httpsport', 0);
-        $this->RegisterAttributeBoolean('httpsport_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('rtspport', 0);
-        $this->RegisterAttributeBoolean('rtspport_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('rtsp_aenable', 0); // 1: RTSP Stream needs Authentication, 0: Authentication deactivated
-        $this->RegisterAttributeBoolean('rtsp_aenable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('rtmpport', 0);
-        $this->RegisterAttributeBoolean('rtmpport_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('wf_enable', 0); // 1 (WiFi enabled), 0 (WiFi disabled)
-        $this->RegisterAttributeBoolean('wf_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('wf_ssid', ''); // SSID (max. 32 Characters)
-        $this->RegisterAttributeBoolean('wf_ssid_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wf_auth', 0); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
-        $this->RegisterAttributeBoolean('wf_auth_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('wf_key', ''); // Key max. 63 Characters (Allowed special characters: &='`)
-        $this->RegisterAttributeBoolean('wf_key_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wf_enc', 0); // Key type 0 (TKIP), 1 (AES)
-        $this->RegisterAttributeBoolean('wf_enc_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wf_mode', 0); // 0 (infra), 1 (ad-hoc)
-        $this->RegisterAttributeBoolean('wf_mode_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('our_enable', 0); // 1: INSTAR DDNS enabled, 0: INSTAR DDNS disabled
-        $this->RegisterAttributeBoolean('our_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('our_server', ''); // INSTAR DDNS Server Domain
-        $this->RegisterAttributeBoolean('our_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('our_port', 0); // INSTAR DDNS Server Port
-        $this->RegisterAttributeBoolean('our_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('our_uname', ''); // Your INSTAR DDNS ID
-        $this->RegisterAttributeBoolean('our_uname_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('our_passwd', ''); // Your INSTAR DDNS Password
-        $this->RegisterAttributeBoolean('our_passwd_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('our_domain', ''); // Your INSTAR DDNS Address
-        $this->RegisterAttributeBoolean('our_domain_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('our_interval', 0); // Update Intervall
-        $this->RegisterAttributeBoolean('our_interval_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger(
-            'd3th_enable', 0
-        ); // 1: 3rd Party DDNS activated / INSTAR DDNS disabled, 0: 3rd Party DDNS deactivated / INSTAR DDNS enabled
-        $this->RegisterAttributeBoolean('d3th_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('d3th_service', 0); // 0: DynDNS, 1: NoIP
-        $this->RegisterAttributeBoolean('d3th_service_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('d3th_uname', ''); // Your Username
-        $this->RegisterAttributeBoolean('d3th_uname_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('d3th_passwd', ''); // Your Password
-        $this->RegisterAttributeBoolean('d3th_passwd_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('d3th_domain', ''); // Your 3rd Party DDNS Address
-        $this->RegisterAttributeBoolean('d3th_domain_enabled', false); // show Attribute in Webfront
 
         $this->RegisterAttributeInteger('upm_enable', 1); // 1: UPnP activated, 0: UPnP deactivated
         $this->RegisterAttributeBoolean('upm_enable_enabled', false); // show Attribute in Webfront
@@ -5544,8 +5543,6 @@ class INSTAR extends IPSModule
      */
     public function GetPrivacyMaskAttributes()
     {
-        // TODO region
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=getoverlayattr&-region=0
         $payload = $this->SendParameter('getcover');
         $data    = $this->SplitPayload($payload);
         return $data;
@@ -5579,9 +5576,24 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    private function ConvertColorHEX($color)
+    {
+        $hexcolor = strtoupper(dechex($color));
+        if($hexcolor == "0")
+        {
+            $hexstring = "000000";
+
+        }
+        else
+        {
+            $hexstring = $hexcolor;
+        }
+        return $hexstring;
+    }
+
     public function SetSettingsPrivacyZone1($color_1, $x_1, $y_1, $w_1, $h_1)
     {
-        $this->WriteAttributeString('color_1', $color_1);
+        $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_1));
         $this->WriteAttributeInteger('x_1', $x_1);
         $this->WriteAttributeInteger('y_1', $y_1);
         $this->WriteAttributeInteger('w_1', $w_1);
@@ -5592,7 +5604,7 @@ class INSTAR extends IPSModule
 
     public function SetSettingsPrivacyZone2($color_2, $x_2, $y_2, $w_2, $h_2)
     {
-        $this->WriteAttributeString('color_2', $color_2);
+        $this->WriteAttributeString('color_2', $this->ConvertColorHEX($color_2));
         $this->WriteAttributeInteger('x_2', $x_2);
         $this->WriteAttributeInteger('y_2', $y_2);
         $this->WriteAttributeInteger('w_2', $w_2);
@@ -5603,7 +5615,7 @@ class INSTAR extends IPSModule
 
     public function SetSettingsPrivacyZone3($color_3, $x_3, $y_3, $w_3, $h_3)
     {
-        $this->WriteAttributeString('color_1', $color_3);
+        $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_3));
         $this->WriteAttributeInteger('x_3', $x_3);
         $this->WriteAttributeInteger('y_3', $y_3);
         $this->WriteAttributeInteger('w_3', $w_3);
@@ -5614,7 +5626,7 @@ class INSTAR extends IPSModule
 
     public function SetSettingsPrivacyZone4($color_4, $x_4, $y_4, $w_4, $h_4)
     {
-        $this->WriteAttributeString('color_1', $color_4);
+        $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_4));
         $this->WriteAttributeInteger('x_4', $x_4);
         $this->WriteAttributeInteger('y_4', $y_4);
         $this->WriteAttributeInteger('w_4', $w_4);
@@ -5908,10 +5920,8 @@ class INSTAR extends IPSModule
         $panspeed     = $this->ReadAttributeInteger('panspeed');
         $tiltscan     = $this->ReadAttributeInteger('tiltscan');
         $panscan      = $this->ReadAttributeInteger('panscan');
-        // $value = $this->ReadAttributeInteger('value');
         $value            = 0;
         $alarmpresetindex = $this->ReadAttributeInteger('alarmpresetindex');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmotorattr&-selfdet=on&-movehome=off&-ptzalarmmask=on&-tiltspeed=0&-panspeed=0&-tiltscan=50&-panscan=50&-value=0&-alarmpresetindex=3
         $parameter =
             '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed='
             . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
@@ -5934,11 +5944,10 @@ class INSTAR extends IPSModule
      *
      * @return false|string
      */
-    public function SetStateAlarmPosition()
+    protected function SetStateAlarmPosition()
     {
-        $switch = $this->ReadAttributeString('switch');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=setmdalarm&-aname=preset&-switch=on
-        $parameter = '&-switch=' . $switch;
+        $md_preset_switch = $this->ReadAttributeString('md_preset_switch');
+        $parameter = '&-switch=' . $md_preset_switch;
         $data      = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
         return $data;
     }
@@ -5958,12 +5967,11 @@ class INSTAR extends IPSModule
      *
      * @return false|string
      */
-    public function SetParkPositionParameter()
+    protected function SetParkPositionParameter()
     {
         $timerpreset_enable   = $this->ReadAttributeInteger('timerpreset_enable');
         $timerpreset_index    = $this->ReadAttributeInteger('timerpreset_index');
         $timerpreset_interval = $this->ReadAttributeInteger('timerpreset_interval');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=settimerpreset&-timerpreset_enable=1&-timerpreset_index=1&-timerpreset_interval=600
         $parameter = '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval='
                      . $timerpreset_interval;
         $data      = $this->SendParameter('settimerpreset' . $parameter);
@@ -5985,10 +5993,9 @@ class INSTAR extends IPSModule
      *
      * @return false|string
      */
-    public function SetOneStepPanTiltControl()
+    protected function SetOneStepPanTiltControl()
     {
         $admin_value46 = $this->ReadAttributeInteger('admin_value46');
-        // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=46&-value=0
         $parameter = '&-value=' . $admin_value46;
         $data      = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
         return $data;
@@ -7713,7 +7720,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         IPS_SetInfo($eid, $this->Translate('INSTAR weekplan preset position'));
         IPS_SetName($eid, $this->Translate('Weekplan preset position'));
         IPS_SetEventScheduleAction(
-            $eid, 0, 'Position 1', 0xFF00FF, implode(
+            $eid, 0, $this->Translate('Position 1'), 0xFF00FF, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7727,7 +7734,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 1, 'Position 2', 0x0000FF, implode(
+            $eid, 1, $this->Translate('Position 2'), 0x0000FF, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7741,7 +7748,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 2, 'Position 3', 0x00FF00, implode(
+            $eid, 2, $this->Translate('Position 3'), 0x00FF00, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7755,7 +7762,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 3, 'Position 4', 0xA88132, implode(
+            $eid, 3, $this->Translate('Position 4'), 0xA88132, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7769,7 +7776,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 4, 'Position 5', 0xFF0000, implode(
+            $eid, 4, $this->Translate('Position 5'), 0xFF0000, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7783,7 +7790,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 5, 'Position 6', 0x323AA8, implode(
+            $eid, 5, $this->Translate('Position 6'), 0x323AA8, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7797,7 +7804,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 6, 'Position 7', 0xEDED00, implode(
+            $eid, 6, $this->Translate('Position 7'), 0xEDED00, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -7811,7 +7818,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleAction(
-            $eid, 7, 'Position 8', 0x00EDE9, implode(
+            $eid, 7, $this->Translate('Position 8'), 0x00EDE9, implode(
                     "\n", [
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
@@ -8407,7 +8414,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                  [
                                      'type'    => 'ValidationTextBox',
                                      'name'    => 'ip',
-                                     'caption' => 'IP Adress',
+                                     'caption' => 'IP address',
                                      'visible' => true,
                                      'value'   => $this->ReadAttributeString('ip'),
                                      'onClick' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
@@ -9080,20 +9087,20 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                      [
                          'type'    => 'Label',
                          'visible' => true,
-                         'caption' => 'Get INSTAR DDNS'],
+                         'caption' => 'Get INSTAR DDNS parameter'],
                      [
                          'type'    => 'Button',
                          'visible' => true,
-                         'caption' => 'Get DDNS Configuration',
+                         'caption' => 'Get INSTAR DDNS parameter',
                          'onClick' => 'INSTAR_GetDDNSConfiguration($id);'],
                      [
                          'type'    => 'Label',
                          'visible' => true,
-                         'caption' => 'Get DDNS'],
+                         'caption' => 'Get DDNS parameter Configuration'],
                      [
                          'type'     => 'Button',
                          'visible'  => true,
-                         'caption'  => 'Get DDNS Configuration',
+                         'caption'  => 'Get DDNS parameter Configuration',
                          'onChange' => 'INSTAR_Get3rdPartyDDNSConfiguration($id);']]
         );
         return $form;
@@ -9975,6 +9982,13 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
+    private function GetColor($color_attribute)
+    {
+        $color = $this->ReadAttributeString($color_attribute);
+        $color = hexdec($color);
+        return $color;
+    }
+
     private function FormPrivacySettings()
     {
         $form = [
@@ -9985,6 +9999,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_1',
                         'caption'  => 'Zone 1',
+                        'value'    => boolval($this->ReadAttributeInteger('show_1')),
                         'onChange' => 'INSTAR_SetPrivacyZone1($id, $show_1);'],
                     [
                         'name'     => 'show_1_enabled',
@@ -9998,7 +10013,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'name'     => 'color_1',
                 'caption'  => 'Color 1',
                 'visible'  => true,
-                'value'    => $this->ReadAttributeInteger('color_1'),
+                'value'    => $this->GetColor('color_1'),
                 'onChange' => 'INSTAR_SetSettingsPrivacyZone1($id, $color_1, $x_1, $y_1, $w_1, $h_1);'],
             [
                 'type'  => 'RowLayout',
@@ -10045,6 +10060,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_2',
                         'caption'  => 'Zone 2',
+                        'value'    => boolval($this->ReadAttributeInteger('show_2')),
                         'onChange' => 'INSTAR_SetPrivacyZone2($id, $show_2);'],
                     [
                         'name'     => 'show_2_enabled',
@@ -10058,7 +10074,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'name'     => 'color_2',
                 'caption'  => 'Color 2',
                 'visible'  => true,
-                'value'    => $this->ReadAttributeInteger('color_2'),
+                'value'    => $this->GetColor('color_2'),
                 'onChange' => 'INSTAR_SetSettingsPrivacyZone2($id, $color_2, $x_2, $y_2, $w_2, $h_2);'],
             [
                 'type'  => 'RowLayout',
@@ -10105,6 +10121,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_3',
                         'caption'  => 'Zone 3',
+                        'value'    => boolval($this->ReadAttributeInteger('show_3')),
                         'onChange' => 'INSTAR_SetPrivacyZone3($id, $show_3);'],
                     [
                         'name'     => 'show_3_enabled',
@@ -10118,7 +10135,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'name'     => 'color_3',
                 'caption'  => 'Color 3',
                 'visible'  => true,
-                'value'    => $this->ReadAttributeInteger('color_3'),
+                'value'    => $this->GetColor('color_3'),
                 'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_3, $x_3, $y_3, $w_3, $h_3);'],
             [
                 'type'  => 'RowLayout',
@@ -10165,6 +10182,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'type'     => 'CheckBox',
                         'name'     => 'show_4',
                         'caption'  => 'Zone 4',
+                        'value'    => boolval($this->ReadAttributeInteger('show_4')),
                         'onChange' => 'INSTAR_SetPrivacyZone4($id, $show_4);'],
                     [
                         'name'     => 'show_4_enabled',
@@ -10178,7 +10196,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'name'     => 'color_4',
                 'caption'  => 'Color 4',
                 'visible'  => true,
-                'value'    => $this->ReadAttributeInteger('color_4'),
+                'value'    => $this->GetColor('color_4'),
                 'onChange' => 'INSTAR_SetSettingsPrivacyZone3($id, $color_4, $x_4, $y_4, $w_4, $h_4);'],
             [
                 'type'  => 'RowLayout',
@@ -10502,11 +10520,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'caption' => 'subject'],
             [
                 'type'    => 'Label',
-                'caption' => 'email text'],
+                'caption' => 'Email text'],
             [
                 'name'    => 'emailtext',
                 'type'    => 'ValidationTextBox',
-                'caption' => 'email text'],
+                'caption' => 'Email text'],
             [
                 'name'    => 'activeemail2',
                 'type'    => 'CheckBox',
@@ -10534,11 +10552,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext2',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail3',
                              'type'    => 'CheckBox',
@@ -10568,11 +10586,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext3',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail4',
                              'type'    => 'CheckBox',
@@ -10602,11 +10620,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext4',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail5',
                              'type'    => 'CheckBox',
@@ -10636,11 +10654,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext5',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail6',
                              'type'    => 'CheckBox',
@@ -10670,11 +10688,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext6',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail7',
                              'type'    => 'CheckBox',
@@ -10704,11 +10722,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext7',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail8',
                              'type'    => 'CheckBox',
@@ -10738,11 +10756,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext8',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail9',
                              'type'    => 'CheckBox',
@@ -10772,11 +10790,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext9',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail10',
                              'type'    => 'CheckBox',
@@ -10806,11 +10824,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext10',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'activeemail11',
                              'type'    => 'CheckBox',
@@ -10840,11 +10858,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                              'caption' => 'subject'],
                          [
                              'type'    => 'Label',
-                             'caption' => 'email text'],
+                             'caption' => 'Email text'],
                          [
                              'name'    => 'emailtext11',
                              'type'    => 'ValidationTextBox',
-                             'caption' => 'email text']]
+                             'caption' => 'Email text']]
             );
         }
         return $form;
@@ -11091,6 +11109,58 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
+    public function EnableStartPosition(bool $start_position_activate_action)
+    {
+        $this->WriteAttributeInteger('start_position_activate_action', intval($start_position_activate_action));
+    }
+
+    public function EnableAlarmPosition(bool $md_preset_switch)
+    {
+        if($md_preset_switch)
+        {
+            $this->WriteAttributeString('md_preset_switch', 'on');
+        }
+        else
+        {
+            $this->WriteAttributeString('md_preset_switch', 'off');
+        }
+        $this->SetStateAlarmPosition();
+    }
+
+    public function SetStartPosition(int $start_position_select_action)
+    {
+        $this->WriteAttributeInteger('start_position_select_action', $start_position_select_action);
+    }
+
+    public function SetAlarmPosition(int $md_preset_switch_position)
+    {
+        // TODO Set Position
+        $this->WriteAttributeInteger('md_preset_switch_position', $md_preset_switch_position);
+    }
+
+    public function EnableParkPosition(bool $timerpreset_enable)
+    {
+        $this->WriteAttributeInteger('timerpreset_enable', intval($timerpreset_enable));
+        $this->SetParkPositionParameter();
+    }
+
+    public function SetParkPosition(int $timerpreset_index)
+    {
+        $this->WriteAttributeInteger('timerpreset_index)', $timerpreset_index);
+        $this->SetParkPositionParameter();
+    }
+
+    public function EnableTourParkPosition(bool $tour_parkposition)
+    {
+        $this->WriteAttributeInteger('tour_parkposition', intval($tour_parkposition));
+    }
+
+    public function EnableStepbyStepControl(bool $admin_value46)
+    {
+        $this->WriteAttributeInteger('admin_value46', intval($admin_value46));
+        $this->SetOneStepPanTiltControl();
+    }
+
     protected function FormShowPan_Tilt()
     {
         $form = [
@@ -11100,213 +11170,232 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
+                        'name'     => 'start_position_activate_action',
                         'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'caption'  => 'Start position / activate action',
+                        'value'    => boolval($this->ReadAttributeInteger('start_position_activate_action')),
+                        'onChange' => 'INSTAR_EnableStartPosition($id, $start_position_activate_action);'],
                     [
-                        'name'     => 'wdrauto_enabled',
+                        'name'     => 'start_position_activate_action_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('start_position_activate_action_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "start_position_activate_action_enabled", $start_position_activate_action_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'wdrmode',
-                        'caption'  => 'Wide Dynamic Range',
+                        'name'     => 'start_position_select_action',
+                        'caption'  => 'Start position / select action',
                         'options'  => [
                             [
-                                'caption' => 'Hardware WDR Mode',
-                                'value'   => self::Hardware_WDR_Modus],
+                                'caption' => $this->Translate('Position 1'),
+                                'value'   => self::POSITION_1],
                             [
-                                'caption' => 'Software WDR Mode',
-                                'value'   => self::Software_WDR_Modus],],
+                                'caption' => $this->Translate('Position 2'),
+                                'value'   => self::POSITION_2],
+                            [
+                                'caption' => $this->Translate('Position 3'),
+                                'value'   => self::POSITION_3],
+                            [
+                                'caption' => $this->Translate('Position 4'),
+                                'value'   => self::POSITION_4],
+                            [
+                                'caption' => $this->Translate('Position 5'),
+                                'value'   => self::POSITION_5],
+                            [
+                                'caption' => $this->Translate('Position 6'),
+                                'value'   => self::POSITION_6],
+                            [
+                                'caption' => $this->Translate('Position 7'),
+                                'value'   => self::POSITION_7],
+                            [
+                                'caption' => $this->Translate('Position 8'),
+                                'value'   => self::POSITION_8],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('wdrmode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('start_position_select_action'),
+                        'onChange' => 'INSTAR_SetStartPosition($id, $start_position_select_action);'
 
                     ],
                     [
-                        'name'     => 'wdrmode_enabled',
+                        'name'     => 'start_position_select_action_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrmode_enabled", $wdrmode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('start_position_select_action_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "start_position_select_action_enabled", $start_position_select_action_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
+                        'name'     => 'md_preset_switch',
                         'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'caption'  => 'Activate alarm position',
+                        'value'    => $this->ReadAttributeString('md_preset_switch'),
+                        'onChange' => 'INSTAR_EnableAlarmPosition($id, $md_preset_switch);'],
                     [
-                        'name'     => 'wdrauto_enabled',
+                        'name'     => 'md_preset_switch_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('md_preset_switch_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "md_preset_switch_enabled", $md_preset_switch_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'wdrmode',
-                        'caption'  => 'Wide Dynamic Range',
+                        'name'     => 'md_preset_switch_position',
+                        'caption'  => 'Select alarm position',
                         'options'  => [
                             [
-                                'caption' => 'Hardware WDR Mode',
-                                'value'   => self::Hardware_WDR_Modus],
+                                'caption' => $this->Translate('Position 1'),
+                                'value'   => self::POSITION_1],
                             [
-                                'caption' => 'Software WDR Mode',
-                                'value'   => self::Software_WDR_Modus],],
+                                'caption' => $this->Translate('Position 2'),
+                                'value'   => self::POSITION_2],
+                            [
+                                'caption' => $this->Translate('Position 3'),
+                                'value'   => self::POSITION_3],
+                            [
+                                'caption' => $this->Translate('Position 4'),
+                                'value'   => self::POSITION_4],
+                            [
+                                'caption' => $this->Translate('Position 5'),
+                                'value'   => self::POSITION_5],
+                            [
+                                'caption' => $this->Translate('Position 6'),
+                                'value'   => self::POSITION_6],
+                            [
+                                'caption' => $this->Translate('Position 7'),
+                                'value'   => self::POSITION_7],
+                            [
+                                'caption' => $this->Translate('Position 8'),
+                                'value'   => self::POSITION_8],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('wdrmode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('md_preset_switch_position'),
+                        'onChange' => 'INSTAR_SetAlarmPosition($id, $md_preset_switch_position);'
 
                     ],
                     [
-                        'name'     => 'wdrmode_enabled',
+                        'name'     => 'md_preset_switch_position_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrmode_enabled", $wdrmode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('md_preset_switch_position_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "md_preset_switch_position_enabled", $md_preset_switch_position_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
+                        'name'     => 'timerpreset_enable',
                         'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'caption'  => 'Park function (active after 120 sec)',
+                        'value'    => boolval($this->ReadAttributeInteger('timerpreset_enable')),
+                        'onChange' => 'INSTAR_EnableParkPosition($id, $timerpreset_enable);'],
                     [
-                        'name'     => 'wdrauto_enabled',
+                        'name'     => 'timerpreset_enable_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('timerpreset_enable_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "timerpreset_enable_enabled", $timerpreset_enable_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'Select',
-                        'name'     => 'wdrmode',
+                        'name'     => 'timerpreset_index',
                         'caption'  => 'Wide Dynamic Range',
                         'options'  => [
                             [
-                                'caption' => 'Hardware WDR Mode',
-                                'value'   => self::Hardware_WDR_Modus],
+                                'caption' => $this->Translate('Position 1'),
+                                'value'   => self::POSITION_1],
                             [
-                                'caption' => 'Software WDR Mode',
-                                'value'   => self::Software_WDR_Modus],],
+                                'caption' => $this->Translate('Position 2'),
+                                'value'   => self::POSITION_2],
+                            [
+                                'caption' => $this->Translate('Position 3'),
+                                'value'   => self::POSITION_3],
+                            [
+                                'caption' => $this->Translate('Position 4'),
+                                'value'   => self::POSITION_4],
+                            [
+                                'caption' => $this->Translate('Position 5'),
+                                'value'   => self::POSITION_5],
+                            [
+                                'caption' => $this->Translate('Position 6'),
+                                'value'   => self::POSITION_6],
+                            [
+                                'caption' => $this->Translate('Position 7'),
+                                'value'   => self::POSITION_7],
+                            [
+                                'caption' => $this->Translate('Position 8'),
+                                'value'   => self::POSITION_8],],
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeInteger('wdrmode'),
-                        'onChange' => 'INSTAR_SetOutputVolume($id, $ao_volume);'
+                        'value'    => $this->ReadAttributeInteger('timerpreset_index'),
+                        'onChange' => 'INSTAR_SetParkPosition($id, $timerpreset_index);'
 
                     ],
                     [
-                        'name'     => 'wdrmode_enabled',
+                        'name'     => 'timerpreset_index_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrmode_enabled", $wdrmode_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('timerpreset_index_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "timerpreset_index_enabled", $timerpreset_index_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
+                        'name'     => 'tour_parkposition',
                         'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'caption'  => 'Use tour as parking position',
+                        'value'    => boolval($this->ReadAttributeInteger('tour_parkposition')),
+                        'onChange' => 'INSTAR_EnableTourParkPosition($id, $tour_parkposition);'],
                     [
-                        'name'     => 'wdrauto_enabled',
+                        'name'     => 'tour_parkposition_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('tour_parkposition_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "tour_parkposition_enabled", $tour_parkposition_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
                 'items'   => [
                     [
                         'type'     => 'CheckBox',
-                        'name'     => 'wdrauto',
+                        'name'     => 'admin_value46',
                         'visible'  => true,
-                        'caption'  => 'Auto WDR',
-                        'value'    => boolval($this->ReadAttributeInteger('wdrauto')),
-                        'onChange' => 'INSTAR_SetAudioEncoder($id, $aec);'],
+                        'caption'  => 'Activate step by step control',
+                        'value'    => boolval($this->ReadAttributeInteger('admin_value46')),
+                        'onChange' => 'INSTAR_EnableStepbyStepControl($id, $admin_value46);'],
                     [
-                        'name'     => 'wdrauto_enabled',
+                        'name'     => 'admin_value46_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmode_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrauto_enabled", $wdrauto_enabled);'],]],
-
+                        'value'    => $this->ReadAttributeBoolean('admin_value46_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "admin_value46_enabled", $admin_value46_enabled);'],]],
         ];
-
-        /*
-         *
-
-         *
-         *
-array(10) {
-  [0]=>
-  string(16) "var panspeed="1""
-  [1]=>
-  string(19) "
-var tiltspeed="1""
-  [2]=>
-  string(17) "
-var panscan="1""
-  [3]=>
-  string(18) "
-var tiltscan="1""
-  [4]=>
-  string(20) "
-var movehome="off""
-  [5]=>
-  string(23) "
-var ptzalarmmask="on""
-  [6]=>
-  string(20) "
-var ptzrfmask="on""
-  [7]=>
-  string(18) "
-var selfdet="on""
-  [8]=>
-  string(26) "
-var alarmpresetindex="1""
-  [9]=>
-  string(25) "
-var initpresetindex="1""
-}
-         */
-
         return $form;
+    }
+
+    public function SetPTZTourTime($ptz_tour_time)
+    {
+        $this->WriteAttributeInteger('ptz_tour_time', $ptz_tour_time);
     }
 
     protected function FormShowPTZ_tour()
@@ -11321,19 +11410,19 @@ var initpresetindex="1""
                 'items'   => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'wdrmanval',
-                        'caption'  => 'Fix WDR Level',
+                        'name'     => 'ptz_tour_time',
+                        'caption'  => 'Dwell time in seconds',
                         'minimum'  => 0,
                         'maximum'  => 255,
-                        'value'    => $this->ReadAttributeInteger('wdrmanval'),
-                        'onChange' => 'INSTAR_EnableAudio($id);'],
+                        'value'    => $this->ReadAttributeInteger('ptz_tour_time'),
+                        'onChange' => 'INSTAR_SetPTZTourTime($id, $ptz_tour_time);'],
                     [
-                        'name'     => 'wdrmanval_enabled',
+                        'name'     => 'ptz_tour_time_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmanval_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrmanval_enabled", $wdrmanval_enabled);'],]],];
+                        'value'    => $this->ReadAttributeBoolean('ptz_tour_time_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "ptz_tour_time_enabled", $ptz_tour_time_enabled);'],]],];
         return $form;
     }
 
@@ -12416,25 +12505,25 @@ as_password[0]="";
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'admin'],
+                'caption' => 'Admin'],
             [
                 'type'    => 'ValidationTextBox',
                 'visible' => true,
                 'name'    => 'at_username0',
-                'caption' => 'user',
+                'caption' => 'User',
                 'value'   => $this->ReadAttributeString('at_username0')],
             [
                 'type'    => 'PasswordTextBox',
                 'visible' => true,
                 'name'    => 'at_password0',
-                'caption' => 'password',
+                'caption' => 'Password',
                 'value'   => $this->ReadAttributeString('at_password0')],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'Label',
-                        'caption' => 'user'],
+                        'caption' => 'User'],
                     [
                         'name'     => 'at_enable1',
                         'type'     => 'CheckBox',
@@ -12447,20 +12536,20 @@ as_password[0]="";
                 'type'    => 'ValidationTextBox',
                 'visible' => true,
                 'name'    => 'at_username1',
-                'caption' => 'user',
+                'caption' => 'User',
                 'value'   => $this->ReadAttributeString('at_username1')],
             [
                 'type'    => 'PasswordTextBox',
                 'visible' => true,
                 'name'    => 'at_password1',
-                'caption' => 'password',
+                'caption' => 'Password',
                 'value'   => $this->ReadAttributeString('at_password1')],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'Label',
-                        'caption' => 'guest'],
+                        'caption' => 'Guest'],
                     [
                         'name'     => 'at_enable2',
                         'type'     => 'CheckBox',
@@ -12472,13 +12561,13 @@ as_password[0]="";
                 'type'    => 'ValidationTextBox',
                 'visible' => true,
                 'name'    => 'at_username2',
-                'caption' => 'user',
+                'caption' => 'User',
                 'value'   => $this->ReadAttributeString('at_username2')],
             [
                 'type'    => 'PasswordTextBox',
                 'visible' => true,
                 'name'    => 'at_password2',
-                'caption' => 'password',
+                'caption' => 'Password',
                 'value'   => $this->ReadAttributeString('at_password2')],
             [
                 'type'    => 'Button',
@@ -12586,12 +12675,41 @@ as_password[0]="";
         return $form;
     }
 
+    public function DeleteSystemLog()
+    {
+        $this->SendDebug('System Log', 'Deleting system log', 0);
+    }
+
+    public function EnableSystemLog(bool $system_log)
+    {
+        $this->WriteAttributeBoolean('system_log', $system_log);
+        if($system_log)
+        {
+            $this->SendDebug('System Log', 'Creating system log', 0);
+        }
+        else
+        {
+            $this->SendDebug('System Log', 'Deleting system log', 0);
+        }
+    }
+
     protected function FormShowSystem_Logbook()
     {
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'Please use the INSTAR webUI']];
+                'caption' => 'The system log is read out daily'],
+            [
+                'name'     => 'system_log',
+                'type'     => 'CheckBox',
+                'visible'  => true,
+                'caption'  => 'Create backup from system log to IP-Symcon',
+                'value'   => boolval($this->ReadAttributeInteger('system_log')),
+                'onChange' => 'INSTAR_EnableSystemLog($id, $system_log);'],
+            [
+                'type'    => 'Button',
+                'caption' => 'Delete system log data in IP-Symcon',
+                'onClick' => 'INSTAR_DeleteSystemLog($id);']];
         return $form;
     }
 
@@ -13065,7 +13183,7 @@ as_password[0]="";
             [
                 'code'    => 203,
                 'icon'    => 'error',
-                'caption' => 'No valid IP address or host.'],
+                'caption' => 'No valid IP address or host'],
             [
                 'code'    => 204,
                 'icon'    => 'error',
@@ -13077,7 +13195,7 @@ as_password[0]="";
             [
                 'code'    => 206,
                 'icon'    => 'error',
-                'caption' => 'category must not be empty.'],
+                'caption' => 'The category for saving the images has not been set'],
             [
                 'code'    => 207,
                 'icon'    => 'error',
