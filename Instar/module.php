@@ -6880,8 +6880,41 @@ class INSTAR extends IPSModule
      */
     public function GetCameraTimeConfiguration()
     {
-        $payload = $this->SendParameter('getservertime');
-        $data    = $this->SplitPayload($payload, '_time');
+        $host             = $this->ReadPropertyString('Host');
+        $user             = $this->ReadPropertyString('User');
+        $password         = $this->ReadPropertyString('Password');
+
+        // check IP adress
+        if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
+            //IP ok
+            $ipcheck = true;
+        } else {
+            $ipcheck = false;
+        }
+
+        //Domain INSTAR prüfen
+        if (!$this->is_valid_localdomain($host) === false) {
+            //Domain ok
+            $domaincheck = true;
+        } else {
+            $domaincheck = false;
+        }
+
+        if ($domaincheck === true || $ipcheck === true) {
+            $hostcheck = true;
+        } else {
+            $hostcheck = false;
+        }
+
+        //User und Passwort prüfen
+        if ($user !== '' && $password !== '' && $hostcheck === true) {
+            $payload = $this->SendParameter('getservertime');
+            $data    = $this->SplitPayload($payload, '_time');
+        }
+        else
+        {
+            $data = false;
+        }
         return $data;
     }
 
@@ -12457,15 +12490,23 @@ as_password[0]="";
     protected function FormShowDate_Time()
     {
         $time_info = $this->GetCameraTimeConfiguration();
-        $time = strval($time_info['time']);
-        $year = substr($time, 0, 4);
-        $month = substr($time, 4, 2);
-        $day = substr($time, 6, 2);
-        $hour = substr($time, 8, 2);
-        $minute = substr($time, 10, 2);
-        $second = substr($time, 12, 2);
-        $current_date = $day . '.' . $month . '.' . $year;
-        $current_time =  $hour .  ':' . $minute . ':' . $second;
+        if($time_info === false)
+        {
+            $current_date = '01.01.2019';
+            $current_time =  '00:00:00';
+        }
+        else
+        {
+            $time = strval($time_info['time']);
+            $year = substr($time, 0, 4);
+            $month = substr($time, 4, 2);
+            $day = substr($time, 6, 2);
+            $hour = substr($time, 8, 2);
+            $minute = substr($time, 10, 2);
+            $second = substr($time, 12, 2);
+            $current_date = $day . '.' . $month . '.' . $year;
+            $current_time =  $hour .  ':' . $minute . ':' . $second;
+        }
         $form = [
             [
                 'type'  => 'RowLayout',
