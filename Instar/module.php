@@ -342,10 +342,10 @@ class INSTAR extends IPSModule
     {
         //Never delete this line!
         parent::Create();
-
         //These lines are parsed on Symcon Startup or Instance creation
         //You cannot use variables here. Just static values.
-
+        $this->RegisterTimer('SystemLogTimerUpdate', 0, 'INSTAR_GetCameraSystemLog(' . $this->InstanceID . ');');
+        $this->RegisterTimer('RebootTimerUpdate', 0, 'INSTAR_RebootCamera(' . $this->InstanceID . ');');
         $this->RegisterPropertyString('webhook_username', 'instar');
         $this->RegisterPropertyString('webhook_password', 'symcon');
         $this->RegisterAttributeString('webhook_username', 'instar');
@@ -419,7 +419,7 @@ class INSTAR extends IPSModule
         $this->RegisterPropertyInteger('picturelimitsnapshot', 20);
         $this->RegisterPropertyInteger('model_type', 0);
         $this->RegisterAttributeBoolean('INSTARButtonSnapshot_enabled', true); // show Attribute in Webfront
-
+        $this->RegisterAttributeBoolean('system_log', false); // Camera System Log
         $this->RegisterAttributeString('model', ''); // Camera Model Identifier
         $this->RegisterAttributeBoolean('model_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('hardVersion', ''); // Hardware Version
@@ -1595,12 +1595,38 @@ class INSTAR extends IPSModule
         $this->RegisterWebhook('/hook/INSTAR' . $this->InstanceID);
 
         $this->ValidateConfiguration();
+        $this->SetCyclicTimerInterval();
+        $this->SetCyclicRebootTimerInterval();
     }
 
     /**
      * Die folgenden Funktionen stehen automatisch zur Verfügung, wenn das Modul über die "Module Control" eingefügt wurden.
      * Die Funktionen werden, mit dem selbst eingerichteten Prefix, in PHP und JSON-RPC wiefolgt zur Verfügung gestellt:.
      */
+
+
+    protected function SetCyclicTimerInterval()
+    {
+        $Now = new DateTime();
+        $Target = new DateTime();
+        $Target->modify('+1 day');
+        $Target->setTime(0, 5, 15);
+        $Diff = $Target->getTimestamp() - $Now->getTimestamp();
+        $Interval = $Diff * 1000;
+        $this->SetTimerInterval("SystemLogTimerUpdate", $Interval);
+    }
+
+    protected function SetCyclicRebootTimerInterval()
+    {
+        $Now = new DateTime();
+        $Target = new DateTime();
+        $Target->modify('+1 day');
+        $Target->setTime(0, 5, 45);
+        $Diff = $Target->getTimestamp() - $Now->getTimestamp();
+        $Interval = $Diff * 1000;
+        $this->SetTimerInterval("RebootTimerUpdate", $Interval);
+    }
+
     private function ValidateConfiguration()
     {
         $host             = $this->ReadPropertyString('Host');
@@ -1815,7 +1841,7 @@ class INSTAR extends IPSModule
         ); //  Gamma 0-3
 
         $this->SetupVariable(
-            'INSTARButtonSnapshot', $this->Translate('Save camera snapshot'), 'INSTAR.Snapshot', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'INSTARButtonSnapshot', $this->Translate('Get snapshot from camera'), 'INSTAR.Snapshot', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
 
         $this->SetupVariable('flip', $this->Translate('Flip'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
@@ -7009,6 +7035,18 @@ class INSTAR extends IPSModule
     {
         $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/tmpfs/syslog.txt', 0);
         $log = file_get_contents('http://' . $this->GetHostURL() . '/tmpfs/syslog.txt');
+        $MediaID = @$this->GetIDForIdent('system_log');
+        if ($MediaID === false) {
+            $this->SendDebug('System Log', 'Get system log', 0);
+        }
+        else
+        {
+            $this->SendDebug('System Log', 'Save system log', 0);
+            $current_system_log = base64_decode(IPS_GetMediaContent($MediaID));
+            $Content = $current_system_log . $log;
+            IPS_SetMediaContent($MediaID, base64_encode($Content));  // Base64 codieren und ablegen
+            IPS_SendMediaEvent($MediaID); //aktualisieren
+        }
         return $log;
     }
 
@@ -10360,15 +10398,15 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         }
         // IN-6014 HD
         if ($model_type == self::IN_6014_HD) {
-            $image = 'data:image/png;base64, ' . self::PICTURE_TRANSPARENT;
+            $image = 'data:image/png;base64, ' . self::PICTURE_IN_6014_HD;
         }
         // IN-8003 Full HD
         if ($model_type == self::IN_8003_Full_HD) {
-            $image = 'data:image/png;base64, ' . self::PICTURE_TRANSPARENT;
+            $image = 'data:image/png;base64, ' . self::PICTURE_IN_8003_Full_HD;
         }
         // IN-8015 Full HD
         if ($model_type == self::IN_8015_Full_HD) {
-            $image = 'data:image/png;base64, ' . self::PICTURE_TRANSPARENT;
+            $image = 'data:image/png;base64, ' . self::PICTURE_IN_8015_Full_HD;
         }
         return $image;
     }
@@ -12678,18 +12716,40 @@ as_password[0]="";
     public function DeleteSystemLog()
     {
         $this->SendDebug('System Log', 'Deleting system log', 0);
+        $MediaID = @$this->GetIDForIdent('system_log');
+        $Content = '';
+        IPS_SetMediaContent($MediaID, base64_encode($Content));  // Base64 codieren und ablegen
     }
 
+    /**
+     * @param bool $system_log
+     */
     public function EnableSystemLog(bool $system_log)
     {
         $this->WriteAttributeBoolean('system_log', $system_log);
         if($system_log)
         {
             $this->SendDebug('System Log', 'Creating system log', 0);
+            $MediaID = @$this->GetIDForIdent('system_log');
+            if ($MediaID === false) {
+                $DocumentFile = IPS_GetKernelDir() . 'media' . DIRECTORY_SEPARATOR . 'INSTAR_System_Log.doc';  // File
+                $Content = $this->GetCameraSystemLog();
+                file_put_contents($DocumentFile, $Content);
+                $MediaID = IPS_CreateMedia(5);              // Create Document
+                IPS_SetMediaFile($MediaID, $DocumentFile, true);
+                IPS_SetMediaCached($MediaID, true);
+                IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
+                IPS_SetIdent($MediaID, 'system_log');
+                IPS_SetPosition($MediaID, 100);
+                IPS_SetName($MediaID, $this->Translate('Camera System Log')); // Medienobjekt benennen
+                IPS_SendMediaEvent($MediaID); //aktualisieren
+            }
         }
         else
         {
             $this->SendDebug('System Log', 'Deleting system log', 0);
+            $MediaID = @$this->GetIDForIdent('system_log');
+            IPS_DeleteMedia($MediaID, true);
         }
     }
 
@@ -12704,7 +12764,7 @@ as_password[0]="";
                 'type'     => 'CheckBox',
                 'visible'  => true,
                 'caption'  => 'Create backup from system log to IP-Symcon',
-                'value'   => boolval($this->ReadAttributeInteger('system_log')),
+                'value'   => $this->ReadAttributeBoolean('system_log'),
                 'onChange' => 'INSTAR_EnableSystemLog($id, $system_log);'],
             [
                 'type'    => 'Button',
