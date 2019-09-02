@@ -250,6 +250,8 @@ class INSTAR extends IPSModule
         'aeswitch_2',
         'aeswitch_3',
         'wdrmode',
+        'wdrauto',
+        'd3noauto',
         'profile'];
 
     private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex', 'color_1', 'color_2', 'color_3', 'color_4'];
@@ -1784,11 +1786,11 @@ class INSTAR extends IPSModule
     {
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Continuous', 'Move', '', '', 0, 4, 0, 0, VARIABLETYPE_INTEGER, [
-                                           [0, $this->Translate('left'), '', -1],
-                                           [1, $this->Translate('up'), '', -1],
-                                           [2, $this->Translate('down'), '', -1],
-                                           [3, $this->Translate('right'), '', -1],
-                                           [4, $this->Translate('stop'), '', -1]]
+                                           [0, $this->Translate('Left'), '', -1],
+                                           [1, $this->Translate('Up'), '', -1],
+                                           [2, $this->Translate('Down'), '', -1],
+                                           [3, $this->Translate('Right'), '', -1],
+                                           [4, $this->Translate('Stop'), '', -1]]
         );
         $this->SetupVariable(
             'Control_Continuous', $this->Translate('Continuous movement'), 'INSTAR.Control.Continuous', $this->_getPosition(), VARIABLETYPE_INTEGER,
@@ -1796,10 +1798,10 @@ class INSTAR extends IPSModule
         );
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Step', 'Move', '', '', 0, 3, 0, 0, VARIABLETYPE_INTEGER, [
-                                     [0, $this->Translate('Step Left'), '', -1],
-                                     [1, $this->Translate('Step Up'), '', -1],
-                                     [2, $this->Translate('Step Down'), '', -1],
-                                     [3, $this->Translate('Step Right'), '', -1]]
+                                     [0, $this->Translate('Step left'), '', -1],
+                                     [1, $this->Translate('Step up'), '', -1],
+                                     [2, $this->Translate('Step down'), '', -1],
+                                     [3, $this->Translate('Step right'), '', -1]]
         );
         $this->SetupVariable(
             'Control_Step', $this->Translate('Stepped movement'), 'INSTAR.Control.Step', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
@@ -1830,15 +1832,18 @@ class INSTAR extends IPSModule
             'contrast', $this->Translate('Contrast'), '~Intensity.255', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Contrast (0-255)
         $this->SetupVariable(
-            'targety', $this->Translate('Exposure'), '~Intensity.255', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'sharpness', $this->Translate('Sharpness'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // sharpness [0-100]
+        $this->SetupVariable(
+            'targety', $this->Translate('Equalize image'), '~Intensity.255', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  Exposure [0-255]
         $this->SetupVariable(
             'noise', $this->Translate('Low light denoising intensity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  Low light denoising intensity (0-100)
+        $this->RegisterProfile('INSTAR.gamma', 'Light', '', '', 0, 3, 1, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'gamma', $this->Translate('Gamma'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'gamma', $this->Translate('Gamma'), 'INSTAR.gamma', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  Gamma 0-3
-
         $this->SetupVariable(
             'INSTARButtonSnapshot', $this->Translate('Get snapshot from camera'), 'INSTAR.Snapshot', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
@@ -1862,7 +1867,7 @@ class INSTAR extends IPSModule
         $this->SetupVariable('IR_LED', $this->Translate('IR LED'), 'INSTAR.IRLED', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true);
 
         $this->RegisterProfileAssociation(
-            'INSTAR.Position', 'Image', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.Position', 'Camera', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
                                  [0, $this->Translate('Position 1'), '', -1],
                                  [1, $this->Translate('Position 2'), '', -1],
                                  [2, $this->Translate('Position 3'), '', -1],
@@ -1882,7 +1887,7 @@ class INSTAR extends IPSModule
             'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (0-7), integer
         $this->RegisterProfileAssociation(
-            'INSTAR.notification_alarm', '', '', '', 0, 10, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.notification_alarm', 'Warning', '', '', 0, 10, 0, 0, VARIABLETYPE_INTEGER, [
                                            [0, $this->Translate('alarm area 1 triggered'), '', -1],
                                            [1, $this->Translate('alarm area 1 triggered'), '', -1],
                                            [2, $this->Translate('alarm area 2 triggered'), '', -1],
@@ -1925,11 +1930,14 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'dhcpflag', $this->Translate('DHCP'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // on: (DHCP enabled), off: (DHCP disabled)
-        $this->SetupVariable('ip', $this->Translate('LAN IPv4 Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN IPv4 Address
+        $this->RegisterProfile('INSTAR.ip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('ip', $this->Translate('IP address'), 'INSTAR.ip', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN IPv4 Address
+        $this->RegisterProfile('INSTAR.netmask', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
-            'netmask', $this->Translate('LAN Subnet Mask'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'netmask', $this->Translate('Subnetmask'), 'INSTAR.netmask', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // LAN Subnet Mask
-        $this->SetupVariable('gateway', $this->Translate('LAN Gateway'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN Gateway
+        $this->RegisterProfile('INSTAR.gateway', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('gateway', $this->Translate('Gateway'), 'INSTAR.gateway', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN Gateway
         $this->RegisterProfileAssociation(
             'INSTAR.DNS_State', '', '', '', 0, 1, 0, 0, VARIABLETYPE_BOOLEAN, [
                                   [false, $this->Translate('manually'), '', -1],
@@ -1938,12 +1946,15 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'dnsstat', $this->Translate('Platform Status'), 'INSTAR.DNS_State', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // DNS Status: 0 (manually), 1 (from DHCP Server)
-        $this->SetupVariable('fdnsip', $this->Translate('Primary DNS'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // Primary DNS
-        $this->SetupVariable('sdnsip', $this->Translate('Secondary DNS'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // Secondary DNS
+        $this->RegisterProfile('INSTAR.fdnsip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('fdnsip', $this->Translate('DNS Server'), 'INSTAR.fdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false); // Primary DNS
+        $this->RegisterProfile('INSTAR.sdnsip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('sdnsip', $this->Translate('Secondary DNS'), 'INSTAR.sdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false); // Secondary DNS
         $this->SetupVariable(
             'macaddress', $this->Translate('LAN MAC Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
         );  // LAN MAC Address
-        $this->SetupVariable('networktype', $this->Translate('Network Type'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN or WLAN
+        $this->RegisterProfile('INSTAR.networktype', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('networktype', $this->Translate('Network Type'), 'INSTAR.networktype', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN or WLAN
         $this->RegisterProfileAssociation(
             'INSTAR.UPnP', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                              [0, $this->Translate('ok'), '', -1],
@@ -1981,23 +1992,24 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'sdstatus', $this->Translate('SD Card Status'), 'INSTAR.SD_Card_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );  // SD Card Status out, Ready, Read only
-        $this->SetupVariable('httpport', $this->Translate('HTTP Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
-        $this->SetupVariable('httpsport', $this->Translate('HTTPS Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
-        $this->SetupVariable('rtspport', $this->Translate('RTSP Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
-        $this->SetupVariable('httpport', $this->Translate('HTTP Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        $this->RegisterProfile('INSTAR.port', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable('httpport', $this->Translate('HTTP port'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        $this->SetupVariable('httpsport', $this->Translate('HTTPS port'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        $this->SetupVariable('rtspport', $this->Translate('RTSP port'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
         $this->SetupVariable('rtsp_aenable', $this->Translate('RTSP Enabled'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
-        $this->SetupVariable('rtmpport', $this->Translate('RTMP Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
-        $this->SetupVariable('wf_enable', $this->Translate('WiFi enabled'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
-        $this->SetupVariable('wf_ssid', $this->Translate('SSID'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // SSID (max. 32 Characters)
+        $this->SetupVariable('rtmpport', $this->Translate('RTMP Port for Flash Plugin'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        $this->SetupVariable('wf_enable', $this->Translate('WLAN Enabled'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
+        $this->RegisterProfile('INSTAR.wf_ssid', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('wf_ssid', $this->Translate('SSID'), 'INSTAR.wf_ssid', $this->_getPosition(), VARIABLETYPE_STRING, false); // SSID (max. 32 Characters)
         $this->RegisterProfileAssociation(
-            'INSTAR.wf_auth', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.wf_auth', 'Network', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                                 [0, $this->Translate('no encryption'), '', -1],
                                 [1, $this->Translate('WEP'), '', -1],
                                 [2, $this->Translate('WPA-PSK'), '', -1],
                                 [3, $this->Translate('WPA2-PSK'), '', -1]]
         );
         $this->SetupVariable(
-            'wf_auth', $this->Translate('WiFi Authentification'), 'INSTAR.wf_auth', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'wf_auth', $this->Translate('Encryption'), 'INSTAR.wf_auth', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // 0 (no encryption), 1 (WEP), 2 (WPA-PSK), 3 (WPA2-PSK)
 
         $this->SetupVariable(
@@ -2072,8 +2084,9 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'm4_sensitivity', $this->Translate('Detection Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Detection Sensitivity [1 - 100]
+        $this->RegisterProfile('INSTAR.wf_key', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
-            'wf_key', $this->Translate('WIFI Key'), '', $this->_getPosition(), VARIABLETYPE_STRING, true
+            'wf_key', $this->Translate('Key'), 'INSTAR.wf_key', $this->_getPosition(), VARIABLETYPE_STRING, true
         );  // Key max. 63 Characters (Allowed special characters: &='`)
 
         $this->SetupVariable(
@@ -2150,20 +2163,20 @@ class INSTAR extends IPSModule
         );
 
         $this->RegisterProfileAssociation(
-            'INSTAR.wf_enc', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.wf_enc', 'Network', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                [0, $this->Translate('TKIP'), '', -1],
                                [1, $this->Translate('AES'), '', -1]]
         );
         $this->SetupVariable(
-            'wf_enc', $this->Translate('WiFi Encrytion'), 'INSTAR.wf_enc', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'wf_enc', $this->Translate('Type'), 'INSTAR.wf_enc', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Key type 0 (TKIP), 1 (AES)
         $this->RegisterProfileAssociation(
-            'INSTAR.wf_mode', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
-                                [0, $this->Translate('infra'), '', -1],
+            'INSTAR.wf_mode', 'Network', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+                                [0, $this->Translate('infrastructure'), '', -1],
                                 [1, $this->Translate('ad-hoc'), '', -1]]
         );
         $this->SetupVariable(
-            'wf_mode', $this->Translate('WiFi Mode'), 'INSTAR.wf_mode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'wf_mode', $this->Translate('Network Type'), 'INSTAR.wf_mode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // 0 (infra), 1 (ad-hoc)
         $this->SetupVariable(
             'our_enable', $this->Translate('INSTAR DDNS'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -2180,8 +2193,9 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'our_passwd', $this->Translate('INSTAR DDNS ID'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // Your INSTAR DDNS Password
+        $this->RegisterProfile('INSTAR.our_domain', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
-            'our_domain', $this->Translate('INSTAR DDNS Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'our_domain', $this->Translate('Your INSTAR DDNS Address'), 'INSTAR.our_domain', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // Your INSTAR DDNS Address
         $this->SetupVariable(
             'our_interval', $this->Translate('Interval'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, false
@@ -2212,16 +2226,17 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'ov_enable', $this->Translate('ONVIF'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // 1: UPnP activated, 0: UPnP deactivated
+        $this->RegisterProfile('INSTAR.ov_port', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'ov_port', $this->Translate('ONVIF Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, false
+            'ov_port', $this->Translate('ONVIF Port'), 'INSTAR.ov_port', $this->_getPosition(), VARIABLETYPE_INTEGER, false
         ); // ONVIF Port
         $this->RegisterProfileAssociation(
-            'INSTAR.ov_authflag', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.ov_authflag', 'Camera', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                     [0, $this->Translate('ONVIF Login Required'), '', -1],
                                     [1, $this->Translate('ONVIF Authentication deactivated'), '', -1]]
         );
         $this->SetupVariable(
-            'ov_authflag', $this->Translate('WiFi Key Type'), 'INSTAR.ov_authflag', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ov_authflag', $this->Translate('Authentication'), 'INSTAR.ov_authflag', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );  // 1 ONVIF Login Required, 0: ONVIF Authentication deactivated
         $this->RegisterProfileAssociation(
             'INSTAR.ov_forbitset', '', '', '', 0, 3, 0, 0, VARIABLETYPE_INTEGER, [
@@ -2234,36 +2249,36 @@ class INSTAR extends IPSModule
             'ov_forbitset', $this->Translate('Forbitset'), 'INSTAR.ov_forbitset', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );  // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
         $this->RegisterProfileAssociation(
-            'INSTAR.ov_subchn', '', '', '', 11, 13, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.ov_subchn', 'Camera', '', '', 11, 13, 0, 0, VARIABLETYPE_INTEGER, [
                                   [11, $this->Translate('Channel 11'), '', -1],
                                   [12, $this->Translate('Channel 12'), '', -1],
                                   [13, $this->Translate('Channel 13'), '', -1]]
         );
         $this->SetupVariable(
-            'ov_subchn', $this->Translate('Sub Channel'), 'INSTAR.ov_subchn', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ov_subchn', $this->Translate('Video Subchannel'), 'INSTAR.ov_subchn', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
         $this->RegisterProfileAssociation(
-            'INSTAR.ov_snapchn', '', '', '', 11, 13, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.ov_snapchn', 'Camera', '', '', 11, 13, 0, 0, VARIABLETYPE_INTEGER, [
                                    [11, $this->Translate('Channel 11'), '', -1],
                                    [12, $this->Translate('Channel 12'), '', -1],
                                    [13, $this->Translate('Channel 13'), '', -1]]
         );
         $this->SetupVariable(
-            'ov_snapchn', $this->Translate('Snapshot Channel'), 'INSTAR.ov_snapchn', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ov_snapchn', $this->Translate('Video Subchannel Snapshot'), 'INSTAR.ov_snapchn', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
         $this->SetupVariable(
-            'volume', $this->Translate('Volume'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'volume', $this->Translate('Input Sensitivity'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Audio input volume: 1 - 100
         $this->RegisterProfileAssociation(
-            'INSTAR.volin_type', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.volin_type', 'Melody', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                    [0, $this->Translate('linear input'), '', -1],
                                    [1, $this->Translate('microphone input'), '', -1]]
         );
         $this->SetupVariable(
-            'volin_type', $this->Translate('Snapshot Channel'), 'INSTAR.volin_type', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'volin_type', $this->Translate('input type'), 'INSTAR.volin_type', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
         $this->SetupVariable(
-            'ao_volume', $this->Translate('Output Volume'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ao_volume', $this->Translate('Speaker / Output Volume'), '~Intensity.100', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // Audio output volume: 1 - 100
         $this->SetupVariable(
             'aec', $this->Translate('Audio Encoder'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -2295,6 +2310,7 @@ class INSTAR extends IPSModule
                                  [0, $this->Translate('G711A 64Kbps'), '', -1],
                                  [1, $this->Translate('G726 16Kbps'), '', -1]]
         );
+        // $this->RegisterProfile('INSTAR.volume', 'Speaker', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
             'aeformat_1', $this->Translate('Audio encode format channel 1'), 'INSTAR.aeformat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
@@ -2349,16 +2365,17 @@ class INSTAR extends IPSModule
             'ft_ssl', $this->Translate('FTPS Encryption'), 'INSTAR.ft_ssl', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // FTPS Encryption - 0：None, 1：SSL, 2: TLS
         $this->RegisterProfileAssociation(
-            'INSTAR.videomode', '', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.videomode', 'Camera', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
                                   [11, $this->Translate('CH11=1080p'), '', -1],
                                   [12, $this->Translate('CH12=320p'), '', -1],
                                   [13, $this->Translate('CH13=160p'), '', -1],
                                   [41, $this->Translate('Videomode'), '', -1]]
         );
         $this->SetupVariable(
-            'videomode', $this->Translate('Video Mode'), 'INSTAR.videomode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'videomode', $this->Translate('Videomode'), 'INSTAR.videomode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  Resolution CH11=1080p, CH12=320p, CH13=160p
-        $this->SetupVariable('vinorm', $this->Translate('Video Norm'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); //  50Hz(PAL)
+        $this->RegisterProfile('INSTAR.vinorm', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('vinorm', $this->Translate('Videonorm'), 'INSTAR.vinorm', $this->_getPosition(), VARIABLETYPE_STRING, false); //  50Hz(PAL)
 
         $this->SetupVariable(
             'wdrmode', $this->Translate('Hardware Wide Dynamic Range'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -2441,16 +2458,35 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
         'imagegrade_3', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  1 (low compression) -6 (high compression)
+        $this->SetupVariable(
+            'wdrauto', $this->Translate('Auto WDR'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );  //  Hardware Wide Dynamic Range 0 (Auto), 1 (Manual)
 
-
-
-
+        $this->RegisterProfile('INSTAR.wdrautval', '', '', '', 0, 2, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'wdrautval', $this->Translate('Dynamic WDR Level'), 'INSTAR.wdrautval', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );  //  Auto WDR Strength [0-2]
+        $this->RegisterProfile('INSTAR.wdrmanval', '', '', '', 0, 255, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'wdrmanval', $this->Translate('Fix WDR Level'), 'INSTAR.wdrmanval', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Manual WDR Strength [0-255]
+        $this->SetupVariable(
+            'd3noauto', $this->Translate('Noise Reduction Mode'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); //  3D Noise Reduction Mode: 0 (auto), 1 (manual)
+        $this->RegisterProfile('INSTAR.d3noval', '', '', '', 0, 255, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'd3noval', $this->Translate('Noise Reduction Strength'), 'INSTAR.d3noval', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  3D Noise Reduction Strength: [0-255]
 
 
 
         /*
+         *
 
-    
+
+
+        $this->SetupVariable('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
+
 
         $this->SetupVariable('width_1', 1920); //  Video width
 
@@ -2466,7 +2502,7 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('display_mode', 0); //  Current 0: black and white mode 1: color mode
 
-        $this->SetupVariable('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
+
 
         $this->SetupVariable('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
 
@@ -2481,15 +2517,13 @@ class INSTAR extends IPSModule
         $this->SetupVariable('imgmode', 0); //  Image priority mode: 0: Frame rate priority, 1: Illumination priority
 
 
-        $this->SetupVariable('wdrauto', 0); //  Hardware Wide Dynamic Range 0 (Auto), 1 (Manual)
 
-        $this->SetupVariable('wdrautval', 0); //  Auto WDR Strength [0-2]
 
-        $this->SetupVariable('wdrmanval', 0); //  Manual WDR Strength [0-255]
 
-        $this->SetupVariable('d3noauto', 0); //  3D Noise Reduction Mode: 0 (auto), 1 (manual)
 
-        $this->SetupVariable('d3noval', 0); //  3D Noise Reduction Strength: [0-255]
+
+
+
 
         $this->SetupVariable('gcauto', 0); //  Signal Gain: 0 (auto), 1 (manual)
 
@@ -9164,7 +9198,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'Select',
                         'name'     => 'vinorm',
-                        'caption'  => 'vinorm',
+                        'caption'  => 'Videonorm',
                         'options'  => [
                             [
                                 'caption' => 'Video Norm 50Hz (PAL)',
@@ -12315,6 +12349,7 @@ as_password[0]="";
                 IPS_SetIdent($MediaID, 'system_log');
                 IPS_SetPosition($MediaID, 100);
                 IPS_SetName($MediaID, $this->Translate('Camera System Log')); // Medienobjekt benennen
+                IPS_SetIcon($MediaID, 'Database');
                 IPS_SendMediaEvent($MediaID); //aktualisieren
             }
         } else {
