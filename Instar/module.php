@@ -192,16 +192,16 @@ class INSTAR extends IPSModule
     private const RESOLUTION_SNAPSHOT_320p  = 1; // Get Image (320p)
     private const RESOLUTION_SNAPSHOT_160p  = 2; // Get Image (160p)
 
-    private const ERROR_INACTIVE = 201; // Please follow the instructions.
-    private const ERROR_IP_EMPTY = 202; // INSTAR IP adress must not empty.
-    private const ERROR_IP_NOT_VALID = 203; // No valid IP address or host
-    private const ERROR_CONNECTION = 204; // connection to INSTAR lost.
-    private const ERROR_FIELD_EMPTY = 205; // Field can not be left empty
-    private const ERROR_CATEGORY_1 = 206; // The category for saving the images has not been set
-    private const ERROR_EMAIL = 207; // email not valid.
+    private const ERROR_INACTIVE          = 201; // Please follow the instructions.
+    private const ERROR_IP_EMPTY          = 202; // INSTAR IP adress must not empty.
+    private const ERROR_IP_NOT_VALID      = 203; // No valid IP address or host
+    private const ERROR_CONNECTION        = 204; // connection to INSTAR lost.
+    private const ERROR_FIELD_EMPTY       = 205; // Field can not be left empty
+    private const ERROR_CATEGORY_1        = 206; // The category for saving the images has not been set
+    private const ERROR_EMAIL             = 207; // email not valid.
     private const ERROR_SNAPSHOT_CATEGORY = 208; // category INSTAR snapshot not set.
-    private const ERROR_CAMERA_MODEL = 209; // Please select a camera model
-    private const ERROR_USER_PASSWORD = 210; // Webhook username and password can not be left empty
+    private const ERROR_CAMERA_MODEL      = 209; // Please select a camera model
+    private const ERROR_USER_PASSWORD     = 210; // Webhook username and password can not be left empty
 
     private const PICTURE_TRANSPARENT = 'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mNkYAAAAAYAAjCB0C8AAAAASUVORK5CYII=';
     // IN-5905 HD
@@ -1607,22 +1607,22 @@ class INSTAR extends IPSModule
 
     protected function SetCyclicTimerInterval()
     {
-        $Now = new DateTime();
+        $Now    = new DateTime();
         $Target = new DateTime();
         $Target->modify('+1 day');
         $Target->setTime(0, 5, 15);
-        $Diff = $Target->getTimestamp() - $Now->getTimestamp();
+        $Diff     = $Target->getTimestamp() - $Now->getTimestamp();
         $Interval = $Diff * 1000;
         $this->SetTimerInterval("SystemLogTimerUpdate", $Interval);
     }
 
     protected function SetCyclicRebootTimerInterval()
     {
-        $Now = new DateTime();
+        $Now    = new DateTime();
         $Target = new DateTime();
         $Target->modify('+1 day');
         $Target->setTime(0, 5, 45);
-        $Diff = $Target->getTimestamp() - $Now->getTimestamp();
+        $Diff     = $Target->getTimestamp() - $Now->getTimestamp();
         $Interval = $Diff * 1000;
         $this->SetTimerInterval("RebootTimerUpdate", $Interval);
     }
@@ -1672,7 +1672,7 @@ class INSTAR extends IPSModule
 
         // Kategorie prüfen
         $category_snapshot = $this->ReadPropertyInteger('categorysnapshot');
-        if($category_snapshot > 0) {
+        if ($category_snapshot > 0) {
             $this->SendDebug('INSTAR', 'Kategorie mit ObjektID ' . $category_snapshot . ' gefunden', 0);
         } else {
             $this->SetStatus(self::ERROR_SNAPSHOT_CATEGORY); //category INSTAR snapshot not set
@@ -1681,8 +1681,7 @@ class INSTAR extends IPSModule
         //User und Passwort prüfen
         if ($user == '' || $password == '') {
             $this->SetStatus(self::ERROR_FIELD_EMPTY); //Felder dürfen nicht leer sein
-        }
-        elseif ($user !== '' && $password !== '' && $hostcheck === true) {
+        } elseif ($user !== '' && $password !== '' && $hostcheck === true) {
             $MediaID = @IPS_GetObjectIDByIdent('INSTARVideo', $this->InstanceID);
             if ($MediaID === false) {
                 $MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
@@ -1885,19 +1884,20 @@ class INSTAR extends IPSModule
         $this->RegisterProfileAssociation(
             'INSTAR.notification_alarm', '', '', '', 0, 10, 0, 0, VARIABLETYPE_INTEGER, [
                                            [0, $this->Translate('alarm area 1 triggered'), '', -1],
-                [1, $this->Translate('alarm area 1 triggered'), '', -1],
-                             [2, $this->Translate('alarm area 2 triggered'), '', -1],
-                             [3, $this->Translate('alarm area 3 triggered'), '', -1],
-                             [4, $this->Translate('alarm area 4 triggered'), '', -1],
-                             [5, $this->Translate('alarm input / pir triggered'), '', -1],
-                             [6, $this->Translate('audio alarm triggered'), '', -1],
-                             [7, $this->Translate('motion detection & PIR triggered (area 1)'), '', -1],
-                             [8, $this->Translate('motion detection & PIR triggered (area 2)'), '', -1],
-                             [9, $this->Translate('motion detection & PIR triggered (area 3)'), '', -1],
-                             [10, $this->Translate('motion detection & PIR triggered (area 4)'), '', -1]]
+                                           [1, $this->Translate('alarm area 1 triggered'), '', -1],
+                                           [2, $this->Translate('alarm area 2 triggered'), '', -1],
+                                           [3, $this->Translate('alarm area 3 triggered'), '', -1],
+                                           [4, $this->Translate('alarm area 4 triggered'), '', -1],
+                                           [5, $this->Translate('alarm input / pir triggered'), '', -1],
+                                           [6, $this->Translate('audio alarm triggered'), '', -1],
+                                           [7, $this->Translate('motion detection & PIR triggered (area 1)'), '', -1],
+                                           [8, $this->Translate('motion detection & PIR triggered (area 2)'), '', -1],
+                                           [9, $this->Translate('motion detection & PIR triggered (area 3)'), '', -1],
+                                           [10, $this->Translate('motion detection & PIR triggered (area 4)'), '', -1]]
         );
         $this->SetupVariable(
-            'notification_alarm', $this->Translate('Alarm notification'), 'INSTAR.notification_alarm', $this->_getPosition(), VARIABLETYPE_INTEGER, false, true
+            'notification_alarm', $this->Translate('Alarm notification'), 'INSTAR.notification_alarm', $this->_getPosition(), VARIABLETYPE_INTEGER,
+            false, true
         );
 
         if (@$this->GetIDForIdent('weekplan_position')) {
@@ -1943,7 +1943,6 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'macaddress', $this->Translate('LAN MAC Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
         );  // LAN MAC Address
-        // TODO Change var type for LAN
         $this->SetupVariable('networktype', $this->Translate('Network Type'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN or WLAN
         $this->RegisterProfileAssociation(
             'INSTAR.UPnP', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
@@ -2376,582 +2375,574 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'wifimac', $this->Translate('MAC Address of the WLAN Interface'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // MAC Address of the WLAN Interface
+        /*
+        $this->RegisterProfileAssociation(
+            'INSTAR.bps', '', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
+                                  [11, $this->Translate('CH11=1080p'), '', -1],
+                                  [12, $this->Translate('CH12=320p'), '', -1],
+                                  [13, $this->Translate('CH13=160p'), '', -1],
+                                  [41, $this->Translate('Videomode'), '', -1]]
+        );
+        */
+        $this->SetupVariable(
+            'bps_1', $this->Translate('Bitrate'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
+        $this->SetupVariable(
+            'bps_2', $this->Translate('Bitrate'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
+        $this->SetupVariable(
+            'bps_3', $this->Translate('Bitrate'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
+        $this->RegisterProfile('INSTAR.fps_pal', '', '', '', 0, 25, 1, 0, VARIABLETYPE_INTEGER);
+        $this->RegisterProfile('INSTAR.fps_ntsc', '', '', '', 0, 30, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'fps_1', $this->Translate('Bitrate'), 'INSTAR.fps_pal', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
+        $this->SetupVariable(
+            'fps_2', $this->Translate('Bitrate'), 'INSTAR.fps_pal', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
+        $this->SetupVariable(
+            'fps_3', $this->Translate('Bitrate'), 'INSTAR.fps_pal', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
+        $this->RegisterProfile('INSTAR.gop', '', '', '', 10, 150, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'gop_1', $this->Translate('gop'), 'INSTAR.gop', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Keyframe Interval: gop Range [10 ~ 150]
+        $this->SetupVariable(
+            'gop_2', $this->Translate('gop'), 'INSTAR.gop', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Keyframe Interval: gop Range [10 ~ 150]
+        $this->SetupVariable(
+            'gop_3', $this->Translate('gop'), 'INSTAR.gop', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Keyframe Interval: gop Range [10 ~ 150]
+
+        $this->RegisterProfileAssociation(
+            'INSTAR.brmode', '', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
+                            [0, $this->Translate('fixed bit rate'), '', -1],
+                            [1, $this->Translate('changeable bit rate'), '', -1]]
+        );
+
+        $this->SetupVariable(
+            'brmode_1', $this->Translate('Video encode control'), 'INSTAR.brmode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
+        $this->SetupVariable(
+            'brmode_2', $this->Translate('Video encode control'), 'INSTAR.brmode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
+        $this->SetupVariable(
+            'brmode_3', $this->Translate('Video encode control'), 'INSTAR.brmode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
+        $this->RegisterProfile('INSTAR.imagegrade', '', '', '', 1, 6, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'imagegrade_1', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );  //  1 (low compression) -6 (high compression)
+
+        $this->SetupVariable(
+            'imagegrade_2', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  1 (low compression) -6 (high compression)
+        $this->SetupVariable(
+        'imagegrade_3', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); //  1 (low compression) -6 (high compression)
+
+
+
+
+
 
 
         /*
 
+    
 
-        $this->RegisterAttributeInteger(
-            'bps_1', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
+        $this->SetupVariable('width_1', 1920); //  Video width
 
-        $this->RegisterAttributeInteger(
-            'bps_2', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
+        $this->SetupVariable('width_2', 1920); //  Video width
 
-        $this->RegisterAttributeInteger(
-            'bps_3', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
-        $this->RegisterAttributeBoolean('bps_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_1', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_2', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_3', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_1', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_2', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_3', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_1', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_2', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_3', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_1', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_2', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_3', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_1', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_2', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_3', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_1', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_2', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_3', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('display_mode', 0); //  Current 0: black and white mode 1: color mode
-        $this->RegisterAttributeBoolean('display_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
-        $this->RegisterAttributeBoolean('wdr_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
-        $this->RegisterAttributeBoolean('night_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('shutter', 0); //  Shutter Speed [0 - 65535]
-        $this->RegisterAttributeBoolean('shutter_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gc', 0); //  Night illumination, value Range 0=auto, [1-255]=manual
-        $this->RegisterAttributeBoolean('gc_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ae', 0); //  Minimum exposure, range 0-65535
-        $this->RegisterAttributeBoolean('ae_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('width_3', 1920); //  Video width
+
+        $this->SetupVariable('height_1', 1080); //  Video height
+
+        $this->SetupVariable('height_2', 1080); //  Video height
+
+        $this->SetupVariable('height_3', 1080); //  Video height
+
+        $this->SetupVariable('display_mode', 0); //  Current 0: black and white mode 1: color mode
+
+        $this->SetupVariable('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
+
+        $this->SetupVariable('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
+
+        $this->SetupVariable('shutter', 0); //  Shutter Speed [0 - 65535]
+
+        $this->SetupVariable('gc', 0); //  Night illumination, value Range 0=auto, [1-255]=manual
+
+        $this->SetupVariable('ae', 0); //  Minimum exposure, range 0-65535
+
+        $this->SetupVariable('aemode', 0); //  Auto-Exposure mode, the range: 0 Automatic, 1 Indoor, 2 Outdoor
+
+        $this->SetupVariable('imgmode', 0); //  Image priority mode: 0: Frame rate priority, 1: Illumination priority
 
 
+        $this->SetupVariable('wdrauto', 0); //  Hardware Wide Dynamic Range 0 (Auto), 1 (Manual)
+
+        $this->SetupVariable('wdrautval', 0); //  Auto WDR Strength [0-2]
+
+        $this->SetupVariable('wdrmanval', 0); //  Manual WDR Strength [0-255]
+
+        $this->SetupVariable('d3noauto', 0); //  3D Noise Reduction Mode: 0 (auto), 1 (manual)
+
+        $this->SetupVariable('d3noval', 0); //  3D Noise Reduction Strength: [0-255]
+
+        $this->SetupVariable('gcauto', 0); //  Signal Gain: 0 (auto), 1 (manual)
+
+        $this->SetupVariable('gcval', 0); //  Gain Multiplier: [0-255]
+
+        $this->SetupVariable('aemodeex', 'Highlight'); // Exposure Mode: Highlight (Exposure) priority, Lowlight (Framerate) priority
+
+        $this->SetupVariable('aelowval', 0); //  Lowlight Intensity [0-255]
+
+        $this->SetupVariable('aehighval', 0); //  Highlight Intensity [0-255]
+
+        $this->SetupVariable('aeratio', 0); //  Length Exposure Ratio [0-100]
+
+        $this->SetupVariable('ldc_enable', 0); //  Image Distortion Correction: 0 (disabled), 1 (enabled)
+
+        $this->SetupVariable('ldc_xoffset', 0); //  Horizontal Image Offset
+
+        $this->SetupVariable('ldc_yoffset', 0); //  Vertical Image Offset
+
+        $this->SetupVariable('ldc_ratio', 0); //  Distortion Correction [0-511]
 
 
+        $this->SetupVariable('region', 1); //  OSD time zone, 1: OSD Name region
+
+        $this->SetupVariable('show', 0); //  0 (hidden), 1 (displayed)
+
+        $this->SetupVariable('place', 0); //  0: top, 1: bottom
+
+        $this->SetupVariable('x_region', 0); //  OSD region x coordinate
+
+        $this->SetupVariable('y_region', 0); // OSD region y coordinate
+
+        $this->SetupVariable('name_region', ''); //  Region 0="YYYY-MM-DD hh:mm:ss", region="Camera Name"
 
 
+        $this->SetupVariable('privacy_region', 1); // Privacy Mask [1-4]
 
-        $this->RegisterAttributeInteger('aemode', 0); //  Auto-Exposure mode, the range: 0 Automatic, 1 Indoor, 2 Outdoor
-        $this->RegisterAttributeBoolean('aemode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imgmode', 0); //  Image priority mode: 0: Frame rate priority, 1: Illumination priority
-        $this->RegisterAttributeBoolean('imgmode_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('ma_server', ''); // SMTP Server Address e.g. smtp.strato.de
 
-        $this->RegisterAttributeInteger('wdrauto', 0); //  Hardware Wide Dynamic Range 0 (Auto), 1 (Manual)
-        $this->RegisterAttributeBoolean('wdrauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wdrautval', 0); //  Auto WDR Strength [0-2]
-        $this->RegisterAttributeBoolean('wdrautval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wdrmanval', 0); //  Manual WDR Strength [0-255]
-        $this->RegisterAttributeBoolean('wdrmanval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('d3noauto', 0); //  3D Noise Reduction Mode: 0 (auto), 1 (manual)
-        $this->RegisterAttributeBoolean('d3noauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('d3noval', 0); //  3D Noise Reduction Strength: [0-255]
-        $this->RegisterAttributeBoolean('d3noval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gcauto', 0); //  Signal Gain: 0 (auto), 1 (manual)
-        $this->RegisterAttributeBoolean('gcauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gcval', 0); //  Gain Multiplier: [0-255]
-        $this->RegisterAttributeBoolean('gcval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('aemodeex', 'Highlight'); // Exposure Mode: Highlight (Exposure) priority, Lowlight (Framerate) priority
-        $this->RegisterAttributeBoolean('aemodeex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aelowval', 0); //  Lowlight Intensity [0-255]
-        $this->RegisterAttributeBoolean('aelowval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aehighval', 0); //  Highlight Intensity [0-255]
-        $this->RegisterAttributeBoolean('aehighval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeratio', 0); //  Length Exposure Ratio [0-100]
-        $this->RegisterAttributeBoolean('aeratio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_enable', 0); //  Image Distortion Correction: 0 (disabled), 1 (enabled)
-        $this->RegisterAttributeBoolean('ldc_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_xoffset', 0); //  Horizontal Image Offset
-        $this->RegisterAttributeBoolean('ldc_xoffset_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_yoffset', 0); //  Vertical Image Offset
-        $this->RegisterAttributeBoolean('ldc_yoffset_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_ratio', 0); //  Distortion Correction [0-511]
-        $this->RegisterAttributeBoolean('ldc_ratio_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('ma_port', 25); // SMTP Server Port e.g. 25, 587 (TLS) or 465 (SSL)
 
-        $this->RegisterAttributeInteger('region', 1); //  OSD time zone, 1: OSD Name region
-        $this->RegisterAttributeBoolean('region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show', 0); //  0 (hidden), 1 (displayed)
-        $this->RegisterAttributeBoolean('show_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('place', 0); //  0: top, 1: bottom
-        $this->RegisterAttributeBoolean('place_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_region', 0); //  OSD region x coordinate
-        $this->RegisterAttributeBoolean('x_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_region', 0); // OSD region y coordinate
-        $this->RegisterAttributeBoolean('y_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('name_region', ''); //  Region 0="YYYY-MM-DD hh:mm:ss", region="Camera Name"
-        $this->RegisterAttributeBoolean('name_region_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('ma_ssl', 25); // SSL Encryption 0 (Disabled), 1 (SSL), 2 (TLS) or 3 (STARTTLS)
 
-        $this->RegisterAttributeInteger('privacy_region', 1); // Privacy Mask [1-4]
-        $this->RegisterAttributeBoolean('privacy_region_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('ma_logintype', 1); // Enable (1) or Disable (3) Authentication
 
-        // Features
-        $this->RegisterAttributeString('ma_server', ''); // SMTP Server Address e.g. smtp.strato.de
-        $this->RegisterAttributeBoolean('ma_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_port', 25); // SMTP Server Port e.g. 25, 587 (TLS) or 465 (SSL)
-        $this->RegisterAttributeBoolean('ma_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_ssl', 25); // SSL Encryption 0 (Disabled), 1 (SSL), 2 (TLS) or 3 (STARTTLS)
-        $this->RegisterAttributeBoolean('ma_ssl_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_logintype', 1); // Enable (1) or Disable (3) Authentication
-        $this->RegisterAttributeBoolean('ma_logintype_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_username', ''); // SMTP Server Username
-        $this->RegisterAttributeBoolean('ma_username_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_password', ''); // SMTP Server Password
-        $this->RegisterAttributeBoolean('ma_password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_from', ''); // Sender Email Address
-        $this->RegisterAttributeBoolean('ma_from_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_to', ''); // Receiver Email Address
-        $this->RegisterAttributeBoolean('ma_to_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_subject', ''); // Mail Subject Line
-        $this->RegisterAttributeBoolean('ma_subject_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_text', ''); // Mail Content
-        $this->RegisterAttributeBoolean('ma_text_enabled', false); // show Attribute in Webfront
+        $this->SetupVariable('ma_username', ''); // SMTP Server Username
 
-        $this->RegisterAttributeString('infraredstat', ''); // IR LED Status - auto, close (deactivated)
-        $this->RegisterAttributeBoolean('infraredstat_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('panspeed', 0); // fast (0) - slow (2)
-        $this->RegisterAttributeBoolean('panspeed_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tiltspeed', 0); // fast (0) - slow (2)
-        $this->RegisterAttributeBoolean('tiltspeed_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('panscan', 1); // [1-50] - Number of hscans
-        $this->RegisterAttributeBoolean('panscan_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tiltscan', 1); // [1-50] - Number of vscans
-        $this->RegisterAttributeBoolean('tiltscan_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('movehome', 'on'); // [on, off] - Go to Center or Postion [initpresetindex] after Restart
-        $this->RegisterAttributeBoolean('movehome_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ptzalarmmask', 'on'); // [on, off] - Deactivate Motion Detection during Pan&Tilt
-        $this->RegisterAttributeBoolean('ptzalarmmask_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('selfdet', ''); // De/Activate Calibration (Required for Preset Postions and PTZ Tour)
-        $this->RegisterAttributeBoolean('selfdet_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('alarmpresetindex', 0); // [1-8]; - Alarmposition
-        $this->RegisterAttributeBoolean('alarmpresetindex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('initpresetindex', 0); // [1-8]; - Position Camera goes to after Restart
-        $this->RegisterAttributeBoolean('initpresetindex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('md_preset_switch', 'on'); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
-        $this->RegisterAttributeBoolean('md_preset_switch_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_enable', 0); // De/Activate Park Position - [0, 1]
-        $this->RegisterAttributeBoolean('timerpreset_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_index', 1); // Select Park Position - [1 - 8]
-        $this->RegisterAttributeBoolean('timerpreset_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
-        $this->RegisterAttributeBoolean('timerpreset_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
-        $this->RegisterAttributeBoolean('admin_value46_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
-        $this->RegisterAttributeBoolean('tour_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_times', 1); // Number of Rounds [1 - 50]
-        $this->RegisterAttributeBoolean('tour_times_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_index', 1); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
-        $this->RegisterAttributeBoolean('tour_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_interval', 60); // Set Pause when Tour Position is reached in seconds [60-43200]
-        $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
-        $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('light2_enable', 'on'); // Power LED - [on, off]
-        $this->RegisterAttributeBoolean('light2_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value44', 44); // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
-        $this->RegisterAttributeBoolean('admin_value44_enabled', false); // show Attribute in Webfront
-        // Alarm Menu
-        $this->RegisterAttributeString('emailsnap', 'on'); // E-mail Alarm / Send Snapshot
-        $this->RegisterAttributeBoolean('emailsnap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('snap', 'on'); // Save Snapshot to SD
-        $this->RegisterAttributeBoolean('snap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('record', 'on'); // Save Video to SD
-        $this->RegisterAttributeBoolean('record_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ftprec', 'on'); // Send Video to FTP Server
-        $this->RegisterAttributeBoolean('ftprec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('relay', 'on'); // Alarm Out Relay
-        $this->RegisterAttributeBoolean('relay_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ftpsnap', 'on'); // Send Snapshot to FTP Server
-        $this->RegisterAttributeBoolean('ftpsnap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('sound', 'on'); // Audio Alarm Signal
-        $this->RegisterAttributeBoolean('sound_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('type', 'on'); // Link Alarm Areas and Alarm-Input
-        $this->RegisterAttributeBoolean('type_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_enable', 0); // De/Activate Audio Detection [0, 1]
-        $this->RegisterAttributeBoolean('aa_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_value', 10); // Sensitivity [10 - 100]
-        $this->RegisterAttributeBoolean('aa_value_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_time', 0); // Minimum Audio Signal Length Threshold [0 - 10]
-        $this->RegisterAttributeBoolean('aa_time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('io_enable', 0); // De/Activate Alarm Input [0, 1]
-        $this->RegisterAttributeBoolean('io_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('io_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
-        $this->RegisterAttributeBoolean('io_flag_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('pir_enable', 0); // De/Activate PIR Sensor [0, 1]
-        $this->RegisterAttributeBoolean('pir_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('pir_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
-        $this->RegisterAttributeBoolean('pir_flag_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('snap_chn', 11); // Set Snapshot Resolution to Video Channel [11, 12, 13]
-        $this->RegisterAttributeBoolean('snap_chn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('snap_name', ''); // Fixed File Name for All Alarm Snapshots (leave empty for auto-name by time stamp)
-        $this->RegisterAttributeBoolean('snap_name_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+        $this->SetupVariable('ma_password', ''); // SMTP Server Password
+
+        $this->SetupVariable('ma_from', ''); // Sender Email Address
+
+        $this->SetupVariable('ma_to', ''); // Receiver Email Address
+
+        $this->SetupVariable('ma_subject', ''); // Mail Subject Line
+
+        $this->SetupVariable('ma_text', ''); // Mail Content
+
+
+        $this->SetupVariable('infraredstat', ''); // IR LED Status - auto, close (deactivated)
+
+        $this->SetupVariable('panspeed', 0); // fast (0) - slow (2)
+
+        $this->SetupVariable('tiltspeed', 0); // fast (0) - slow (2)
+
+        $this->SetupVariable('panscan', 1); // [1-50] - Number of hscans
+
+        $this->SetupVariable('tiltscan', 1); // [1-50] - Number of vscans
+
+        $this->SetupVariable('movehome', 'on'); // [on, off] - Go to Center or Postion [initpresetindex] after Restart
+
+        $this->SetupVariable('ptzalarmmask', 'on'); // [on, off] - Deactivate Motion Detection during Pan&Tilt
+
+        $this->SetupVariable('selfdet', ''); // De/Activate Calibration (Required for Preset Postions and PTZ Tour)
+
+        $this->SetupVariable('alarmpresetindex', 0); // [1-8]; - Alarmposition
+
+        $this->SetupVariable('initpresetindex', 0); // [1-8]; - Position Camera goes to after Restart
+
+        $this->SetupVariable('md_preset_switch', 'on'); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
+
+        $this->SetupVariable('timerpreset_enable', 0); // De/Activate Park Position - [0, 1]
+
+        $this->SetupVariable('timerpreset_index', 1); // Select Park Position - [1 - 8]
+
+        $this->SetupVariable('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
+
+        $this->SetupVariable('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
+
+        $this->SetupVariable('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
+
+        $this->SetupVariable('tour_times', 1); // Number of Rounds [1 - 50]
+
+        $this->SetupVariable('tour_index', 1); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
+
+        $this->SetupVariable('tour_interval', 60); // Set Pause when Tour Position is reached in seconds [60-43200]
+
+        $this->SetupVariable('light1_enable', 'on'); // WiFi Status LED - [on, off]
+
+        $this->SetupVariable('light2_enable', 'on'); // Power LED - [on, off]
+
+        $this->SetupVariable('admin_value44', 44); // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
+
+        $this->SetupVariable('emailsnap', 'on'); // E-mail Alarm / Send Snapshot
+
+        $this->SetupVariable('snap', 'on'); // Save Snapshot to SD
+
+        $this->SetupVariable('record', 'on'); // Save Video to SD
+
+        $this->SetupVariable('ftprec', 'on'); // Send Video to FTP Server
+
+        $this->SetupVariable('relay', 'on'); // Alarm Out Relay
+
+        $this->SetupVariable('ftpsnap', 'on'); // Send Snapshot to FTP Server
+
+        $this->SetupVariable('sound', 'on'); // Audio Alarm Signal
+
+        $this->SetupVariable('type', 'on'); // Link Alarm Areas and Alarm-Input
+
+        $this->SetupVariable('aa_enable', 0); // De/Activate Audio Detection [0, 1]
+
+        $this->SetupVariable('aa_value', 10); // Sensitivity [10 - 100]
+
+        $this->SetupVariable('aa_time', 0); // Minimum Audio Signal Length Threshold [0 - 10]
+
+        $this->SetupVariable('io_enable', 0); // De/Activate Alarm Input [0, 1]
+
+        $this->SetupVariable('io_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
+
+        $this->SetupVariable('pir_enable', 0); // De/Activate PIR Sensor [0, 1]
+
+        $this->SetupVariable('pir_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
+
+        $this->SetupVariable('snap_chn', 11); // Set Snapshot Resolution to Video Channel [11, 12, 13]
+
+        $this->SetupVariable('snap_name', ''); // Fixed File Name for All Alarm Snapshots (leave empty for auto-name by time stamp)
+
+        $this->SetupVariable(
             'snap_timer_name', ''
         ); // Fixed File Name for All Photoseries Snapshots (leave empty for auto-name by time stamp)
-        $this->RegisterAttributeBoolean('snap_timer_name_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'snap_name_mode', 0
         ); // Set Filename to [0] time stamp, or [1] fixed file name set snapname and snaptimer_name
-        $this->RegisterAttributeBoolean('snap_name_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('snap_count', 1); // Number of Snapshot saved to SD Card per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ftp_snap_count', 1); // Number of Snapshot send to FTP Server per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('ftp_snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('email_snap_count', 1); // Number of Snapshot send by Email per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('email_snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin17', 17); // admin17
-        $this->RegisterAttributeBoolean('admin17_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m1_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m2_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m3_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m4_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m1_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m2_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m3_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m4_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m1_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m2_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m3_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m4_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m1_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m2_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m3_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m4_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m1_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m2_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m3_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m4_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m1_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m2_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m3_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m4_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m1_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m2_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m3_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m4_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable('snap_count', 1); // Number of Snapshot saved to SD Card per Alarm Event [1-15]
+
+        $this->SetupVariable('ftp_snap_count', 1); // Number of Snapshot send to FTP Server per Alarm Event [1-15]
+
+        $this->SetupVariable('email_snap_count', 1); // Number of Snapshot send by Email per Alarm Event [1-15]
+
+        $this->SetupVariable('admin17', 17); // admin17
+
+        $this->SetupVariable('m1_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+
+        $this->SetupVariable('m2_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+
+        $this->SetupVariable('m3_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+
+        $this->SetupVariable('m4_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
+
+
+        $this->SetupVariable('m1_sensitivity', 0); // Detection Sensitivity [1 - 100]
+
+        $this->SetupVariable('m2_sensitivity', 0); // Detection Sensitivity [1 - 100]
+
+        $this->SetupVariable('m3_sensitivity', 0); // Detection Sensitivity [1 - 100]
+
+        $this->SetupVariable('m4_sensitivity', 0); // Detection Sensitivity [1 - 100]
+
+        $this->SetupVariable('m1_threshold', 0); // Detection Threshold (not active)
+
+        $this->SetupVariable('m2_threshold', 0); // Detection Threshold (not active)
+
+        $this->SetupVariable('m3_threshold', 0); // Detection Threshold (not active)
+
+        $this->SetupVariable('m4_threshold', 0); // Detection Threshold (not active)
+
+        $this->SetupVariable(
             'as_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week1', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week2', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week3', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week4', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week5', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'as_week6', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week6_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_0', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_1', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_2', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_3', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_4', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_5', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_6', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_6_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_7', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_7_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_8', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_8_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_9', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_9_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_10', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_10_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_11', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_11_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_12', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_12_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_13', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_13_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_14', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_14_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_15', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_15_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_16', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_16_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_17', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_17_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_18', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_18_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
+
+        $this->SetupVariable(
             'plancgi_enable_19', 0
         ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_19_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_area', ''); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_io', ''); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_audio', ''); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_areaio', ''); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_activequery', ''); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query1', ''); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
-        $this->RegisterAttributeBoolean('md_server2_switch_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_2', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_2', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_2', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_2', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_2', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_area_2', ''); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_io_2', ''); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_audio_2', ''); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_areaio_2', ''); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_activequery_2', ''); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query1_2', ''); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1_2', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1_2', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2_2', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2_2', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2_2', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3_2', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3_2', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3_2', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_2_enabled', false); // show Attribute in Webfront
-        // Recording Menu
-        $this->RegisterAttributeInteger('as_snap_enable', 0); // Dis/Enable snapshot to SD card： [0, 1]
-        $this->RegisterAttributeBoolean('as_snap_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_snap_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_snap_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_email_enable', 0); // DDis/Enable snapshot to Email： [0, 1]
-        $this->RegisterAttributeBoolean('as_email_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_email_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_email_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_ftp_enable', 0); // Dis/Enable snapshot to FTP Server： [0, 1]
-        $this->RegisterAttributeBoolean('as_ftp_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_ftp_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_ftp_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_cloud_enable', 0); // Dis/Enable snapshot to INSTAR Cloud Server： [0, 1]
-        $this->RegisterAttributeBoolean('as_cloud_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_cloud_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+
+        $this->SetupVariable('as_port', 0); // Port of the receiving Server [1-65536]
+
+        $this->SetupVariable('as_auth', 0); // Authentication required [0, 1]
+
+        $this->SetupVariable('as_username', ''); // Alarmserver Username
+
+        $this->SetupVariable('as_password', ''); // Alarmserver Password
+
+        $this->SetupVariable('as_path', ''); // URL Path
+
+        $this->SetupVariable('as_area', ''); // Send Query when Motion is Detected
+
+        $this->SetupVariable('as_io', ''); // Send Query when Alarm Input is Triggered
+
+        $this->SetupVariable('as_audio', ''); // Send Query when Audio Alarm is Triggered
+
+        $this->SetupVariable('as_areaio', ''); // Send Query when Motion is Detected and Input is Triggered
+
+        $this->SetupVariable('as_activequery', ''); // Append Alarm Trigger to Query
+
+        $this->SetupVariable('as_query1', ''); // Activate Sending optional Parameter 1
+
+        $this->SetupVariable('as_queryattr1', ''); // Command 1 Attribute
+
+        $this->SetupVariable('as_queryval1', ''); // Command 1 Value
+
+        $this->SetupVariable('as_query2', ''); // Activate Sending optional Parameter 2
+
+        $this->SetupVariable('as_queryattr2', ''); // Command 2 Attribute
+
+        $this->SetupVariable('as_queryval2', ''); // Command 2 Value
+
+        $this->SetupVariable('as_query3', ''); // Activate Sending optional Parameter 3
+
+        $this->SetupVariable('as_queryattr3', ''); // Command 3 Attribute
+
+        $this->SetupVariable('as_queryval3', ''); // Command 3 Value
+
+        $this->SetupVariable('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
+
+        $this->SetupVariable('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
+
+        $this->SetupVariable('as_port_2', 0); // Port of the receiving Server [1-65536]
+
+        $this->SetupVariable('as_auth_2', 0); // Authentication required [0, 1]
+
+        $this->SetupVariable('as_username_2', ''); // Alarmserver Username
+
+        $this->SetupVariable('as_password_2', ''); // Alarmserver Password
+
+        $this->SetupVariable('as_path_2', ''); // URL Path
+
+        $this->SetupVariable('as_area_2', ''); // Send Query when Motion is Detected
+
+        $this->SetupVariable('as_io_2', ''); // Send Query when Alarm Input is Triggered
+
+        $this->SetupVariable('as_audio_2', ''); // Send Query when Audio Alarm is Triggered
+
+        $this->SetupVariable('as_areaio_2', ''); // Send Query when Motion is Detected and Input is Triggered
+
+        $this->SetupVariable('as_activequery_2', ''); // Append Alarm Trigger to Query
+
+        $this->SetupVariable('as_query1_2', ''); // Activate Sending optional Parameter 1
+
+        $this->SetupVariable('as_queryattr1_2', ''); // Command 1 Attribute
+
+        $this->SetupVariable('as_queryval1_2', ''); // Command 1 Value
+
+        $this->SetupVariable('as_query2_2', ''); // Activate Sending optional Parameter 2
+
+        $this->SetupVariable('as_queryattr2_2', ''); // Command 2 Attribute
+
+        $this->SetupVariable('as_queryval2_2', ''); // Command 2 Value
+
+        $this->SetupVariable('as_query3_2', ''); // Activate Sending optional Parameter 3
+
+        $this->SetupVariable('as_queryattr3_2', ''); // Command 3 Attribute
+
+        $this->SetupVariable('as_queryval3_2', ''); // Command 3 Value
+
+        $this->SetupVariable('as_snap_enable', 0); // Dis/Enable snapshot to SD card： [0, 1]
+
+        $this->SetupVariable('as_snap_interval', 1); // Time interval between shots in seconds [1-86400]
+
+        $this->SetupVariable('as_email_enable', 0); // DDis/Enable snapshot to Email： [0, 1]
+
+        $this->SetupVariable('as_email_interval', 1); // Time interval between shots in seconds [1-86400]
+
+        $this->SetupVariable('as_ftp_enable', 0); // Dis/Enable snapshot to FTP Server： [0, 1]
+
+        $this->SetupVariable('as_ftp_interval', 1); // Time interval between shots in seconds [1-86400]
+
+        $this->SetupVariable('as_cloud_enable', 0); // Dis/Enable snapshot to INSTAR Cloud Server： [0, 1]
+
+        $this->SetupVariable('as_cloud_interval', 1); // Time interval between shots in seconds [1-86400]
+        $this->SetupVariable(
             'rt_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week1', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week2', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week3', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week4', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week5', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
+
+        $this->SetupVariable(
             'rt_week6', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
         ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week6_enabled', false); // show Attribute in Webfront
-        //  Video Tasks
-        $this->RegisterAttributeInteger('planrec_enable', 1); // Dis/Enable Recording to SD card： [0, 1]
-        $this->RegisterAttributeBoolean('planrec_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('planrec_chn', 11); // Record Kamera Channel [11, 12, 13]
-        $this->RegisterAttributeBoolean('planrec_chn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('planrec_time', 1); // Recoding File Length (15-900seconds)
-        $this->RegisterAttributeBoolean('planrec_time_enabled', false); // show Attribute in Webfront
-        // System
 
-        $this->RegisterAttributeString('internetip', ''); // Get Wide Area Network Address
-        $this->RegisterAttributeBoolean('internetip_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username0', ''); // Username for User 1
-        $this->RegisterAttributeBoolean('at_username0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password0', ''); // Password for User 1
-        $this->RegisterAttributeBoolean('at_password0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel0', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable0', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username1', ''); // Username for User 2
-        $this->RegisterAttributeBoolean('at_username1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password1', ''); // Password for User 2
-        $this->RegisterAttributeBoolean('at_password1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel1', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable1', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username2', ''); // Username for User 3
-        $this->RegisterAttributeBoolean('at_username2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password2', ''); // Password for User 3
-        $this->RegisterAttributeBoolean('at_password2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel2', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable2', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('time', ''); // Camera Time
-        $this->RegisterAttributeBoolean('time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
-        $this->RegisterAttributeBoolean('timeZone_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('dstmode', 'on'); // De/Activate Daylight Saving Time [off, on]
-        $this->RegisterAttributeBoolean('dstmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpenable', 1); // De/Activate NTP Time Adjustment [0, 1]
-        $this->RegisterAttributeString('ntpserver', ''); // NTP Server Addres
-        $this->RegisterAttributeInteger('ntpinterval', 1); // NTP Sync Interval in Hours [1 - 12]
-        $this->RegisterAttributeString('guest_value11', 'de'); // UI Language Selector [de, en, fr, cn]
+        //  Video Tasks
+        $this->SetupVariable('planrec_enable', 1); // Dis/Enable Recording to SD card： [0, 1]
+
+        $this->SetupVariable('planrec_chn', 11); // Record Kamera Channel [11, 12, 13]
+
+        $this->SetupVariable('planrec_time', 1); // Recoding File Length (15-900seconds)
+
+        $this->SetupVariable('internetip', ''); // Get Wide Area Network Address
+
+        $this->SetupVariable('at_username0', ''); // Username for User 1
+
+        $this->SetupVariable('at_password0', ''); // Password for User 1
+
+        $this->SetupVariable('at_authlevel0', 3); // User Authorisation: admin/user/guest [15, 3, 1]
+
+        $this->SetupVariable('at_enable0', 1); // De/Activate [0, 1]
+
+        $this->SetupVariable('at_username1', ''); // Username for User 2
+
+        $this->SetupVariable('at_password1', ''); // Password for User 2
+
+        $this->SetupVariable('at_authlevel1', 3); // User Authorisation: admin/user/guest [15, 3, 1]
+
+        $this->SetupVariable('at_enable1', 1); // De/Activate [0, 1]
+
+        $this->SetupVariable('at_username2', ''); // Username for User 3
+
+        $this->SetupVariable('at_password2', ''); // Password for User 3
+
+        $this->SetupVariable('at_authlevel2', 3); // User Authorisation: admin/user/guest [15, 3, 1]
+
+        $this->SetupVariable('at_enable2', 1); // De/Activate [0, 1]
+
+        $this->SetupVariable('time', ''); // Camera Time
+
+        $this->SetupVariable('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
+
+        $this->SetupVariable('dstmode', 'on'); // De/Activate Daylight Saving Time [off, on]
+
+        $this->SetupVariable('ntpenable', 1); // De/Activate NTP Time Adjustment [0, 1]
+        $this->SetupVariable('ntpserver', ''); // NTP Server Addres
+        $this->SetupVariable('ntpinterval', 1); // NTP Sync Interval in Hours [1 - 12]
+        $this->SetupVariable('guest_value11', 'de'); // UI Language Selector [de, en, fr, cn]
 
          */
     }
@@ -3069,767 +3060,359 @@ class INSTAR extends IPSModule
         $API_Cameras = [];
 
         $API_Cameras[self::IN_9020_Full_HD] = [
-            'model'          => true,
-            'hardVersion'    => true,
-            'softVersion'    => true,
-            'webVersion'     => true,
-            'name'           => true,
-            'sdfreespace'    => true,
-            'sdtotalspace'   => true,
-            'platformstatus' => true,
+            'model'                => true,
+            'hardVersion'          => true,
+            'softVersion'          => true,
+            'webVersion'           => true,
+            'name'                 => true,
+            'sdfreespace'          => true,
+            'sdtotalspace'         => true,
+            'platformstatus'       => true,
+            'dhcpflag'             => true,
+            'ip'                   => true,
+            'netmask'              => true,
+            'gateway'              => true,
+            'dnsstat'              => true,
+            'fdnsip'               => true,
+            'sdnsip'               => true,
+            'macaddress'           => true,
+            'networktype'          => true,
+            'upnpstatus'           => true,
+            'th3ddnsstatus'        => true,
+            'startdate'            => true,
+            'facddnsstatus'        => true,
+            'sdstatus'             => true,
+            'httpport'             => true,
+            'httpsport'            => true,
+            'rtspport'             => true,
+            'rtsp_aenable'         => true,
+            'rtmpport'             => true,
+            'wf_enable'            => true,
+            'wf_ssid'              => true,
+            'wf_auth'              => true,
+            'wf_key'               => true,
+            'wf_enc'               => true,
+            'wf_mode'              => true,
+            'our_enable'           => true,
+            'our_server'           => true,
+            'our_port'             => true,
+            'our_uname'            => true,
+            'our_passwd'           => true,
+            'our_domain'           => true,
+            'our_interval'         => true,
+            'd3th_enable'          => true,
+            'd3th_service'         => true,
+            'd3th_uname'           => true,
+            'd3th_passwd'          => true,
+            'd3th_domain'          => true,
+            'upm_enable'           => true,
+            'ov_enable'            => true,
+            'ov_port'              => true,
+            'ov_authflag'          => true,
+            'ov_forbitset'         => true,
+            'ov_subchn'            => true,
+            'ov_snapchn'           => true,
+            'volume'               => true,
+            'volin_type'           => true,
+            'aec'                  => true,
+            'denoise'              => true,
+            'ao_volume'            => true,
+            'chn'                  => true,
+            'aeswitch_1'           => true,
+            'aeswitch_2'           => true,
+            'aeformat'             => true,
+            'videomode'            => true,
+            'vinorm'               => true,
+            'wdrmode'              => true,
+            'profile'              => true,
+            'maxchn'               => true,
+            'bps_1'                => true,
+            'bps_2'                => true,
+            'bps_3'                => true,
+            'fps_1'                => true,
+            'fps_2'                => true,
+            'fps_3'                => true,
+            'gop_1'                => true,
+            'gop_2'                => true,
+            'gop_3'                => true,
+            'brmode_1'             => true,
+            'brmode_2'             => true,
+            'brmode_3'             => true,
+            'imagegrade_1'         => true,
+            'imagegrade_2'         => true,
+            'imagegrade_3'         => true,
+            'width_1'              => true,
+            'width_2'              => true,
+            'width_3'              => true,
+            'height_1'             => true,
+            'height_2'             => true,
+            'height_3'             => true,
+            'display_mode'         => true,
+            'brightness'           => true,
+            'saturation'           => true,
+            'sharpness'            => true,
+            'contrast'             => true,
+            'hue'                  => true,
+            'wdr'                  => true,
+            'night'                => true,
+            'shutter'              => true,
+            'flip'                 => true,
+            'mirror'               => true,
+            'scene'                => true,
+            'gc'                   => true,
+            'ae'                   => true,
+            'targety'              => true,
+            'noise'                => true,
+            'gamma'                => true,
+            'aemode'               => true,
+            'imgmode'              => true,
+            'wdrauto'              => true,
+            'wdrautval'            => true,
+            'wdrmanval'            => true,
+            'd3noauto'             => true,
+            'd3noval'              => true,
+            'gcauto'               => true,
+            'gcval'                => true,
+            'aemodeex'             => true,
+            'aelowval'             => true,
+            'aehighval'            => true,
+            'aeratio'              => true,
+            'ldc_enable'           => true,
+            'ldc_xoffset'          => true,
+            'ldc_yoffset'          => true,
+            'ldc_ratio'            => true,
+            'region'               => true,
+            'show'                 => true,
+            'place'                => true,
+            'x_region'             => true,
+            'y_region'             => true,
+            'name_region'          => true,
+            'privacy_region'       => true,
+            'show_1'               => true,
+            'show_2'               => true,
+            'show_3'               => true,
+            'show_4'               => true,
+            'color_1'              => true,
+            'color_2'              => true,
+            'color_3'              => true,
+            'color_4'              => true,
+            'x_1'                  => true,
+            'x_2'                  => true,
+            'x_3'                  => true,
+            'x_4'                  => true,
+            'y_1'                  => true,
+            'y_2'                  => true,
+            'y_3'                  => true,
+            'y_4'                  => true,
+            'w_1'                  => true,
+            'w_2'                  => true,
+            'w_3'                  => true,
+            'w_4'                  => true,
+            'h_1'                  => true,
+            'h_2'                  => true,
+            'h_3'                  => true,
+            'h_4'                  => true,
+            'ma_server'            => true,
+            'ma_port'              => true,
+            'ma_ssl'               => true,
+            'ma_logintype'         => true,
+            'ma_username'          => true,
+            'ma_password'          => true,
+            'ma_from'              => true,
+            'ma_to'                => true,
+            'ma_subject'           => true,
+            'ma_text'              => true,
+            'ft_server'            => true,
+            'ft_port'              => true,
+            'ft_username'          => true,
+            'ft_password'          => true,
+            'ft_mode'              => true,
+            'ft_dirname'           => true,
+            'ft_autocreatedir'     => true,
+            'ft_dirmode'           => true,
+            'ft_ssl'               => true,
+            'infraredstat'         => true,
+            'panspeed'             => true,
+            'tiltspeed'            => true,
+            'panscan'              => true,
+            'tiltscan'             => true,
+            'movehome'             => true,
+            'ptzalarmmask'         => true,
+            'selfdet'              => true,
+            'alarmpresetindex'     => true,
+            'initpresetindex'      => true,
+            'md_preset_switch'     => true,
+            'timerpreset_enable'   => true,
+            'timerpreset_index'    => true,
+            'timerpreset_interval' => true,
+            'admin_value46'        => true,
+            'tour_enable'          => true,
+            'tour_times'           => true,
+            'tour_index'           => true,
+            'tour_interval'        => true,
+            'light1_enable'        => true,
+            'light2_enable'        => true,
+            'admin_value44'        => true,
+            'emailsnap'            => true,
+            'snap'                 => true,
+            'record'               => true,
+            'ftprec'               => true,
+            'relay'                => true,
+            'ftpsnap'              => true,
+            'sound'                => true,
+            'type'                 => true,
+            'aa_enable'            => true,
+            'aa_value'             => true,
+            'aa_time'              => true,
+            'io_enable'            => true,
+            'io_flag'              => true,
+            'pir_enable'           => true,
+            'pir_flag'             => true,
+            'snap_chn'             => true,
+            'snap_name'            => true,
+            'snap_timer_name'      => true,
+            'snap_name_mode'       => true,
+            'snap_count'           => true,
+            'ftp_snap_count'       => true,
+            'email_snap_count'     => true,
+            'admin17'              => true,
+            'm1_enable'            => true,
+            'm2_enable'            => true,
+            'm3_enable'            => true,
+            'm4_enable'            => true,
+            'm1_x'                 => true,
+            'm2_x'                 => true,
+            'm3_x'                 => true,
+            'm4_x'                 => true,
+            'm1_y'                 => true,
+            'm2_y'                 => true,
+            'm3_y'                 => true,
+            'm4_y'                 => true,
+            'm1_w'                 => true,
+            'm2_w'                 => true,
+            'm3_w'                 => true,
+            'm4_w'                 => true,
+            'm1_h'                 => true,
+            'm2_h'                 => true,
+            'm3_h'                 => true,
+            'm4_h'                 => true,
+            'm1_sensitivity'       => true,
+            'm2_sensitivity'       => true,
+            'm3_sensitivity'       => true,
+            'm4_sensitivity'       => true,
+            'm1_threshold'         => true,
+            'm2_threshold'         => true,
+            'm3_threshold'         => true,
+            'm4_threshold'         => true,
+            'as_week0'             => true,
+            'as_week1'             => true,
+            'as_week2'             => true,
+            'as_week3'             => true,
+            'as_week4'             => true,
+            'as_week5'             => true,
+            'as_week6'             => true,
+            'plancgi_enable_0'     => true,
+            'plancgi_enable_1'     => true,
+            'plancgi_enable_2'     => true,
+            'plancgi_enable_3'     => true,
+            'plancgi_enable_4'     => true,
+            'plancgi_enable_5'     => true,
+            'plancgi_enable_6'     => true,
+            'plancgi_enable_7'     => true,
+            'plancgi_enable_8'     => true,
+            'plancgi_enable_9'     => true,
+            'plancgi_enable_10'    => true,
+            'plancgi_enable_11'    => true,
+            'plancgi_enable_12'    => true,
+            'plancgi_enable_13'    => true,
+            'plancgi_enable_14'    => true,
+            'plancgi_enable_15'    => true,
+            'plancgi_enable_16'    => true,
+            'plancgi_enable_17'    => true,
+            'plancgi_enable_18'    => true,
+            'plancgi_enable_19'    => true,
+            'as_server'            => true,
+            'as_port'              => true,
+            'as_auth'              => true,
+            'as_username'          => true,
+            'as_password'          => true,
+            'as_path'              => true,
+            'as_area'              => true,
+            'as_io'                => true,
+            'as_audio'             => true,
+            'as_areaio'            => true,
+            'as_activequery'       => true,
+            'as_query1'            => true,
+            'as_queryattr1'        => true,
+            'as_queryval1'         => true,
+            'as_query2'            => true,
+            'as_queryattr2'        => true,
+            'as_queryval2'         => true,
+            'as_query3'            => true,
+            'as_queryattr3'        => true,
+            'as_queryval3'         => true,
+            'md_server2_switch'    => true,
+            'as_server_2'          => true,
+            'as_port_2'            => true,
+            'as_auth_2'            => true,
+            'as_username_2'        => true,
+            'as_password_2'        => true,
+            'as_path_2'            => true,
+            'as_area_2'            => true,
+            'as_io_2'              => true,
+            'as_audio_2'           => true,
+            'as_areaio_2'          => true,
+            'as_activequery_2'     => true,
+            'as_query1_2'          => true,
+            'as_queryattr1_2'      => true,
+            'as_queryval1_2'       => true,
+            'as_query2_2'          => true,
+            'as_queryattr2_2'      => true,
+            'as_queryval2_2'       => true,
+            'as_query3_2'          => true,
+            'as_queryattr3_2'      => true,
+            'as_queryval3_2'       => true,
+            'as_snap_enable'       => true,
+            'as_snap_interval'     => true,
+            'as_email_enable'      => true,
+            'as_email_interval'    => true,
+            'as_ftp_enable'        => true,
+            'as_ftp_interval'      => true,
+            'as_cloud_enable'      => true,
+            'as_cloud_interval'    => true,
+            'rt_week0'             => true,
+            'rt_week1'             => true,
+            'rt_week2'             => true,
+            'rt_week3'             => true,
+            'rt_week4'             => true,
+            'rt_week5'             => true,
+            'rt_week6'             => true,
+            'planrec_enable'       => true,
+            'planrec_chn'          => true,
+            'planrec_time'         => true,
+            'lanmac'               => true,
+            'wifimac'              => true,
+            'internetip'           => true,
+            'at_username0'         => true,
+            'at_password0'         => true,
+            'at_authlevel0'        => true,
+            'at_enable0'           => true,
+            'at_username1'         => true,
+            'at_password1'         => true,
+            'at_authlevel1'        => true,
+            'at_enable1'           => true,
+            'at_username2'         => true,
+            'at_password2'         => true,
+            'at_authlevel2'        => true,
+            'at_enable2'           => true,
+            'time'                 => true,
+            'timeZone'             => true,
+            'dstmode'              => true,
+            'ntpenable'            => true,
+            'ntpserver'            => true,
+            'ntpinterval'          => true,
+            'guest_value11'        => true,];
 
-            'dhcpflag'      => true,
-            'ip'            => true,
-            'netmask'       => true,
-            'gateway'       => true,
-            'dnsstat'       => true,
-            'fdnsip'        => true,
-            'sdnsip'        => true,
-            'macaddress'    => true,
-            'networktype'   => true,
-            'upnpstatus'    => true,
-            'th3ddnsstatus' => true,
-
-            'startdate' => true,
-            'facddnsstatus' => true,
-            'sdstatus' => true,
-            'httpport' => true,
-            'httpsport' => true,
-            'rtspport' => true,
-            'rtsp_aenable' => true,
-            'rtmpport' => true,
-            'wf_enable' => true,
-            'wf_ssid' => true,
-            'wf_auth' => true,
-            'wf_key' => true,
-            'wf_enc' => true,
-            'wf_mode' => true,
-            'our_enable' => true,
-            'our_server' => true,
-            'our_port' => true,
-            'our_uname' => true,
-            'our_passwd' => true,
-            'our_domain' => true,
-
-            'our_interval' => true,
-            'd3th_enable' => true,
-            'd3th_service' => true,
-            'd3th_uname' => true,
-            'd3th_passwd' => true,
-            'd3th_domain' => true,];
-
-        /*
-
-
-        $this->RegisterAttributeInteger('upm_enable', 1); // 1: UPnP activated, 0: UPnP deactivated
-        $this->RegisterAttributeBoolean('upm_enable_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('ov_enable', 1); // 1 ONVIF activated, 0 ONVIF deactivated
-        $this->RegisterAttributeBoolean('ov_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ov_port', 0); // ONVIF Port
-        $this->RegisterAttributeBoolean('ov_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ov_authflag', 0); // 1 ONVIF Login Required, 0: ONVIF Authentication deactivated
-        $this->RegisterAttributeBoolean('ov_authflag_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'ov_forbitset', 0
-        ); // 0: Time zone setting enabled, image parameter settings enabled, 1: Time zone setting disabled, the image parameter settings enabled, 2: Time zone setting enabled, image parameter settings prohibited, 3: Time zone setting prohibited, image parameter settings prohibited
-        $this->RegisterAttributeBoolean('ov_forbitset_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ov_subchn', 0); // Use video channel 11, 12 or 13
-        $this->RegisterAttributeBoolean('ov_subchn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ov_snapchn', 0); // Use video channel 11, 12 or 13 for snapshots
-        $this->RegisterAttributeBoolean('ov_snapchn_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('volume', 0); // Audio input volume: 1 - 100
-        $this->RegisterAttributeBoolean('volume_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('volin_type', 0); // 0: linear input, 1: microphone input
-        $this->RegisterAttributeBoolean('volin_type_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aec', 0); // audio encoder: 0, 1
-        $this->RegisterAttributeBoolean('aec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('denoise', 0); // Noise suppression: 0, 1
-        $this->RegisterAttributeBoolean('denoise_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ao_volume', 0); // Audio output volume: 1 - 100
-        $this->RegisterAttributeBoolean('ao_volume_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('chn', 0); // 1st, 2nd or 3rd audio channel: 1, 2, 3
-        $this->RegisterAttributeBoolean('chn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeswitch_1', 0); // Audio encode switch on, off: 1, 0
-        $this->RegisterAttributeBoolean('aeswitch_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeswitch_2', 0); // Audio encode switch on, off: 1, 0
-        $this->RegisterAttributeBoolean('aeswitch_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeswitch_3', 0); // Audio encode switch on, off: 1, 0
-        $this->RegisterAttributeBoolean('aeswitch_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeformat', 0); //  Audio encode format g711a: G711A 64Kbps, g726: G726 16Kbps
-        $this->RegisterAttributeBoolean('aeformat_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('videomode', 41); //  Resolution CH11=1080p, CH12=320p, CH13=160p
-        $this->RegisterAttributeBoolean('videomode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('vinorm', 'P'); //  50Hz(PAL)
-        $this->RegisterAttributeBoolean('vinorm_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wdrmode', 0); //  Hardware Wide Dynamic Range: 0 (off), 1 (active)
-        $this->RegisterAttributeBoolean('wdrmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('profile', 0); //  h.264 encoder 0: baseline, 1: mainprofile
-        $this->RegisterAttributeBoolean('profile_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('maxchn', 0); //  Maximum active video channels
-        $this->RegisterAttributeBoolean('maxchn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'bps_1', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
-        $this->RegisterAttributeBoolean('bps_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'bps_2', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
-        $this->RegisterAttributeBoolean('bps_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'bps_3', 2048
-        ); //  Bitrate CH11 1080p = 512kbps - 4096kbps, Bitrate CH11 320p = 512kbps - 2048kbps, Bitrate CH11 160p = 90kbps - 512kbps
-        $this->RegisterAttributeBoolean('bps_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_1', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_2', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('fps_3', 25); //  Framerate: PAL：Range [1 ~ 25], NTSC：Range [1 ~ 30]
-        $this->RegisterAttributeBoolean('fps_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_1', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_2', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gop_3', 40); //  Keyframe Interval: gop Range [10 ~ 150]
-        $this->RegisterAttributeBoolean('gop_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_1', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_2', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brmode_3', 1); //  Video encode control: 0: fixed bit rate, 1: changeable bit rate
-        $this->RegisterAttributeBoolean('brmode_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_1', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_2', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imagegrade_3', 1); //  1 (low compression) -6 (high compression)
-        $this->RegisterAttributeBoolean('imagegrade_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_1', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_2', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('width_3', 1920); //  Video width
-        $this->RegisterAttributeBoolean('width_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_1', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_2', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('height_3', 1080); //  Video height
-        $this->RegisterAttributeBoolean('height_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('display_mode', 0); //  Current 0: black and white mode 1: color mode
-        $this->RegisterAttributeBoolean('display_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('brightness', 70); //  brightness [0-100]
-        $this->RegisterAttributeBoolean('brightness_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('saturation', 150); //  saturation [0-255]
-        $this->RegisterAttributeBoolean('saturation_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('sharpness', 70); //  sharpness [0-100]
-        $this->RegisterAttributeBoolean('sharpness_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('contrast', 70); //  contrast [0-100]
-        $this->RegisterAttributeBoolean('contrast_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('hue', 100); //  [0-255]
-        $this->RegisterAttributeBoolean('hue_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeString('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
-        $this->RegisterAttributeBoolean('wdr_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
-        $this->RegisterAttributeBoolean('night_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('shutter', 0); //  Shutter Speed [0 - 65535]
-        $this->RegisterAttributeBoolean('shutter_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('flip', 'on'); //  Flip the Image [on, off]
-        $this->RegisterAttributeBoolean('flip_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeString('mirror', 'on'); // Mirror the Image [on, off]
-        $this->RegisterAttributeBoolean('mirror_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeString('scene', 'auto'); // scene (auto , indoor , outdoor) sets the white balance mode
-        $this->RegisterAttributeBoolean('scene_enabled', true); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gc', 0); //  Night illumination, value Range 0=auto, [1-255]=manual
-        $this->RegisterAttributeBoolean('gc_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ae', 0); //  Minimum exposure, range 0-65535
-        $this->RegisterAttributeBoolean('ae_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('targety', 0); //  Exposure [0-255]
-        $this->RegisterAttributeBoolean('targety_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('noise', 0); //  Low light denoising intensity (0-100)
-        $this->RegisterAttributeBoolean('noise_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gamma', 0); //  Gamma 0-3
-        $this->RegisterAttributeBoolean('gamma_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aemode', 0); //  Auto-Exposure mode, the range: 0 Automatic, 1 Indoor, 2 Outdoor
-        $this->RegisterAttributeBoolean('aemode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('imgmode', 0); //  Image priority mode: 0: Frame rate priority, 1: Illumination priority
-        $this->RegisterAttributeBoolean('imgmode_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('wdrauto', 0); //  Hardware Wide Dynamic Range 0 (Auto), 1 (Manual)
-        $this->RegisterAttributeBoolean('wdrauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wdrautval', 0); //  Auto WDR Strength [0-2]
-        $this->RegisterAttributeBoolean('wdrautval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('wdrmanval', 0); //  Manual WDR Strength [0-255]
-        $this->RegisterAttributeBoolean('wdrmanval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('d3noauto', 0); //  3D Noise Reduction Mode: 0 (auto), 1 (manual)
-        $this->RegisterAttributeBoolean('d3noauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('d3noval', 0); //  3D Noise Reduction Strength: [0-255]
-        $this->RegisterAttributeBoolean('d3noval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gcauto', 0); //  Signal Gain: 0 (auto), 1 (manual)
-        $this->RegisterAttributeBoolean('gcauto_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('gcval', 0); //  Gain Multiplier: [0-255]
-        $this->RegisterAttributeBoolean('gcval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('aemodeex', 'Highlight'); // Exposure Mode: Highlight (Exposure) priority, Lowlight (Framerate) priority
-        $this->RegisterAttributeBoolean('aemodeex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aelowval', 0); //  Lowlight Intensity [0-255]
-        $this->RegisterAttributeBoolean('aelowval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aehighval', 0); //  Highlight Intensity [0-255]
-        $this->RegisterAttributeBoolean('aehighval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aeratio', 0); //  Length Exposure Ratio [0-100]
-        $this->RegisterAttributeBoolean('aeratio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_enable', 0); //  Image Distortion Correction: 0 (disabled), 1 (enabled)
-        $this->RegisterAttributeBoolean('ldc_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_xoffset', 0); //  Horizontal Image Offset
-        $this->RegisterAttributeBoolean('ldc_xoffset_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_yoffset', 0); //  Vertical Image Offset
-        $this->RegisterAttributeBoolean('ldc_yoffset_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ldc_ratio', 0); //  Distortion Correction [0-511]
-        $this->RegisterAttributeBoolean('ldc_ratio_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('region', 1); //  OSD time zone, 1: OSD Name region
-        $this->RegisterAttributeBoolean('region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show', 0); //  0 (hidden), 1 (displayed)
-        $this->RegisterAttributeBoolean('show_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('place', 0); //  0: top, 1: bottom
-        $this->RegisterAttributeBoolean('place_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_region', 0); //  OSD region x coordinate
-        $this->RegisterAttributeBoolean('x_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_region', 0); // OSD region y coordinate
-        $this->RegisterAttributeBoolean('y_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('name_region', ''); //  Region 0="YYYY-MM-DD hh:mm:ss", region="Camera Name"
-        $this->RegisterAttributeBoolean('name_region_enabled', false); // show Attribute in Webfront
-
-        $this->RegisterAttributeInteger('privacy_region', 1); // Privacy Mask [1-4]
-        $this->RegisterAttributeBoolean('privacy_region_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_1', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_2', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_3', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('show_4', 0); // [0, 1] De/Activate Mask
-        $this->RegisterAttributeBoolean('show_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_1', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_2', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_3', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('color_4', 0); // Brightness [0-100]
-        $this->RegisterAttributeBoolean('color_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_1', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_2', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_3', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('x_4', 0); // X-Coordinate Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('x_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_1', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_2', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_3', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('y_4', 0); // Y-Coordinate Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('y_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_1', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_2', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_3', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('w_4', 1); // Mask Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('w_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_1', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_2', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_3', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('h_4', 1); // Mask Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('h_4_enabled', false); // show Attribute in Webfront
-        // Features
-        $this->RegisterAttributeString('ma_server', ''); // SMTP Server Address e.g. smtp.strato.de
-        $this->RegisterAttributeBoolean('ma_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_port', 25); // SMTP Server Port e.g. 25, 587 (TLS) or 465 (SSL)
-        $this->RegisterAttributeBoolean('ma_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_ssl', 25); // SSL Encryption 0 (Disabled), 1 (SSL), 2 (TLS) or 3 (STARTTLS)
-        $this->RegisterAttributeBoolean('ma_ssl_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ma_logintype', 1); // Enable (1) or Disable (3) Authentication
-        $this->RegisterAttributeBoolean('ma_logintype_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_username', ''); // SMTP Server Username
-        $this->RegisterAttributeBoolean('ma_username_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_password', ''); // SMTP Server Password
-        $this->RegisterAttributeBoolean('ma_password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_from', ''); // Sender Email Address
-        $this->RegisterAttributeBoolean('ma_from_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_to', ''); // Receiver Email Address
-        $this->RegisterAttributeBoolean('ma_to_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_subject', ''); // Mail Subject Line
-        $this->RegisterAttributeBoolean('ma_subject_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ma_text', ''); // Mail Content
-        $this->RegisterAttributeBoolean('ma_text_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ft_server', ''); // FTP Server Address
-        $this->RegisterAttributeBoolean('ft_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ft_port', 25); // FTP Server Port
-        $this->RegisterAttributeBoolean('ft_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ft_username', ''); // FTP Username
-        $this->RegisterAttributeBoolean('ft_username_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ft_password', ''); // FTP Password
-        $this->RegisterAttributeBoolean('ft_password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ft_mode', 0); // FTP Mode Port (0) or Passive (1)
-        $this->RegisterAttributeBoolean('ft_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ft_dirname', ''); // FTP Directory
-        $this->RegisterAttributeBoolean('ft_dirname_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ft_autocreatedir', 0); // Automatically create the directory 0 (no), 1 (yes)
-        $this->RegisterAttributeBoolean('ft_autocreatedir_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ft_dirmode', 0); // 0 (Create a new Folder every Day), 1 (All Files in One Directory)
-        $this->RegisterAttributeBoolean('ft_dirmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ft_ssl', 0); // FTPS Encryption - 0：None, 1：SSL, 2: TLS
-        $this->RegisterAttributeBoolean('ft_ssl_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('infraredstat', ''); // IR LED Status - auto, close (deactivated)
-        $this->RegisterAttributeBoolean('infraredstat_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('panspeed', 0); // fast (0) - slow (2)
-        $this->RegisterAttributeBoolean('panspeed_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tiltspeed', 0); // fast (0) - slow (2)
-        $this->RegisterAttributeBoolean('tiltspeed_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('panscan', 1); // [1-50] - Number of hscans
-        $this->RegisterAttributeBoolean('panscan_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tiltscan', 1); // [1-50] - Number of vscans
-        $this->RegisterAttributeBoolean('tiltscan_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('movehome', 'on'); // [on, off] - Go to Center or Postion [initpresetindex] after Restart
-        $this->RegisterAttributeBoolean('movehome_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ptzalarmmask', 'on'); // [on, off] - Deactivate Motion Detection during Pan&Tilt
-        $this->RegisterAttributeBoolean('ptzalarmmask_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('selfdet', ''); // De/Activate Calibration (Required for Preset Postions and PTZ Tour)
-        $this->RegisterAttributeBoolean('selfdet_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('alarmpresetindex', 0); // [1-8]; - Alarmposition
-        $this->RegisterAttributeBoolean('alarmpresetindex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('initpresetindex', 0); // [1-8]; - Position Camera goes to after Restart
-        $this->RegisterAttributeBoolean('initpresetindex_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('md_preset_switch', 'on'); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
-        $this->RegisterAttributeBoolean('md_preset_switch_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_enable', 0); // De/Activate Park Position - [0, 1]
-        $this->RegisterAttributeBoolean('timerpreset_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_index', 1); // Select Park Position - [1 - 8]
-        $this->RegisterAttributeBoolean('timerpreset_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
-        $this->RegisterAttributeBoolean('timerpreset_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
-        $this->RegisterAttributeBoolean('admin_value46_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
-        $this->RegisterAttributeBoolean('tour_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_times', 1); // Number of Rounds [1 - 50]
-        $this->RegisterAttributeBoolean('tour_times_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_index', 1); // Set Tour Positions to Preset Position [1-8] / [-1] to deactivate Tour Position
-        $this->RegisterAttributeBoolean('tour_index_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('tour_interval', 60); // Set Pause when Tour Position is reached in seconds [60-43200]
-        $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
-        $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('light2_enable', 'on'); // Power LED - [on, off]
-        $this->RegisterAttributeBoolean('light2_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin_value44', 44); // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
-        $this->RegisterAttributeBoolean('admin_value44_enabled', false); // show Attribute in Webfront
-        // Alarm Menu
-        $this->RegisterAttributeString('emailsnap', 'on'); // E-mail Alarm / Send Snapshot
-        $this->RegisterAttributeBoolean('emailsnap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('snap', 'on'); // Save Snapshot to SD
-        $this->RegisterAttributeBoolean('snap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('record', 'on'); // Save Video to SD
-        $this->RegisterAttributeBoolean('record_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ftprec', 'on'); // Send Video to FTP Server
-        $this->RegisterAttributeBoolean('ftprec_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('relay', 'on'); // Alarm Out Relay
-        $this->RegisterAttributeBoolean('relay_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ftpsnap', 'on'); // Send Snapshot to FTP Server
-        $this->RegisterAttributeBoolean('ftpsnap_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('sound', 'on'); // Audio Alarm Signal
-        $this->RegisterAttributeBoolean('sound_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('type', 'on'); // Link Alarm Areas and Alarm-Input
-        $this->RegisterAttributeBoolean('type_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_enable', 0); // De/Activate Audio Detection [0, 1]
-        $this->RegisterAttributeBoolean('aa_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_value', 10); // Sensitivity [10 - 100]
-        $this->RegisterAttributeBoolean('aa_value_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('aa_time', 0); // Minimum Audio Signal Length Threshold [0 - 10]
-        $this->RegisterAttributeBoolean('aa_time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('io_enable', 0); // De/Activate Alarm Input [0, 1]
-        $this->RegisterAttributeBoolean('io_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('io_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
-        $this->RegisterAttributeBoolean('io_flag_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('pir_enable', 0); // De/Activate PIR Sensor [0, 1]
-        $this->RegisterAttributeBoolean('pir_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('pir_flag', 0); // Circuit Nomally Closed N.C. [0] or Normally Open N.O. [1]
-        $this->RegisterAttributeBoolean('pir_flag_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('snap_chn', 11); // Set Snapshot Resolution to Video Channel [11, 12, 13]
-        $this->RegisterAttributeBoolean('snap_chn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('snap_name', ''); // Fixed File Name for All Alarm Snapshots (leave empty for auto-name by time stamp)
-        $this->RegisterAttributeBoolean('snap_name_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'snap_timer_name', ''
-        ); // Fixed File Name for All Photoseries Snapshots (leave empty for auto-name by time stamp)
-        $this->RegisterAttributeBoolean('snap_timer_name_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'snap_name_mode', 0
-        ); // Set Filename to [0] time stamp, or [1] fixed file name set snapname and snaptimer_name
-        $this->RegisterAttributeBoolean('snap_name_mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('snap_count', 1); // Number of Snapshot saved to SD Card per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ftp_snap_count', 1); // Number of Snapshot send to FTP Server per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('ftp_snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('email_snap_count', 1); // Number of Snapshot send by Email per Alarm Event [1-15]
-        $this->RegisterAttributeBoolean('email_snap_count_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('admin17', 17); // admin17
-        $this->RegisterAttributeBoolean('admin17_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m1_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m2_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m3_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-        $this->RegisterAttributeBoolean('m4_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m1_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m2_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m3_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_x', 0); // X-Axis Offset of Alarm Area Origin [0-(1920-w)]
-        $this->RegisterAttributeBoolean('m4_x_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m1_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m2_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m3_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_y', 0); // Y-Axis Offset of Alarm Area Origin [0-(1080-h)]
-        $this->RegisterAttributeBoolean('m4_y_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m1_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m2_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m3_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_w', 0); // Alarm Area Width [1-1920] Pixel
-        $this->RegisterAttributeBoolean('m4_w_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m1_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m2_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m3_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_h', 0); // Alarm Area Height [1-1080] Pixel
-        $this->RegisterAttributeBoolean('m4_h_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m1_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m2_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m3_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_sensitivity', 0); // Detection Sensitivity [1 - 100]
-        $this->RegisterAttributeBoolean('m4_sensitivity_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m1_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m1_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m2_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m2_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m3_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m3_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('m4_threshold', 0); // Detection Threshold (not active)
-        $this->RegisterAttributeBoolean('m4_threshold_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week1', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week2', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week3', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week4', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week5', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'as_week6', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('as_week6_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_0', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_1', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_2', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_3', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_4', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_5', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_6', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_6_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_7', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_7_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_8', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_8_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_9', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_9_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_10', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_10_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_11', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_11_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_12', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_12_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_13', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_13_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_14', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_14_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_15', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_15_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_16', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_16_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_17', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_17_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_18', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_18_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger(
-            'plancgi_enable_19', 0
-        ); // De/Activate Switch Event at Time - [0 - 86399] in seconds = 0:00:00 - 23:59:59 o´clock
-        $this->RegisterAttributeBoolean('plancgi_enable_19_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_server', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_area', ''); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_io', ''); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_audio', ''); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_areaio', ''); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_activequery', ''); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query1', ''); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
-        $this->RegisterAttributeBoolean('md_server2_switch_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_server_2', ''); // Address of the receiving Server (e.g. Home Automation Server) [IPv4 Address]
-        $this->RegisterAttributeBoolean('as_server_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_port_2', 0); // Port of the receiving Server [1-65536]
-        $this->RegisterAttributeBoolean('as_port_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_auth_2', 0); // Authentication required [0, 1]
-        $this->RegisterAttributeBoolean('as_auth_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_username_2', ''); // Alarmserver Username
-        $this->RegisterAttributeBoolean('as_username_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_password_2', ''); // Alarmserver Password
-        $this->RegisterAttributeBoolean('as_password_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_path_2', ''); // URL Path
-        $this->RegisterAttributeBoolean('as_path_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_area_2', ''); // Send Query when Motion is Detected
-        $this->RegisterAttributeBoolean('as_area_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_io_2', ''); // Send Query when Alarm Input is Triggered
-        $this->RegisterAttributeBoolean('as_io_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_audio_2', ''); // Send Query when Audio Alarm is Triggered
-        $this->RegisterAttributeBoolean('as_audio_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_areaio_2', ''); // Send Query when Motion is Detected and Input is Triggered
-        $this->RegisterAttributeBoolean('as_areaio_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_activequery_2', ''); // Append Alarm Trigger to Query
-        $this->RegisterAttributeBoolean('as_activequery_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query1_2', ''); // Activate Sending optional Parameter 1
-        $this->RegisterAttributeBoolean('as_query1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr1_2', ''); // Command 1 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval1_2', ''); // Command 1 Value
-        $this->RegisterAttributeBoolean('as_queryval1_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query2_2', ''); // Activate Sending optional Parameter 2
-        $this->RegisterAttributeBoolean('as_query2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr2_2', ''); // Command 2 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval2_2', ''); // Command 2 Value
-        $this->RegisterAttributeBoolean('as_queryval2_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_query3_2', ''); // Activate Sending optional Parameter 3
-        $this->RegisterAttributeBoolean('as_query3_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryattr3_2', ''); // Command 3 Attribute
-        $this->RegisterAttributeBoolean('as_queryattr3_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('as_queryval3_2', ''); // Command 3 Value
-        $this->RegisterAttributeBoolean('as_queryval3_2_enabled', false); // show Attribute in Webfront
-        // Recording Menu
-        $this->RegisterAttributeInteger('as_snap_enable', 0); // Dis/Enable snapshot to SD card： [0, 1]
-        $this->RegisterAttributeBoolean('as_snap_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_snap_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_snap_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_email_enable', 0); // DDis/Enable snapshot to Email： [0, 1]
-        $this->RegisterAttributeBoolean('as_email_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_email_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_email_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_ftp_enable', 0); // Dis/Enable snapshot to FTP Server： [0, 1]
-        $this->RegisterAttributeBoolean('as_ftp_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_ftp_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_ftp_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_cloud_enable', 0); // Dis/Enable snapshot to INSTAR Cloud Server： [0, 1]
-        $this->RegisterAttributeBoolean('as_cloud_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_cloud_interval', 1); // Time interval between shots in seconds [1-86400]
-        $this->RegisterAttributeBoolean('as_cloud_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week1', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week2', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week3', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week3_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week4', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week4_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week5', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week5_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString(
-            'rt_week6', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
-        ); // Sunday：every 24 hrs divide to half hr is a segment , use P or N to indicate if the alarm is active - [P] means active , [N] means inactive
-        $this->RegisterAttributeBoolean('rt_week6_enabled', false); // show Attribute in Webfront
-        //  Video Tasks
-        $this->RegisterAttributeInteger('planrec_enable', 1); // Dis/Enable Recording to SD card： [0, 1]
-        $this->RegisterAttributeBoolean('planrec_enable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('planrec_chn', 11); // Record Kamera Channel [11, 12, 13]
-        $this->RegisterAttributeBoolean('planrec_chn_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('planrec_time', 1); // Recoding File Length (15-900seconds)
-        $this->RegisterAttributeBoolean('planrec_time_enabled', false); // show Attribute in Webfront
-        // System
-        $this->RegisterAttributeString('lanmac', ''); // MAC Address of the LAN Interface
-        $this->RegisterAttributeBoolean('lanmac_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('wifimac', ''); // MAC Address of the WLAN Interface
-        $this->RegisterAttributeBoolean('wifimac_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('internetip', ''); // Get Wide Area Network Address
-        $this->RegisterAttributeBoolean('internetip_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username0', ''); // Username for User 1
-        $this->RegisterAttributeBoolean('at_username0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password0', ''); // Password for User 1
-        $this->RegisterAttributeBoolean('at_password0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel0', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable0', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username1', ''); // Username for User 2
-        $this->RegisterAttributeBoolean('at_username1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password1', ''); // Password for User 2
-        $this->RegisterAttributeBoolean('at_password1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel1', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable1', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable1_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_username2', ''); // Username for User 3
-        $this->RegisterAttributeBoolean('at_username2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('at_password2', ''); // Password for User 3
-        $this->RegisterAttributeBoolean('at_password2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_authlevel2', 3); // User Authorisation: admin/user/guest [15, 3, 1]
-        $this->RegisterAttributeBoolean('at_authlevel2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('at_enable2', 1); // De/Activate [0, 1]
-        $this->RegisterAttributeBoolean('at_enable2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('time', ''); // Camera Time
-        $this->RegisterAttributeBoolean('time_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('timeZone', ''); // Cameras Time Zone e.g.[Europe%2FAmsterdam]
-        $this->RegisterAttributeBoolean('timeZone_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('dstmode', 'on'); // De/Activate Daylight Saving Time [off, on]
-        $this->RegisterAttributeBoolean('dstmode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpenable', 1); // De/Activate NTP Time Adjustment [0, 1]
-        $this->RegisterAttributeBoolean('ntpenable_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('ntpserver', ''); // NTP Server Address
-        $this->RegisterAttributeBoolean('ntpserver_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('ntpinterval', 1); // NTP Sync Interval in Hours [1 - 12]
-        $this->RegisterAttributeBoolean('ntpinterval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('guest_value11', 'de'); // UI Language Selector [de, en, fr, cn]
-        $this->RegisterAttributeBoolean('guest_value11_enabled', false); // show Attribute in Webfront
-        */
 
         $API_Cameras[self::IN_9010_Full_HD] = [];
         $API_Cameras[self::IN_9008_Full_HD] = [];
@@ -5605,13 +5188,10 @@ class INSTAR extends IPSModule
     private function ConvertColorHEX($color)
     {
         $hexcolor = strtoupper(dechex($color));
-        if($hexcolor == "0")
-        {
+        if ($hexcolor == "0") {
             $hexstring = "000000";
 
-        }
-        else
-        {
+        } else {
             $hexstring = $hexcolor;
         }
         return $hexstring;
@@ -5939,19 +5519,19 @@ class INSTAR extends IPSModule
      */
     public function SetPan_TiltSettings()
     {
-        $selfdet      = $this->ReadAttributeString('selfdet');
-        $movehome     = $this->ReadAttributeString('movehome');
-        $ptzalarmmask = $this->ReadAttributeString('ptzalarmmask');
-        $tiltspeed    = $this->ReadAttributeInteger('tiltspeed');
-        $panspeed     = $this->ReadAttributeInteger('panspeed');
-        $tiltscan     = $this->ReadAttributeInteger('tiltscan');
-        $panscan      = $this->ReadAttributeInteger('panscan');
+        $selfdet          = $this->ReadAttributeString('selfdet');
+        $movehome         = $this->ReadAttributeString('movehome');
+        $ptzalarmmask     = $this->ReadAttributeString('ptzalarmmask');
+        $tiltspeed        = $this->ReadAttributeInteger('tiltspeed');
+        $panspeed         = $this->ReadAttributeInteger('panspeed');
+        $tiltscan         = $this->ReadAttributeInteger('tiltscan');
+        $panscan          = $this->ReadAttributeInteger('panscan');
         $value            = 0;
         $alarmpresetindex = $this->ReadAttributeInteger('alarmpresetindex');
-        $parameter =
+        $parameter        =
             '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed='
             . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
-        $data      = $this->SendParameter('setmotorattr' . $parameter);
+        $data             = $this->SendParameter('setmotorattr' . $parameter);
         return $data;
     }
 
@@ -5973,8 +5553,8 @@ class INSTAR extends IPSModule
     protected function SetStateAlarmPosition()
     {
         $md_preset_switch = $this->ReadAttributeString('md_preset_switch');
-        $parameter = '&-switch=' . $md_preset_switch;
-        $data      = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
+        $parameter        = '&-switch=' . $md_preset_switch;
+        $data             = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
         return $data;
     }
 
@@ -5998,9 +5578,10 @@ class INSTAR extends IPSModule
         $timerpreset_enable   = $this->ReadAttributeInteger('timerpreset_enable');
         $timerpreset_index    = $this->ReadAttributeInteger('timerpreset_index');
         $timerpreset_interval = $this->ReadAttributeInteger('timerpreset_interval');
-        $parameter = '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval='
-                     . $timerpreset_interval;
-        $data      = $this->SendParameter('settimerpreset' . $parameter);
+        $parameter            =
+            '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval='
+            . $timerpreset_interval;
+        $data                 = $this->SendParameter('settimerpreset' . $parameter);
         return $data;
     }
 
@@ -6022,8 +5603,8 @@ class INSTAR extends IPSModule
     protected function SetOneStepPanTiltControl()
     {
         $admin_value46 = $this->ReadAttributeInteger('admin_value46');
-        $parameter = '&-value=' . $admin_value46;
-        $data      = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
+        $parameter     = '&-value=' . $admin_value46;
+        $data          = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
         return $data;
     }
 
@@ -6876,7 +6457,8 @@ class INSTAR extends IPSModule
      *
      * @return false|string
      */
-    public function SetNetworkConfiguration(string $at_username0, string $at_password0, bool $at_enable1, string $at_username1, string $at_password1, bool $at_enable2, string $at_username2, string $at_password2)
+    public function SetNetworkConfiguration(string $at_username0, string $at_password0, bool $at_enable1, string $at_username1, string $at_password1,
+                                            bool $at_enable2, string $at_username2, string $at_password2)
     {
         $this->WriteAttributeInteger('at_enable1', intval($at_enable1));
         $this->WriteAttributeInteger('at_enable2', intval($at_enable2));
@@ -6886,7 +6468,10 @@ class INSTAR extends IPSModule
         $this->WriteAttributeString('at_password1', $at_password1);
         $this->WriteAttributeString('at_username2', $at_username2);
         $this->WriteAttributeString('at_password2', $at_password2);
-        $parameter = '&-at_username=admin&-at_newname=' . $at_username0 . '&-at_enable=1&-at_password=' . $at_password0 . '&cmd=setuserattr&-at_username=user&-at_newname=' . $at_username1 . '&-at_enable=' . intval($at_enable1) . '&-at_password=' . $at_password1 . '&cmd=setuserattr&-at_username=guest&-at_newname=' . $at_username2 . '&-at_enable=' . intval($at_enable2) . '&-at_password=' . $at_password2;
+        $parameter = '&-at_username=admin&-at_newname=' . $at_username0 . '&-at_enable=1&-at_password=' . $at_password0
+                     . '&cmd=setuserattr&-at_username=user&-at_newname=' . $at_username1 . '&-at_enable=' . intval($at_enable1) . '&-at_password='
+                     . $at_password1 . '&cmd=setuserattr&-at_username=guest&-at_newname=' . $at_username2 . '&-at_enable=' . intval($at_enable2)
+                     . '&-at_password=' . $at_password2;
         $data      = $this->SendParameter('setuserattr' . $parameter);
         return $data;
     }
@@ -6913,9 +6498,9 @@ class INSTAR extends IPSModule
      */
     public function GetCameraTimeConfiguration()
     {
-        $host             = $this->ReadPropertyString('Host');
-        $user             = $this->ReadPropertyString('User');
-        $password         = $this->ReadPropertyString('Password');
+        $host     = $this->ReadPropertyString('Host');
+        $user     = $this->ReadPropertyString('User');
+        $password = $this->ReadPropertyString('Password');
 
         // check IP adress
         if (!filter_var($host, FILTER_VALIDATE_IP) === false) {
@@ -6943,9 +6528,7 @@ class INSTAR extends IPSModule
         if ($user !== '' && $password !== '' && $hostcheck === true) {
             $payload = $this->SendParameter('getservertime');
             $data    = $this->SplitPayload($payload, '_time');
-        }
-        else
-        {
+        } else {
             $data = false;
         }
         return $data;
@@ -7034,16 +6617,14 @@ class INSTAR extends IPSModule
     public function GetCameraSystemLog()
     {
         $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/tmpfs/syslog.txt', 0);
-        $log = file_get_contents('http://' . $this->GetHostURL() . '/tmpfs/syslog.txt');
+        $log     = file_get_contents('http://' . $this->GetHostURL() . '/tmpfs/syslog.txt');
         $MediaID = @$this->GetIDForIdent('system_log');
         if ($MediaID === false) {
             $this->SendDebug('System Log', 'Get system log', 0);
-        }
-        else
-        {
+        } else {
             $this->SendDebug('System Log', 'Save system log', 0);
             $current_system_log = base64_decode(IPS_GetMediaContent($MediaID));
-            $Content = $current_system_log . $log;
+            $Content            = $current_system_log . $log;
             IPS_SetMediaContent($MediaID, base64_encode($Content));  // Base64 codieren und ablegen
             IPS_SendMediaEvent($MediaID); //aktualisieren
         }
@@ -11154,12 +10735,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
 
     public function EnableAlarmPosition(bool $md_preset_switch)
     {
-        if($md_preset_switch)
-        {
+        if ($md_preset_switch) {
             $this->WriteAttributeString('md_preset_switch', 'on');
-        }
-        else
-        {
+        } else {
             $this->WriteAttributeString('md_preset_switch', 'off');
         }
         $this->SetStateAlarmPosition();
@@ -11426,8 +11004,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
                         'value'    => $this->ReadAttributeBoolean('admin_value46_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "admin_value46_enabled", $admin_value46_enabled);'],]],
-        ];
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "admin_value46_enabled", $admin_value46_enabled);'],]],];
         return $form;
     }
 
@@ -12567,7 +12144,7 @@ as_password[0]="";
                         'type'     => 'CheckBox',
                         'visible'  => true,
                         'caption'  => 'active user',
-                        'value'   => boolval($this->ReadAttributeInteger('at_enable1')),
+                        'value'    => boolval($this->ReadAttributeInteger('at_enable1')),
                         'onChange' => 'INSTAR_EnableUser($id, $at_enable1);'],]],
 
             [
@@ -12593,7 +12170,7 @@ as_password[0]="";
                         'type'     => 'CheckBox',
                         'visible'  => true,
                         'caption'  => 'active guest',
-                        'value'   => boolval($this->ReadAttributeInteger('at_enable2')),
+                        'value'    => boolval($this->ReadAttributeInteger('at_enable2')),
                         'onChange' => 'INSTAR_EnableGuest($id, $at_enable2);'],]],
             [
                 'type'    => 'ValidationTextBox',
@@ -12617,22 +12194,19 @@ as_password[0]="";
     protected function FormShowDate_Time()
     {
         $time_info = $this->GetCameraTimeConfiguration();
-        if($time_info === false)
-        {
+        if ($time_info === false) {
             $current_date = '01.01.2019';
-            $current_time =  '00:00:00';
-        }
-        else
-        {
-            $time = strval($time_info['time']);
-            $year = substr($time, 0, 4);
-            $month = substr($time, 4, 2);
-            $day = substr($time, 6, 2);
-            $hour = substr($time, 8, 2);
-            $minute = substr($time, 10, 2);
-            $second = substr($time, 12, 2);
+            $current_time = '00:00:00';
+        } else {
+            $time         = strval($time_info['time']);
+            $year         = substr($time, 0, 4);
+            $month        = substr($time, 4, 2);
+            $day          = substr($time, 6, 2);
+            $hour         = substr($time, 8, 2);
+            $minute       = substr($time, 10, 2);
+            $second       = substr($time, 12, 2);
             $current_date = $day . '.' . $month . '.' . $year;
-            $current_time =  $hour .  ':' . $minute . ':' . $second;
+            $current_time = $hour . ':' . $minute . ':' . $second;
         }
         $form = [
             [
@@ -12727,13 +12301,12 @@ as_password[0]="";
     public function EnableSystemLog(bool $system_log)
     {
         $this->WriteAttributeBoolean('system_log', $system_log);
-        if($system_log)
-        {
+        if ($system_log) {
             $this->SendDebug('System Log', 'Creating system log', 0);
             $MediaID = @$this->GetIDForIdent('system_log');
             if ($MediaID === false) {
                 $DocumentFile = IPS_GetKernelDir() . 'media' . DIRECTORY_SEPARATOR . 'INSTAR_System_Log.doc';  // File
-                $Content = $this->GetCameraSystemLog();
+                $Content      = $this->GetCameraSystemLog();
                 file_put_contents($DocumentFile, $Content);
                 $MediaID = IPS_CreateMedia(5);              // Create Document
                 IPS_SetMediaFile($MediaID, $DocumentFile, true);
@@ -12744,9 +12317,7 @@ as_password[0]="";
                 IPS_SetName($MediaID, $this->Translate('Camera System Log')); // Medienobjekt benennen
                 IPS_SendMediaEvent($MediaID); //aktualisieren
             }
-        }
-        else
-        {
+        } else {
             $this->SendDebug('System Log', 'Deleting system log', 0);
             $MediaID = @$this->GetIDForIdent('system_log');
             IPS_DeleteMedia($MediaID, true);
@@ -12764,7 +12335,7 @@ as_password[0]="";
                 'type'     => 'CheckBox',
                 'visible'  => true,
                 'caption'  => 'Create backup from system log to IP-Symcon',
-                'value'   => $this->ReadAttributeBoolean('system_log'),
+                'value'    => $this->ReadAttributeBoolean('system_log'),
                 'onChange' => 'INSTAR_EnableSystemLog($id, $system_log);'],
             [
                 'type'    => 'Button',
