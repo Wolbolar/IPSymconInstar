@@ -1916,9 +1916,13 @@ class INSTAR extends IPSModule
         $this->RegisterProfile('INSTAR.model', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable('model', $this->Translate('Camera Model Identifier'), 'INSTAR.model', $this->_getPosition(), VARIABLETYPE_STRING, false);
         $this->RegisterProfile('INSTAR.hardVersion', 'Robot', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('hardVersion', $this->Translate('Hardware Version'), 'INSTAR.hardVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->SetupVariable(
+            'hardVersion', $this->Translate('Hardware Version'), 'INSTAR.hardVersion', $this->_getPosition(), VARIABLETYPE_STRING, false
+        );
         $this->RegisterProfile('INSTAR.softVersion', 'Robot', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('softVersion', $this->Translate('Firmware Version'), 'INSTAR.softVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->SetupVariable(
+            'softVersion', $this->Translate('Firmware Version'), 'INSTAR.softVersion', $this->_getPosition(), VARIABLETYPE_STRING, false
+        );
         $this->RegisterProfile('INSTAR.webVersion', 'Notebook', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable('webVersion', $this->Translate('WebUI Version'), 'INSTAR.webVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
         $this->RegisterProfile('INSTAR.name', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
@@ -1936,13 +1940,17 @@ class INSTAR extends IPSModule
             'dhcpflag', $this->Translate('DHCP'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // on: (DHCP enabled), off: (DHCP disabled)
         $this->RegisterProfile('INSTAR.ip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('ip', $this->Translate('IP address'), 'INSTAR.ip', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN IPv4 Address
+        $this->SetupVariable(
+            'ip', $this->Translate('IP address'), 'INSTAR.ip', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // LAN IPv4 Address
         $this->RegisterProfile('INSTAR.netmask', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
             'netmask', $this->Translate('Subnetmask'), 'INSTAR.netmask', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // LAN Subnet Mask
         $this->RegisterProfile('INSTAR.gateway', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('gateway', $this->Translate('Gateway'), 'INSTAR.gateway', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN Gateway
+        $this->SetupVariable(
+            'gateway', $this->Translate('Gateway'), 'INSTAR.gateway', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // LAN Gateway
         $this->RegisterProfileAssociation(
             'INSTAR.DNS_State', '', '', '', 0, 1, 0, 0, VARIABLETYPE_BOOLEAN, [
                                   [false, $this->Translate('manually'), '', -1],
@@ -1952,14 +1960,20 @@ class INSTAR extends IPSModule
             'dnsstat', $this->Translate('Platform Status'), 'INSTAR.DNS_State', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // DNS Status: 0 (manually), 1 (from DHCP Server)
         $this->RegisterProfile('INSTAR.fdnsip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('fdnsip', $this->Translate('DNS Server'), 'INSTAR.fdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false); // Primary DNS
+        $this->SetupVariable(
+            'fdnsip', $this->Translate('DNS Server'), 'INSTAR.fdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // Primary DNS
         $this->RegisterProfile('INSTAR.sdnsip', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('sdnsip', $this->Translate('Secondary DNS'), 'INSTAR.sdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false); // Secondary DNS
+        $this->SetupVariable(
+            'sdnsip', $this->Translate('Secondary DNS'), 'INSTAR.sdnsip', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // Secondary DNS
         $this->SetupVariable(
             'macaddress', $this->Translate('LAN MAC Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
         );  // LAN MAC Address
         $this->RegisterProfile('INSTAR.networktype', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('networktype', $this->Translate('Network Type'), 'INSTAR.networktype', $this->_getPosition(), VARIABLETYPE_STRING, false); // LAN or WLAN
+        $this->SetupVariable(
+            'networktype', $this->Translate('Network Type'), 'INSTAR.networktype', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // LAN or WLAN
         $this->RegisterProfileAssociation(
             'INSTAR.UPnP', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                              [0, $this->Translate('ok'), '', -1],
@@ -1979,7 +1993,9 @@ class INSTAR extends IPSModule
             'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // INSTAR 3rd Party DDNS Status ok, off, failed
         $this->RegisterProfile('INSTAR.startdate', 'Clock', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('startdate', $this->Translate('Uptime:'), 'INSTAR.startdate', $this->_getPosition(), VARIABLETYPE_STRING, false); // Camera Uptime
+        $this->SetupVariable(
+            'startdate', $this->Translate('Uptime:'), 'INSTAR.startdate', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // Camera Uptime
         $this->RegisterProfileAssociation(
             'INSTAR.INSTAR_DDNS_State', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                                           [0, $this->Translate('ok'), '', -1],
@@ -2003,10 +2019,14 @@ class INSTAR extends IPSModule
         $this->SetupVariable('httpsport', $this->Translate('HTTPS port'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
         $this->SetupVariable('rtspport', $this->Translate('RTSP port'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
         $this->SetupVariable('rtsp_aenable', $this->Translate('RTSP Enabled'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
-        $this->SetupVariable('rtmpport', $this->Translate('RTMP Port for Flash Plugin'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        $this->SetupVariable(
+            'rtmpport', $this->Translate('RTMP Port for Flash Plugin'), 'INSTAR.port', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
         $this->SetupVariable('wf_enable', $this->Translate('WLAN Enabled'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
         $this->RegisterProfile('INSTAR.wf_ssid', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('wf_ssid', $this->Translate('SSID'), 'INSTAR.wf_ssid', $this->_getPosition(), VARIABLETYPE_STRING, false); // SSID (max. 32 Characters)
+        $this->SetupVariable(
+            'wf_ssid', $this->Translate('SSID'), 'INSTAR.wf_ssid', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // SSID (max. 32 Characters)
         $this->RegisterProfileAssociation(
             'INSTAR.wf_auth', 'Network', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                                 [0, $this->Translate('no encryption'), '', -1],
@@ -2335,9 +2355,13 @@ class INSTAR extends IPSModule
             'ft_port', $this->Translate('FTP port'), 'INSTAR.ft_port', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // FTP Server Port
         $this->RegisterProfile('INSTAR.ft_username', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('ft_username', $this->Translate('FTP Username'), 'INSTAR.ft_username', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Username
+        $this->SetupVariable(
+            'ft_username', $this->Translate('FTP Username'), 'INSTAR.ft_username', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // FTP Username
         $this->RegisterProfile('INSTAR.ft_password', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('ft_password', $this->Translate('FTP Password'), 'INSTAR.ft_password', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Password
+        $this->SetupVariable(
+            'ft_password', $this->Translate('FTP Password'), 'INSTAR.ft_password', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // FTP Password
         $this->RegisterProfileAssociation(
             'INSTAR.ft_mode', 'Network', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                 [0, $this->Translate('FTP Mode Port'), '', -1],
@@ -2347,7 +2371,9 @@ class INSTAR extends IPSModule
             'ft_mode', $this->Translate('FTP Mode'), 'INSTAR.ft_mode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
         $this->RegisterProfile('INSTAR.ft_dirname', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('ft_dirname', $this->Translate('FTP Directory'), 'INSTAR.ft_dirname', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Directory
+        $this->SetupVariable(
+            'ft_dirname', $this->Translate('FTP Directory'), 'INSTAR.ft_dirname', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); // FTP Directory
         $this->RegisterProfileAssociation(
             'INSTAR.ft_autocreatedir', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                          [0, $this->Translate('no'), '', -1],
@@ -2385,7 +2411,9 @@ class INSTAR extends IPSModule
             'videomode', $this->Translate('Videomode'), 'INSTAR.videomode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  Resolution CH11=1080p, CH12=320p, CH13=160p
         $this->RegisterProfile('INSTAR.vinorm', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
-        $this->SetupVariable('vinorm', $this->Translate('Videonorm'), 'INSTAR.vinorm', $this->_getPosition(), VARIABLETYPE_STRING, false); //  50Hz(PAL)
+        $this->SetupVariable(
+            'vinorm', $this->Translate('Videonorm'), 'INSTAR.vinorm', $this->_getPosition(), VARIABLETYPE_STRING, false
+        ); //  50Hz(PAL)
 
         $this->SetupVariable(
             'wdrmode', $this->Translate('Hardware Wide Dynamic Range'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -2444,8 +2472,8 @@ class INSTAR extends IPSModule
 
         $this->RegisterProfileAssociation(
             'INSTAR.brmode', '', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
-                            [0, $this->Translate('fixed bit rate'), '', -1],
-                            [1, $this->Translate('changeable bit rate'), '', -1]]
+                               [0, $this->Translate('fixed bit rate'), '', -1],
+                               [1, $this->Translate('changeable bit rate'), '', -1]]
         );
 
         $this->SetupVariable(
@@ -2466,7 +2494,7 @@ class INSTAR extends IPSModule
             'imagegrade_2', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  1 (low compression) -6 (high compression)
         $this->SetupVariable(
-        'imagegrade_3', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'imagegrade_3', $this->Translate('gop'), 'INSTAR.imagegrade', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  1 (low compression) -6 (high compression)
         $this->SetupVariable(
             'wdrauto', $this->Translate('Auto WDR'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
@@ -2505,19 +2533,23 @@ class INSTAR extends IPSModule
             'show_1_osd', $this->Translate('Display Camera Name'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         );
         $this->SetupVariable(
-            'start_position_activate_action', $this->Translate('Start position / activate action'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'start_position_activate_action', $this->Translate('Start position / activate action'), '~Switch', $this->_getPosition(),
+            VARIABLETYPE_BOOLEAN, true
         );
         $this->SetupVariable(
-            'start_position_select_action', $this->Translate('Start position / select action'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'start_position_select_action', $this->Translate('Start position / select action'), 'INSTAR.Position', $this->_getPosition(),
+            VARIABLETYPE_INTEGER, true
         ); // (0-7), integer
         $this->SetupVariable(
             'md_preset_switch', $this->Translate('Activate alarm position'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
         $this->SetupVariable(
-            'md_preset_switch_position', $this->Translate('Select alarm position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'md_preset_switch_position', $this->Translate('Select alarm position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER,
+            true
         ); // (0-7), integer
         $this->SetupVariable(
-            'timerpreset_enable', $this->Translate('Park function (active after 120 sec)'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'timerpreset_enable', $this->Translate('Park function (active after 120 sec)'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN,
+            true
         );  // De/Activate Park Position - [0, 1]
         $this->SetupVariable(
             'timerpreset_index', $this->Translate('Select park position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
@@ -2534,13 +2566,14 @@ class INSTAR extends IPSModule
         );
         $this->RegisterProfile('INSTAR.admin_value44', 'Clock', '', '', 0, 120, 1, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'admin_value44', $this->Translate('duration of manual recordings'), 'INSTAR.admin_value44', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'admin_value44', $this->Translate('duration of manual recordings'), 'INSTAR.admin_value44', $this->_getPosition(), VARIABLETYPE_INTEGER,
+            true
         );  // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
         $this->RegisterProfileAssociation(
             'INSTAR.infraredstat', 'Camera', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                                  [0, $this->Translate('auto'), '', -1],
-                                  [1, $this->Translate('open'), '', -1],
-                                  [2, $this->Translate('close'), '', -1]]
+                                     [0, $this->Translate('auto'), '', -1],
+                                     [1, $this->Translate('open'), '', -1],
+                                     [2, $this->Translate('close'), '', -1]]
         );
         $this->SetupVariable(
             'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
@@ -3082,8 +3115,7 @@ class INSTAR extends IPSModule
                             $value = 2;
                         }
                         $this->SetValue($ident, $value);
-                    }
-                    elseif ($ident == 'sdstatus') {
+                    } elseif ($ident == 'sdstatus') {
                         $value = $this->ReadAttributeString($ident);
                         if ($value == 'Out') {
                             $value = 0;
@@ -3093,8 +3125,7 @@ class INSTAR extends IPSModule
                             $value = 2;
                         }
                         $this->SetValue($ident, $value);
-                    }
-                    elseif ($ident == 'infraredstat') {
+                    } elseif ($ident == 'infraredstat') {
                         $value = $this->ReadAttributeString($ident);
                         if ($value == 'auto') {
                             $value = 0;
@@ -3104,7 +3135,7 @@ class INSTAR extends IPSModule
                             $value = 2;
                         }
                         $this->SetValue($ident, $value);
-                    }else {
+                    } else {
                         $value = $this->ReadAttributeInteger($ident);
                         $this->SetValue($ident, $value);
                     }
@@ -4589,6 +4620,12 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function EnableONVIF($ov_enable)
+    {
+        $this->WriteAttributeInteger('ov_enable', intval($ov_enable));
+        $this->SetONVIFConfiguration();
+    }
+
     /**
      * @return false|string
      */
@@ -4982,6 +5019,20 @@ class INSTAR extends IPSModule
         return $response;
     }
 
+    public function Gamma(int $gamma)
+    {
+        if ($gamma < 0) {
+            $gamma = 0;
+        }
+        if ($gamma > 100) {
+            $gamma = 100;
+        }
+        $this->SetValue('gamma', $gamma);
+        $this->WriteAttributeInteger('gamma', $gamma);
+        $response = $this->SetImageParameter();
+        return $response;
+    }
+
     /**
      * @param int $contrast [0 - 100] the bigger the value the more contrast the image has
      *
@@ -5205,6 +5256,18 @@ class INSTAR extends IPSModule
     public function EnableOSD_Time(bool $show_2)
     {
         $this->WriteAttributeInteger('show_1_osd', intval($show_2));
+        $this->SetOSDParameter();
+    }
+
+    public function SetOSDParameter1(string $name_0)
+    {
+        $this->WriteAttributeString('name_0_osd', $name_0);
+        $this->SetOSDParameter();
+    }
+
+    public function SetOSDParameter2(string $name_1)
+    {
+        $this->WriteAttributeString('name_1_osd', $name_1);
         $this->SetOSDParameter();
     }
 
@@ -6900,6 +6963,7 @@ class INSTAR extends IPSModule
      */
     public function GotoCenterPosition()
     {
+        $this->SetValue('Control_Scan', 0);
         $command = '-step=0&-act=home';
         $this->SendDebug('INSTAR:', 'goto center position', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -6913,6 +6977,7 @@ class INSTAR extends IPSModule
      */
     public function ScanHorizontal()
     {
+        $this->SetValue('Control_Scan', 1);
         $command = '-step=0&-act=hscan';
         $this->SendDebug('INSTAR:', 'Scan horizontal', 0);
         // $command = '-step=0&-act=hscan&-speed=45';
@@ -6927,6 +6992,7 @@ class INSTAR extends IPSModule
      */
     public function ScanVertical()
     {
+        $this->SetValue('Control_Scan', 2);
         $command = '-step=0&-act=vscan';
         $this->SendDebug('INSTAR:', 'Scan vertical', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7681,9 +7747,428 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             case 'wf_enable':
                 $this->EnableWIFI($Value);
                 break;
+            case 'noise':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'gamma':
+                $this->Gamma($Value);
+                break;
+            case 'upnpstatus':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'th3ddnsstatus':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'facddnsstatus':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'httpport':
+                $this->SetCameraHTTP_Port($Value);
+                break;
+            case 'httpsport':
+                $this->SetCameraHTTPS_Port($Value);
+                break;
+            case 'rtspport':
+                $this->SetCameraRTSP_Port($Value);
+                break;
+            case 'rtsp_aenable':
+                $this->SetRTSPAuthenticationState($Value);
+                break;
+            case 'rtmpport':
+                $this->SetCameraRTMP_Port($Value);
+                break;
+            case 'wf_ssid':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wf_auth':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm1_enable':
+                $this->SetAlarmZone1($Value);
+                break;
+            case 'm2_enable':
+                $this->SetAlarmZone2($Value);
+                break;
+            case 'm3_enable':
+                $this->SetAlarmZone3($Value);
+                break;
+            case 'm4_enable':
+                $this->SetAlarmZone4($Value);
+                break;
+            case 'm1_sensitivity':
+                $this->SetAlarmZone1Senitivity($Value);
+                break;
+            case 'm2_sensitivity':
+                $this->SetAlarmZone2Senitivity($Value);
+                break;
+            case 'm3_sensitivity':
+                $this->SetAlarmZone3Senitivity($Value);
+                break;
+            case 'm4_sensitivity':
+                $this->SetAlarmZone4Senitivity($Value);
+                break;
+            case 'm1_x':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm2_x':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm3_x':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm4_x':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm1_y':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm2_y':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm3_y':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm4_y':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm1_w':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm2_w':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm3_w':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm4_w':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm1_h':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm2_h':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm3_h':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'm4_h':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wf_key':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'show_1':
+                $this->SetPrivacyZone1($Value);
+                break;
+            case 'show_2':
+                $this->SetPrivacyZone2($Value);
+                break;
+            case 'show_3':
+                $this->SetPrivacyZone3($Value);
+                break;
+            case 'show_4':
+                $this->SetPrivacyZone4($Value);
+                break;
+            case 'color_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'color_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'color_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'color_4':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'x_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'x_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'x_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'x_4':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'y_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'y_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'y_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'y_4':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'w_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'w_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'w_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'w_4':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'h_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'h_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'h_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'h_4':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wf_enc':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wf_mode':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'our_enable':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3th_enable':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3th_service':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3th_uname':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3th_passwd':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3th_domain':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'upm_enable':
+                $this->SetUPNPConfiguration($Value);
+                break;
+            case 'ov_enable':
+                $this->EnableONVIF($Value);
+                break;
+            case 'ov_port':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ov_authflag':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ov_forbitset':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ov_subchn':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ov_snapchn':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'volume':
+                $this->SetVolume($Value);
+                break;
+            case 'volin_type':
+                $this->SetVolumeInputType($Value);
+                break;
+            case 'ao_volume':
+                $this->SetOutputVolume($Value);
+                break;
+            case 'aec':
+                $this->SetAudioEncoder($Value);
+                break;
+            case 'denoise':
+                $this->SetNoiseSurpression($Value);
+                break;
+            case 'aeswitch_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'aeswitch_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'aeswitch_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'chn':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'aeformat_1':
+                $this->SetVolumeInputType($Value);
+                break;
+            case 'aeformat_2':
+                $this->SetVolumeInputType($Value);
+                break;
+            case 'aeformat_3':
+                $this->SetVolumeInputType($Value);
+                break;
+            case 'ft_server':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_port':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_username':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_password':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_mode':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_dirname':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_autocreatedir':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_dirmode':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'ft_ssl':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'videomode':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'vinorm':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wdrmode':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'profile':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'maxchn':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wifimac':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'bps_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'bps_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'bps_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'fps_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'fps_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'fps_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'gop_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'gop_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'gop_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'brmode_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'brmode_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'brmode_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'imagegrade_1':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'imagegrade_2':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'imagegrade_3':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wdrauto':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wdrautval':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wdrmanval':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3noauto':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'd3noval':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'wdr':
+                // $this->EnableWIFI($Value);
+                break;
+            case 'name_0_osd':
+                $this->SetOSDParameter1($Value);
+                break;
+            case 'name_1_osd':
+                $this->SetOSDParameter2($Value);
+                break;
+            case 'show_0_osd':
+                $this->EnableOSD_Time($Value);
+                break;
+            case 'show_1_osd':
+                $this->EnableOSD_Name($Value);
+                break;
+            case 'start_position_activate_action':
+                $this->EnableStartPosition($Value);
+                break;
+            case 'start_position_select_action':
+                $this->SetStartPosition($Value);
+                break;
+            case 'md_preset_switch':
+                $this->EnableAlarmPosition($Value);
+                break;
+            case 'md_preset_switch_position':
+                $this->SetAlarmPosition($Value);
+                break;
+            case 'timerpreset_enable':
+                $this->EnableParkPosition($Value);
+                break;
+            case 'timerpreset_index':
+                $this->SetParkPosition($Value);
+                break;
+            case 'tour_parkposition':
+                $this->EnableTourParkPosition($Value);
+                break;
+            case 'admin_value46':
+                $this->EnableStepbyStepControl($Value);
+                break;
+            case 'ptz_tour_time':
+                $this->SetPTZTourTime($Value);
+                break;
+            case 'admin_value44':
+                $this->SetFileLengthManualRecordings($Value);
+                break;
+            case 'infraredstat':
+                // $this->EnableWIFI($Value);
+                break;
             default:
                 $this->SendDebug('INSTAR', 'Invalid ident', 0);
         }
+
+
     }
 
     //Profile
@@ -8860,7 +9345,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                                      'caption'  => 'Enable ONVIF',
                                      'visible'  => true,
                                      'value'    => boolval($this->ReadAttributeInteger('ov_enable')),
-                                     'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],
+                                     'onChange' => 'INSTAR_EnableONVIF($id, $ov_enable);'],
                                  [
                                      'name'     => 'ov_enable_enabled',
                                      'type'     => 'CheckBox',
@@ -9038,7 +9523,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'name'     => 'denoise',
                         'caption'  => 'Noise suppression',
                         'visible'  => true,
-                        'value'    => boolval($this->ReadAttributeInteger('aec')),
+                        'value'    => boolval($this->ReadAttributeInteger('denoise')),
                         'onChange' => 'INSTAR_SetNoiseSurpression($id, $denoise);'],
                     [
                         'name'     => 'denoise_enabled',
@@ -10598,7 +11083,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'name'     => 'ft_server',
                         'visible'  => true,
                         'caption'  => 'FTP Server',
-                        'value'    => $this->ReadAttributeString('FTP_Server'),
+                        'value'    => $this->ReadAttributeString('ft_server'),
                         'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
                         'name'     => 'ft_server_enabled',
