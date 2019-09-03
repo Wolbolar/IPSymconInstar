@@ -252,6 +252,16 @@ class INSTAR extends IPSModule
         'wdrmode',
         'wdrauto',
         'd3noauto',
+        'show_0_osd',
+        'show_1_osd',
+        'start_position_activate_action',
+        'timerpreset_enable',
+        'tour_parkposition',
+        'admin_value46',
+        'm1_enable',
+        'm2_enable',
+        'm3_enable',
+        'm4_enable',
         'profile'];
 
     private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex', 'color_1', 'color_2', 'color_3', 'color_4'];
@@ -932,22 +942,12 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeString(
             'admin_value31', ''
         ); // [FTP Server];[FTP User Name];[FTP User Password];[FTP Mode];[FTP Directory];[Auto Create Directory];[FTP Directory Mode];[FTP SSL]", e.g "192.168.178.1;21;ftpuser;1234;1;./Kamera;1;0;0
-        $this->RegisterAttributeString('FTP_Server', '');
-        $this->RegisterAttributeBoolean('FTP_Server_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('FTP_User_Name', '');
-        $this->RegisterAttributeBoolean('FTP_User_Name_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeString('FTP_User_Password', '');
-        $this->RegisterAttributeBoolean('FTP_User_Password_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('FTP_Mode', 0);
         $this->RegisterAttributeBoolean('FTP_Mode_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('FTP_Directory', '');
         $this->RegisterAttributeBoolean('FTP_Directory_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('Auto_Create_Directory', 0);
         $this->RegisterAttributeBoolean('Auto_Create_Directory_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('FTP_Directory_Mode', 0);
-        $this->RegisterAttributeBoolean('FTP_Directory_Mode_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('FTP_SSL', 0);
-        $this->RegisterAttributeBoolean('FTP_SSL_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('ftprec', 'on'); // Send Video to FTP Server
         $this->RegisterAttributeBoolean('ftprec_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('relay', 'on'); // Alarm Out Relay
@@ -1913,17 +1913,22 @@ class INSTAR extends IPSModule
 
 
         // Selected Variables
-        $this->SetupVariable('model', $this->Translate('Camera Model Identifier'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
-        $this->SetupVariable('hardVersion', $this->Translate('Hardware Version'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
-        $this->SetupVariable('softVersion', $this->Translate('Firmware Version'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
-        $this->SetupVariable('webVersion', $this->Translate('WebUI Version'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
-        $this->SetupVariable('name', $this->Translate('Name'), '', $this->_getPosition(), VARIABLETYPE_STRING, false);
-        $this->RegisterProfile('INSTAR.SD_Space_KB', '', '', ' KB', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->RegisterProfile('INSTAR.model', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('model', $this->Translate('Camera Model Identifier'), 'INSTAR.model', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->RegisterProfile('INSTAR.hardVersion', 'Robot', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('hardVersion', $this->Translate('Hardware Version'), 'INSTAR.hardVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->RegisterProfile('INSTAR.softVersion', 'Robot', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('softVersion', $this->Translate('Firmware Version'), 'INSTAR.softVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->RegisterProfile('INSTAR.webVersion', 'Notebook', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('webVersion', $this->Translate('WebUI Version'), 'INSTAR.webVersion', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->RegisterProfile('INSTAR.name', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('name', $this->Translate('Name'), 'INSTAR.name', $this->_getPosition(), VARIABLETYPE_STRING, false);
+        $this->RegisterProfile('INSTAR.SD_Space_KB', 'Notebook', '', ' KB', 0, 0, 0, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'sdfreespace', $this->Translate('SD free storage'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'sdfreespace', $this->Translate('SD free storage'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_INTEGER, false
         ); // SD free space，KB
         $this->SetupVariable(
-            'sdtotalspace', $this->Translate('SD capacity'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'sdtotalspace', $this->Translate('SD capacity'), 'INSTAR.SD_Space_KB', $this->_getPosition(), VARIABLETYPE_INTEGER, false
         ); // SD total space，KB
 
         $this->SetupVariable('platformstatus', $this->Translate('Platform Status'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, false);
@@ -1973,7 +1978,8 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // INSTAR 3rd Party DDNS Status ok, off, failed
-        $this->SetupVariable('startdate', $this->Translate('Camera Uptime'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // Camera Uptime
+        $this->RegisterProfile('INSTAR.startdate', 'Clock', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('startdate', $this->Translate('Uptime:'), 'INSTAR.startdate', $this->_getPosition(), VARIABLETYPE_STRING, false); // Camera Uptime
         $this->RegisterProfileAssociation(
             'INSTAR.INSTAR_DDNS_State', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                                           [0, $this->Translate('ok'), '', -1],
@@ -2320,24 +2326,28 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'aeformat_3', $this->Translate('Audio encode format channel 3'), 'INSTAR.aeformat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
-
+        $this->RegisterProfile('INSTAR.ft_server', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
-            'ft_server', $this->Translate('FTP Server Address'), '', $this->_getPosition(), VARIABLETYPE_STRING, false
+            'ft_server', $this->Translate('FTP Server'), 'INSTAR.ft_server', $this->_getPosition(), VARIABLETYPE_STRING, false
         ); // FTP Server Address
+        $this->RegisterProfile('INSTAR.ft_port', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER);
         $this->SetupVariable(
-            'ft_port', $this->Translate('FTP Server Port'), '', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ft_port', $this->Translate('FTP port'), 'INSTAR.ft_port', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // FTP Server Port
-        $this->SetupVariable('ft_username', $this->Translate('FTP Username'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Username
-        $this->SetupVariable('ft_password', $this->Translate('FTP Password'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Password
+        $this->RegisterProfile('INSTAR.ft_username', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('ft_username', $this->Translate('FTP Username'), 'INSTAR.ft_username', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Username
+        $this->RegisterProfile('INSTAR.ft_password', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('ft_password', $this->Translate('FTP Password'), 'INSTAR.ft_password', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Password
         $this->RegisterProfileAssociation(
-            'INSTAR.ft_mode', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+            'INSTAR.ft_mode', 'Network', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                 [0, $this->Translate('FTP Mode Port'), '', -1],
                                 [1, $this->Translate('Passive'), '', -1]]
         );
         $this->SetupVariable(
-            'ft_mode', $this->Translate('Audio encode format channel 1'), 'INSTAR.ft_mode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ft_mode', $this->Translate('FTP Mode'), 'INSTAR.ft_mode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );
-        $this->SetupVariable('ft_dirname', $this->Translate('FTP Directory'), '', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Directory
+        $this->RegisterProfile('INSTAR.ft_dirname', 'Network', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable('ft_dirname', $this->Translate('FTP Directory'), 'INSTAR.ft_dirname', $this->_getPosition(), VARIABLETYPE_STRING, false); // FTP Directory
         $this->RegisterProfileAssociation(
             'INSTAR.ft_autocreatedir', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
                                          [0, $this->Translate('no'), '', -1],
@@ -2348,21 +2358,21 @@ class INSTAR extends IPSModule
             true
         ); // Automatically create the directory 0 (no), 1 (yes)
         $this->RegisterProfileAssociation(
-            'INSTAR.ft_dirmode', '', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
-                                   [0, $this->Translate('Create a new Folder every Day'), '', -1],
-                                   [1, $this->Translate('All Files in One Directory'), '', -1]]
+            'INSTAR.ft_dirmode', 'Network', '', '', 0, 1, 0, 0, VARIABLETYPE_INTEGER, [
+                                   [0, $this->Translate('sort by day'), '', -1],
+                                   [1, $this->Translate('one folder'), '', -1]]
         );
         $this->SetupVariable(
-            'ft_dirmode', $this->Translate('FTP Direcotory Mode'), 'INSTAR.ft_dirmode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ft_dirmode', $this->Translate('FTP Directory Mode'), 'INSTAR.ft_dirmode', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         );  // 0 (Create a new Folder every Day), 1 (All Files in One Directory)
         $this->RegisterProfileAssociation(
             'INSTAR.ft_ssl', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                               [0, $this->Translate('None'), '', -1],
+                               [0, $this->Translate('no encryption'), '', -1],
                                [1, $this->Translate('SSL'), '', -1],
                                [2, $this->Translate('TLS'), '', -1]]
         );
         $this->SetupVariable(
-            'ft_ssl', $this->Translate('FTPS Encryption'), 'INSTAR.ft_ssl', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+            'ft_ssl', $this->Translate('FTP SSL'), 'INSTAR.ft_ssl', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // FTPS Encryption - 0：None, 1：SSL, 2: TLS
         $this->RegisterProfileAssociation(
             'INSTAR.videomode', 'Camera', '', '', 11, 41, 0, 0, VARIABLETYPE_INTEGER, [
@@ -2477,16 +2487,71 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'd3noval', $this->Translate('Noise Reduction Strength'), 'INSTAR.d3noval', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); //  3D Noise Reduction Strength: [0-255]
-
-
+        $this->SetupVariable(
+            'wdr', $this->Translate('Software Wide Dynamic Range'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); //  Software Wide Dynamic Range Mode: [on, off]
+        $this->RegisterProfile('INSTAR.name_0_osd', 'Clock', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable(
+            'name_0_osd', $this->Translate('OSD Time'), 'INSTAR.name_0_osd', $this->_getPosition(), VARIABLETYPE_STRING, true
+        );
+        $this->RegisterProfile('INSTAR.name_1_osd', 'Menu', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
+        $this->SetupVariable(
+            'name_1_osd', $this->Translate('OSD Name'), 'INSTAR.name_1_osd', $this->_getPosition(), VARIABLETYPE_STRING, true
+        );
+        $this->SetupVariable(
+            'show_0_osd', $this->Translate('Display Time Stamp'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );
+        $this->SetupVariable(
+            'show_1_osd', $this->Translate('Display Camera Name'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );
+        $this->SetupVariable(
+            'start_position_activate_action', $this->Translate('Start position / activate action'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );
+        $this->SetupVariable(
+            'start_position_select_action', $this->Translate('Start position / select action'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // (0-7), integer
+        $this->SetupVariable(
+            'md_preset_switch', $this->Translate('Activate alarm position'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        ); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
+        $this->SetupVariable(
+            'md_preset_switch_position', $this->Translate('Select alarm position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // (0-7), integer
+        $this->SetupVariable(
+            'timerpreset_enable', $this->Translate('Park function (active after 120 sec)'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );  // De/Activate Park Position - [0, 1]
+        $this->SetupVariable(
+            'timerpreset_index', $this->Translate('Select park position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // (0-7), integer
+        $this->SetupVariable(
+            'tour_parkposition', $this->Translate('Use tour as parking position'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );  // De/Activate Park Position - [0, 1]
+        $this->SetupVariable(
+            'admin_value46', $this->Translate('Activate step by step control'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+        );  // De/Activate One-Step Pan&Tilt Control - [0, 1]
+        $this->RegisterProfile('INSTAR.ptz_tour_time', 'Clock', '', '', 0, 120, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'ptz_tour_time', $this->Translate('Dwell time in seconds'), 'INSTAR.ptz_tour_time', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );
+        $this->RegisterProfile('INSTAR.admin_value44', 'Clock', '', '', 0, 120, 1, 0, VARIABLETYPE_INTEGER);
+        $this->SetupVariable(
+            'admin_value44', $this->Translate('duration of manual recordings'), 'INSTAR.admin_value44', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        );  // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
+        $this->RegisterProfileAssociation(
+            'INSTAR.infraredstat', 'Camera', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                  [0, $this->Translate('auto'), '', -1],
+                                  [1, $this->Translate('open'), '', -1],
+                                  [2, $this->Translate('close'), '', -1]]
+        );
+        $this->SetupVariable(
+            'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // IR LED Status - auto, close (deactivated)
 
         /*
-         *
-
-
-
-        $this->SetupVariable('wdr', 'on'); //  Software Wide Dynamic Range Mode: [on, off]
-
+        $this->SetupVariable('m1_threshold', 0); // Detection Threshold (not active)
+        $this->SetupVariable('m2_threshold', 0); // Detection Threshold (not active)
+        $this->SetupVariable('m3_threshold', 0); // Detection Threshold (not active)
+        $this->SetupVariable('m4_threshold', 0); // Detection Threshold (not active)
+        $this->SetupVariable('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
 
         $this->SetupVariable('width_1', 1920); //  Video width
 
@@ -2502,8 +2567,6 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('display_mode', 0); //  Current 0: black and white mode 1: color mode
 
-
-
         $this->SetupVariable('night', 'off'); //  Night mode 0 (inactive) off, 1 (active) on
 
         $this->SetupVariable('shutter', 0); //  Shutter Speed [0 - 65535]
@@ -2515,14 +2578,6 @@ class INSTAR extends IPSModule
         $this->SetupVariable('aemode', 0); //  Auto-Exposure mode, the range: 0 Automatic, 1 Indoor, 2 Outdoor
 
         $this->SetupVariable('imgmode', 0); //  Image priority mode: 0: Frame rate priority, 1: Illumination priority
-
-
-
-
-
-
-
-
 
 
         $this->SetupVariable('gcauto', 0); //  Signal Gain: 0 (auto), 1 (manual)
@@ -2582,7 +2637,7 @@ class INSTAR extends IPSModule
         $this->SetupVariable('ma_text', ''); // Mail Content
 
 
-        $this->SetupVariable('infraredstat', ''); // IR LED Status - auto, close (deactivated)
+
 
         $this->SetupVariable('panspeed', 0); // fast (0) - slow (2)
 
@@ -2602,17 +2657,15 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('initpresetindex', 0); // [1-8]; - Position Camera goes to after Restart
 
-        $this->SetupVariable('md_preset_switch', 'on'); // Go to [alarmpresetindex] (Alarm Position) at Alarm Event - [on, off]
 
-        $this->SetupVariable('timerpreset_enable', 0); // De/Activate Park Position - [0, 1]
+
+
 
         $this->SetupVariable('timerpreset_index', 1); // Select Park Position - [1 - 8]
 
         $this->SetupVariable('timerpreset_interval', 30); // Time before going back to Park Position in seconds - [30 - 900]
 
-        $this->SetupVariable('admin_value46', 46); // De/Activate One-Step Pan&Tilt Control - [0, 1]
 
-        $this->SetupVariable('tour_enable', 0); // De/Activate PTZ Tour [0, 1]
 
         $this->SetupVariable('tour_times', 1); // Number of Rounds [1 - 50]
 
@@ -2624,7 +2677,7 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('light2_enable', 'on'); // Power LED - [on, off]
 
-        $this->SetupVariable('admin_value44', 44); // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
+
 
         $this->SetupVariable('emailsnap', 'on'); // E-mail Alarm / Send Snapshot
 
@@ -2676,30 +2729,7 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('admin17', 17); // admin17
 
-        $this->SetupVariable('m1_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
 
-        $this->SetupVariable('m2_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-
-        $this->SetupVariable('m3_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-
-        $this->SetupVariable('m4_enable', 0); // Dis/Enable Alarm Detection Area 1 - 4: [0, 1]
-
-
-        $this->SetupVariable('m1_sensitivity', 0); // Detection Sensitivity [1 - 100]
-
-        $this->SetupVariable('m2_sensitivity', 0); // Detection Sensitivity [1 - 100]
-
-        $this->SetupVariable('m3_sensitivity', 0); // Detection Sensitivity [1 - 100]
-
-        $this->SetupVariable('m4_sensitivity', 0); // Detection Sensitivity [1 - 100]
-
-        $this->SetupVariable('m1_threshold', 0); // Detection Threshold (not active)
-
-        $this->SetupVariable('m2_threshold', 0); // Detection Threshold (not active)
-
-        $this->SetupVariable('m3_threshold', 0); // Detection Threshold (not active)
-
-        $this->SetupVariable('m4_threshold', 0); // Detection Threshold (not active)
 
         $this->SetupVariable(
             'as_week0', 'NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN'
@@ -3009,7 +3039,7 @@ class INSTAR extends IPSModule
                     if ($key > 0) {
                         // Fix Variable without Attribute
                     } else {
-                        if ($ident == 'flip' || $ident == 'mirror') {
+                        if ($ident == 'flip' || $ident == 'mirror' || $ident == 'md_preset_switch') {
                             $value = $this->ReadAttributeString($ident);
                             if ($value == 'on') {
                                 $value = true;
@@ -3052,7 +3082,29 @@ class INSTAR extends IPSModule
                             $value = 2;
                         }
                         $this->SetValue($ident, $value);
-                    } else {
+                    }
+                    elseif ($ident == 'sdstatus') {
+                        $value = $this->ReadAttributeString($ident);
+                        if ($value == 'Out') {
+                            $value = 0;
+                        } elseif ($value == 'Ready') {
+                            $value = 1;
+                        } else {
+                            $value = 2;
+                        }
+                        $this->SetValue($ident, $value);
+                    }
+                    elseif ($ident == 'infraredstat') {
+                        $value = $this->ReadAttributeString($ident);
+                        if ($value == 'auto') {
+                            $value = 0;
+                        } elseif ($value == 'open') {
+                            $value = 1;
+                        } else {
+                            $value = 2;
+                        }
+                        $this->SetValue($ident, $value);
+                    }else {
                         $value = $this->ReadAttributeInteger($ident);
                         $this->SetValue($ident, $value);
                     }
@@ -3538,6 +3590,7 @@ class INSTAR extends IPSModule
         $this->GetCameraUI_LanguageConfiguration();
         $this->GetCameraSystemLog();
         $this->GetCameraRebootAutomatically();
+        $this->GetIRMode();
     }
 
     public function SendPushNotificationTest(int $state_id, bool $force_send)
@@ -4005,7 +4058,7 @@ class INSTAR extends IPSModule
                 $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
                 $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
             } else {
-                if ($var_name == 'dhcpflag' || $var_name == 'flip' || $var_name == 'mirror') {
+                if ($var_name == 'dhcpflag' || $var_name == 'flip' || $var_name == 'mirror' || $var_name == 'md_preset_switch') {
                     if ($var_content == 'off') {
                         $bool_var_content = false;
                     } elseif ($var_content == 'on') {
@@ -5452,10 +5505,8 @@ class INSTAR extends IPSModule
     public function GetIRMode()
     {
         $payload = $this->SendParameter('getinfrared');
-        $data    = explode('"', $payload);
-        $mode    = $data[1];
-        $this->SendDebug('INSTAR', 'IR mode: ' . $mode, 0);
-        return $mode;
+        $data    = $this->SplitPayload($payload);
+        return $data;
     }
 
     /** IR LED Auto
@@ -9579,12 +9630,12 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'   => $this->ReadAttributeString('name_1_osd'),
                         'onClick' => 'INSTAR_SetOSDParameters($id, $name_0_osd, $name_1_osd);'],
                     [
-                        'name'     => 'name_0_osd_enabled',
+                        'name'     => 'name_1_osd_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('name_0_osd_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "name_0_osd_enabled", $name_0_osd_enabled);'],]],
+                        'value'    => $this->ReadAttributeBoolean('name_1_osd_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "name_1_osd_enabled", $name_1_osd_enabled);'],]],
             [
                 'type'    => 'RowLayout',
                 'visible' => true,
@@ -10563,7 +10614,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'    => 'NumberSpinner',
                         'name'    => 'ft_port',
-                        'caption' => 'FTP Port',
+                        'caption' => 'FTP port',
                         'visible' => true,
                         'value'   => $this->ReadAttributeInteger('ft_port'),
                         'onClick' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
@@ -10604,7 +10655,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeString('ft_password'),
                         'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
-                        'name'     => 'FTP_User_Password_enabled',
+                        'name'     => 'ft_password_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
@@ -10649,7 +10700,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'value'    => $this->ReadAttributeString('ft_dirname'),
                         'onChange' => 'INSTAR_SetFTPParameter($id, $ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode);'],
                     [
-                        'name'     => 'FTP_User_Password_enabled',
+                        'name'     => 'ft_dirname_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
@@ -10692,7 +10743,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                         'caption'  => 'FTP SSL',
                         'options'  => [
                             [
-                                'caption' => 'no encrytion',
+                                'caption' => $this->Translate('no encrytion'),
                                 'value'   => 0],
                             [
                                 'caption' => 'SSL',
@@ -10965,7 +11016,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'     => 'Select',
                         'name'     => 'timerpreset_index',
-                        'caption'  => 'Wide Dynamic Range',
+                        'caption'  => 'Select park position',
                         'options'  => [
                             [
                                 'caption' => $this->Translate('Position 1'),
@@ -11084,19 +11135,19 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'items'   => [
                     [
                         'type'     => 'HorizontalSlider',
-                        'name'     => 'wdrmanval',
+                        'name'     => 'admin_value44',
                         'caption'  => 'duration of manual recordings',
                         'minimum'  => 0,
                         'maximum'  => 600,
-                        'value'    => $this->ReadAttributeInteger('wdrmanval'),
-                        'onChange' => 'INSTAR_SetFileLengthManualRecordings($id, $wdrmanval);'],
+                        'value'    => $this->ReadAttributeInteger('admin_value44'),
+                        'onChange' => 'INSTAR_SetFileLengthManualRecordings($id, $admin_value44);'],
                     [
-                        'name'     => 'wdrmanval_enabled',
+                        'name'     => 'admin_value44_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
                         'visible'  => true,
-                        'value'    => $this->ReadAttributeBoolean('wdrmanval_enabled'),
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "wdrmanval_enabled", $wdrmanval_enabled);'],]],];
+                        'value'    => $this->ReadAttributeBoolean('admin_value44_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "admin_value44_enabled", $admin_value44_enabled);'],]],];
         return $form;
     }
 
@@ -11985,40 +12036,40 @@ as_password[0]="";
                 'items' => [
                     [
                         'type'    => 'Label',
-                        'name'    => 'label_webVersion',
+                        'name'    => 'label_infraredstat',
                         'caption' => 'Nachtsicht'],
                     [
                         'type'    => 'Label',
-                        'name'    => 'webVersion',
-                        'caption' => $this->ReadAttributeString('webVersion')],
+                        'name'    => 'infraredstat',
+                        'caption' => $this->ReadAttributeString('infraredstat')],
                     [
-                        'name'     => 'webVersion_enabled',
+                        'name'     => 'infraredstat_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "webVersion_enabled", $webVersion_enabled);'],]],
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "infraredstat_enabled", $infraredstat_enabled);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'Label',
-                        'name'    => 'label_webVersion',
-                        'caption' => 'SD-State'],
+                        'name'    => 'label_sdstatus',
+                        'caption' => 'SD Card'],
                     [
                         'type'    => 'Label',
-                        'name'    => 'webVersion',
-                        'caption' => $this->ReadAttributeString('webVersion')],
+                        'name'    => 'sdstatus',
+                        'caption' => $this->ReadAttributeString('sdstatus')],
                     [
-                        'name'     => 'webVersion_enable',
+                        'name'     => 'sdstatus_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],]],
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "sdstatus_enabled", $sdstatus_enabled);'],]],
             [
                 'type'  => 'RowLayout',
                 'items' => [
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdtotalspace',
-                        'caption' => 'SD capacity:'],
+                        'caption' => 'SD Capacity'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdtotalspace',
@@ -12034,7 +12085,7 @@ as_password[0]="";
                     [
                         'type'    => 'Label',
                         'name'    => 'label_sdfreespace',
-                        'caption' => 'SD free storage:'],
+                        'caption' => 'SD Free Space'],
                     [
                         'type'    => 'Label',
                         'name'    => 'sdfreespace',
@@ -12081,17 +12132,17 @@ as_password[0]="";
                 'items' => [
                     [
                         'type'    => 'Label',
-                        'name'    => 'label_sdfreespace',
+                        'name'    => 'label_startdate',
                         'caption' => 'Uptime:'],
                     [
                         'type'    => 'Label',
-                        'name'    => 'sdfreespace',
-                        'caption' => $this->ReadAttributeInteger('sdfreespace') . ' KB'],
+                        'name'    => 'startdate',
+                        'caption' => $this->ReadAttributeString('startdate')],
                     [
-                        'name'     => 'sdfreespace_enable',
+                        'name'     => 'startdate_enabled',
                         'type'     => 'CheckBox',
                         'caption'  => 'Create Variable for Webfront',
-                        'onChange' => 'INSTAR_SetWebFrontVariable($id, $name, $value);'],]],
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "startdate_enabled", $startdate_enabled);'],]],
 
 
         ];
