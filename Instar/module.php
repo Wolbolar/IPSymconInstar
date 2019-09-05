@@ -8486,10 +8486,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 $this->_debug('profile', 'Variable profile type does not match for profile ' . $Name);
             }
         }
-
+        $profile = IPS_GetVariableProfile($Name);
+        $profile_type =  $profile['ProfileType'];
         IPS_SetVariableProfileIcon($Name, $Icon);
         IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-        if ($Vartype != VARIABLETYPE_STRING) {
+        if ($profile_type != VARIABLETYPE_STRING) {
             IPS_SetVariableProfileDigits($Name, $Digits); //  Nachkommastellen
             IPS_SetVariableProfileValues(
                 $Name, $MinValue, $MaxValue, $StepSize
