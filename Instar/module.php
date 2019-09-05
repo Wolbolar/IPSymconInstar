@@ -469,6 +469,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('networktype_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('th3ddnsstatus', 'ok'); // INSTAR 3rd Party DDNS Status ok, off, failed
         $this->RegisterAttributeBoolean('th3ddnsstatus_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('upnpstatus', 'ok'); // UPNP ok, off, failed
+        $this->RegisterAttributeBoolean('upnpstatus_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('startdate', ''); // Camera Uptime
         $this->RegisterAttributeBoolean('startdate_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('facddnsstatus', 'ok'); // INSTAR DDNS Status ok, off, failed
@@ -1981,6 +1983,15 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'th3ddnsstatus', $this->Translate('INSTAR 3rd Party DDNS Status'), 'INSTAR.DDNS_State', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // INSTAR 3rd Party DDNS Status ok, off, failed
+        $this->RegisterProfileAssociation(
+            'INSTAR.upnpstatus', '', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                          [0, $this->Translate('ok'), '', -1],
+                                          [1, $this->Translate('off'), '', -1],
+                                          [2, $this->Translate('failed'), '', -1]]
+        );
+        $this->SetupVariable(
+            'upnpstatus', $this->Translate('INSTAR UPNP Status'), 'INSTAR.upnpstatus', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // INSTAR UPNP Status ok, off, failed
         $this->RegisterProfile('INSTAR.startdate', 'Clock', '', '', 0, 0, 0, 0, VARIABLETYPE_STRING);
         $this->SetupVariable(
             'startdate', $this->Translate('Uptime:'), 'INSTAR.startdate', $this->_getPosition(), VARIABLETYPE_STRING, false
