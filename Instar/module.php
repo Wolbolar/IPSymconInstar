@@ -13038,7 +13038,7 @@ as_password[0]="";
                         'name'     => 'at_enable1',
                         'type'     => 'CheckBox',
                         'visible'  => true,
-                        'caption'  => 'active user',
+                        'caption'  => 'Activate user',
                         'value'    => boolval($this->ReadAttributeInteger('at_enable1')),
                         'onChange' => 'INSTAR_EnableUser($id, $at_enable1);'],]],
 
@@ -13064,7 +13064,7 @@ as_password[0]="";
                         'name'     => 'at_enable2',
                         'type'     => 'CheckBox',
                         'visible'  => true,
-                        'caption'  => 'active guest',
+                        'caption'  => 'Activate guest',
                         'value'    => boolval($this->ReadAttributeInteger('at_enable2')),
                         'onChange' => 'INSTAR_EnableGuest($id, $at_enable2);'],]],
             [
@@ -13168,7 +13168,7 @@ as_password[0]="";
                         'caption' => 'English',
                         'value'   => 'en'],
                     [
-                        'caption' => 'Frensh',
+                        'caption' => 'French',
                         'value'   => 'fr'],
                     [
                         'caption' => 'Japanese',
