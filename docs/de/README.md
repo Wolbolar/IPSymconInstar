@@ -26,7 +26,7 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
 
  - Steuerung ( hoch, runter, links, rechts, stop) 
  - Position setzten und anfahren
- - Kamera Einstellungen (Kontrast, Helligkeit, Farbe)
+ - Kamera Einstellungen (entsprechend den Einstellungen im INSTAR Kkamera Menü)
  - es werden sämtliche von INSTAR beschriebenen Befehle über das CGI (Common Gateway Interface) unterstützt
 
 ### Status Rückmeldung:  
@@ -41,8 +41,8 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
 
  - IP-Symcon 5.2
  - [INSTAR](https://www.instar.de/ "INSTAR") Kamera
- - der Master Branch ist für die aktuelle IP-Symcon Version ausgelegt.
- - bei IP-Symcon Versionen kleiner 5.1 ist der Branch _5.0_ zu wählen
+ - der Master Branch ist für die aktuelle IP-Symcon Version (min 5.2) ausgelegt.
+
 
 ## 3. Installation
 
@@ -87,27 +87,90 @@ und _INSTAR_ auswählen.
  
 Im Konfigurationsformular ist zunächst das passende Kamera Modell von INSTAR auszuwählen.
 
-
-
-
 ## 4. Funktionsreferenz
 
 ### INSTAR:
 
-Die IP Adresse der INSTAR Kamera sowie Username sowie Passwort von INSTAR sind anzugeben.
-Es wird bei jedem Event eine Mitteilung an IP-Symcon gesendet.
-Mit Hilfe eines Ereignisses was bei Variablenaktualisierung greift können dann in IP-Symcon weitere Aktionen
-ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Bilder.
+Zunächst ist das passende Kameramodel auszuwählen und die IP Adresse der INSTAR Kamera einzutragen.
+
+![menu1](img/instar_menu_1.png?raw=true "menu 1") 
+
+Als Nutzer ist der Admin Username sowie Passwort von INSTAR anzugeben.
+
+![menu2](img/instar_menu_2.png?raw=true "menu 2")
+
+Unter _Bild Einstellungen_ ist die vorher angelegte Kategorie auszuwählen unter der die Bilder bei Anforderung oder einem Ereignis abgelegt werden sollen.
+Ergänzend können hier Einstellungen zum Auflösung der gespeicherten Bilder sowie dem Kamerabild getroffen werden.
+
+![menu3](img/instar_menu_3.png?raw=true "menu 3") 
+
+Nachdem der Alarmserver eingerichtet worden ist wird optional bei jedem Event eine Mitteilung von IP-Symcon gesendet.
+
+![menu4](img/instar_menu_4.png?raw=true "menu 4")
+
+Dazu kann pro Alarmtyp ein gewünschter Benachrichtigungston ausgewählt werden. Damit eine Psuhnachricht verschickt werden kann ist ein Webfront auszuwählen.
+Wenn keine Push Nachricht geschikct werden soll kann die Benachrichtigung auch deaktiviert werden.
+
+Zunächst muss aber der Alarmserver eingerichtet werden nachdem die Kamera Daten und die Nutzerdaten hinterlegt worden sind.
+Dazu ist das Alarmserver Menü zu öffnen.
+
+![menu5](img/instar_menu_5.png?raw=true "menu 5")
+
+Wenn sich die Kamera in gleichen lokalen Netzwerk wie IP-Symcon befindet kann hier _IP-Symcon im lokalen Netzwerk_ ausgewählt werden.
+Sollte sich die Kamera an einem anderen Standort befinden z.B. einem Ferienhaus ist hier IP-Symcon Connect zu wählen.
+
+![menu6](img/instar_menu_6.png?raw=true "menu 6") 
+
+Abschließend ist auf den Button _*ALARMSERVER EINSTELLUNGEN ÜBERTRAGEN*_ zu drücken damit die Werte an die INSTAR Kamera übertragen werden.
 
 
+### Webfront:
 
+Im Webfront werden Standard Funktionen zum Schalten angelegt, des weiteren kann man dann im Webfront gespeicherte Bilder und das Live bild einsehen.
+
+
+![webfront1](img/instar_webfront_1.png?raw=true "webfront_1")
+
+Die Menüstruktur der INSTAR Instanz entspricht dem INSTAR Kamera Menü. Wenn man weitere Funktionen direkt aus dem Webfront schalten will oder eine Variable zum
+Schalten über ergänzende Visualisierungstools nutzten will, kann man neben dem entsprechenden Eintrag optional eine Varibale für den Webfront anlegen lassen. 
+
+![webfront2](img/instar_webfront_2.png?raw=true "webfront_2")
+
+Die Werte lassen sich sowohl in der Instanz selber einstellen also auch im Webfront.
+
+![webfront3](img/instar_webfront_3.png?raw=true "webfront_3") 
+
+Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten Bilder.
+ 
 #### Anwendungsbeispiele
+
+##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
+
+Die INSTAR Kamera verfügt über 8 abspeicherbare Positionen die von der Kamera angefahren werden können. dazu ist zunächst einmal jede Position anzufahren und dann abzuspeichern, anschließend kann die entsprechnde Position direkt angefahren werden.
+
+Mit Hilfe eines Wochenplans kann man nun definieren an welchen tagen und zu welcher Uhrzeit welche Position angefahren werden soll.
+
+![weekplan1](img/instar_weekplan1.png?raw=true "weekplan1")
+
+Dazu stellt man zunächst die gewünschten Einstellngen im Wochenplan selber ein indem man diesen in der Konsole mit einem Doppelklick öffnet.
+Im Webfront kann man dann den Wochenplan konfigurieren und definieren zu welcher Zeit welche Position angefahren werden soll.
+
+![weekplan2](img/instar_weekplan2.png?raw=true "weekplan2") 
+
+##### Anfahren zu einer bestimmten Position ausgelöst durch einen Bewegungsmelder
+
+Man kann daurch einen Bewegungsmelder der IP-Symcon bekannt ist, sei die nun KNX, LCN, Homematic oder alle Systeme die von IP-Symcon unterstützt werden,
+die kamera auf eine bestimmte Position anfahren. Angenommen in der Einfahrt löst ein Bewegungsmelder aus kann dann die Kamera automatisch auf den passenden Bildbereich schwenken.
+
+Hierzu wird ein Ereignis in IP-Symcon angelegt. Als Auslöser wird die Variable des Bewegungsmelders ausgewählt als Instanz die Kamera selber.
+
+![triggerevent](img/instar_trigger_event.png?raw=true "trigger event") 
+
+Was passieren soll kann man dann frei nach Ereigniss definieren z.B. eine Position anfahren oder ein Schnappschuss erstellen.
 
 ##### Auslösen eines Alarms durch ein Ereigniss (nur Full HD Modelle)
 
 ##### Aktivieren der Nachtsicht abhängig von einem externen Sensor
-
-##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
 
 ##### Zeitgesteuertes aktivieren der Bewegungserkennungsbereiche
 
@@ -117,9 +180,33 @@ ausgelöst werden. Das Livebild kann in IP-Symcon eingesehen werden sowie die Hi
 
 ##### Definierte Position bei einem Ereignis anfahren
 
+Sobald ein Ereignis auslöst ist dies im Webfront zu sehen. Es kann eingesehen werden welcher Alarmtyp von der Kamera ausgelöst wurde und wann das Ereigniss eingetreten ist.
+
+Will man nun eine bestimmte Position anfahren erstellt man einfach ein Ereigniss durch 
+
+![plus](img/plus.png?raw=true "plus")
+
+![plus](img/ereignis.png?raw=true "ereignis")
+
+Als Typ wählt man _Ausgelöst_
+
+![trigger](img/ereignis_trigger.png?raw=true "ereignis trigger")
+
+Als Auslösende Variable wird _**Alarm Benachrichtigung**_ ausgewählt. Als Aktion dann die Position die angefahren werden soll.
+
+![trigger1](img/ereignis_trigger1.png?raw=true "ereignis trigger")
+
 ##### Länge eines Aufnahmevideos bestimmen
 
+Die Länge von Aufzeichnungen kann in der Instanz eingestellt werden oder optional auch über den Webfront.
+
+![aufzeichnung](img/aufzeichnung.png?raw=true "aufzeichnung")
+
 ##### Suchen einer Lärmquelle bei Audioerkennung
+
+Wenn ein Audio Alarm ausgelöst wurde kann man z.B. die Kamera in den Scan Modus versetzten um im Sichtbreich nach der Quelle des Audioalarms zu suchen.
+
+![aufzeichnung](img/audio.png?raw=true "audio")
 
 
 
