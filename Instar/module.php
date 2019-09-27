@@ -1806,6 +1806,34 @@ class INSTAR extends IPSModule
         $this->SetupVariable(
             'Control_Step', $this->Translate('Stepped movement'), 'INSTAR.Control.Step', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         );
+        $model            = $this->ReadPropertyInteger('model_type');
+
+        if($model == self::IN_9020_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9008_Full_HD)
+        {
+            $this->SendParameter('preset&-act=set&-status=1&-number=91');
+            $this->SendParameter('preset&-act=set&-status=1&-number=92');
+
+            $this->RegisterProfileAssociation(
+                'INSTAR.Control.Scan_9x', 'Move', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                         [0, $this->Translate('Center'), '', -1],
+                                         [1, $this->Translate('Scan Horizontal'), '', -1]]
+            );
+            $this->SetupVariable(
+                'Control_Scan', $this->Translate('Control Scan'), 'INSTAR.Control.Scan_9x', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            );
+        }
+        else
+        {
+            $this->RegisterProfileAssociation(
+                'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                         [0, $this->Translate('Center'), '', -1],
+                                         [1, $this->Translate('Scan Horizontal'), '', -1],
+                                         [2, $this->Translate('Scan Vertical'), '', -1]]
+            );
+            $this->SetupVariable(
+                'Control_Scan', $this->Translate('Control Scan'), 'INSTAR.Control.Scan', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
+            );
+        }
         $this->RegisterProfileAssociation(
             'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                                      [0, $this->Translate('Center'), '', -1],
@@ -1851,13 +1879,19 @@ class INSTAR extends IPSModule
         $this->SetupVariable('flip', $this->Translate('Flip'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
         $this->SetupVariable('mirror', $this->Translate('Mirror'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
 
-        $this->RegisterProfileAssociation(
-            'INSTAR.Scene', 'Image', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                              [0, $this->Translate('Auto'), '', -1],
-                              [1, $this->Translate('Indoor'), '', -1],
-                              [2, $this->Translate('Outdoor'), '', -1]]
-        );
-        $this->SetupVariable('scene', $this->Translate('Scene'), 'INSTAR.Scene', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+
+
+        if($model == self::IN_3011)
+        {
+            $this->RegisterProfileAssociation(
+                'INSTAR.Scene', 'Image', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                  [0, $this->Translate('Auto'), '', -1],
+                                  [1, $this->Translate('Indoor'), '', -1],
+                                  [2, $this->Translate('Outdoor'), '', -1]]
+            );
+            $this->SetupVariable('scene', $this->Translate('Scene'), 'INSTAR.Scene', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
+        }
+
         $this->RegisterProfileAssociation(
             'INSTAR.IRLED', 'Bulb', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
                               [0, $this->Translate('Auto'), '', -1],
@@ -7271,9 +7305,18 @@ class INSTAR extends IPSModule
     {
         $this->SetValue('Control_Scan', 1);
         $this->SendDebug('INSTAR:', 'Scan horizontal', 0);
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_9020_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9008_Full_HD)
+        {
+            $parameter = '&-act=goto&-number=88';
+            $state = $this->SendParameter('preset' . $parameter);
+        }
+        else
+        {
+            $parameter = '&-step=0&-act=hscan';
+            $state = $this->SendParameter('ptzctrl' . $parameter);
+        }
         // $command = '-step=0&-act=hscan&-speed=45';
-        $parameter = '&-step=0&-act=hscan';
-        $state = $this->SendParameter('ptzctrl' . $parameter);
         return $state;
     }
 

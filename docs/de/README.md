@@ -128,6 +128,7 @@ Abschließend ist auf den Button _*ALARMSERVER EINSTELLUNGEN ÜBERTRAGEN*_ zu dr
 
 Im Webfront werden Standard Funktionen zum Schalten angelegt, des weiteren kann man dann im Webfront gespeicherte Bilder und das Live bild einsehen.
 
+![webfront1](img/instar_webfront_pic.png?raw=true "webfront_pic")
 
 ![webfront1](img/instar_webfront_1.png?raw=true "webfront_1")
 
