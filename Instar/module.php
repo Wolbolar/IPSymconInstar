@@ -2156,16 +2156,16 @@ class INSTAR extends IPSModule
         );  // Key max. 63 Characters (Allowed special characters: &='`)
 
         $this->SetupVariable(
-            'show_1', $this->Translate('Zone 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'show_1', $this->Translate('Privacy Zone 1'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // Dis/Enable Area 1 - 4: [0, 1]
         $this->SetupVariable(
-            'show_2', $this->Translate('Zone 2'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'show_2', $this->Translate('Privacy Zone 2'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // Dis/Enable Area 1 - 4: [0, 1]
         $this->SetupVariable(
-            'show_3', $this->Translate('Zone 3'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'show_3', $this->Translate('Privacy Zone 3'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // Dis/Enable Area 1 - 4: [0, 1]
         $this->SetupVariable(
-            'show_4', $this->Translate('Zone 4'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
+            'show_4', $this->Translate('Privacy Zone 4'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // Dis/Enable Area 1 - 4: [0, 1]
         $this->SetupVariable(
             'color_1', $this->Translate('Color 1'), '~HexColor', $this->_getPosition(), VARIABLETYPE_INTEGER, true
@@ -5166,7 +5166,7 @@ class INSTAR extends IPSModule
         if ($brightness > 100) {
             $brightness = 100;
         }
-        $this->SetValue('brightness', $brightness);
+        $this->WriteValue('brightness', $brightness);
         $this->WriteAttributeInteger('brightness', $brightness);
         $response = $this->SetImageParameter();
         return $response;
@@ -5185,7 +5185,7 @@ class INSTAR extends IPSModule
         if ($saturation > 255) {
             $saturation = 255;
         }
-        $this->SetValue('saturation', $saturation);
+        $this->WriteValue('saturation', $saturation);
         $this->WriteAttributeInteger('saturation', $saturation);
         $response = $this->SetImageParameter();
         return $response;
@@ -5199,7 +5199,7 @@ class INSTAR extends IPSModule
         if ($sharpness > 100) {
             $sharpness = 100;
         }
-        $this->SetValue('sharpness', $sharpness);
+        $this->WriteValue('sharpness', $sharpness);
         $this->WriteAttributeInteger('sharpness', $sharpness);
         $response = $this->SetImageParameter();
         return $response;
@@ -5213,7 +5213,7 @@ class INSTAR extends IPSModule
         if ($gamma > 100) {
             $gamma = 100;
         }
-        $this->SetValue('gamma', $gamma);
+        $this->WriteValue('gamma', $gamma);
         $this->WriteAttributeInteger('gamma', $gamma);
         $response = $this->SetImageParameter();
         return $response;
@@ -5232,7 +5232,7 @@ class INSTAR extends IPSModule
         if ($contrast > 100) {
             $contrast = 100;
         }
-        $this->SetValue('contrast', $contrast);
+        $this->WriteValue('contrast', $contrast);
         $this->WriteAttributeInteger('contrast', $contrast);
         $response = $this->SetImageParameter();
         return $response;
@@ -5253,7 +5253,7 @@ class INSTAR extends IPSModule
         if ($hue > 255) {
             $hue = 255;
         }
-        $this->SetValue('hue', $hue);
+        $this->WriteValue('hue', $hue);
         $this->WriteAttributeInteger('hue', $hue);
         $response = $this->SetImageParameter();
         return $response;
@@ -5272,7 +5272,7 @@ class INSTAR extends IPSModule
         } else {
             $flip_value = 'off';
         }
-        $this->SetValue('flip', $flip);
+        $this->WriteValue('flip', $flip);
         $this->WriteAttributeString('flip', $flip_value);
         $parameter = '&-flip=' . $flip_value;
         $data      = $this->SendParameter('setimageattr' . $parameter);
@@ -5292,7 +5292,7 @@ class INSTAR extends IPSModule
         } else {
             $mirror_value = 'off';
         }
-        $this->SetValue('mirror', $mirror);
+        $this->WriteValue('mirror', $mirror);
         $this->WriteAttributeString('mirror', $mirror_value);
         $parameter = '&-mirror=' . $mirror_value;
         $data      = $this->SendParameter('setimageattr' . $parameter);
@@ -5313,7 +5313,7 @@ class INSTAR extends IPSModule
         if ($targety > 255) {
             $targety = 255;
         }
-        $this->SetValue('targety', $targety);
+        $this->WriteValue('targety', $targety);
         $this->WriteAttributeInteger('targety', $targety);
         $response = $this->SetImageParameter();
         return $response;
@@ -5326,7 +5326,7 @@ class INSTAR extends IPSModule
      */
     public function Scene(string $scene)
     {
-        $this->SetValue('scene', $scene);
+        $this->WriteValue('scene', $scene);
         $this->WriteAttributeString('scene', $scene);
         $response = $this->SetImageParameter();
         return $response;
@@ -5497,6 +5497,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteAttributeInteger('show_1', intval($show_1));
         $data = $this->SetPrivacyMaskAttributes();
+        $this->WriteValue('show_1', $show_1);
         return $data;
     }
 
@@ -5504,6 +5505,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteAttributeInteger('show_2', intval($show_2));
         $data = $this->SetPrivacyMaskAttributes();
+        $this->WriteValue('show_2', $show_2);
         return $data;
     }
 
@@ -5511,6 +5513,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteAttributeInteger('show_3', intval($show_3));
         $data = $this->SetPrivacyMaskAttributes();
+        $this->WriteValue('show_3', $show_3);
         return $data;
     }
 
@@ -5518,6 +5521,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteAttributeInteger('show_4', intval($show_4));
         $data = $this->SetPrivacyMaskAttributes();
+        $this->WriteValue('show_4', $show_4);
         return $data;
     }
 
@@ -5953,7 +5957,7 @@ class INSTAR extends IPSModule
      */
     public function LED_Auto()
     {
-        $this->SetValue('IR_LED', 0);
+        $this->WriteValue('IR_LED', 0);
         $parameter = '&-infraredstat=auto';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -5965,7 +5969,7 @@ class INSTAR extends IPSModule
      */
     public function LED_Inactive()
     {
-        $this->SetValue('IR_LED', 2);
+        $this->WriteValue('IR_LED', 2);
         $parameter = '&-infraredstat=close';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -5977,7 +5981,7 @@ class INSTAR extends IPSModule
      */
     public function LED_On()
     {
-        $this->SetValue('IR_LED', 1);
+        $this->WriteValue('IR_LED', 1);
         $parameter = '&-infraredstat=open';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -6396,7 +6400,9 @@ class INSTAR extends IPSModule
     public function EnablePIR(bool $state)
     {
         $this->WriteAttributeInteger('pir_enable', intval($state));
-        $this->SetPassiveInfraredMotionDetectionSensorParameter();
+        $data = $this->SetPassiveInfraredMotionDetectionSensorParameter();
+        $this->WriteValue('pir_enable', $state);
+        return $data;
     }
 
     /** Set Passive Infrared Motion Detection Sensor Parameter
@@ -6461,6 +6467,7 @@ class INSTAR extends IPSModule
             $this->WriteAttributeInteger('m1_enable', 0);
         }
         $data = $this->SetAlarmAreasParameter();
+        $this->WriteValue('m1_enable', $m1_enable);
         return $data;
     }
 
@@ -6472,6 +6479,7 @@ class INSTAR extends IPSModule
             $this->WriteAttributeInteger('m2_enable', 0);
         }
         $data = $this->SetAlarmAreasParameter();
+        $this->WriteValue('m2_enable', $m2_enable);
         return $data;
     }
 
@@ -6483,6 +6491,7 @@ class INSTAR extends IPSModule
             $this->WriteAttributeInteger('m3_enable', 0);
         }
         $data = $this->SetAlarmAreasParameter();
+        $this->WriteValue('m3_enable', $m3_enable);
         return $data;
     }
 
@@ -6494,6 +6503,7 @@ class INSTAR extends IPSModule
             $this->WriteAttributeInteger('m4_enable', 0);
         }
         $data = $this->SetAlarmAreasParameter();
+        $this->WriteValue('m4_enable', $m4_enable);
         return $data;
     }
 
@@ -7276,7 +7286,7 @@ class INSTAR extends IPSModule
      */
     public function Right()
     {
-        $this->SetValue('Control_Continuous', 3);
+        $this->WriteValue('Control_Continuous', 3);
         $command = '-step=0&-act=right';
         $this->SendDebug('INSTAR:', 'right', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7290,7 +7300,7 @@ class INSTAR extends IPSModule
      */
     public function Left()
     {
-        $this->SetValue('Control_Continuous', 0);
+        $this->WriteValue('Control_Continuous', 0);
         $command = '-step=0&-act=left';
         $this->SendDebug('INSTAR:', 'left', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7304,7 +7314,7 @@ class INSTAR extends IPSModule
      */
     public function Up()
     {
-        $this->SetValue('Control_Continuous', 1);
+        $this->WriteValue('Control_Continuous', 1);
         $command = '-step=0&-act=up';
         $this->SendDebug('INSTAR:', 'up', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7318,7 +7328,7 @@ class INSTAR extends IPSModule
      */
     public function Down()
     {
-        $this->SetValue('Control_Continuous', 2);
+        $this->WriteValue('Control_Continuous', 2);
         $command = '-step=0&-act=down';
         $this->SendDebug('INSTAR:', 'down', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7332,7 +7342,7 @@ class INSTAR extends IPSModule
      */
     public function Stop()
     {
-        $this->SetValue('Control_Continuous', 4);
+        $this->WriteValue('Control_Continuous', 4);
         $command = '-step=0&-act=stop';
         $this->SendDebug('INSTAR:', 'stop', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7346,7 +7356,7 @@ class INSTAR extends IPSModule
      */
     public function StepRight()
     {
-        $this->SetValue('Control_Step', 3);
+        $this->WriteValue('Control_Step', 3);
         $command = '-step=1&-act=right';
         $this->SendDebug('INSTAR:', 'Step right', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7360,7 +7370,7 @@ class INSTAR extends IPSModule
      */
     public function StepLeft()
     {
-        $this->SetValue('Control_Step', 0);
+        $this->WriteValue('Control_Step', 0);
         $command = '-step=1&-act=left';
         $this->SendDebug('INSTAR:', 'Step left', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7374,7 +7384,7 @@ class INSTAR extends IPSModule
      */
     public function StepUp()
     {
-        $this->SetValue('Control_Step', 1);
+        $this->WriteValue('Control_Step', 1);
         $command = '-step=1&-act=up';
         $this->SendDebug('INSTAR:', 'Step up', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7388,7 +7398,7 @@ class INSTAR extends IPSModule
      */
     public function StepDown()
     {
-        $this->SetValue('Control_Step', 2);
+        $this->WriteValue('Control_Step', 2);
         $command = '-step=1&-act=down';
         $this->SendDebug('INSTAR:', 'Step down', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7402,7 +7412,7 @@ class INSTAR extends IPSModule
      */
     public function GotoCenterPosition()
     {
-        $this->SetValue('Control_Scan', 0);
+        $this->WriteValue('Control_Scan', 0);
         $command = '-step=0&-act=home';
         $this->SendDebug('INSTAR:', 'goto center position', 0);
         $state = $this->SendINSTARControlCommand($command);
@@ -7416,7 +7426,7 @@ class INSTAR extends IPSModule
      */
     public function ScanHorizontal()
     {
-        $this->SetValue('Control_Scan', 1);
+        $this->WriteValue('Control_Scan', 1);
         $this->SendDebug('INSTAR:', 'Scan horizontal', 0);
         $model            = $this->ReadPropertyInteger('model_type');
         if($model == self::IN_9020_Full_HD || $model == self::IN_9010_Full_HD || $model == self::IN_9008_Full_HD)
@@ -7440,7 +7450,7 @@ class INSTAR extends IPSModule
      */
     public function ScanVertical()
     {
-        $this->SetValue('Control_Scan', 2);
+        $this->WriteValue('Control_Scan', 2);
         $this->SendDebug('INSTAR:', 'Scan vertical', 0);
         $parameter = '&-step=0&-act=vscan';
         $state = $this->SendParameter('ptzctrl' . $parameter);
@@ -7454,7 +7464,7 @@ class INSTAR extends IPSModule
      */
     public function SetPosition(int $position)
     {
-        $this->SetValue('SetPosition', $position);
+        $this->WriteValue('SetPosition', $position);
         $this->SendDebug('INSTAR:', 'Set preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=1&-number=' . $position;
@@ -7470,7 +7480,7 @@ class INSTAR extends IPSModule
      */
     public function UnsetPosition(int $position)
     {
-        $this->SetValue('UnsetPosition', $position);
+        $this->WriteValue('UnsetPosition', $position);
         $this->SendDebug('INSTAR:', 'Unset preset position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=set&-status=0&-number=' . $position;
@@ -7486,7 +7496,7 @@ class INSTAR extends IPSModule
      */
     public function GotoPosition(int $position)
     {
-        $this->SetValue('GotoPosition', $position);
+        $this->WriteValue('GotoPosition', $position);
         $this->SendDebug('INSTAR:', 'Goto position ' . $position, 0);
         $position  = $position + 1;
         $parameter = '&-act=goto&-status=1&-number=' . $position;
