@@ -4029,6 +4029,7 @@ class INSTAR extends IPSModule
             return;
         }
         $this->SendDebug('Instar I/O', 'GET: ' . json_encode($_GET), 0);
+        // $this->SendDebug('Instar I/O', 'POST: ' . json_encode($_POST), 0);
         if (isset($_GET['active'])) {
             $this->SetLastMovement();
             $this->SetValue('notification_alarm', $_GET['active']);
@@ -6812,7 +6813,7 @@ class INSTAR extends IPSModule
         $as_io          = $this->ReadAttributeInteger('as_io_2');  // Send Query when Alarm Input is Triggered
         $as_audio       = $this->ReadAttributeInteger('as_audio_2'); // Send Query when Audio Alarm is Triggered
         $as_areaio      = $this->ReadAttributeInteger('as_areaio_2'); // Send Query when Motion is Detected and Input is Triggered
-        $as_activequery = $this->ReadAttributeInteger('as_activequery_2'); // Append Alarm Trigger to Query
+        $as_activequery = 1; // Append Alarm Trigger to Query
         $as_query1      = $this->ReadAttributeInteger('as_query1_2'); // Activate Sending optional Parameter 1
         $as_query2      = $this->ReadAttributeInteger('as_query2_2'); // Activate Sending optional Parameter 1
         $as_query3      = $this->ReadAttributeInteger('as_query3_2'); // Activate Sending optional Parameter 1
