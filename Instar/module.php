@@ -8113,6 +8113,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 )
         );
         IPS_SetEventScheduleGroup($eid, 1, 127);
+        IPS_SetEventScheduleGroupPoint($eid, 1, 0, 0, 0, 0, 0); //Um 0:00 Aktion mit ID 0 (Position 1) aufrufen
         IPS_SetEventActive($eid, true);             //Ereignis aktivieren
         return $eid;
     }
