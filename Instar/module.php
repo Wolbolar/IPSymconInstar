@@ -1855,15 +1855,6 @@ class INSTAR extends IPSModule
             );
         }
         $this->RegisterProfileAssociation(
-            'INSTAR.Control.Scan', 'Move', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                                     [0, $this->Translate('Center'), '', -1],
-                                     [1, $this->Translate('Scan Horizontal'), '', -1],
-                                     [2, $this->Translate('Scan Vertical'), '', -1]]
-        );
-        $this->SetupVariable(
-            'Control_Scan', $this->Translate('Control Scan'), 'INSTAR.Control.Scan', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        );
-        $this->RegisterProfileAssociation(
             'INSTAR.Snapshot', 'Camera', '', '', 0, 0, 0, 0, VARIABLETYPE_INTEGER, [
                                  [0, $this->Translate('Save snapshot'), '', -1]]
         );
@@ -3690,7 +3681,7 @@ class INSTAR extends IPSModule
         $notification_ident = 'notification_alarm';
 
         // check notification
-        $last_notification = GetValueString($this->GetIDForIdent($notification_ident));
+        $last_notification = GetValueInteger($this->GetIDForIdent($notification_ident));
         // TODO check time since last event
 
         // return false, when last notification is the same as current notification or id is 0
@@ -7516,6 +7507,7 @@ class INSTAR extends IPSModule
     {
         $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command, 0);
         $response = @file_get_contents('http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command);
+        $this->SendDebug('INSTAR Response', print_r($response, true), 0);
         return $response;
     }
 
@@ -7523,6 +7515,7 @@ class INSTAR extends IPSModule
     {
         $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/param.cgi?cmd=' . $command, 0);
         $response = @file_get_contents('http://' . $this->GetHostURL() . '/param.cgi?cmd=' . $command);
+        $this->SendDebug('INSTAR Response', print_r($response, true), 0);
         return $response;
     }
 
