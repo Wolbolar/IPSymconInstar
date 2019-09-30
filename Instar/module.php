@@ -1917,25 +1917,28 @@ class INSTAR extends IPSModule
             'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // IR LED Status - auto, close (deactivated)
         $this->RegisterProfileAssociation(
-            'INSTAR.Position', 'Camera', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
-                                 [0, $this->Translate('Position 1'), '', -1],
-                                 [1, $this->Translate('Position 2'), '', -1],
-                                 [2, $this->Translate('Position 3'), '', -1],
-                                 [3, $this->Translate('Position 4'), '', -1],
-                                 [4, $this->Translate('Position 5'), '', -1],
-                                 [5, $this->Translate('Position 6'), '', -1],
-                                 [6, $this->Translate('Position 7'), '', -1],
-                                 [7, $this->Translate('Position 8'), '', -1]]
+            'INSTAR.Position', 'Camera', '', '', 1, 8, 0, 0, VARIABLETYPE_INTEGER, [
+                                 [1, $this->Translate('Position 1'), '', -1],
+                                 [2, $this->Translate('Position 2'), '', -1],
+                                 [3, $this->Translate('Position 3'), '', -1],
+                                 [4, $this->Translate('Position 4'), '', -1],
+                                 [5, $this->Translate('Position 5'), '', -1],
+                                 [6, $this->Translate('Position 6'), '', -1],
+                                 [7, $this->Translate('Position 7'), '', -1],
+                                 [8, $this->Translate('Position 8'), '', -1]]
         );
         $this->SetupVariable(
             'SetPosition', $this->Translate('Set preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
+        ); // (1 - 8), integer
+        $this->SetValue('SetPosition', 1);
         $this->SetupVariable(
             'UnsetPosition', $this->Translate('Unset preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
+        ); // (1 - 8), integer
+        $this->SetValue('UnsetPosition', 1);
         $this->SetupVariable(
             'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
-        ); // (0-7), integer
+        ); // (1 - 8), integer
+        $this->SetValue('GotoPosition', 1);
         $this->SetupVariable(
             'notification_alarm', $this->Translate('Alarm notification'), 'INSTAR.notification_alarm', $this->_getPosition(), VARIABLETYPE_INTEGER,
             false, true
@@ -6731,6 +6734,20 @@ class INSTAR extends IPSModule
 
     // Alarm Schedule
 
+    public function AlarmDetection(bool $state)
+    {
+        if($state)
+        {
+            $parameter = '&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP PPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP';
+        }
+        else
+        {
+            $parameter = '&-week0=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week1=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week2=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week3=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week4=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week5=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week6=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN';
+        }
+        $data      = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
+        return $data;
+    }
+
     /** Get Motion Detection Time Schedule Parameter
      *
      * @return array
@@ -7517,7 +7534,6 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('SetPosition', $position);
         $this->SendDebug('INSTAR:', 'Set preset position ' . $position, 0);
-        $position  = $position + 1;
         $parameter = '&-act=set&-status=1&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
         return $state;
@@ -7533,7 +7549,6 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('UnsetPosition', $position);
         $this->SendDebug('INSTAR:', 'Unset preset position ' . $position, 0);
-        $position  = $position + 1;
         $parameter = '&-act=set&-status=0&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
         return $state;
@@ -7549,7 +7564,6 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('GotoPosition', $position);
         $this->SendDebug('INSTAR:', 'Goto position ' . $position, 0);
-        $position  = $position + 1;
         $parameter = '&-act=goto&-status=1&-number=' . $position;
         $state     = $this->SendParameter('preset' . $parameter);
         return $state;
@@ -8006,7 +8020,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 0;',
+                            '$value = 1;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8020,7 +8034,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 1;',
+                            '$value = 2;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8034,7 +8048,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 2;',
+                            '$value = 3;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8048,7 +8062,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 3;',
+                            '$value = 4;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8062,7 +8076,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 4;',
+                            '$value = 5;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8076,7 +8090,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 5;',
+                            '$value = 6;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8090,7 +8104,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 6;',
+                            '$value = 7;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',
@@ -8104,7 +8118,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                             '// Template ID: {FCE37F48-DA3F-45DD-AC77-71343792CC2D}',
                             '// Template Name: Auf Wert schalten',
                             '$ident = "GotoPosition";',
-                            '$value = 7;',
+                            '$value = 8;',
                             '$target = $_IPS[\'TARGET\'];',
                             'if (IPS_InstanceExists($target)) {',
                             '  $target = IPS_GetObjectIDByIdent($ident, $target);',

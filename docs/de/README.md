@@ -26,7 +26,7 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
 
  - Steuerung ( hoch, runter, links, rechts, stop) 
  - Position setzten und anfahren
- - Kamera Einstellungen (entsprechend den Einstellungen im INSTAR Kkamera Menü)
+ - Kamera Einstellungen (entsprechend den Einstellungen im INSTAR Kamera Menü)
  - es werden sämtliche von INSTAR beschriebenen Befehle über das CGI (Common Gateway Interface) unterstützt
 
 ### Status Rückmeldung:  
@@ -34,7 +34,8 @@ Mit dem Modul lassen sich Befehle an eine [INSTAR](https://www.instar.de/ "INSTA
  - Bild Anzeige
  - Benachrichtung von [INSTAR](https://www.instar.de/ "INSTAR") an IP-Symcon bei einem Event
  - Email Benachrichtigung bei Event
- - Push Benachrichtigung bei einem Event	
+ - Push Benachrichtigung bei einem Event
+ - Auswertung der Alarmmitteilung der Kamera	
   
 
 ## 2. Voraussetzungen
@@ -145,11 +146,53 @@ Das Livebild kann in IP-Symcon eingesehen werden sowie die Historie der letzten 
  
 #### Anwendungsbeispiele
 
-##### Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
+##### 1. Verwenden externer Sensoren / Beispiel Anfahren zu einer bestimmten Position ausgelöst durch einen Bewegungsmelder 
 
-Die INSTAR Kamera verfügt über 8 abspeicherbare Positionen die von der Kamera angefahren werden können. dazu ist zunächst einmal jede Position anzufahren und dann abzuspeichern, anschließend kann die entsprechnde Position direkt angefahren werden.
+Man kann durch einen Bewegungsmelder der IP-Symcon bekannt ist, sei die nun KNX, LCN, Homematic oder alle Systeme die von IP-Symcon unterstützt werden,
+die Kamera auf eine bestimmte Position anfahren. Angenommen in der Einfahrt löst ein Bewegungsmelder aus kann dann die Kamera automatisch auf den passenden Bildbereich schwenken.
 
-Mit Hilfe eines Wochenplans kann man nun definieren an welchen tagen und zu welcher Uhrzeit welche Position angefahren werden soll.
+Hierzu wird ein Ereignis in IP-Symcon angelegt. Als Auslöser wird die Variable des Bewegungsmelders ausgewählt als Instanz die Kamera selber.
+
+![triggerevent](img/instar_trigger_event.png?raw=true "trigger event") 
+
+Was passieren soll kann man dann frei nach Ereigniss definieren z.B. eine Position anfahren oder ein Schnappschuss erstellen.
+
+##### 2. Aktivieren Sie die Nachtsicht nur, wenn eine Bewegung erkannt wird
+
+Aktivieren Sie die Nachtsicht Ihrer Kamera nach einem Zeitplan oder ausgelöst durch einen in das Hausautomationssystem integrierten externen/kamerainternen Sensor.
+
+###### Einschalten der IR LED nach Dunkelheit
+
+![ir_night](img/IR_night.png?raw=true "IR Night") 
+
+###### Ausschalten der IR LED bei Helligkeit
+
+![ir_day](img/IR_day.png?raw=true "IR Day") 
+
+###### Einschalten der IR LED bei Bewegungerkennung durch einen Bewegungssensor
+
+![ir_motion](img/IR_motion.png?raw=true "IR Motion") 
+
+Die Aktivierung des Nachtsichtgeräts im Alarmfall ist natürlich nur möglich, wenn die Kamera über einen internen PIR-Sensor zur Bewegungserkennung verfügt
+oder wenn Sie das Alarmsignal eines externen Sensors in IP-Symcon verwenden, um die Kamera scharf zu stellen. Der Vorteil - die Kamera ist nachts unauffällig und das IR-Licht zieht keine Insekten / Spinnen an. Der Stromverbrauch wird natürlich auch spürbar gesenkt.
+
+Einschalten der IR LED / Auto
+```php
+INSTAR_LED_Auto(int $InstanceID)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+
+Deaktivieren der IR LED
+```php
+INSTAR_LED_Inactive(int $InstanceID)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+
+##### 3. Zeitgesteuertes Anfahren einer Position mit einem Wochenplan
+
+Die INSTAR Kamera verfügt über 8 abspeicherbare Positionen die von der Kamera angefahren werden können. Dazu ist zunächst einmal jede Position anzufahren und dann abzuspeichern, anschließend kann die entsprechende Position direkt angefahren werden.
+
+Mit Hilfe eines Wochenplans kann man nun definieren an welchen Tagen und zu welcher Uhrzeit welche Position angefahren werden soll.
 
 ![weekplan1](img/instar_weekplan1.png?raw=true "weekplan1")
 
@@ -158,26 +201,170 @@ Im Webfront kann man dann den Wochenplan konfigurieren und definieren zu welcher
 
 ![weekplan2](img/instar_weekplan2.png?raw=true "weekplan2") 
 
-##### Anfahren zu einer bestimmten Position ausgelöst durch einen Bewegungsmelder
+Befehle für ein Skript zum Anfahren einer Position
 
-Man kann daurch einen Bewegungsmelder der IP-Symcon bekannt ist, sei die nun KNX, LCN, Homematic oder alle Systeme die von IP-Symcon unterstützt werden,
-die kamera auf eine bestimmte Position anfahren. Angenommen in der Einfahrt löst ein Bewegungsmelder aus kann dann die Kamera automatisch auf den passenden Bildbereich schwenken.
+Anfahren einer Kamera Position 1 - 8
+```php
+INSTAR_GotoPosition(int $InstanceID, int $position)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$position Kamera Position (1 - 8)
 
-Hierzu wird ein Ereignis in IP-Symcon angelegt. Als Auslöser wird die Variable des Bewegungsmelders ausgewählt als Instanz die Kamera selber.
+##### 4. Verwenden Sie für jede Position unterschiedliche Erkennungsbereiche
+
+In Kombination mit der geplanten Tag- und Nachtposition (siehe oben) können Sie auch verschiedene Bewegungserkennungsbereiche aktivieren
+
+Bereich 1 aktivieren / deaktivieren
+```php
+INSTAR_SetAlarmZone1(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus) 
+
+Bereich 2 aktivieren / deaktivieren
+```php
+INSTAR_SetAlarmZone2(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus) 
+
+Bereich 3 aktivieren / deaktivieren
+```php
+INSTAR_SetAlarmZone3(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus) 
+
+Bereich 4 aktivieren / deaktivieren
+```php
+INSTAR_SetAlarmZone4(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus) 
+
+##### 5. Verwenden Sie unterschiedliche Empfindlichkeiten für Tag und Nacht
+
+Da für die Bewegungserkennung bei Tag und Nacht häufig unterschiedliche Empfindlichkeiten erforderlich sind, können Sie diese auch anpassen - zum Beispiel auf 75% bei Tag und 25% bei Nacht.
+
+Bereich 1 Empfindlichkeit einstellen
+```php
+INSTAR_ SetAlarmZone1Senitivity(int $InstanceID, int $sensitivity)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$sensitivity 0 - 100
+
+Bereich 2 Empfindlichkeit einstellen
+```php
+INSTAR_ SetAlarmZone1Senitivity(int $InstanceID, int $sensitivity)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$sensitivity 0 - 100
+
+Bereich 3 Empfindlichkeit einstellen
+```php
+INSTAR_ SetAlarmZone1Senitivity(int $InstanceID, int $sensitivity)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$sensitivity 0 - 100
+
+Bereich 4 Empfindlichkeit einstellen
+```php
+INSTAR_ SetAlarmZone1Senitivity(int $InstanceID, int $sensitivity)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$sensitivity 0 - 100
+
+##### 6. Deaktivieren Sie den Alarm aller Kameras, wenn Sie zu Hause ankommen
+Nutzen Sie die Geofence Funktion eines Smartphones oder einen Smartbutton oder Funk-Schlüsselanhänger um alle Alarmerkennungsbereiche und den PIR-Sensor aller Kameras zu deaktivieren, wenn Sie keinen Alarm auslösen möchten.
+
+Bereich 1 aktivieren / deaktivieren
+```php
+INSTAR_SetAlarmZone1(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus) 
+
+andere Zonen (s.o.)
+
+Beispiel beim Ankommen am Haus mit einem Smartphone Bereiche ausschalten
+
+![presence](img/presence.png?raw=true "Presence") 
+
+##### 7. Verwenden Sie externe Sensoren, um Ihre Kamera zu alarmieren, wenn eine Bewegung erkannt wird
+
+Lassen Sie Ihre Kamera in Abhängigkeit von Systemvariablen im Hausautomationssystem zwischen Positionen wechseln. Zum Beispiel: Wenn der Türsensor ausgelöst wird, schaue zur Tür, wenn der Fenstersensor ausgelöst wird, wenden dich zum Fenster, und wenn der externe Bewegungssensor eine Person erkennt, schaue zur Küchentür.
 
 ![triggerevent](img/instar_trigger_event.png?raw=true "trigger event") 
 
-Was passieren soll kann man dann frei nach Ereigniss definieren z.B. eine Position anfahren oder ein Schnappschuss erstellen.
+##### 8. Verwenden Sie externe Sensoren, um Alarmaufzeichnungen auszulösen
+
+Wenn Sie Ihre Kamera so einstellen, dass sie sich bei Auslösung durch einen externen Sensor auf eine Position ausrichtet, möchten Sie wahrscheinlich eine Alarmaufzeichnung auf der internen SD-Karte starten, um den Eindringling zu einzufangen.
+Dies kann durch Starten der manuellen Aufzeichnung über IP-Symcon und nach einer Verzögerung nach dem Stoppbefehl erfolgen. Aufgrund der einstellbaren Verzögerung ist die Länge des Alarmvideos frei wählbar.
+
+Aufzeichnung starten
+```php
+INSTAR_StartRecording(int $InstanceID, int $time)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$time Zeit in Sekunden
+
+##### 9. Verbinden Sie Ihre Kameras miteinander 
+
+Installieren Sie Ihre Kameras so, dass sie einander immer im Auge behalten, mit Hilfe der Park Position, die Ihre Kamera nach dem Verstellen immer in die voreingestellte Position zurück bringt.
+Auf diese Weise wird verhindert, dass Eindringlinge Ihre Kameras ungesehen manipulieren.
+
+Wenn eine Kamera eine Bewegung erkennt, können Sie sie über die Alarmserver-Funktion IP-Symcon alarmieren.
+IP-Symcon kann dann einen Befehl an andere Kameras in der Nähe senden, um sich in Richtung der Position zu drehen, an der die ursprüngliche Kamera den Eindringling erkannt hat.
+Und im Anschluß eine Alarmaufzeichnung starten.
+
+Anfahren einer Kamera Position 1 - 8
+```php
+INSTAR_GotoPosition(int $InstanceID, int $position)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$position Kamera Position (1 - 8)
+
+Aufzeichnung starten
+```php
+INSTAR_StartRecording(int $InstanceID, int $time)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$time Zeit in Sekunden
+
+##### 10. Nach Geräuschquellen suchen
+
+Wenn die Audioerkennung Ihrer Kamera auslöst, kennen Sie wahrscheinlich nicht den Ort der Geräuschquelle.
+Sie können in einem solchen Fall je nach Kameratyp einen horizontalen oder vertikalen Suchlauf auslösen. Dies muss dann manuell mit der gewünschten Verzögerung wieder gestoppt werden.
+
+Horizonatal Scan
+```php
+INSTAR_ScanHorizontal(int $InstanceID)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+
+Vertikal Scan
+```php
+INSTAR_ScanVertical(int $InstanceID)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+
+##### 11. Deaktivieren Sie manuell alle Alarmfunktionen für alle Ihre Kameras
+
+Wenn Sie in Ihrer Kamera mehr als einen Alarmauslöser aktiviert haben - PIR-Sensor, Alarmbereiche, Audioerkennung, Alarmeingang - können Sie diese über den Alarmplan gleichzeitig aktivieren und deaktivieren,
+ohne jeden Auslöser einzeln ansprechen zu müssen.
+
+Alarme aktivieren / deaktivieren
+```php
+INSTAR_AlarmDetection(int $InstanceID, bool $state)
+```
+$InstanceID Objekt ID der INSTAR Kamera
+$state true / false (ein / aus)
 
 ##### Auslösen eines Alarms durch ein Ereigniss (nur Full HD Modelle)
 
-##### Aktivieren der Nachtsicht abhängig von einem externen Sensor
-
 ##### Zeitgesteuertes aktivieren der Bewegungserkennungsbereiche
 
-##### Anpassen der Empfindlichkeit der Bewegungserkennung abhängig von Tag oder Nacht 
-	
-##### Zeitgesteuertes Einstellen der Alarmbereiche
+
 
 ##### Definierte Position bei einem Ereignis anfahren
 
