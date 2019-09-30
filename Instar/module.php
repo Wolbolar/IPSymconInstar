@@ -263,7 +263,8 @@ class INSTAR extends IPSModule
         'm3_enable',
         'm4_enable',
         'profile',
-        'pir_enable'];
+        'pir_enable',
+        'platformstatus'];
 
     private $StringAttributes  = ['string_attribute', 'wf_key', 'aemodeex', 'color_1', 'color_2', 'color_3', 'color_4', 'at_password0', 'at_password1', 'at_password2'];
 
@@ -831,6 +832,10 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('ft_ssl_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('infraredstat', ''); // IR LED Status - auto, close (deactivated)
         $this->RegisterAttributeBoolean('infraredstat_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('infraredstat_form', 0); // IR LED Status - auto, close (deactivated)
+        $this->RegisterAttributeBoolean('infraredstat_form_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('infraredcut_form', 0); // IR Cut - auto, day , night
+        $this->RegisterAttributeBoolean('infraredcut_form_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('plancgi_enable_0_ir', 0);
         $this->RegisterAttributeInteger('plancgi_time_0_ir', 0);
         $this->RegisterAttributeInteger('plancgi_enable_1_ir', 0);
@@ -1902,15 +1907,15 @@ class INSTAR extends IPSModule
             );
             $this->SetupVariable('scene', $this->Translate('Scene'), 'INSTAR.Scene', $this->_getPosition(), VARIABLETYPE_INTEGER, true);
         }
-
         $this->RegisterProfileAssociation(
-            'INSTAR.IRLED', 'Bulb', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                              [0, $this->Translate('Auto'), '', -1],
-                              [1, $this->Translate('On'), '', -1],
-                              [2, $this->Translate('Off'), '', -1]]
+            'INSTAR.infraredstat', 'Camera', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
+                                     [0, $this->Translate('auto'), '', -1],
+                                     // [1, $this->Translate('open'), '', -1],
+                                     [2, $this->Translate('close'), '', -1]]
         );
-        $this->SetupVariable('IR_LED', $this->Translate('IR LED'), 'INSTAR.IRLED', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true);
-
+        $this->SetupVariable(
+            'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
+        ); // IR LED Status - auto, close (deactivated)
         $this->RegisterProfileAssociation(
             'INSTAR.Position', 'Camera', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
                                  [0, $this->Translate('Position 1'), '', -1],
@@ -2600,15 +2605,7 @@ class INSTAR extends IPSModule
             'admin_value44', $this->Translate('duration of manual recordings'), 'INSTAR.admin_value44', $this->_getPosition(), VARIABLETYPE_INTEGER,
             true
         );  // Recording Length in Seconds [60 - 3600] / Set [0] to Deactivate File Splitting
-        $this->RegisterProfileAssociation(
-            'INSTAR.infraredstat', 'Camera', '', '', 0, 2, 0, 0, VARIABLETYPE_INTEGER, [
-                                     [0, $this->Translate('auto'), '', -1],
-                                     [1, $this->Translate('open'), '', -1],
-                                     [2, $this->Translate('close'), '', -1]]
-        );
-        $this->SetupVariable(
-            'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
-        ); // IR LED Status - auto, close (deactivated)
+
         $this->SetupVariable(
             'pir_enable', $this->Translate('PIR Sensor'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true
         ); // De/Activate PIR Sensor [0, 1]
@@ -3170,7 +3167,30 @@ class INSTAR extends IPSModule
                             $value = 2;
                         }
                         $this->SetValue($ident, $value);
-                    } else {
+                    }
+                    elseif ($ident == 'upnpstatus') {
+                        $value = $this->ReadAttributeString($ident);
+                        if ($value == 'ok') {
+                            $value = 0;
+                        } elseif ($value == 'off') {
+                            $value = 1;
+                        } else {
+                            $value = 2;
+                        }
+                        $this->SetValue($ident, $value);
+                    }
+                    elseif ($ident == 'facddnsstatus') {
+                        $value = $this->ReadAttributeString($ident);
+                        if ($value == 'ok') {
+                            $value = 0;
+                        } elseif ($value == 'off') {
+                            $value = 1;
+                        } else {
+                            $value = 2;
+                        }
+                        $this->SetValue($ident, $value);
+                    }
+                    else {
                         $value = $this->ReadAttributeInteger($ident);
                         $this->SetValue($ident, $value);
                     }
@@ -4129,7 +4149,7 @@ class INSTAR extends IPSModule
                 $this->SendDebug('INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = 0', 0);
                 $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, 0);
                 $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', 0);
-                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, false); // Value empty
             } else {
                 if ($var_name == 'dhcpflag' || $var_name == 'flip' || $var_name == 'mirror' || $var_name == 'md_preset_switch') {
                     if ($var_content == 'off') {
@@ -4140,7 +4160,33 @@ class INSTAR extends IPSModule
                     $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                     $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $bool_var_content);
                     $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $bool_var_content);
-                } else {
+                }
+                elseif ($var_name == 'infraredstat') {
+                    if ($var_content == 'auto') {
+                        $int_var_content = 1;
+                    } elseif ($var_content == 'close') {
+                        $int_var_content = 2;
+                    }
+                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . '_form', $int_var_content);
+                    $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content); // Label
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
+                }
+                elseif ($var_name == 'sdstatus') {
+                    if ($var_content == 'out') {
+                        $int_var_content = 0;
+                    } elseif ($var_content == 'Ready') {
+                        $int_var_content = 1;
+                    }
+                    else
+                    {
+                        $int_var_content = 2;
+                    }
+                    $this->WriteAttributeString($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content); // Label
+                    $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $int_var_content);
+                }
+                else {
                     $this->WriteValue($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
                 }
                 $this->SendDebug('INSTAR Write Attribute', 'String ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . $var_content, 0);
@@ -4439,6 +4485,7 @@ class INSTAR extends IPSModule
             $model   = $data[1];
             $this->SendDebug('INSTAR', 'Model: ' . $model, 0);
             $this->WriteAttributeString('model', $model);
+            $this->WriteValue('model', $model);
         }
         return $model;
     }
@@ -5943,13 +5990,25 @@ class INSTAR extends IPSModule
         return $data;
     }
 
+    public function SetIRLED($ir_state)
+    {
+        if($ir_state == 0)
+        {
+            $this->LED_Auto();
+        }
+        else
+        {
+            $this->LED_Inactive();
+        }
+    }
+
     /** IR LED Auto
      *
      * @return false|string
      */
     public function LED_Auto()
     {
-        $this->WriteValue('IR_LED', 0);
+        $this->WriteValue('infraredstat', 0);
         $parameter = '&-infraredstat=auto';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -5961,7 +6020,7 @@ class INSTAR extends IPSModule
      */
     public function LED_Inactive()
     {
-        $this->WriteValue('IR_LED', 2);
+        $this->WriteValue('infraredstat', 2);
         $parameter = '&-infraredstat=close';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -5973,7 +6032,7 @@ class INSTAR extends IPSModule
      */
     public function LED_On()
     {
-        $this->WriteValue('IR_LED', 1);
+        $this->WriteValue('infraredstat', 1);
         $parameter = '&-infraredstat=open';
         $state     = $this->SendParameter('setinfrared' . $parameter);
         return $state;
@@ -8171,7 +8230,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     $this->Scene('outdoor');
                 }
                 break;
-            case 'IR_LED':
+            case 'infraredstat':
                 if ($Value == 0) {
                     $this->LED_Auto();
                 } elseif ($Value == 1) {
@@ -8613,9 +8672,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 break;
             case 'admin_value44':
                 $this->SetFileLengthManualRecordings($Value);
-                break;
-            case 'infraredstat':
-                // $this->EnableWIFI($Value);
                 break;
             case 'pir_enable':
                 $this->EnablePIR($Value);
@@ -11782,7 +11838,64 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $form = [
             [
                 'type'    => 'Label',
-                'caption' => 'select here the behavior of the ir-led'],// TODO Add Form Email Settings
+                'caption' => 'select here the behavior of the ir-led'],
+            [
+                'type'    => 'RowLayout',
+                'visible' => true,
+                'items'   => [
+                    [
+                        'type'     => 'Select',
+                        'name'     => 'infraredstat_form',
+                        'caption'  => 'IR LED control',
+                        'options'  => [
+                            [
+                                'caption' => $this->Translate('auto'),
+                                'value'   => 0],
+                            [
+                                'caption' => $this->Translate('close'),
+                                'value'   => 2],],
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('infraredstat_form'),
+                        'onChange' => 'INSTAR_SetIRLED($id, $infraredstat_form);'
+
+                    ],
+                    [
+                        'name'     => 'infraredstat_form_enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeBoolean('infraredstat_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "infraredstat_enabled", $infraredstat_form_enabled);'],]],
+            [
+                'type'    => 'RowLayout',
+                'visible' => false,
+                'items'   => [
+                    [
+                        'type'     => 'Select',
+                        'name'     => 'infraredcut_form',
+                        'caption'  => 'IR CUT filter',
+                        'options'  => [
+                            [
+                                'caption' => $this->Translate('Auto'),
+                                'value'   => 0],
+                            [
+                                'caption' => $this->Translate('Daymode'),
+                                'value'   => 1],
+                            [
+                                'caption' => $this->Translate('Nightmode'),
+                                'value'   => 2]],
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeInteger('infraredcut_form'),
+                        'onChange' => 'INSTAR_SetIRCut($id, $infraredcut_form);'
+
+                    ],
+                    [
+                        'name'     => 'infraredcut_form__enabled',
+                        'type'     => 'CheckBox',
+                        'caption'  => 'Create Variable for Webfront',
+                        'visible'  => true,
+                        'value'    => $this->ReadAttributeBoolean('infraredcut_form_enabled'),
+                        'onChange' => 'INSTAR_SetWebFrontVariable($id, "infraredcut_form_enabled", $infraredcut_form_enabled);'],]],
         ];
         return $form;
     }
@@ -13017,7 +13130,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     [
                         'type'    => 'Label',
                         'name'    => 'label_infraredstat',
-                        'caption' => 'Nachtsicht'],
+                        'caption' => 'Nightvision'],
                     [
                         'type'    => 'Label',
                         'name'    => 'infraredstat',
@@ -13961,7 +14074,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     //Add this Polyfill for IP-Symcon 4.4 and older
     protected function SetValue($Ident, $Value)
     {
-
+        $this->SendDebug('Write Value', $Ident . ' : ' . (print_r($Value, true)), 0);
         if (IPS_GetKernelVersion() >= 5) {
             parent::SetValue($Ident, $Value);
         } else {
