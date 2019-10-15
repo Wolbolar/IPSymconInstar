@@ -301,6 +301,8 @@ Lassen Sie Ihre Kamera in Abhängigkeit von Systemvariablen im Hausautomationssy
 Wenn Sie Ihre Kamera so einstellen, dass sie sich bei Auslösung durch einen externen Sensor auf eine Position ausrichtet, möchten Sie wahrscheinlich eine Alarmaufzeichnung auf der internen SD-Karte starten, um den Eindringling zu einzufangen.
 Dies kann durch Starten der manuellen Aufzeichnung über IP-Symcon und nach einer Verzögerung nach dem Stoppbefehl erfolgen. Aufgrund der einstellbaren Verzögerung ist die Länge des Alarmvideos frei wählbar.
 
+![start_recording](img/start_recording.png?raw=true "trigger event") 
+
 Aufzeichnung starten
 ```php
 INSTAR_StartRecording(int $InstanceID, int $time)
@@ -352,6 +354,8 @@ $InstanceID Objekt ID der INSTAR Kamera
 
 Wenn Sie in Ihrer Kamera mehr als einen Alarmauslöser aktiviert haben - PIR-Sensor, Alarmbereiche, Audioerkennung, Alarmeingang - können Sie diese über den Alarmplan gleichzeitig aktivieren und deaktivieren,
 ohne jeden Auslöser einzeln ansprechen zu müssen.
+
+![alarm_dection](img/alarm_detection.png?raw=true "alarm dection") 
 
 Alarme aktivieren / deaktivieren
 ```php

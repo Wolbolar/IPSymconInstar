@@ -280,7 +280,8 @@ class INSTAR extends IPSModule
         'SetPosition',
         'UnsetPosition',
         'GotoPosition',
-        'notification_alarm'];
+        'notification_alarm',
+        'alarm_detection'];
 
     // state code mapper
     protected $state_codes        = [
@@ -1647,6 +1648,12 @@ class INSTAR extends IPSModule
         $webhook_username = $this->ReadAttributeString('as_username_2');
         $webhook_password = $this->ReadAttributeString('as_password_2');
 
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == 0)
+        {
+            $this->ShowStartPopup();
+        }
+
         if ($webhook_username == '' || $webhook_password == '') {
             $this->UpdateParameter('instar_settings_menu', 'expanded', true);
             $this->SetStatus(self::ERROR_USER_PASSWORD);
@@ -1692,7 +1699,7 @@ class INSTAR extends IPSModule
         if ($user == '' || $password == '') {
             $this->SetStatus(self::ERROR_FIELD_EMPTY); //Felder dürfen nicht leer sein
         } elseif ($user !== '' && $password !== '' && $hostcheck === true) {
-            $MediaID = @IPS_GetObjectIDByIdent('INSTARVideo', $this->InstanceID);
+            $MediaID = @$this->GetIDForIdent('INSTARVideo');
             if ($MediaID === false) {
                 $MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
                 IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
@@ -1894,8 +1901,7 @@ class INSTAR extends IPSModule
 
         $this->SetupVariable('flip', $this->Translate('Flip'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
         $this->SetupVariable('mirror', $this->Translate('Mirror'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true);
-
-
+        $this->SetupVariable('alarm_detection', $this->Translate('alarm detection'), '~Switch', $this->_getPosition(), VARIABLETYPE_BOOLEAN, true, true);
 
         if($model == self::IN_3011)
         {
@@ -6739,10 +6745,12 @@ class INSTAR extends IPSModule
         if($state)
         {
             $parameter = '&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP PPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP';
+            $this->SetValue('alarm_detection', true);
         }
         else
         {
             $parameter = '&-week0=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week1=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week2=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week3=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week4=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week5=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week6=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN';
+            $this->SetValue('alarm_detection', false);
         }
         $data      = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
         return $data;
@@ -8128,7 +8136,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         );
         IPS_SetEventScheduleGroup($eid, 1, 127);
         IPS_SetEventScheduleGroupPoint($eid, 1, 0, 0, 0, 0, 0); //Um 0:00 Aktion mit ID 0 (Position 1) aufrufen
-        IPS_SetEventActive($eid, true);             //Ereignis aktivieren
+        IPS_SetEventActive($eid, false);             //Ereignis deaktivieren
         return $eid;
     }
 
@@ -8690,6 +8698,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 break;
             case 'pir_enable':
                 $this->EnablePIR($Value);
+                break;
+            case 'alarm_detection':
+                $this->AlarmDetection($Value);
                 break;
             default:
                 $this->SendDebug('INSTAR', 'Invalid ident', 0);
@@ -12707,7 +12718,11 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         $this->UpdateParameter('popup', 'visible', true);
         $this->UpdateParameter('popup_message', 'value', $message);
         $this->UpdateParameter('popup_message', 'visible', true);
-        $this->UpdateParameter('popup_message', 'value', $message);
+    }
+
+    public function ShowStartPopup()
+    {
+        $this->UpdateParameter('popup_start', 'visible', true);
     }
 
     public function SendQueryMotionDetected(bool $as_area)
@@ -13585,7 +13600,6 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             $instar_alarm_menu_expanded = false;
             $instar_alarmserver_menu_expanded = false;
         }
-
         $form = [
             [
                 'type'    => 'Label',
@@ -13926,18 +13940,18 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                 'type'    => 'Button',
                 'caption' => 'Left',
                 'onClick' => 'INSTAR_Down($id);'],
+            /*
             [
                 'type'    => 'Button',
                 'caption' => 'Show Variables for Test',
-                'visible' => true,
+                'visible' => false,
                 'onClick' => 'INSTAR_UpdateParameter($id, "instar_testcenter_menu", "visible", true);'],
             [
                 'type'    => 'Button',
                 'caption' => 'Hide Variables for Test',
-                'visible' => true,
+                'visible' => false,
                 'onClick' => 'INSTAR_UpdateParameter($id, "instar_testcenter_menu", "visible", false);'],
-            /*
-                [
+            [
                     'type'    => 'TestCenter',
                     'name'    => 'instar_testcenter_menu',
                     'visible' => false],
@@ -13962,28 +13976,28 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
                     'closeCaption' => 'Ok',
                     'items'        => [
                         [
-                            'type'    => 'ValidationTextBox',
-                            'visible' => false,
+                            'type'    => 'Label',
+                            'visible' => true,
                             'name'    => 'popup_message_start_title',
                             'caption' => 'To use your INSTAR camera:'],
                         [
-                            'type'    => 'ValidationTextBox',
-                            'visible' => false,
+                            'type'    => 'Label',
+                            'visible' => true,
                             'name'    => 'popup_message_start_line1',
                             'caption' => '- add an admin user and password for your INSTAR camera'],
                         [
-                            'type'    => 'ValidationTextBox',
-                            'visible' => false,
+                            'type'    => 'Label',
+                            'visible' => true,
                             'name'    => 'popup_message_start_line2',
                             'caption' => '- to get events from the INSTAR camers set up the alarm server settings'],
                         [
-                            'type'    => 'ValidationTextBox',
-                            'visible' => false,
+                            'type'    => 'Label',
+                            'visible' => true,
                             'name'    => 'popup_message_start_line3',
                             'caption' => '- create a category for pictures and link to this category. Pictures will be saved in the selected category.'],
                         [
-                            'type'    => 'ValidationTextBox',
-                            'visible' => false,
+                            'type'    => 'Label',
+                            'visible' => true,
                             'name'    => 'popup_message_start_line4',
                             'caption' => '- optional set up email notification'],]]]];
         return $form;
@@ -14040,7 +14054,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             [
                 'code'    => 208,
                 'icon'    => 'error',
-                'caption' => 'category INSTAR snapshot not set.'],
+                'caption' => 'category INSTAR snapshot not set'],
             [
                 'code'    => 209,
                 'icon'    => 'error',
