@@ -187,6 +187,7 @@ class INSTAR extends IPSModule
     private const GET_IMAGE_1080p = '/tmpfs/snap.jpg'; // Get Image (1080p)
     private const GET_IMAGE_320p  = '/tmpfs/auto.jpg'; // Get Image (320p)
     private const GET_IMAGE_160p  = '/tmpfs/auto2.jpg'; // Get Image (160p)
+    private const GET_IMAGE_IN_3011  = '/snapshot.cgi'; // Get Image (160p)
 
     private const RESOLUTION_SNAPSHOT_1080p = 0; // Get Image (1080p)
     private const RESOLUTION_SNAPSHOT_320p  = 1; // Get Image (320p)
@@ -925,6 +926,8 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('tour_interval_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('ptz_tour_time', 1); // Time in Seconds
         $this->RegisterAttributeBoolean('ptz_tour_time_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('light_enable', 'on'); // LED - [on, off]
+        $this->RegisterAttributeBoolean('light_enable_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light1_enable', 'on'); // WiFi Status LED - [on, off]
         $this->RegisterAttributeBoolean('light1_enable_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('light2_enable', 'on'); // Power LED - [on, off]
@@ -1480,6 +1483,62 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('as_queryval3_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeString('md_server2_switch', 'on'); // De/Activate Alarm Server2 [off, on]
         $this->RegisterAttributeBoolean('md_server2_switch_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('alarmmasktimeout', 0); //
+        $this->RegisterAttributeBoolean('alarmmasktimeout_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('alarmpresetafenable', ''); //
+        $this->RegisterAttributeBoolean('alarmpresetafenable_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeString('inittourenable', ''); //
+        $this->RegisterAttributeBoolean('inittourenable_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('md_emailsnap_interval', 0); //
+        $this->RegisterAttributeBoolean('md_emailsnap_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('md_snap_interval', 0); //
+        $this->RegisterAttributeBoolean('md_snap_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('md_ftpsnap_interval', 0); //
+        $this->RegisterAttributeBoolean('md_ftpsnap_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query4_0', 0); //
+        $this->RegisterAttributeBoolean('as_query4_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryattr4_0', 0); //
+        $this->RegisterAttributeBoolean('as_queryattr4_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryval4_0', 0); //
+        $this->RegisterAttributeBoolean('as_queryval4_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query5_0', 0); //
+        $this->RegisterAttributeBoolean('as_query5_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryattr5_0', 0); //
+        $this->RegisterAttributeBoolean('as_queryattr5_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryval5_0', 0); //
+        $this->RegisterAttributeBoolean('as_queryval5_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_ex_0', 0); //
+        $this->RegisterAttributeBoolean('as_ex_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_img_0', 0); //
+        $this->RegisterAttributeBoolean('as_img_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_ssl_0', 0); //
+        $this->RegisterAttributeBoolean('as_ssl_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_mode_0', 0); //
+        $this->RegisterAttributeBoolean('as_mode_0_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('md_server2_interval', 0); //
+        $this->RegisterAttributeBoolean('md_server2_interval_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryval2_2', 0); //
+        $this->RegisterAttributeBoolean('as_queryval2_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query4_2', 0); //
+        $this->RegisterAttributeBoolean('as_query4_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryattr4_2', 0); //
+        $this->RegisterAttributeBoolean('as_queryattr4_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryval4_2', 0); //
+        $this->RegisterAttributeBoolean('as_queryval4_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_query5_2', 0); //
+        $this->RegisterAttributeBoolean('as_query5_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryattr5_2', 0); //
+        $this->RegisterAttributeBoolean('as_queryattr5_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_queryval5_2', 0); //
+        $this->RegisterAttributeBoolean('as_queryval5_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_ex_2', 0); //
+        $this->RegisterAttributeBoolean('as_ex_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_img_2', 0); //
+        $this->RegisterAttributeBoolean('as_img_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_ssl_2', 0); //
+        $this->RegisterAttributeBoolean('as_ssl_2_enabled', false); // show Attribute in Webfront
+        $this->RegisterAttributeInteger('as_mode_2', 0); //
+        $this->RegisterAttributeBoolean('as_mode_2_enabled', false); // show Attribute in Webfront
 
         // Recording Menu
         $this->RegisterAttributeInteger('as_snap_enable', 0); // Dis/Enable snapshot to SD card： [0, 1]
@@ -3430,6 +3489,7 @@ class INSTAR extends IPSModule
             'tour_times'           => true,
             'tour_index'           => true,
             'tour_interval'        => true,
+            'light_enable'         => true,
             'light1_enable'        => true,
             'light2_enable'        => true,
             'admin_value44'        => true,
@@ -7879,13 +7939,19 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function GetImageCamera($name, $ident, $picturename, $picturelimit, $catid)
     {
         $snapshot_resolution = $this->ReadPropertyInteger('snapshot_resolution');
+        $model            = $this->ReadPropertyInteger('model_type');
+        $user     = $this->ReadPropertyString('User');
+        $password = $this->ReadPropertyString('Password');
         if ($snapshot_resolution == self::RESOLUTION_SNAPSHOT_1080p) {
             $URL = self::GET_IMAGE_1080p;
         } elseif ($snapshot_resolution == self::RESOLUTION_SNAPSHOT_320p) {
             $URL = self::GET_IMAGE_320p;
         } elseif ($snapshot_resolution == self::RESOLUTION_SNAPSHOT_160p) {
             $URL = self::GET_IMAGE_160p;
-        } else {
+        }
+        elseif ($model == self::IN_3011) {
+            $URL = self::GET_IMAGE_IN_3011 . "?user=" . $user . "&pwd=" . $password;
+        }else {
             $URL = self::GET_IMAGE_1080p;
         }
         // $Content = $this->SendINSTAR($URL);
