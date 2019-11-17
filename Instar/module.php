@@ -1517,8 +1517,6 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('as_mode_0_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('md_server2_interval', 0); //
         $this->RegisterAttributeBoolean('md_server2_interval_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryval2_2', 0); //
-        $this->RegisterAttributeBoolean('as_queryval2_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_query4_2', 0); //
         $this->RegisterAttributeBoolean('as_query4_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_queryattr4_2', 0); //
