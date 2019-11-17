@@ -1706,8 +1706,6 @@ class INSTAR extends IPSModule
         $model            = $this->ReadPropertyInteger('model_type');
         $webhook_username = $this->ReadAttributeString('as_username_2');
         $webhook_password = $this->ReadAttributeString('as_password_2');
-
-        $model            = $this->ReadPropertyInteger('model_type');
         if($model == 0)
         {
             $this->ShowStartPopup();
@@ -1766,8 +1764,15 @@ class INSTAR extends IPSModule
                 IPS_SetPosition($MediaID, -1);
                 IPS_SetName($MediaID, $this->Translate('INSTAR live video')); // Medienobjekt benennen
             }
-            $channel = $this->ReadPropertyInteger('MJPEG_Stream');
-            $url     = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
+            if($model == self::IN_3011)
+            {
+                $url     = 'http://' . $host . ':' . $port . '/videostream.cgi?user=' . $user . '&pwd=' . $password . '&resolution=32&rate=0';
+            }
+            else
+            {
+                $channel = $this->ReadPropertyInteger('MJPEG_Stream');
+                $url     = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
+            }
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
 
             $ipsversion = $this->GetIPSVersion();
@@ -7423,7 +7428,15 @@ class INSTAR extends IPSModule
     public function Right()
     {
         $this->WriteValue('Control_Continuous', 3);
-        $command = '-step=0&-act=right';
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_3011)
+        {
+            $command = '6&onestep=1';
+        }
+        else
+        {
+            $command = '-step=0&-act=right';
+        }
         $this->SendDebug('INSTAR:', 'right', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
@@ -7437,7 +7450,15 @@ class INSTAR extends IPSModule
     public function Left()
     {
         $this->WriteValue('Control_Continuous', 0);
-        $command = '-step=0&-act=left';
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_3011)
+        {
+            $command = '4&onestep=1';
+        }
+        else
+        {
+            $command = '-step=0&-act=left';
+        }
         $this->SendDebug('INSTAR:', 'left', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
@@ -7451,7 +7472,15 @@ class INSTAR extends IPSModule
     public function Up()
     {
         $this->WriteValue('Control_Continuous', 1);
-        $command = '-step=0&-act=up';
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_3011)
+        {
+            $command = '0&onestep=1';
+        }
+        else
+        {
+            $command = '-step=0&-act=up';
+        }
         $this->SendDebug('INSTAR:', 'up', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
@@ -7465,7 +7494,15 @@ class INSTAR extends IPSModule
     public function Down()
     {
         $this->WriteValue('Control_Continuous', 2);
-        $command = '-step=0&-act=down';
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_3011)
+        {
+            $command = '2&onestep=1';
+        }
+        else
+        {
+            $command = '-step=0&-act=down';
+        }
         $this->SendDebug('INSTAR:', 'down', 0);
         $state = $this->SendINSTARControlCommand($command);
         return $state;
@@ -7647,8 +7684,22 @@ class INSTAR extends IPSModule
 
     protected function SendINSTARControlCommand($command)
     {
-        $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command, 0);
-        $response = @file_get_contents('http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command);
+        $model            = $this->ReadPropertyInteger('model_type');
+        if($model == self::IN_3011)
+        {
+            $host     = $this->ReadPropertyString('Host');
+            $port     = $this->ReadPropertyInteger('Port');
+            $user     = $this->ReadPropertyString('User');
+            $password = $this->ReadPropertyString('Password');
+            $root     = $host . ':' . $port;
+            $this->SendDebug('INSTAR Send:', 'http://' . $root . '/decoder_control.cgi?command=' . $command . "&user=" . $user. "&pwd=" . $password, 0);
+            $response = @file_get_contents('http://' . $root . '/decoder_control.cgi?command=' . $command . "&user=" . $user. "&pwd=" . $password);
+        }
+        else
+        {
+            $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command, 0);
+            $response = @file_get_contents('http://' . $this->GetHostURL() . '/ptzctrl.cgi?' . $command);
+        }
         $this->SendDebug('INSTAR Response', print_r($response, true), 0);
         return $response;
     }
