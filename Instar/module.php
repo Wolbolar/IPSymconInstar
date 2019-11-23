@@ -1755,6 +1755,7 @@ class INSTAR extends IPSModule
             $this->SetStatus(self::ERROR_FIELD_EMPTY); //Felder dürfen nicht leer sein
         } elseif ($user !== '' && $password !== '' && $hostcheck === true) {
             $MediaID = @$this->GetIDForIdent('INSTARVideo');
+            $channel = $this->ReadPropertyInteger('MJPEG_Stream');
             if ($MediaID === false) {
                 $MediaID = IPS_CreateMedia(3);                  // Stream im MedienPool anlegen
                 IPS_SetParent($MediaID, $this->InstanceID); // Medienobjekt einsortieren unter der Instanz
@@ -1766,9 +1767,13 @@ class INSTAR extends IPSModule
             {
                 $url     = 'http://' . $host . ':' . $port . '/videostream.cgi?user=' . $user . '&pwd=' . $password . '&resolution=32&rate=0';
             }
+            elseif($model == self::IN_8003_Full_HD)
+            {
+                $url     = 'http://' . $host . ':' . $port . '/cgi-bin/hi3510/mjpegstream.cgi?-chn=' . $channel . 'usr=' . $user . '&pwd=' . $password;
+            }
             else
             {
-                $channel = $this->ReadPropertyInteger('MJPEG_Stream');
+
                 $url     = 'http://' . $host . ':' . $port . '/mjpegstream.cgi?-chn=' . $channel . '&usr=' . $user . '&pwd=' . $password;
             }
             IPS_SetMediaFile($MediaID, $url, false);    // Image im MedienPool mit Image-Datei verbinden
