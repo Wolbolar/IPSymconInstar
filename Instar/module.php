@@ -4203,8 +4203,16 @@ class INSTAR extends IPSModule
                 $this->SendDebug(
                     'INSTAR Write Attribute', 'Integer ' . $this->ConvertNameToAtrribute($var_name) . $suffix . ' = ' . print_r($var_content, true), 0
                 );
-                $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
-                $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
+                if($this->ConvertNameToAtrribute($var_name) == 'guest_value11')
+                {
+                    $this->SendDebug(
+                        'INSTAR guest_value11', 'Integer ' . $var_name . $suffix . ' = ' . print_r($var_content, true), 0
+                    );
+                }
+                else{
+                    $this->WriteAttributeInteger($this->ConvertNameToAtrribute($var_name) . $suffix, $var_content);
+                    $this->UpdateParameter($this->ConvertNameToAtrribute($var_name), 'value', $var_content);
+                }
                 // search bool variable value
                 $key = array_search($var_name, $this->BooleanAttributes);
                 if ($key > 0) {
