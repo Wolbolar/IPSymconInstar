@@ -1497,15 +1497,15 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('md_ftpsnap_interval_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_query4_0', 0); //
         $this->RegisterAttributeBoolean('as_query4_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryattr4_0', 0); //
+        $this->RegisterAttributeString('as_queryattr4_0', ''); //
         $this->RegisterAttributeBoolean('as_queryattr4_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryval4_0', 0); //
+        $this->RegisterAttributeString('as_queryval4_0', ''); //
         $this->RegisterAttributeBoolean('as_queryval4_0_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_query5_0', 0); //
         $this->RegisterAttributeBoolean('as_query5_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryattr5_0', 0); //
+        $this->RegisterAttributeString('as_queryattr5_0', ''); //
         $this->RegisterAttributeBoolean('as_queryattr5_0_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryval5_0', 0); //
+        $this->RegisterAttributeString('as_queryval5_0', ''); //
         $this->RegisterAttributeBoolean('as_queryval5_0_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_ex_0', 0); //
         $this->RegisterAttributeBoolean('as_ex_0_enabled', false); // show Attribute in Webfront
@@ -1519,15 +1519,15 @@ class INSTAR extends IPSModule
         $this->RegisterAttributeBoolean('md_server2_interval_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_query4_2', 0); //
         $this->RegisterAttributeBoolean('as_query4_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryattr4_2', 0); //
+        $this->RegisterAttributeString('as_queryattr4_2', ''); //
         $this->RegisterAttributeBoolean('as_queryattr4_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryval4_2', 0); //
+        $this->RegisterAttributeString('as_queryval4_2', ''); //
         $this->RegisterAttributeBoolean('as_queryval4_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_query5_2', 0); //
         $this->RegisterAttributeBoolean('as_query5_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryattr5_2', 0); //
+        $this->RegisterAttributeString('as_queryattr5_2', ''); //
         $this->RegisterAttributeBoolean('as_queryattr5_2_enabled', false); // show Attribute in Webfront
-        $this->RegisterAttributeInteger('as_queryval5_2', 0); //
+        $this->RegisterAttributeString('as_queryval5_2', ''); //
         $this->RegisterAttributeBoolean('as_queryval5_2_enabled', false); // show Attribute in Webfront
         $this->RegisterAttributeInteger('as_ex_2', 0); //
         $this->RegisterAttributeBoolean('as_ex_2_enabled', false); // show Attribute in Webfront
