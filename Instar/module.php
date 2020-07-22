@@ -1990,28 +1990,28 @@ class INSTAR extends IPSModule
             'infraredstat', $this->Translate('IR Mode'), 'INSTAR.infraredstat', $this->_getPosition(), VARIABLETYPE_INTEGER, true
         ); // IR LED Status - auto, close (deactivated)
         $this->RegisterProfileAssociation(
-            'INSTAR.Position', 'Camera', '', '', 1, 8, 0, 0, VARIABLETYPE_INTEGER, [
-                                 [1, $this->Translate('Position 1'), '', -1],
-                                 [2, $this->Translate('Position 2'), '', -1],
-                                 [3, $this->Translate('Position 3'), '', -1],
-                                 [4, $this->Translate('Position 4'), '', -1],
-                                 [5, $this->Translate('Position 5'), '', -1],
-                                 [6, $this->Translate('Position 6'), '', -1],
-                                 [7, $this->Translate('Position 7'), '', -1],
-                                 [8, $this->Translate('Position 8'), '', -1]]
+            'INSTAR.Position', 'Camera', '', '', 0, 7, 0, 0, VARIABLETYPE_INTEGER, [
+                                 [0, $this->Translate('Position 1'), '', -1],
+                                 [1, $this->Translate('Position 2'), '', -1],
+                                 [2, $this->Translate('Position 3'), '', -1],
+                                 [3, $this->Translate('Position 4'), '', -1],
+                                 [4, $this->Translate('Position 5'), '', -1],
+                                 [5, $this->Translate('Position 6'), '', -1],
+                                 [6, $this->Translate('Position 7'), '', -1],
+                                 [7, $this->Translate('Position 8'), '', -1]]
         );
         $this->SetupVariable(
             'SetPosition', $this->Translate('Set preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (1 - 8), integer
-        $this->SetValue('SetPosition', 1);
+        $this->SetValue('SetPosition', 0);
         $this->SetupVariable(
             'UnsetPosition', $this->Translate('Unset preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (1 - 8), integer
-        $this->SetValue('UnsetPosition', 1);
+        $this->SetValue('UnsetPosition', 0);
         $this->SetupVariable(
             'GotoPosition', $this->Translate('Go to preset position'), 'INSTAR.Position', $this->_getPosition(), VARIABLETYPE_INTEGER, true, true
         ); // (1 - 8), integer
-        $this->SetValue('GotoPosition', 1);
+        $this->SetValue('GotoPosition', 0);
         $this->SetupVariable(
             'notification_alarm', $this->Translate('Alarm notification'), 'INSTAR.notification_alarm', $this->_getPosition(), VARIABLETYPE_INTEGER,
             false, true
