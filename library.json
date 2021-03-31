@@ -4,10 +4,10 @@
 	"name": "INSTAR",
 	"url": "https://github.com/Wolbolar/IPSymconInstar",
 	"compatibility": {
-		"version": "5.2",
+		"version": "5.5",
 		"date": 1491343200
 	},
 	"version": "1.0",
-	"build": 10,
+	"build": 11,
 	"date": 0
 }

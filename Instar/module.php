@@ -1799,6 +1799,9 @@ class INSTAR extends IPSModule
         } elseif ($language == 'chinese') {
             $response = @file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=4');
         }
+        else {
+            $response = @file_get_contents('http://' . $this->GetHostURL() . '/cgi-bin/hi3510/param.cgi?cmd=set_instar_admin&-index=11&-value=1');
+        }
         return $response;
     }
 
@@ -1817,11 +1820,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetCameraNetworkConfiguration()
+    public function GetCameraNetworkConfiguration(): array
     {
         $payload = $this->SendParameter('getnetattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetNetworkParameters(string $ip, string $netmask, string $gateway, string $fdnsip, int $httpport, int $httpsport, int $rtmpport, bool $rtsp_aenable, int $rtspport)
@@ -1842,7 +1844,6 @@ class INSTAR extends IPSModule
     /** Set Camera´s Network Configuration
      *
      * @return array
-     * @throws Exception
      */
     public function SetCameraNetworkConfiguration()
     {
@@ -1855,8 +1856,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-dhcpflag=' . $dhcpflag . '&-ip=' . $ip . '&-netmask=' . $netmask . '&-gateway=' . $gateway . '&-fdnsip=' . $fdnsip . '&-sdnsip='
             . $sdnsip;
-        $data = $this->SendParameter('setnetattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setnetattr' . $parameter);
     }
 
     public function GetCameraPorts()
@@ -1871,7 +1871,6 @@ class INSTAR extends IPSModule
     /** Get your Camera´s HTTP port
      *
      * @return false|string
-     * @throws Exception
      */
     public function GetCameraHTTP_Port()
     {
@@ -1902,7 +1901,6 @@ class INSTAR extends IPSModule
     /** Get your Camera´s HTTPS port
      *
      * @return false|string
-     * @throws Exception
      */
     public function GetCameraHTTPS_Port()
     {
@@ -1933,7 +1931,6 @@ class INSTAR extends IPSModule
     /** Get your Camera´s RTSP port
      *
      * @return false|string
-     * @throws Exception
      */
     public function GetCameraRTSP_Port()
     {
@@ -1954,14 +1951,12 @@ class INSTAR extends IPSModule
     public function SetCameraRTSP_Port(int $rtsp_port)
     {
         $parameter = '&rtspport=' . $rtsp_port;
-        $port = $this->SendParameter('setrtspport' . $parameter);
-        return $port;
+        return $this->SendParameter('setrtspport' . $parameter);
     }
 
     /** Get RTSP authentication State
      *
      * @return false|string
-     * @throws Exception
      */
     public function GetRTSPAuthenticationState()
     {
@@ -1975,6 +1970,7 @@ class INSTAR extends IPSModule
 
     /** Set RTSP authentication State
      *
+     * @param bool $state
      * @return false|string
      */
     public function SetRTSPAuthenticationState(bool $state)
@@ -2012,19 +2008,17 @@ class INSTAR extends IPSModule
     public function SetCameraRTMP_Port(int $rtmp_port)
     {
         $parameter = '&-rtmpport=' . $rtmp_port;
-        $port = $this->SendParameter('setrtmpattr' . $parameter);
-        return $port;
+        return $this->SendParameter('setrtmpattr' . $parameter);
     }
 
     /** Get Network Configuration
      *
      * @return array
      */
-    public function GetNetInfo()
+    public function GetNetInfo(): array
     {
         $payload = $this->SendParameter('getnetinfo');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get INSTAR Camera Model
@@ -2051,56 +2045,49 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetCameraWIFIConfiguration()
+    public function GetCameraWIFIConfiguration(): array
     {
         $payload = $this->SendParameter('getwirelessattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function EnableWIFI(bool $wf_enable)
+    public function EnableWIFI(bool $wf_enable): array
     {
         $this->WriteAttributeInteger('wf_enable', intval($wf_enable));
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWiFiAuth(int $wf_auth)
+    public function SetWiFiAuth(int $wf_auth): array
     {
         $this->WriteAttributeInteger('wf_auth', $wf_auth);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWiFiSSID(string $wf_ssid)
+    public function SetWiFiSSID(string $wf_ssid): array
     {
         $this->WriteAttributeString('wf_ssid', $wf_ssid);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWiFiKey(string $wf_key)
+    public function SetWiFiKey(string $wf_key): array
     {
         $this->WriteAttributeString('wf_key', $wf_key);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWiFiEncode(int $wf_enc)
+    public function SetWiFiEncode(int $wf_enc): array
     {
         $this->WriteAttributeInteger('wf_enc', $wf_enc);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWiFiMode(int $wf_mode)
+    public function SetWiFiMode(int $wf_mode): array
     {
         $this->WriteAttributeInteger('wf_mode', $wf_mode);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
-    public function SetWifiParameters(bool $wf_enable, string $wf_ssid, int $wf_auth, string $wf_key, int $wf_enc, int $wf_mode)
+    public function SetWifiParameters(bool $wf_enable, string $wf_ssid, int $wf_auth, string $wf_key, int $wf_enc, int $wf_mode): array
     {
         $this->WriteAttributeInteger('wf_enable', intval($wf_enable));
         $this->WriteAttributeString('wf_ssid', $wf_ssid);
@@ -2108,8 +2095,7 @@ class INSTAR extends IPSModule
         $this->WriteAttributeString('wf_key', $wf_key);
         $this->WriteAttributeInteger('wf_enc', $wf_enc);
         $this->WriteAttributeInteger('wf_mode', $wf_mode);
-        $data = $this->SetCameraWIFIConfiguration();
-        return $data;
+        return $this->SetCameraWIFIConfiguration();
     }
 
     /** Set Camera´s WIFI Configuration
@@ -2126,15 +2112,14 @@ class INSTAR extends IPSModule
         $wf_mode = $this->RegisterAttributeInteger('wf_mode', 0); // 0 (infra), 1 (ad-hoc)
         $parameter = '&-wf_ssid=' . $wf_ssid . '&-wf_enable=' . $wf_enable . '&-wf_auth=' . $wf_auth . '&-wf_key=' . $wf_key . '&-wf_enc=' . $wf_enc
                      . '&-wf_mode=' . $wf_mode;
-        $data = $this->SendParameter('setwirelessattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setwirelessattr' . $parameter);
     }
 
     /** Get your Camera´s Search for WiFi Access Points
      *
      * @return array
      */
-    public function SearchWiFiAccessPoints()
+    public function SearchWiFiAccessPoints(): array
     {
         $payload = $this->SendParameter('searchwireless');
         $data = explode(';', $payload);
@@ -2154,7 +2139,7 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetCameraWiFiAccessPoint()
+    public function GetCameraWiFiAccessPoint(): array
     {
         $payload = $this->SendParameter('getchkwireless');
         $search = [];
@@ -2185,8 +2170,7 @@ class INSTAR extends IPSModule
     public function SetCameraWiFiAccessPoint(string $wf_ssid, int $wauth, string $wf_key, int $wf_enc, int $wf_mode)
     {
         $parameter = '&-wf_ssid=' . $wf_ssid . '&-wf_auth=' . $wauth . '&-wf_key=' . $wf_key . '&-wf_enc=' . $wf_enc . '&-wf_mode=' . $wf_mode;
-        $data = $this->SendParameter('setwirelessattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setwirelessattr' . $parameter);
     }
 
     // Remote Access
@@ -2195,22 +2179,20 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetDDNSConfiguration()
+    public function GetDDNSConfiguration(): array
     {
         $payload = $this->SendParameter('getourddnsattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get your Camera´s 3rd Party DDNS Configuration
      *
      * @return array
      */
-    public function Get3rdPartyDDNSConfiguration()
+    public function Get3rdPartyDDNSConfiguration(): array
     {
         $payload = $this->SendParameter('get3thddnsattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function EnabeINSTAR_DNS(bool $our_enable)
@@ -2226,8 +2208,7 @@ class INSTAR extends IPSModule
             $parameter = '&-d3th_enable=1';
         }
 
-        $data = $this->SendParameter('set3thddnsattr' . $parameter);
-        return $data;
+        return $this->SendParameter('set3thddnsattr' . $parameter);
     }
 
     public function Enabel3thDNS(bool $d3th_enable)
@@ -2242,8 +2223,7 @@ class INSTAR extends IPSModule
         }
 
         $parameter = '&-d3th_enable=' . $d3th_enable;
-        $data = $this->SendParameter('set3thddnsattr' . $parameter);
-        return $data;
+        return $this->SendParameter('set3thddnsattr' . $parameter);
     }
 
     public function Set3rdPartyDDNSDomain(string $d3th_domain)
@@ -2291,28 +2271,25 @@ class INSTAR extends IPSModule
         $parameter =
             '&-d3th_enable=' . $d3th_enable . '&-d3th_service=' . $d3th_service . '&-d3th_uname=' . $d3th_uname . '&-d3th_passwd=' . $d3th_passwd
             . '&-d3th_domain=' . $d3th_domain;
-        $data = $this->SendParameter('set3thddnsattr' . $parameter);
-        return $data;
+        return $this->SendParameter('set3thddnsattr' . $parameter);
     }
 
     /** Get Server Info
      *
      * @return array
      */
-    public function GetServerInfo()
+    public function GetServerInfo(): array
     {
         $payload = $this->SendParameter('getserverinfo');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     // UPnP Settings
 
-    public function GetUPNPConfiguration()
+    public function GetUPNPConfiguration(): array
     {
         $payload = $this->SendParameter('getupnpattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetUPNPConfiguration(bool $upnp)
@@ -2325,8 +2302,7 @@ class INSTAR extends IPSModule
             $upnp = 0;
         }
         $parameter = '&-upm_enable=' . $upnp;
-        $data = $this->SendParameter('setupnpattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setupnpattr' . $parameter);
     }
 
     // ONVIF Settings
@@ -2334,11 +2310,10 @@ class INSTAR extends IPSModule
     /**
      * @return array
      */
-    public function GetONVIFConfiguration()
+    public function GetONVIFConfiguration(): array
     {
         $payload = $this->SendParameter('getonvifattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function EnableONVIF(bool $ov_enable)
@@ -2388,8 +2363,7 @@ class INSTAR extends IPSModule
         $this->WriteAttributeInteger('ov_subchn', $ov_subchn); // Use video channel 11, 12 or 13
         $this->WriteAttributeInteger('ov_snapchn', $ov_snapchn); // Use video channel 11, 12 or 13 for snapshots
         $this->WriteAttributeInteger('ov_nvctype', $ov_nvctype);
-        $data = $this->SetONVIFConfiguration();
-        return $data;
+        return $this->SetONVIFConfiguration();
     }
 
     /**
@@ -2409,8 +2383,7 @@ class INSTAR extends IPSModule
 
         $parameter = '&-ov_enable=' . $ov_enable . '&-ov_port=' . $ov_port . '&-ov_authflag=' . $ov_authflag . '&-ov_forbitset=' . $ov_forbitset
                      . '&-ov_subchn=' . $ov_subchn . '&-ov_snapchn=' . $ov_snapchn . '&-ov_nvctype=' . $ov_nvctype;
-        $data = $this->SendParameter('setonvifattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setonvifattr' . $parameter);
     }
 
     // Multimedia Menu
@@ -2421,11 +2394,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetVolumeAudioInput()
+    public function GetVolumeAudioInput(): array
     {
         $payload = $this->SendParameter('getaudioinvolume');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetVolume(int $volume)
@@ -2472,19 +2444,17 @@ class INSTAR extends IPSModule
         $aec = $this->ReadAttributeInteger('aec');
         $denoise = $this->ReadAttributeInteger('denoise');
         $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
-        $data = $this->SendParameter('setaudioinvolume' . $parameter);
-        return $data;
+        return $this->SendParameter('setaudioinvolume' . $parameter);
     }
 
     /** Get the Volume the Audio Output
      *
      * @return array
      */
-    public function GetVolumeAudioOutput()
+    public function GetVolumeAudioOutput(): array
     {
         $payload = $this->SendParameter('getaudiooutvolume');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetOutputVolume(int $volume)
@@ -2507,38 +2477,34 @@ class INSTAR extends IPSModule
             $ao_volume = 100;
         }
         $parameter = '&-ao_volume=' . $ao_volume;
-        $data = $this->SendParameter('setaudioinvolume' . $parameter);
-        return $data;
+        return $this->SendParameter('setaudioinvolume' . $parameter);
     }
 
     /** Get Audio Encoder Parameter Channel 1
      *
      * @return array
      */
-    public function GetAudioEncoderParameterChannel1()
+    public function GetAudioEncoderParameterChannel1(): array
     {
-        $data = $this->GetAudioEncoderParameter(1);
-        return $data;
+        return $this->GetAudioEncoderParameter(1);
     }
 
     /** Get Audio Encoder Parameter Channel 2
      *
      * @return array
      */
-    public function GetAudioEncoderParameterChannel2()
+    public function GetAudioEncoderParameterChannel2(): array
     {
-        $data = $this->GetAudioEncoderParameter(2);
-        return $data;
+        return $this->GetAudioEncoderParameter(2);
     }
 
     /** Get Audio Encoder Parameter Channel 3
      *
      * @return array
      */
-    public function GetAudioEncoderParameterChannel3()
+    public function GetAudioEncoderParameterChannel3(): array
     {
-        $data = $this->GetAudioEncoderParameter(3);
-        return $data;
+        return $this->GetAudioEncoderParameter(3);
     }
 
     /** Set Audio Encoder Parameter Channel 1
@@ -2547,8 +2513,7 @@ class INSTAR extends IPSModule
      */
     public function SetAudioEncoderParameterChannel1()
     {
-        $data = $this->SetAudioEncoderParameter(1);
-        return $data;
+        return $this->SetAudioEncoderParameter(1);
     }
 
     /** Set Audio Encoder Parameter Channel 2
@@ -2557,8 +2522,7 @@ class INSTAR extends IPSModule
      */
     public function SetAudioEncoderParameterChannel2()
     {
-        $data = $this->SetAudioEncoderParameter(2);
-        return $data;
+        return $this->SetAudioEncoderParameter(2);
     }
 
     /** Set Audio Encoder Paramete7r Channel 3
@@ -2567,8 +2531,7 @@ class INSTAR extends IPSModule
      */
     public function SetAudioEncoderParameterChannel3()
     {
-        $data = $this->SetAudioEncoderParameter(3);
-        return $data;
+        return $this->SetAudioEncoderParameter(3);
     }
 
     // Video Settings
@@ -2577,39 +2540,34 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetVideoAttributes()
+    public function GetVideoAttributes(): array
     {
         $payload = $this->SendParameter('getvideoattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetVideoMode(int $videomode)
     {
         $this->WriteAttributeInteger('videomode', $videomode);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetWDRMode(int $wdrmode)
     {
         $this->WriteAttributeInteger('wdrmode', $wdrmode);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetVideoProfile(int $profile)
     {
         $this->WriteAttributeInteger('profile', $profile);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetMaxChn(int $maxchn)
     {
         $this->WriteAttributeInteger('maxchn', $maxchn);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetVideonorm(int $vinorm)
@@ -2617,8 +2575,7 @@ class INSTAR extends IPSModule
         if ($vinorm == 0) {
             $this->WriteAttributeString('vinorm', 'P');
         }
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     /** Set the Video Attributes
@@ -2633,22 +2590,20 @@ class INSTAR extends IPSModule
         $profile = $this->ReadAttributeInteger('profile');
         $vinorm = $this->ReadAttributeString('vinorm');
         $parameter = '&-videomode=' . $videomode . '&-vinorm=' . $vinorm . '&-wdrmode=' . $wdrmode . '&-profile=' . $profile . '&-maxchn=' . $maxchn;
-        $data = $this->SendParameter('setvideoattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setvideoattr' . $parameter);
     }
 
     /** Get the Video Encoder Attributes for Video Streams 11, 12, 13
      *
      * @return array
      */
-    public function GetVideoEncoderAttributes()
+    public function GetVideoEncoderAttributes(): array
     {
 
         // TODO Error Parameter
 
         $payload = $this->SendParameter('getvencattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set the Video Encoder Attributes for Video Streams 11, 12, 13
@@ -2666,8 +2621,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-chn=' . $chn . '&-bps_1=' . $bps_1 . '&-imagegrade_1=' . $imagegrade_1 . '&-brmode_1=' . $brmode_1 . '&-fps_1=' . $fps_1 . '&-gop_1='
             . $gop_1;
-        $data = $this->SendParameter('setvencattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setvencattr' . $parameter);
     }
 
     // Image Settings
@@ -2676,11 +2630,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetImageParameter()
+    public function GetImageParameter(): array
     {
         $payload = $this->SendParameter('getimageattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Image Parameter
@@ -2703,8 +2656,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-brightness=' . $brightness . '&-saturation=' . $saturation . '-sharpness=' . $sharpness . '&-contrast=' . $contrast . '&-hue=' . $hue
             . '&-wdr=' . $wdr . '&-night=' . $night . '&-shutter=' . $shutter . '&-flip=' . $flip . '&-mirror=' . $mirror . '&-scene=' . $scene;
-        $data = $this->SendParameter('setimageattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setimageattr' . $parameter);
     }
 
     /**
@@ -2722,8 +2674,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('brightness', $brightness);
         $this->WriteAttributeInteger('brightness', $brightness);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     /**
@@ -2741,8 +2692,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('saturation', $saturation);
         $this->WriteAttributeInteger('saturation', $saturation);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     public function Sharpness(int $sharpness)
@@ -2755,8 +2705,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('sharpness', $sharpness);
         $this->WriteAttributeInteger('sharpness', $sharpness);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     public function Gamma(int $gamma)
@@ -2769,8 +2718,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('gamma', $gamma);
         $this->WriteAttributeInteger('gamma', $gamma);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     /**
@@ -2788,8 +2736,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('contrast', $contrast);
         $this->WriteAttributeInteger('contrast', $contrast);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     // todo Check hue values
@@ -2809,8 +2756,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('hue', $hue);
         $this->WriteAttributeInteger('hue', $hue);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     /** Flip Picture
@@ -2829,8 +2775,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('flip', $flip);
         $this->WriteAttributeString('flip', $flip_value);
         $parameter = '&-flip=' . $flip_value;
-        $data = $this->SendParameter('setimageattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setimageattr' . $parameter);
     }
 
     /** Mirror Image
@@ -2849,8 +2794,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('mirror', $mirror);
         $this->WriteAttributeString('mirror', $mirror_value);
         $parameter = '&-mirror=' . $mirror_value;
-        $data = $this->SendParameter('setimageattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setimageattr' . $parameter);
     }
 
     /** Equalize Image
@@ -2869,8 +2813,7 @@ class INSTAR extends IPSModule
         }
         $this->WriteValue('targety', $targety);
         $this->WriteAttributeInteger('targety', $targety);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     /**
@@ -2882,54 +2825,47 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('scene', $scene);
         $this->WriteAttributeString('scene', $scene);
-        $response = $this->SetImageParameter();
-        return $response;
+        return $this->SetImageParameter();
     }
 
     /** Get Extended Image Attributes
      *
      * @return array
      */
-    public function GetExtendedImageAttributes()
+    public function GetExtendedImageAttributes(): array
     {
         $payload = $this->SendParameter('getimageattrex');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetWDRAuto(int $wdrauto)
     {
         $this->WriteAttributeInteger('wdrauto', $wdrauto);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetWDRAutval(int $wdrautval)
     {
         $this->WriteAttributeInteger('wdrautval', $wdrautval);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetD3noauto(int $d3noauto)
     {
         $this->WriteAttributeInteger('d3noauto', $d3noauto);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetD3noval(int $d3noval)
     {
         $this->WriteAttributeInteger('d3noval', $d3noval);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     public function SetWDRmanval(int $wdrmanval)
     {
         $this->WriteAttributeInteger('wdrmanval', $wdrmanval);
-        $data = $this->SetVideoAttributes();
-        return $data;
+        return $this->SetVideoAttributes();
     }
 
     /** Set Extended Image Attributes
@@ -2943,19 +2879,17 @@ class INSTAR extends IPSModule
         $d3noauto = $this->ReadAttributeInteger('d3noauto');
         $d3noval = $this->ReadAttributeInteger('d3noval');
         $parameter = '&-wdrauto=' . $wdrauto . '&-wdrautval=' . $wdrautval . '&-d3noauto=' . $d3noauto . '&-d3noval=' . $d3noval;
-        $data = $this->SendParameter('setimageattrex' . $parameter);
-        return $data;
+        return $this->SendParameter('setimageattrex' . $parameter);
     }
 
     /** Get Lens Distortion Correction
      *
      * @return array
      */
-    public function GetLensDistortionCorrection()
+    public function GetLensDistortionCorrection(): array
     {
         $payload = $this->SendParameter('getldcattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Lens Distortion Correction
@@ -2970,8 +2904,7 @@ class INSTAR extends IPSModule
         $ldc_ratio = $this->ReadAttributeInteger('ldc_ratio');
         $parameter =
             '&-ldc_enable=' . $ldc_enable . '&-ldc_xoffset=' . $ldc_xoffset . '&-ldc_yoffset=' . $ldc_yoffset . '&-ldc_ratio=' . $ldc_ratio;
-        $data = $this->SendParameter('setldcattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setldcattr' . $parameter);
     }
 
     // Image Oberlays
@@ -2980,11 +2913,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetOSDParameter()
+    public function GetOSDParameter(): array
     {
         $payload = $this->SendParameter('getoverlayattr&-region=0&cmd=getoverlayattr&-region=1');
-        $data = $this->CheckPayload($payload, '_osd');
-        return $data;
+        return $this->CheckPayload($payload, '_osd');
     }
 
     public function EnableOSD_Name(bool $show_1)
@@ -3030,8 +2962,7 @@ class INSTAR extends IPSModule
         $name_1 = $this->ReadAttributeString('name_1_osd');
         $parameter_2 = '&cmd=setoverlayattr&-region=1&-show=' . $show_1 . '&-name=' . $name_1;
         $parameter = '&-show=' . $show_0 . '&-name=' . $name_0;
-        $data = $this->SendParameter('setoverlayattr&-region=0' . $parameter . $parameter_2);
-        return $data;
+        return $this->SendParameter('setoverlayattr&-region=0' . $parameter . $parameter_2);
     }
 
     // Privacy Mask
@@ -3040,11 +2971,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetPrivacyMaskAttributes()
+    public function GetPrivacyMaskAttributes(): array
     {
         $payload = $this->SendParameter('getcover');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetPrivacyZone1(bool $show_1)
@@ -3079,188 +3009,164 @@ class INSTAR extends IPSModule
         return $data;
     }
 
-    public function SetPrivacyZone1Color($color_1)
+    public function SetPrivacyZone1Color(int $color_1)
     {
         $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_1));
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone1X($x_1)
+    public function SetSettingsPrivacyZone1X(int $x_1)
     {
         $this->WriteAttributeInteger('x_1', $x_1);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone1Y($y_1)
+    public function SetSettingsPrivacyZone1Y(int $y_1)
     {
         $this->WriteAttributeInteger('y_1', $y_1);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone1Weight($w_1)
+    public function SetSettingsPrivacyZone1Weight(int $w_1)
     {
         $this->WriteAttributeInteger('w_1', $w_1);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
     public function SetSettingsPrivacyZone1Height(int $h_1)
     {
         $this->WriteAttributeInteger('h_1', $h_1);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone1(string $color_1, int $x_1, int $y_1, int $w_1, int $h_1)
+    public function SetSettingsPrivacyZone1(int $color_1, int $x_1, int $y_1, int $w_1, int $h_1)
     {
         $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_1));
         $this->WriteAttributeInteger('x_1', $x_1);
         $this->WriteAttributeInteger('y_1', $y_1);
         $this->WriteAttributeInteger('w_1', $w_1);
         $this->WriteAttributeInteger('h_1', $h_1);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetPrivacyZone2Color($color_2)
+    public function SetPrivacyZone2Color(int $color_2)
     {
         $this->WriteAttributeString('color_2', $this->ConvertColorHEX($color_2));
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone2X($x_2)
+    public function SetSettingsPrivacyZone2X(int $x_2)
     {
         $this->WriteAttributeInteger('x_2', $x_2);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone2Y($y_2)
+    public function SetSettingsPrivacyZone2Y(int $y_2)
     {
         $this->WriteAttributeInteger('y_2', $y_2);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone2Weight($w_2)
+    public function SetSettingsPrivacyZone2Weight(int $w_2)
     {
         $this->WriteAttributeInteger('w_2', $w_2);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
     public function SetSettingsPrivacyZone2Height(int $h_2)
     {
         $this->WriteAttributeInteger('h_2', $h_2);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone2($color_2, $x_2, $y_2, $w_2, $h_2)
+    public function SetSettingsPrivacyZone2(int $color_2, int $x_2, int $y_2, int $w_2, int $h_2)
     {
         $this->WriteAttributeString('color_2', $this->ConvertColorHEX($color_2));
         $this->WriteAttributeInteger('x_2', $x_2);
         $this->WriteAttributeInteger('y_2', $y_2);
         $this->WriteAttributeInteger('w_2', $w_2);
         $this->WriteAttributeInteger('h_2', $h_2);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetPrivacyZone3Color($color_3)
+    public function SetPrivacyZone3Color(int $color_3)
     {
         $this->WriteAttributeString('color_3', $this->ConvertColorHEX($color_3));
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone3X($x_3)
+    public function SetSettingsPrivacyZone3X(int $x_3)
     {
         $this->WriteAttributeInteger('x_3', $x_3);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone3Y($y_3)
+    public function SetSettingsPrivacyZone3Y(int $y_3)
     {
         $this->WriteAttributeInteger('y_3', $y_3);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone3Weight($w_3)
+    public function SetSettingsPrivacyZone3Weight(int $w_3)
     {
         $this->WriteAttributeInteger('w_3', $w_3);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
     public function SetSettingsPrivacyZone3Height(int $h_3)
     {
         $this->WriteAttributeInteger('h_3', $h_3);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone3($color_3, $x_3, $y_3, $w_3, $h_3)
+    public function SetSettingsPrivacyZone3(int $color_3, int $x_3, int $y_3, int $w_3, int $h_3)
     {
         $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_3));
         $this->WriteAttributeInteger('x_3', $x_3);
         $this->WriteAttributeInteger('y_3', $y_3);
         $this->WriteAttributeInteger('w_3', $w_3);
         $this->WriteAttributeInteger('h_3', $h_3);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetPrivacyZone4Color($color_4)
+    public function SetPrivacyZone4Color(int $color_4)
     {
         $this->WriteAttributeString('color_4', $this->ConvertColorHEX($color_4));
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone4X($x_4)
+    public function SetSettingsPrivacyZone4X(int $x_4)
     {
         $this->WriteAttributeInteger('x_4', $x_4);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone4Y($y_4)
+    public function SetSettingsPrivacyZone4Y(int $y_4)
     {
         $this->WriteAttributeInteger('y_4', $y_4);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone4Weight($w_4)
+    public function SetSettingsPrivacyZone4Weight(int $w_4)
     {
         $this->WriteAttributeInteger('w_4', $w_4);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
     public function SetSettingsPrivacyZone4Height(int $h_4)
     {
         $this->WriteAttributeInteger('h_4', $h_4);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
-    public function SetSettingsPrivacyZone4($color_4, $x_4, $y_4, $w_4, $h_4)
+    public function SetSettingsPrivacyZone4(int $color_4, int $x_4, int $y_4, int $w_4, int $h_4)
     {
         $this->WriteAttributeString('color_1', $this->ConvertColorHEX($color_4));
         $this->WriteAttributeInteger('x_4', $x_4);
         $this->WriteAttributeInteger('y_4', $y_4);
         $this->WriteAttributeInteger('w_4', $w_4);
         $this->WriteAttributeInteger('h_4', $h_4);
-        $data = $this->SetPrivacyMaskAttributes();
-        return $data;
+        return $this->SetPrivacyMaskAttributes();
     }
 
     /** Set Privacy Mask Attributes
@@ -3304,8 +3210,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-show=' . $show_1 . '&-color=' . $color_1 . '&-x=' . $x_1 . '&-y=' . $y_1 . '&-w=' . $w_1 . '&-h=' . $h_1 . $parameter_2 . $parameter_3
             . $parameter_4;
-        $data = $this->SendParameter('setcover&-region=1' . $parameter);
-        return $data;
+        return $this->SendParameter('setcover&-region=1' . $parameter);
     }
 
     // Features Menu
@@ -3316,11 +3221,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetEmailNotificationParameter()
+    public function GetEmailNotificationParameter(): array
     {
         $payload = $this->SendParameter('getsmtpattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Email Notification Parameter
@@ -3343,8 +3247,7 @@ class INSTAR extends IPSModule
             '&-ma_ssl=' . $ma_ssl . '&-ma_from=' . $ma_from . '&-ma_to=' . $ma_to . '&-ma_subject=' . $ma_subject . '&-ma_text=' . $ma_text
             . '&-ma_server=' . $ma_server . '&-ma_port=' . $ma_port . '&-ma_logintype=' . $ma_logintype . '&-ma_username=' . $ma_username
             . '&-ma_password=' . $ma_password;
-        $data = $this->SendParameter('setsmtpattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setsmtpattr' . $parameter);
     }
 
     // FTP Settings
@@ -3353,62 +3256,61 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetINSTARCloudServerParameter()
+    public function GetINSTARCloudServerParameter(): array
     {
         $payload = $this->SendParameter('getftpattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function SetFTPServer($ft_server)
+    public function SetFTPServer(string $ft_server)
     {
         $this->WriteAttributeString('ft_server', $ft_server);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPPort($ft_port)
+    public function SetFTPPort(int $ft_port)
     {
         $this->WriteAttributeInteger('ft_port', $ft_port);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPUser($ft_username)
+    public function SetFTPUser(string $ft_username)
     {
         $this->WriteAttributeString('ft_username', $ft_username);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPPassword($ft_password)
+    public function SetFTPPassword(string $ft_password)
     {
         $this->WriteAttributeString('ft_password', $ft_password);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPMode($ft_mode)
+    public function SetFTPMode(int $ft_mode)
     {
         $this->WriteAttributeInteger('ft_mode', $ft_mode);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPDir($ft_dirname)
+    public function SetFTPDir(string $ft_dirname)
     {
         $this->WriteAttributeString('ft_dirname', $ft_dirname);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPDirmode($ft_dirmode)
+    public function SetFTPDirmode(int $ft_dirmode)
     {
         $this->WriteAttributeInteger('ft_dirmode', $ft_dirmode);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPSSL($ft_ssl)
+    public function SetFTPSSL(int $ft_ssl)
     {
         $this->WriteAttributeInteger('ft_ssl', $ft_ssl);
         $this->SetINSTARCloudServerParameter();
     }
 
-    public function SetFTPParameter($ft_server, $ft_port, $ft_username, $ft_password, $ft_mode, $ft_dirname, $ft_dirmode, $ft_ssl)
+    public function SetFTPParameter(string $ft_server, int $ft_port, string $ft_username, string $ft_password, int $ft_mode, string $ft_dirname, int $ft_dirmode, int $ft_ssl)
     {
         $this->WriteAttributeString('ft_server', $ft_server);
         $this->WriteAttributeInteger('ft_port', $ft_port);
@@ -3440,19 +3342,17 @@ class INSTAR extends IPSModule
             '&-ft_server=' . $ft_server . '&-ft_port=' . $ft_port . '&-ft_username=' . $ft_username . '&-ft_password=' . $ft_password . '&-ft_mode='
             . $ft_mode . '&-ft_dirname=' . $ft_dirname . '&-ft_autocreatedir=' . $ft_autocreatedir . '&-ft_dirmode=' . $ft_dirmode . '&-ft_ssl='
             . $ft_ssl;
-        $data = $this->SendParameter('setftpattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setftpattr' . $parameter);
     }
 
     /** Get FTP Server Parameter
      *
      * @return array
      */
-    public function GetFTPServerParameter()
+    public function GetFTPServerParameter(): array
     {
         $payload = $this->SendParameter('get_instar_admin&-index=31');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set FTP Server Parameter
@@ -3464,19 +3364,17 @@ class INSTAR extends IPSModule
         $admin_value31 = $this->ReadPropertyString('admin_value31');
         $url_code = urlencode($admin_value31);
         $parameter = '&-value=' . $url_code;
-        $data = $this->SendParameter('set_instar_admin&-index=31' . $parameter);
-        return $data;
+        return $this->SendParameter('set_instar_admin&-index=31' . $parameter);
     }
 
     /** Test FTP Server Parameter
      *
      * @return array
      */
-    public function TestFTPServerParameter()
+    public function TestFTPServerParameter(): array
     {
         $payload = $this->SendParameter('testftp');
-        $data = $this->SplitPayload($payload);
-        return $data;
+        return $this->SplitPayload($payload);
     }
 
     // Nightvision Settings
@@ -3488,11 +3386,10 @@ class INSTAR extends IPSModule
     public function GetIRMode()
     {
         $payload = $this->SendParameter('getinfrared');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function SetIRLED($ir_state)
+    public function SetIRLED(int $ir_state)
     {
         if ($ir_state == 0) {
             $this->LED_Auto();
@@ -3509,8 +3406,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('infraredstat', 0);
         $parameter = '&-infraredstat=auto';
-        $state = $this->SendParameter('setinfrared' . $parameter);
-        return $state;
+        return $this->SendParameter('setinfrared' . $parameter);
     }
 
     /** IR LED Off
@@ -3521,8 +3417,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('infraredstat', 2);
         $parameter = '&-infraredstat=close';
-        $state = $this->SendParameter('setinfrared' . $parameter);
-        return $state;
+        return $this->SendParameter('setinfrared' . $parameter);
     }
 
     /** IR LED ON
@@ -3533,8 +3428,7 @@ class INSTAR extends IPSModule
     {
         $this->WriteValue('infraredstat', 1);
         $parameter = '&-infraredstat=open';
-        $state = $this->SendParameter('setinfrared' . $parameter);
-        return $state;
+        return $this->SendParameter('setinfrared' . $parameter);
     }
 
     /** Set IR LED Parameter
@@ -3545,19 +3439,17 @@ class INSTAR extends IPSModule
     {
         $infraredstat = $this->ReadAttributeString('infraredstat');
         $parameter = '&-infraredstat=' . $infraredstat;
-        $data = $this->SendParameter('setinfrared' . $parameter);
-        return $data;
+        return $this->SendParameter('setinfrared' . $parameter);
     }
 
     /** Get Time Window to Switch IR LEDs from off to auto
      *
      * @return array
      */
-    public function GetTimeWindowSwitchIR()
+    public function GetTimeWindowSwitchIR(): array
     {
         $payload = $this->SendParameter('getplancgi');
-        $data = $this->CheckPayload($payload, '_ir');
-        return $data;
+        return $this->CheckPayload($payload, '_ir');
     }
 
     /** Define a Time Window to Switch IR LEDs from off to auto
@@ -3573,8 +3465,7 @@ class INSTAR extends IPSModule
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setplancgi&-plancgi_enable_0=1&-plancgi_enable_1=1&-plancgi_time_0=21600&-plancgi_time_1=64800
         $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_time_0=' . $plancgi_time_0
                      . '&-plancgi_time_1=' . $plancgi_time_1;
-        $data = $this->SendParameter('setplancgi' . $parameter);
-        return $data;
+        return $this->SendParameter('setplancgi' . $parameter);
     }
 
     // PTZ Settings
@@ -3583,11 +3474,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetPan_TiltSettings()
+    public function GetPan_TiltSettings(): array
     {
         $payload = $this->SendParameter('getmotorattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Pan&Tilt Settings
@@ -3608,41 +3498,37 @@ class INSTAR extends IPSModule
         $parameter =
             '&-selfdet=' . $selfdet . '&-movehome=' . $movehome . '&-ptzalarmmask=' . $ptzalarmmask . '&-tiltspeed=' . $tiltspeed . '&-panspeed='
             . $panspeed . '&-tiltscan=' . $tiltscan . '&-panscan=' . $panscan . '&-value=' . $value . '&-alarmpresetindex=' . $alarmpresetindex;
-        $data = $this->SendParameter('setmotorattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setmotorattr' . $parameter);
     }
 
     /** Get State of Alarm Position
      *
      * @return array
      */
-    public function GetStateAlarmPosition()
+    public function GetStateAlarmPosition(): array
     {
         $payload = $this->SendParameter('getmdalarm&-aname=preset');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get Park Position Parameter
      *
      * @return array
      */
-    public function GetParkPositionParameter()
+    public function GetParkPositionParameter(): array
     {
         $payload = $this->SendParameter('gettimerpreset');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get One-Step Pan&Tilt Control
      *
      * @return array
      */
-    public function GetOneStepPanTiltControl()
+    public function GetOneStepPanTiltControl(): array
     {
         $payload = $this->SendParameter('get_instar_admin&-index=46');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     // PTZ Tour Settings
@@ -3651,13 +3537,12 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetPanTiltTourSettings()
+    public function GetPanTiltTourSettings(): array
     {
         $payload = $this->SendParameter('getptztour');
         // TODO auswerten
 
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Pan&Tilt Tour Settings
@@ -3671,8 +3556,7 @@ class INSTAR extends IPSModule
         $tour_times = $this->ReadAttributeInteger('tour_times');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setptztour&-tour_index=0;1;2;-1;-1;-1;-1;-1&-tour_interval=300;300;300;300;300;300;300;300&-tour_times=1
         $parameter = '&-tour_index=' . $tour_index . '&-tour_interval=' . $tour_interval . '&-tour_times=' . $tour_times;
-        $data = $this->SendParameter('setptztour' . $parameter);
-        return $data;
+        return $this->SendParameter('setptztour' . $parameter);
     }
 
     // Status LEDs
@@ -3681,11 +3565,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetStatusLED()
+    public function GetStatusLED(): array
     {
         $payload = $this->SendParameter('getlightattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Activate / Deactivate Status LEDs
@@ -3698,8 +3581,7 @@ class INSTAR extends IPSModule
         $light_enable = $this->ReadAttributeString('light2_enable');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setlightattr&-light_index=1&-light_enable=on&cmd=setlightattr&-light_index=2&-light_enable=on
         $parameter = '&-light_index=' . $light_index . '&-light_enable=' . $light_enable;
-        $data = $this->SendParameter('setlightattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setlightattr' . $parameter);
     }
 
     // Recording Settings
@@ -3708,23 +3590,22 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetFileLengthManualRecordings()
+    public function GetFileLengthManualRecordings(): array
     {
         $payload = $this->SendParameter('get_instar_admin&-index=44');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set File Length of Manual Recordings
      *
+     * @param int $value
      * @return false|string
      */
     public function SetFileLengthManualRecordings(int $value)
     {
         // http://admin:instar@192.168.178.88/param.cgi?cmd=set_instar_admin&-index=44&-value=600
         $parameter = '&-value=' . $value;
-        $data = $this->SendParameter('set_instar_admin&-index=44' . $parameter);
-        return $data;
+        return $this->SendParameter('set_instar_admin&-index=44' . $parameter);
     }
 
     // SD Card
@@ -3735,8 +3616,7 @@ class INSTAR extends IPSModule
      */
     public function FormatSD_Card()
     {
-        $data = $this->SendParameter('sdfrmt');
-        return $data;
+        return $this->SendParameter('sdfrmt');
     }
 
     /** Unmount SD Card
@@ -3745,87 +3625,77 @@ class INSTAR extends IPSModule
      */
     public function UnmountSD_Card()
     {
-        $data = $this->SendParameter('sdstop');
-        return $data;
+        return $this->SendParameter('sdstop');
     }
 
     // Alarm Menu
 
     // Alarm Actions
 
-    public function GetAlarmActionParameterEmailsnap()
+    public function GetAlarmActionParameterEmailsnap(): array
     {
         $parameter = '&-aname=emailsnap';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterSnap()
+    public function GetAlarmActionParameterSnap(): array
     {
         $parameter = '&-aname=snap';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterRecord()
+    public function GetAlarmActionParameterRecord(): array
     {
         $parameter = '&-aname=record';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterFTPRecord()
+    public function GetAlarmActionParameterFTPRecord(): array
     {
         $parameter = '&-aname=ftprec';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterRelay()
+    public function GetAlarmActionParameterRelay(): array
     {
         $parameter = '&-aname=relay';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterFTPSnap()
+    public function GetAlarmActionParameterFTPSnap(): array
     {
         $parameter = '&-aname=ftpsnap';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterSound()
+    public function GetAlarmActionParameterSound(): array
     {
         $parameter = '&-aname=sound';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
-    public function GetAlarmActionParameterType()
+    public function GetAlarmActionParameterType(): array
     {
         $parameter = '&-aname=type';
         $payload = $this->SendParameter('getmdalarm' . $parameter);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get Alarm Action Parameter
      *
      * @return array
      */
-    public function GetAlarmActionParameter()
+    public function GetAlarmActionParameter(): array
     {
         $payload = $this->SendParameter('getmdalarm');
-        $data = $this->SplitPayload($payload);
-        return $data;
+        return $this->SplitPayload($payload);
     }
 
     /** Set Alarm Action Parameter
@@ -3846,19 +3716,17 @@ class INSTAR extends IPSModule
                       . '&cmd=setmdalarm&-aname=ftpsnap&-switch=' . $ftpsnap . '&cmd=setmdalarm&-aname=record&-switch=' . $record
                       . '&cmd=setmdalarm&-aname=ftprec&-switch=' . $ftprec . '&cmd=setmdalarm&-aname=type&-switch=' . $alarm
                       . '&cmd=setmdalarm&-aname=relay&-switch=' . $relay . '&cmd=setmdalarm&-aname=sound&-switch=' . $sound;
-        $data = $this->SendParameter('setmdalarm' . $parameter);
-        return $data;
+        return $this->SendParameter('setmdalarm' . $parameter);
     }
 
     /** Get Audio Detection Parameter
      *
      * @return array
      */
-    public function GetAudioDetectionParameter()
+    public function GetAudioDetectionParameter(): array
     {
         $payload = $this->SendParameter('getaudioalarmattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Audio Detection Parameter
@@ -3869,19 +3737,17 @@ class INSTAR extends IPSModule
     {
         $aa_enable = $this->ReadAttributeInteger('aa_enable');
         $parameter = '&-aa_enable=' . $aa_enable;
-        $data = $this->SendParameter('setaudioalarmattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setaudioalarmattr' . $parameter);
     }
 
     /** Get Alarm Input Parameter
      *
      * @return array
      */
-    public function GetAlarmInputParameter()
+    public function GetAlarmInputParameter(): array
     {
         $payload = $this->SendParameter('getioattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Alarm Input Parameter
@@ -3892,19 +3758,17 @@ class INSTAR extends IPSModule
     {
         $io_enable = $this->ReadAttributeInteger('io_enable');
         $parameter = '&-io_enable=' . $io_enable;
-        $data = $this->SendParameter('setioattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setioattr' . $parameter);
     }
 
     /** Get Passive Infrared Motion Detection Sensor Parameter
      *
      * @return array
      */
-    public function GetPassiveInfraredMotionDetectionSensorParameter()
+    public function GetPassiveInfraredMotionDetectionSensorParameter(): array
     {
         $payload = $this->SendParameter('getpirattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function EnablePIR(bool $state)
@@ -3923,19 +3787,17 @@ class INSTAR extends IPSModule
     {
         $pir_enable = $this->ReadAttributeInteger('pir_enable');
         $parameter = '&-pir_enable=' . $pir_enable;
-        $data = $this->SendParameter('setpirattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setpirattr' . $parameter);
     }
 
     /** Get Number of Alarm Snapshots
      *
      * @return array
      */
-    public function GetNumberAlarmSnapshots()
+    public function GetNumberAlarmSnapshots(): array
     {
         $payload = $this->SendParameter('getalarmsnapattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Number of Alarm Snapshots
@@ -3951,8 +3813,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-snap_chn=' . $snap_chn . '&-snap_count=' . $snap_count . '&-email_snap_count=' . $email_snap_count . '&-ftp_snap_count='
             . $ftp_snap_count;
-        $data = $this->SendParameter('setalarmsnapattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setalarmsnapattr' . $parameter);
     }
 
     // Alarm Areas
@@ -3961,11 +3822,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetAlarmAreasParameter()
+    public function GetAlarmAreasParameter(): array
     {
         $payload = $this->SendParameter('getmdattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     public function SetAlarmZone1(bool $m1_enable)
@@ -4025,8 +3885,7 @@ class INSTAR extends IPSModule
         $m1_y = intval(round($m1_y * 1.08));
         $m1_w = intval(round($m1_w * 1.92));
         $m1_h = intval(round($m1_h * 1.08));
-        $data = $this->SetAlarmZone1Parameters($m1_x, $m1_y, $m1_w, $m1_h);
-        return $data;
+        return $this->SetAlarmZone1Parameters($m1_x, $m1_y, $m1_w, $m1_h);
     }
 
     public function SetAlarmZone2ParametersForm(int $m2_x, int $m2_y, int $m2_w, int $m2_h)
@@ -4035,8 +3894,7 @@ class INSTAR extends IPSModule
         $m2_y = intval(round($m2_y * 1.08));
         $m2_w = intval(round($m2_w * 1.92));
         $m2_h = intval(round($m2_h * 1.08));
-        $data = $this->SetAlarmZone1Parameters($m2_x, $m2_y, $m2_w, $m2_h);
-        return $data;
+        return $this->SetAlarmZone1Parameters($m2_x, $m2_y, $m2_w, $m2_h);
     }
 
     public function SetAlarmZone3ParametersForm(int $m3_x, int $m3_y, int $m3_w, int $m3_h)
@@ -4045,8 +3903,7 @@ class INSTAR extends IPSModule
         $m3_y = intval(round($m3_y * 1.08));
         $m3_w = intval(round($m3_w * 1.92));
         $m3_h = intval(round($m3_h * 1.08));
-        $data = $this->SetAlarmZone1Parameters($m3_x, $m3_y, $m3_w, $m3_h);
-        return $data;
+        return $this->SetAlarmZone1Parameters($m3_x, $m3_y, $m3_w, $m3_h);
     }
 
     public function SetAlarmZone4ParametersForm(int $m4_x, int $m4_y, int $m4_w, int $m4_h)
@@ -4055,8 +3912,7 @@ class INSTAR extends IPSModule
         $m4_y = intval(round($m4_y * 1.08));
         $m4_w = intval(round($m4_w * 1.92));
         $m4_h = intval(round($m4_h * 1.08));
-        $data = $this->SetAlarmZone1Parameters($m4_x, $m4_y, $m4_w, $m4_h);
-        return $data;
+        return $this->SetAlarmZone1Parameters($m4_x, $m4_y, $m4_w, $m4_h);
     }
 
     public function SetAlarmZone1Parameters(int $m1_x, int $m1_y, int $m1_w, int $m1_h)
@@ -4065,8 +3921,7 @@ class INSTAR extends IPSModule
         $this->WriteAttributeInteger('m1_y', $m1_y);
         $this->WriteAttributeInteger('m1_w', $m1_w);
         $this->WriteAttributeInteger('m1_h', $m1_h);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone2Parameters(int $m2_x, int $m2_y, int $m2_w, int $m2_h)
@@ -4075,8 +3930,7 @@ class INSTAR extends IPSModule
         $this->WriteAttributeInteger('m2_y', $m2_y);
         $this->WriteAttributeInteger('m2_w', $m2_w);
         $this->WriteAttributeInteger('m2_h', $m2_h);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone3Parameters(int $m3_x, int $m3_y, int $m3_w, int $m3_h)
@@ -4085,8 +3939,7 @@ class INSTAR extends IPSModule
         $this->WriteAttributeInteger('m3_y', $m3_y);
         $this->WriteAttributeInteger('m3_w', $m3_w);
         $this->WriteAttributeInteger('m3_h', $m3_h);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone4Parameters(int $m4_x, int $m4_y, int $m4_w, int $m4_h)
@@ -4095,36 +3948,31 @@ class INSTAR extends IPSModule
         $this->WriteAttributeInteger('m4_y', $m4_y);
         $this->WriteAttributeInteger('m4_w', $m4_w);
         $this->WriteAttributeInteger('m4_h', $m4_h);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone1Senitivity(int $m1_sensitivity)
     {
         $this->WriteAttributeInteger('m1_sensitivity', $m1_sensitivity);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone2Senitivity(int $m2_sensitivity)
     {
         $this->WriteAttributeInteger('m2_sensitivity', $m2_sensitivity);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone3Senitivity(int $m3_sensitivity)
     {
         $this->WriteAttributeInteger('m3_sensitivity', $m3_sensitivity);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     public function SetAlarmZone4Senitivity(int $m4_sensitivity)
     {
         $this->WriteAttributeInteger('m4_sensitivity', $m4_sensitivity);
-        $data = $this->SetAlarmAreasParameter();
-        return $data;
+        return $this->SetAlarmAreasParameter();
     }
 
     /** Set Alarm Areas Parameter
@@ -4183,8 +4031,7 @@ class INSTAR extends IPSModule
         // TODO threshold
         $parameter = '&-name=1&-enable=' . $m1_enable . '&-s=' . $m1_sensitivity . '&-x=' . $m1_x . '&-y=' . $m1_y . '&-w=' . $m1_w . '&-h=' . $m1_h
                      . $parameter_2 . $parameter_3 . $parameter_4;
-        $data = $this->SendParameter('setmdattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setmdattr' . $parameter);
     }
 
     // Alarm Schedule
@@ -4198,19 +4045,17 @@ class INSTAR extends IPSModule
             $parameter = '&-week0=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week1=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week2=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week3=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week4=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week5=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN&-week6=NNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNNN';
             $this->SetValue('alarm_detection', false);
         }
-        $data = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
-        return $data;
+        return $this->SendParameter('setscheduleex&-ename=md' . $parameter);
     }
 
     /** Get Motion Detection Time Schedule Parameter
      *
      * @return array
      */
-    public function GetMotionDetectionTimeScheduleParameter()
+    public function GetMotionDetectionTimeScheduleParameter(): array
     {
         $payload = $this->SendParameter('getscheduleex&-ename=md');
-        $data = $this->CheckPayload($payload, '_as');
-        return $data;
+        return $this->CheckPayload($payload, '_as');
     }
 
     /** Set Motion Detection Time Schedule Parameter
@@ -4229,19 +4074,17 @@ class INSTAR extends IPSModule
         $week6 = $this->ReadAttributeString('week6_as');
         $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
                      . '&-week6=' . $week6;
-        $data = $this->SendParameter('setscheduleex&-ename=md' . $parameter);
-        return $data;
+        return $this->SendParameter('setscheduleex&-ename=md' . $parameter);
     }
 
     /** Get Timer Parameter
      *
      * @return array
      */
-    public function GetTimerParameter()
+    public function GetTimerParameter(): array
     {
         $payload = $this->SendParameter('getplancgi');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Timer Parameter
@@ -4276,8 +4119,7 @@ class INSTAR extends IPSModule
          */
         $parameter = '&-plancgi_enable_0=' . $plancgi_enable_0 . '&-plancgi_enable_1=' . $plancgi_enable_1 . '&-plancgi_enable_2=' . $plancgi_enable_2
                      . '&-plancgi_enable_3=' . $plancgi_enable_3;
-        $data = $this->SendParameter('setplancgi' . $parameter);
-        return $data;
+        return $this->SendParameter('setplancgi' . $parameter);
     }
 
     // Alarm Server
@@ -4286,22 +4128,20 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetConfigurationPushService()
+    public function GetConfigurationPushService(): array
     {
         $payload = $this->SendParameter('getalarmserverattr&-as_index=1');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get Alarm Server [1] Parameter
      *
      * @return array
      */
-    public function GetAlarmServer1Parameter()
+    public function GetAlarmServer1Parameter(): array
     {
         $payload = $this->SendParameter('getmdalarm&-aname=server2');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Alarm Server [1] Parameter
@@ -4312,19 +4152,17 @@ class INSTAR extends IPSModule
     {
         $switch = $this->ReadAttributeString('switch');
         $parameter = '&-switch=' . $switch;
-        $data = $this->SendParameter('setmdalarm&-aname=server2' . $parameter);
-        return $data;
+        return $this->SendParameter('setmdalarm&-aname=server2' . $parameter);
     }
 
     /** Get Alarmserver [2] Configuration
      *
      * @return array
      */
-    public function GetAlarmserver2Configuration()
+    public function GetAlarmserver2Configuration(): array
     {
         $payload = $this->SendParameter('getalarmserverattr&-as_index=3');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Alarmserver [2] Configuration
@@ -4374,8 +4212,7 @@ class INSTAR extends IPSModule
                      . $as_username . '&-as_password=' . $as_password . '&-as_area=' . $as_area . '&-as_io=' . $as_io . '&-as_audio=' . $as_audio
                      . '&-as_areaio=' . $as_areaio . '&-as_activequery=' . $as_activequery . '&-as_query1=' . $as_query1 . '&-as_query2=' . $as_query2
                      . '&-as_query3=' . $as_query3 . $parameter_1 . $parameter_2 . $parameter_3;
-        $data = $this->SendParameter('setmdalarm&-aname=server2&-switch=on&cmd=setalarmserverattr&-as_index=3' . $parameter);
-        return $data;
+        return $this->SendParameter('setmdalarm&-aname=server2&-switch=on&cmd=setalarmserverattr&-as_index=3' . $parameter);
     }
 
     // Task Menu
@@ -4386,11 +4223,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetIntervalSnapshotSeriesTask()
+    public function GetIntervalSnapshotSeriesTask(): array
     {
         $payload = $this->SendParameter('getsnaptimerattrex');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Setup a Interval Snapshot Series Task
@@ -4404,19 +4240,17 @@ class INSTAR extends IPSModule
         $as_interval = $this->ReadAttributeInteger('as_interval');
         // &cmd=setsnaptimerattrex&-as_type=email&-as_enable=1&-as_interval=300&cmd=setsnaptimerattrex&-as_type=ftp&-as_enable=1&-as_interval=60
         $parameter = '&-as_type=' . $as_type . '&-as_enable=' . $as_enable . '&-as_interval=' . $as_interval;
-        $data = $this->SendParameter('setsnaptimerattrex' . $parameter);
-        return $data;
+        return $this->SendParameter('setsnaptimerattrex' . $parameter);
     }
 
     /** Get Schedule for Interval Snapshot Series
      *
      * @return array
      */
-    public function GetScheduleIntervalSnapshotSeries()
+    public function GetScheduleIntervalSnapshotSeries(): array
     {
         $payload = $this->SendParameter('getscheduleex&-ename=snap');
-        $data = $this->CheckPayload($payload, '_snapshot');
-        return $data;
+        return $this->CheckPayload($payload, '_snapshot');
     }
 
     /** Set Schedule for Interval Snapshot Series
@@ -4436,8 +4270,7 @@ class INSTAR extends IPSModule
         $week6 = $this->ReadAttributeString('week6_snapshot');
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=snap&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=email&cmd=setsnaptimerattrex&-as_enable=1&-as_interval=60&-as_type=ftp
         $parameter = '&-as_enable=' . $as_enable;
-        $data = $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
-        return $data;
+        return $this->SendParameter('setscheduleex&-ename=snap' . $parameter);
     }
 
     // Video Recordings
@@ -4446,11 +4279,10 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetPlannedVideoRecordingAttribute()
+    public function GetPlannedVideoRecordingAttribute(): array
     {
         $payload = $this->SendParameter('getplanrecattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Planned Video Recording Attribute
@@ -4463,19 +4295,17 @@ class INSTAR extends IPSModule
         $planrec_chn = $this->ReadAttributeInteger('planrec_chn');
         $planrec_time = $this->ReadAttributeInteger('planrec_time');
         $parameter = '&-planrec_enable=' . $planrec_enable . '&-planrec_chn=' . $planrec_chn . '&-planrec_time=' . $planrec_time;
-        $data = $this->SendParameter('setplanrecattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setplanrecattr' . $parameter);
     }
 
     /** Get Schedule for Manual Recording Task
      *
      * @return array
      */
-    public function GetScheduleManualRecordingTask()
+    public function GetScheduleManualRecordingTask(): array
     {
         $payload = $this->SendParameter('getscheduleex&-ename=plan');
-        $data = $this->CheckPayload($payload, '_record');
-        return $data;
+        return $this->CheckPayload($payload, '_record');
     }
 
     /** Set Schedule for Manual Recording Task
@@ -4495,8 +4325,7 @@ class INSTAR extends IPSModule
         // http://admin:instar@192.168.178.88/param.cgi?cmd=setscheduleex&-ename=plan&-week0=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week1=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week2=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week3=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week4=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week5=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP&-week6=PPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPP
         // $parameter = '&-volume=' . $volume . '&-volin_type=' . $volin_type . '&-aec=' . $aec . '&-denoise=' . $denoise;
         $parameter = '';
-        $data = $this->SendParameter('setscheduleex&-ename' . $parameter);
-        return $data;
+        return $this->SendParameter('setscheduleex&-ename' . $parameter);
     }
 
     // System Menu
@@ -4507,33 +4336,30 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetLAN_MACAddress()
+    public function GetLAN_MACAddress(): array
     {
         $payload = $this->SendParameter('getlanmac');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get your Camera´s WiFi MAC Address
      *
      * @return array
      */
-    public function GetWIFI_MACAddress()
+    public function GetWIFI_MACAddress(): array
     {
         $payload = $this->SendParameter('getwifimac');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Get your Camera´s WAN IP Address
      *
      * @return array
      */
-    public function GetWAN_IPAddress()
+    public function GetWAN_IPAddress(): array
     {
         $payload = $this->SendParameter('getinternetip');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     // User Settings
@@ -4542,15 +4368,22 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetNetworkConfiguration()
+    public function GetNetworkConfiguration(): array
     {
         $payload = $this->SendParameter('getuserattr');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set your Camera´s Network Configuration
      *
+     * @param string $at_username0
+     * @param string $at_password0
+     * @param bool $at_enable1
+     * @param string $at_username1
+     * @param string $at_password1
+     * @param bool $at_enable2
+     * @param string $at_username2
+     * @param string $at_password2
      * @return false|string
      */
     public function SetNetworkConfiguration(string $at_username0, string $at_password0, bool $at_enable1, string $at_username1, string $at_password1,
@@ -4568,8 +4401,7 @@ class INSTAR extends IPSModule
                      . '&cmd=setuserattr&-at_username=user&-at_newname=' . $at_username1 . '&-at_enable=' . intval($at_enable1) . '&-at_password='
                      . $at_password1 . '&cmd=setuserattr&-at_username=guest&-at_newname=' . $at_username2 . '&-at_enable=' . intval($at_enable2)
                      . '&-at_password=' . $at_password2;
-        $data = $this->SendParameter('setuserattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setuserattr' . $parameter);
     }
 
     public function EnableUser(bool $at_enable1)
@@ -4583,9 +4415,8 @@ class INSTAR extends IPSModule
         $at_password1 = $this->ReadAttributeString('at_password1');
         $at_username2 = $this->ReadAttributeString('at_username2');
         $at_password2 = $this->ReadAttributeString('at_password2');
-        $data = $this->SetNetworkConfiguration($at_username0, $at_password0, $at_enable1, $at_username1, $at_password1,
+        return $this->SetNetworkConfiguration($at_username0, $at_password0, $at_enable1, $at_username1, $at_password1,
                                             $at_enable2, $at_username2, $at_password2);
-        return $data;
     }
 
     public function EnableGuest(bool $at_enable2)
@@ -4598,9 +4429,8 @@ class INSTAR extends IPSModule
         $at_password1 = $this->ReadAttributeString('at_password1');
         $at_username2 = $this->ReadAttributeString('at_username2');
         $at_password2 = $this->ReadAttributeString('at_password2');
-        $data = $this->SetNetworkConfiguration($at_username0, $at_password0, $at_enable1, $at_username1, $at_password1,
+        return $this->SetNetworkConfiguration($at_username0, $at_password0, $at_enable1, $at_username1, $at_password1,
                                                $at_enable2, $at_username2, $at_password2);
-        return $data;
     }
 
     // Date & Time Settings
@@ -4663,19 +4493,17 @@ class INSTAR extends IPSModule
         $week6 = $this->ReadAttributeString('week6_time');
         $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
                      . '&-week6=' . $week6;
-        $data = $this->SendParameter('setservertime' . $parameter);
-        return $data;
+        return $this->SendParameter('setservertime' . $parameter);
     }
 
     /** Get your Camera´s Network Configuration
      *
      * @return array
      */
-    public function GetCamerasNetworkConfiguration()
+    public function GetCamerasNetworkConfiguration(): array
     {
         $payload = $this->SendParameter('getntpattr');
-        $data = $this->CheckPayload($payload, '_network');
-        return $data;
+        return $this->CheckPayload($payload, '_network');
     }
 
     /** Set your Camera´s Network Configuration
@@ -4694,8 +4522,7 @@ class INSTAR extends IPSModule
         $week6 = $this->ReadAttributeString('week6_network');
         $parameter = '&-week0=' . $week0 . '&-week1=' . $week1 . '&-week2=' . $week2 . '&-week3=' . $week3 . '&-week4=' . $week4 . '&-week5=' . $week5
                      . '&-week6=' . $week6;
-        $data = $this->SendParameter('setntpattr' . $parameter);
-        return $data;
+        return $this->SendParameter('setntpattr' . $parameter);
     }
 
     // Language Settings
@@ -4704,21 +4531,20 @@ class INSTAR extends IPSModule
      *
      * @return array
      */
-    public function GetCameraUI_LanguageConfiguration()
+    public function GetCameraUI_LanguageConfiguration(): array
     {
         $payload = $this->SendParameter('get_instar_guest&-index=11');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set your Camera´s UI Language Configuration
      *
+     * @param $guest_value11
      * @return false|string
      */
-    public function SetCameraUI_LanguageConfiguration($guest_value11)
+    public function SetCameraUI_LanguageConfiguration(string $guest_value11)
     {
-        $data = $this->SendParameter('set_instar_guest&-index=11&-value=' . $guest_value11);
-        return $data;
+        return $this->SendParameter('set_instar_guest&-index=11&-value=' . $guest_value11);
     }
 
     // System Log
@@ -4754,19 +4580,17 @@ class INSTAR extends IPSModule
      */
     public function RebootCamera()
     {
-        $data = $this->SendParameter('sysreboot');
-        return $data;
+        return $this->SendParameter('sysreboot');
     }
 
     /** Get Camera Reboot Automatically
      *
      * @return array
      */
-    public function GetCameraRebootAutomatically()
+    public function GetCameraRebootAutomatically(): array
     {
         $payload = $this->SendParameter('getplancgi');
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set your Camera to Reboot Automatically
@@ -4778,8 +4602,7 @@ class INSTAR extends IPSModule
         $plancgi_enable_2 = $this->ReadAttributeInteger('plancgi_enable_2');
         $plancgi_time_2 = $this->ReadAttributeInteger('plancgi_time_2');
         $parameter = '&-plancgi_enable_2=' . $plancgi_enable_2 . '&-plancgi_time_2=' . $plancgi_time_2;
-        $data = $this->SendParameter('setplancgi' . $parameter);
-        return $data;
+        return $this->SendParameter('setplancgi' . $parameter);
     }
 
     // Reset
@@ -4791,8 +4614,7 @@ class INSTAR extends IPSModule
     public function ResetCamera()
     {
         $this->SendDebug('INSTAR Send:', 'http://' . $this->GetHostURL() . '/sysreset.cgi', 0);
-        $data = @file_get_contents('http://' . $this->GetHostURL() . '/sysreset.cgi');
-        return $data;
+        return @file_get_contents('http://' . $this->GetHostURL() . '/sysreset.cgi');
     }
 
     // Pan & Tilt
@@ -4812,8 +4634,7 @@ class INSTAR extends IPSModule
             $command = '-step=0&-act=right';
         }
         $this->SendDebug('INSTAR:', 'right', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4831,8 +4652,7 @@ class INSTAR extends IPSModule
             $command = '-step=0&-act=left';
         }
         $this->SendDebug('INSTAR:', 'left', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4850,8 +4670,7 @@ class INSTAR extends IPSModule
             $command = '-step=0&-act=up';
         }
         $this->SendDebug('INSTAR:', 'up', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4869,8 +4688,7 @@ class INSTAR extends IPSModule
             $command = '-step=0&-act=down';
         }
         $this->SendDebug('INSTAR:', 'down', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4883,8 +4701,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Continuous', 4);
         $command = '-step=0&-act=stop';
         $this->SendDebug('INSTAR:', 'stop', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4897,8 +4714,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Step', 3);
         $command = '-step=1&-act=right';
         $this->SendDebug('INSTAR:', 'Step right', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4911,8 +4727,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Step', 0);
         $command = '-step=1&-act=left';
         $this->SendDebug('INSTAR:', 'Step left', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4925,8 +4740,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Step', 1);
         $command = '-step=1&-act=up';
         $this->SendDebug('INSTAR:', 'Step up', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4939,8 +4753,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Step', 2);
         $command = '-step=1&-act=down';
         $this->SendDebug('INSTAR:', 'Step down', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4953,8 +4766,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Scan', 0);
         $command = '-step=0&-act=home';
         $this->SendDebug('INSTAR:', 'goto center position', 0);
-        $state = $this->SendINSTARControlCommand($command);
-        return $state;
+        return $this->SendINSTARControlCommand($command);
     }
 
     /**
@@ -4988,13 +4800,13 @@ class INSTAR extends IPSModule
         $this->WriteValue('Control_Scan', 2);
         $this->SendDebug('INSTAR:', 'Scan vertical', 0);
         $parameter = '&-step=0&-act=vscan';
-        $state = $this->SendParameter('ptzctrl' . $parameter);
-        return $state;
+        return $this->SendParameter('ptzctrl' . $parameter);
     }
 
     /**
      * set a position.
      *
+     * @param int $position
      * @return bool|string
      */
     public function SetPosition(int $position)
@@ -5002,8 +4814,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('SetPosition', $position);
         $this->SendDebug('INSTAR:', 'Set preset position ' . $position, 0);
         $parameter = '&-act=set&-status=1&-number=' . $position;
-        $state = $this->SendParameter('preset' . $parameter);
-        return $state;
+        return $this->SendParameter('preset' . $parameter);
     }
 
     /** unset a position
@@ -5017,8 +4828,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('UnsetPosition', $position);
         $this->SendDebug('INSTAR:', 'Unset preset position ' . $position, 0);
         $parameter = '&-act=set&-status=0&-number=' . $position;
-        $state = $this->SendParameter('preset' . $parameter);
-        return $state;
+        return $this->SendParameter('preset' . $parameter);
     }
 
     /** goto to a Set preset position
@@ -5032,8 +4842,7 @@ class INSTAR extends IPSModule
         $this->WriteValue('GotoPosition', $position);
         $this->SendDebug('INSTAR:', 'Goto position ' . $position, 0);
         $parameter = '&-act=goto&-status=1&-number=' . $position;
-        $state = $this->SendParameter('preset' . $parameter);
-        return $state;
+        return $this->SendParameter('preset' . $parameter);
     }
 
     public function StartRecording(int $time)
@@ -5188,7 +4997,7 @@ class INSTAR extends IPSModule
         return $picture;
     }
 
-    public function CreateWeekplan()
+    public function CreateWeekplan(): int
     {
         $eid = IPS_CreateEvent(2);                  // Weekplan Event 2
         IPS_SetParent($eid, $this->InstanceID);         // set parent
@@ -5883,7 +5692,7 @@ class INSTAR extends IPSModule
      *
      * @return string
      */
-    public function GetConfigurationForm()
+    public function GetConfigurationForm(): string
     {
         // return current form
         return json_encode(
@@ -5898,7 +5707,7 @@ class INSTAR extends IPSModule
     {
         $this->UpdateFormField($Field, $Parameter, $Value);
         if ($Parameter == 'value') {
-            $this->SendDebug('INSTAR Update Parameter', $Field . ' = ' . $Value, 0);
+            $this->SendDebug('INSTAR Update Parameter', $Field . ' = ' . strval($Value), 0);
         }
     }
 
@@ -5907,7 +5716,7 @@ class INSTAR extends IPSModule
         $this->ReloadForm();
     }
 
-    public function ChangeINSTAR_Picture($model_type)
+    public function ChangeINSTAR_Picture(int $model_type)
     {
         if ($model_type == 0) {
             $this->UpdateParameter('instar_camera_icon_label', 'visible', true);
@@ -6059,7 +5868,7 @@ class INSTAR extends IPSModule
         $this->SetOneStepPanTiltControl();
     }
 
-    public function SetPTZTourTime($ptz_tour_time)
+    public function SetPTZTourTime(int $ptz_tour_time)
     {
         $this->WriteAttributeInteger('ptz_tour_time', $ptz_tour_time);
     }
@@ -6097,7 +5906,15 @@ class INSTAR extends IPSModule
 
     /** Alarmserver Setup
      *
-     * @param int $alarmserver 0 IP-Symcon Connect, 1 IP-Symcon lokal
+     * @param string $user
+     * @param string $password
+     * @param string $parameter_1_key
+     * @param string $parameter_1_value
+     * @param string $parameter_2_key
+     * @param string $parameter_2_value
+     * @param string $parameter_3_key
+     * @param string $parameter_3_value
+     * @return false|mixed|string
      */
     public function SetupAlarmServer(string $user, string $password, string $parameter_1_key, string $parameter_1_value, string $parameter_2_key,
                                      string $parameter_2_value, string $parameter_3_key, string $parameter_3_value)
@@ -7508,7 +7325,8 @@ class INSTAR extends IPSModule
      * @param $profile
      * @param $position
      * @param $vartype
-     * @param $visible
+     * @param $enableaction
+     * @param bool $visible
      *
      * @return bool|int
      */
@@ -7643,7 +7461,7 @@ class INSTAR extends IPSModule
         return $objid;
     }
 
-    protected function GetAPIParameters($cameratype)
+    protected function GetAPIParameters($cameratype): array
     {
         $API_Cameras = [];
 
@@ -8193,16 +8011,14 @@ class INSTAR extends IPSModule
         }
         if (!$validation) {
             //echo $url.' Its Invalid Domain Name.';
-            $domaincheck = false;
-            return $domaincheck;
+            return false;
         } else {
             //echo $url.' is a Valid Domain Name.';
-            $domaincheck = true;
-            return $domaincheck;
+            return true;
         }
     }
 
-    protected function is_valid_localdomain($url)
+    protected function is_valid_localdomain($url): bool
     {
         $validation = false;
         /*Parse URL*/
@@ -8234,16 +8050,14 @@ class INSTAR extends IPSModule
 
         if (!$validation) {
             //echo $url.' Its Invalid Domain Name.';
-            $domaincheck = false;
-            return $domaincheck;
+            return false;
         } else {
             //echo $url.' is a Valid Domain Name.';
-            $domaincheck = true;
-            return $domaincheck;
+            return true;
         }
     }
 
-    protected function GetURLPrefix($url)
+    protected function GetURLPrefix($url): string
     {
         $prehttp = strpos($url, 'http://');
         $prehttps = strpos($url, 'https://');
@@ -8257,7 +8071,7 @@ class INSTAR extends IPSModule
         return $prefix;
     }
 
-    protected function GetConnectURL()
+    protected function GetConnectURL(): string
     {
         $instID = IPS_GetInstanceListByModuleID('{9486D575-BE8C-4ED8-B5B5-20930E26DE6F}')[0];
         if (IPS_GetKernelVersion() >= 5.2) {
@@ -8319,7 +8133,7 @@ class INSTAR extends IPSModule
      * Register Webhook.
      *
      * @param string $webhook
-     * @param bool   $delete
+     * @param bool $delete
      */
     protected function RegisterWebhook($webhook, $delete = false)
     {
@@ -8445,7 +8259,7 @@ class INSTAR extends IPSModule
         }
     }
 
-    protected function SplitPayload(string $payload, $suffix = '')
+    protected function SplitPayload(string $payload, $suffix = ''): array
     {
         $payload = str_replace(["\r", "\n"], '', $payload);
         $result = [];
@@ -8487,7 +8301,7 @@ class INSTAR extends IPSModule
         return $attribute_name;
     }
 
-    protected function CheckPayload($payload, $suffix = '')
+    protected function CheckPayload($payload, $suffix = ''): array
     {
         $data = [];
         if ($payload != false) {
@@ -8504,8 +8318,7 @@ class INSTAR extends IPSModule
     {
         $md_preset_switch = $this->ReadAttributeString('md_preset_switch');
         $parameter = '&-switch=' . $md_preset_switch;
-        $data = $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
-        return $data;
+        return $this->SendParameter('setmdalarm&-aname=preset' . $parameter);
     }
 
     /** Set Park Position Parameter
@@ -8520,8 +8333,7 @@ class INSTAR extends IPSModule
         $parameter =
             '&-timerpreset_enable=' . $timerpreset_enable . '&-timerpreset_index=' . $timerpreset_index . '&-timerpreset_interval='
             . $timerpreset_interval;
-        $data = $this->SendParameter('settimerpreset' . $parameter);
-        return $data;
+        return $this->SendParameter('settimerpreset' . $parameter);
     }
 
     /** Set One-Step Pan&Tilt Control
@@ -8532,8 +8344,7 @@ class INSTAR extends IPSModule
     {
         $admin_value46 = $this->ReadAttributeInteger('admin_value46');
         $parameter = '&-value=' . $admin_value46;
-        $data = $this->SendParameter('set_instar_admin&-index=46' . $parameter);
-        return $data;
+        return $this->SendParameter('set_instar_admin&-index=46' . $parameter);
     }
 
     protected function SendINSTARControlCommand($command)
@@ -8566,7 +8377,7 @@ class INSTAR extends IPSModule
     /**
      * @return mixed|string
      */
-    protected function GetINSTARType()
+    protected function GetINSTARType(): string
     {
         $INSTAR_type_nr = $this->ReadPropertyInteger('model');
         $type = 'hi3510';
@@ -8707,7 +8518,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         }
     }
 
-    protected function GetIPSVersion()
+    protected function GetIPSVersion(): int
     {
         $ipsversion = floatval(IPS_GetKernelVersion());
         if ($ipsversion < 4.1) { // 4.0
@@ -8732,7 +8543,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
      *
      * @return array
      */
-    protected function FormHead()
+    protected function FormHead(): array
     {
         $host = $this->ReadPropertyString('Host');
         $port = $this->ReadPropertyInteger('Port');
@@ -9045,7 +8856,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function SetInstarCameraPicture()
+    protected function SetInstarCameraPicture(): string
     {
         $model_type = $this->ReadPropertyInteger('model_type');
         $image = 'data:image/png;base64, ' . self::PICTURE_TRANSPARENT;
@@ -9104,7 +8915,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $image;
     }
 
-    protected function FormShowEmail()
+    protected function FormShowEmail(): array
     {
         $activeemail2 = $this->ReadPropertyBoolean('activeemail2');
         $activeemail3 = $this->ReadPropertyBoolean('activeemail3');
@@ -9495,7 +9306,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowINSTAREmail()
+    protected function FormShowINSTAREmail(): array
     {
         $form = [
             [
@@ -9509,7 +9320,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowFTP()
+    protected function FormShowFTP(): array
     {
         $form = [
             [
@@ -9726,7 +9537,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowIR_night_vision()
+    protected function FormShowIR_night_vision(): array
     {
         $form = [
             [
@@ -9793,7 +9604,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowPan_Tilt()
+    protected function FormShowPan_Tilt(): array
     {
         $form = [
             [
@@ -10024,7 +9835,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowPTZ_tour()
+    protected function FormShowPTZ_tour(): array
     {
         $form = [
             [
@@ -10052,7 +9863,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowManual_record()
+    protected function FormShowManual_record(): array
     {
         $form = [
             [
@@ -10077,7 +9888,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowSD_card()
+    protected function FormShowSD_card(): array
     {
         $form = [
             [
@@ -10091,19 +9902,19 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowStatus_LED()
+    protected function FormShowStatus_LED(): array
     {
         $form = [];
         return $form;
     }
 
-    protected function FormShowWizard()
+    protected function FormShowWizard(): array
     {
         $form = [];
         return $form;
     }
 
-    protected function FormShowActions()
+    protected function FormShowActions(): array
     {
         $form = [
             [
@@ -10127,7 +9938,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowAreas()
+    protected function FormShowAreas(): array
     {
         $form = [
             [
@@ -10453,7 +10264,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowSchedule()
+    protected function FormShowSchedule(): array
     {
         $form = [
             [
@@ -10462,7 +10273,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowPush()
+    protected function FormShowPush(): array
     {
         $form = [
             [
@@ -10471,7 +10282,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowAlarmserver()
+    protected function FormShowAlarmserver(): array
     {
         $form = [
             [
@@ -10740,7 +10551,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowPhoto_series()
+    protected function FormShowPhoto_series(): array
     {
         $form = [
             [
@@ -10749,7 +10560,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowRecordings()
+    protected function FormShowRecordings(): array
     {
         $form = [
             [
@@ -10758,7 +10569,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowInformation()
+    protected function FormShowInformation(): array
     {
         $form = [
             [
@@ -10958,7 +10769,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowNetwork()
+    protected function FormShowNetwork(): array
     {
         $form = [
             [
@@ -11009,7 +10820,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowUsers()
+    protected function FormShowUsers(): array
     {
         $form = [
             [
@@ -11085,7 +10896,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowDate_Time()
+    protected function FormShowDate_Time(): array
     {
         $time_info = $this->GetCameraTimeConfiguration();
         if (empty($time_info)) {
@@ -11149,7 +10960,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowLanguage_Selection()
+    protected function FormShowLanguage_Selection(): array
     {
         $form = [
             [
@@ -11181,7 +10992,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowSystem_Logbook()
+    protected function FormShowSystem_Logbook(): array
     {
         $form = [
             [
@@ -11201,7 +11012,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowFirmware_Update()
+    protected function FormShowFirmware_Update(): array
     {
         $form = [
             [
@@ -11210,7 +11021,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowReboot()
+    protected function FormShowReboot(): array
     {
         $form = [
             [
@@ -11220,7 +11031,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $form;
     }
 
-    protected function FormShowReset()
+    protected function FormShowReset(): array
     {
         $form = [
             [
@@ -11235,7 +11046,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
      *
      * @return array
      */
-    protected function FormActions()
+    protected function FormActions(): array
     {
         $alarmserver = $this->ReadAttributeInteger('alarmserver');
         if ($alarmserver) {
@@ -11653,7 +11464,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
      *
      * @return array
      */
-    protected function FormStatus()
+    protected function FormStatus(): array
     {
         $form = [
             [
@@ -11911,22 +11722,20 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         }
     }
 
-    private function GetHostURL()
+    private function GetHostURL(): string
     {
         $host = $this->ReadPropertyString('Host');
         $port = $this->ReadPropertyInteger('Port');
         $user = $this->ReadPropertyString('User');
         $password = $this->ReadPropertyString('Password');
-        $root = $user . ':' . $password . '@' . $host . ':' . $port;
-        return $root;
+        return $user . ':' . $password . '@' . $host . ':' . $port;
     }
 
-    private function GetINSTARURL()
+    private function GetINSTARURL(): string
     {
         $host = $this->ReadPropertyString('Host');
         $port = $this->ReadPropertyInteger('Port');
-        $root = $host . ':' . $port;
-        return $root;
+        return $host . ':' . $port;
     }
 
     private function SetAPI($model)
@@ -11953,26 +11762,26 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         }
     }
 
-    private function ExplodePort($string_port)
+    private function ExplodePort($string_port): int
     {
         $data = explode('=', $string_port);
-        $port = intval(trim($data[1], '"'));
-        return $port;
+        return intval(trim($data[1], '"'));
     }
 
     /** Get Audio Encoder Parameter
      *
+     * @param $channel
      * @return array
      */
-    private function GetAudioEncoderParameter($channel)
+    private function GetAudioEncoderParameter($channel): array
     {
         $payload = $this->SendParameter('getaencattr&-chn=' . $channel);
-        $data = $this->CheckPayload($payload);
-        return $data;
+        return $this->CheckPayload($payload);
     }
 
     /** Set Audio Encoder Parameter
      *
+     * @param $channel
      * @return false|string
      */
     private function SetAudioEncoderParameter($channel)
@@ -11981,11 +11790,10 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         $aeformat = $this->ReadAttributeString('aeformat_' . $channel);
 
         $parameter = '&-chn=' . $channel . '&-aeswitch_' . $channel . '=' . $aeswitch . '&-aeformat_' . $channel . '=' . $aeformat;
-        $data = $this->SendParameter('setaudioinvolume' . $parameter);
-        return $data;
+        return $this->SendParameter('setaudioinvolume' . $parameter);
     }
 
-    private function ConvertColorHEX($color)
+    private function ConvertColorHEX($color): string
     {
         $hexcolor = strtoupper(dechex($color));
         if ($hexcolor == '0') {
@@ -11996,7 +11804,7 @@ http://admin:instar@192.168.xxx.xxx/cgi-bin/hi3510/param.cgi?cmd=setmdattr&-enab
         return $hexstring;
     }
 
-    private function CreateSnapshotScript()
+    private function CreateSnapshotScript(): string
     {
         $Script = '<?
 //Do not delete or modify.
@@ -12005,7 +11813,7 @@ INSTAR_GetSnapshot(' . $this->InstanceID . ');
         return $Script;
     }
 
-    private function CreateEmailAlertScript($email)
+    private function CreateEmailAlertScript($email): string
     {
         $Script = '<?
 //Do not delete or modify.
@@ -12193,11 +12001,10 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     private function GetTimeStamp()
     {
         $time = time();
-        $string_time = date('d.m.Y H:i:s', $time);
-        return $string_time;
+        return date('d.m.Y H:i:s', $time);
     }
 
-    private function FormNetworkInfo()
+    private function FormNetworkInfo(): array
     {
         $dhcpflag = $this->ReadAttributeString('dhcpflag');
         if ($dhcpflag == 'on') {
@@ -12428,7 +12235,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormSSLInfo()
+    private function FormSSLInfo(): array
     {
         $form = [];
         $our_server = $this->ReadAttributeString('our_server');
@@ -12475,7 +12282,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormWIFIInfo()
+    private function FormWIFIInfo(): array
     {
         // TODO Add search WLAN
         $form = [];
@@ -12631,7 +12438,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormRemoteInfo()
+    private function FormRemoteInfo(): array
     {
         // TODO P2P
 
@@ -12907,7 +12714,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormUPNPInfo()
+    private function FormUPNPInfo(): array
     {
         $form = [
             [
@@ -12937,7 +12744,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormONVIFInfo()
+    private function FormONVIFInfo(): array
     {
         $form = [];
         $ov_subchn = $this->ReadAttributeInteger('ov_subchn');
@@ -13106,7 +12913,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormAudioSettings()
+    private function FormAudioSettings(): array
     {
         $form = [
             // audio encoder: 0, 1
@@ -13295,7 +13102,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
             }
      */
 
-    private function FormVideoSettings()
+    private function FormVideoSettings(): array
     {
         $vinorm = $this->ReadAttributeString('vinorm');
         $vinorm_value = 0;
@@ -13407,7 +13214,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormImageSettings()
+    private function FormImageSettings(): array
     {
         $form = [
             [
@@ -13691,7 +13498,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormImageOverlaySettings()
+    private function FormImageOverlaySettings(): array
     {
         $form = [
             [
@@ -13787,7 +13594,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $color;
     }
 
-    private function FormPrivacySettings()
+    private function FormPrivacySettings(): array
     {
         $form = [
             [
@@ -14037,7 +13844,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $form;
     }
 
-    private function FormCameraSelection()
+    private function FormCameraSelection(): array
     {
         $selection = [
             [
@@ -14099,19 +13906,17 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
         return $selection;
     }
 
-    private function GetAlarmServerPort()
+    private function GetAlarmServerPort(): int
     {
-        $port = $this->ReadAttributeInteger('as_port_2');
-        return $port;
+        return $this->ReadAttributeInteger('as_port_2');
     }
 
-    private function GetAlarmServerAdress()
+    private function GetAlarmServerAdress(): string
     {
-        $ip = $this->ReadAttributeString('as_server_2');
-        return $ip;
+        return $this->ReadAttributeString('as_server_2');
     }
 
-    private function GetWebhook()
+    private function GetWebhook(): string
     {
         $hook = '/hook/INSTAR' . $this->InstanceID;
         $this->WriteAttributeString('as_path_2', $hook);
@@ -14121,9 +13926,9 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
     /**
      * send debug log.
      *
-     * @param string $notification
-     * @param string $message
-     * @param int    $format 0 = Text, 1 = Hex
+     * @param string|null $notification
+     * @param string|null $message
+     * @param int $format 0 = Text, 1 = Hex
      */
     private function _debug(string $notification = null, string $message = null, $format = 0)
     {
@@ -14135,7 +13940,7 @@ INSTAR_EmailAlert(' . $this->InstanceID . ', "' . $email . '");
      *
      * @return int
      */
-    private function _getPosition()
+    private function _getPosition(): int
     {
         $this->position++;
         return $this->position;
